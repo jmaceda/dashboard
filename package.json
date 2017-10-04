@@ -1,0 +1,71 @@
+{
+    "name": "lbd-free-angularcli",
+    "version": "0.0.0",
+    "license": "MIT",
+    "angular-cli": {},
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve --proxy-config proxy.conf.json",
+        "build": "ng build",
+        "test": "ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e"
+    },
+    "private": true,
+    "keywords": [
+        "dexie"
+    ],
+    "peerDependencies": {
+        "devextreme": "~17.2.1-0"
+    },
+    "dependencies": {
+        "@angular/animations": "^5.0.0-rc.0",
+        "@angular/common": "^5.0.0-rc.0",
+        "@angular/compiler": "^5.0.0-rc.0",
+        "@angular/core": "^5.0.0-rc.0",
+        "@angular/forms": "^5.0.0-rc.0",
+        "@angular/http": "^5.0.0-rc.0",
+        "@angular/platform-browser": "^5.0.0-rc.0",
+        "@angular/platform-browser-dynamic": "^5.0.0-rc.0",
+        "@angular/platform-server": "^5.0.0-rc.0",
+        "@angular/router": "^5.0.0-rc.0",
+        "@types/jquery": "^3.2.12",
+        "@types/sprintf": "^0.1.0",
+        "angular-2-data-table": "^0.1.2",
+        "angular2-logger": "^0.6.0",
+        "arrive": "^2.4.1",
+        "autopulous-angular2-soap": "^0.4.7",
+        "bootstrap": "^3.3.7",
+        "bootstrap-notify": "3.1.3",
+        "chartist": "^0.11.0",
+        "core-js": "^2.5.1",
+        "devextreme": "^17.2.1-pre-17262",
+        "devextreme-angular": "^17.2.1-beta.1",
+        "dexie": "^2.0.0",
+        "googleapis": "19.0.0",
+        "jquery": "^3.2.1",
+        "mydatepicker": "^2.0.31",
+        "rxjs": "^5.1.0",
+        "sprintf-js": "^1.1.1",
+        "zone.js": "^0.8.18"
+    },
+    "devDependencies": {
+        "@angular/cli": "^1.4.4",
+        "@angular/compiler-cli": "^5.0.0-rc.0",
+        "@types/jasmine": "2.5.38",
+        "@types/node": "~6.0.60",
+        "codelyzer": "~2.0.0",
+        "jasmine-core": "~2.5.2",
+        "jasmine-spec-reporter": "~3.2.0",
+        "karma": "~1.4.1",
+        "karma-chrome-launcher": "~2.0.0",
+        "karma-cli": "~1.0.1",
+        "karma-coverage-istanbul-reporter": "^0.2.0",
+        "karma-jasmine": "~1.1.0",
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "protractor": "~5.1.0",
+        "ts-node": "~2.0.0",
+        "tslint": "~4.5.0",
+        "typescript": "^2.5.3"
+    }
+}

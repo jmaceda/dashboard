@@ -1,0 +1,610 @@
+<style>
+    .justDer {
+        text-align: right;
+    }
+    
+    .justIzq {
+        text-align: left;
+    }
+    
+    .justCen {
+        text-align: center;
+    }
+    
+    .letraFontMedio {
+        font-size: 0.875em;
+    }
+    
+    .encabezado {
+        font-weight: bold;
+        background-color: #C0C0C0;
+        text-align: right;
+    }
+    
+    .encabezadoI {
+        font-weight: bold;
+        background-color: #C0C0C0;
+        text-align: left;
+    }
+    
+    .marco2 {
+        border-width: 1px;
+        border-style: solid;
+    }
+    
+    .marco3 {
+        border-top-width: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-style: solid;
+    }
+    
+    .eliminaEspacios {
+        margin-left: 0px;
+        padding-left: 1px;
+        margin-right: 0px;
+        padding-right: 1px;
+    }
+    
+    .coloFondo {
+        background-color: #E2F6FB;
+    }
+</style>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!--
+        <div class="row">
+
+            <div class="col-md-6">
+                <! -- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  - ->
+                <lbd-chart [title]="'Retiros'" [subtitle]="fechaHoraOperacion" [chartType]="tipoGraficaRetirosPorHora" [chartData]="datosGraficaRetirosPorHora" [chartOptions]="opcionesGraficaRetirosPorHora" [chartResponsive]="responsiveGraficaRetirosPorHora" [legendItems]="elementosGraficaRetirosPorHora"
+                    [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
+                </lbd-chart>
+            </div>
+        </div>
+    -->
+        <!--
+            <div class="row">
+                <! - -
+                <div class="col-md-4">
+                    <lbd-chart [title]="'Estadisticas de Operaciones'" [subtitle]="'Last Campaign Performance'" [chartClass]="'ct-perfect-fourth'" [chartType]="emailChartType" [chartData]="emailChartData" [legendItems]="emailChartLegendItems" [withHr]="true" [footerIconClass]="'fa fa-clock-o'"
+                        [footerText]="'Campaign sent 2 days ago'">
+                    </lbd-chart>
+                </div>
+            -->
+        <!--
+            <div class="row">
+                <h4>Access modifier example</h4>
+                <div class="normalmode">
+                    <sample-date-picker-access-modifier>loading...</sample-date-picker-access-modifier>
+                </div>
+            </div>
+            -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-8">
+                    <div class="col-md-8">{{dFchIniProceso}} - {{dHraIniProceso}}</div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-8">{{dFchFinProceso}} - {{dHraFinProceso}}</div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <div class="col-md-9">Actualización</div>
+                <div class="col-md-9">{{dUltimaActualizacion}}</div>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="row"></div>
+
+        <div class="row">
+            <div class="col-md-7 letraFontMedio">
+                <!--  style="border-width: 1px; border-style: solid; border-radius: 5px;" -->
+                <div class="card">
+                    <!-- div>
+                        <h2 class="title">Resumen</h2>
+                        <!- p class="category">Corte por hora</p ->
+                    </div -->
+                    <div class="content eliminaEspacios">
+
+                        <!-- formato de numero sin simbolo sin decimales-->
+                        <!-- Formatea con simbolo $ y separador sin decimales -->
+                        <!-- div class="table-full-width" -->
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-5 encabezadoI marco eliminaEspacios">Descripción</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">Opers</div>
+                            <div class="col-md-2 encabezado marco eliminaEspacios">Monto</div>
+                            <div class="col-md-2 encabezado marco eliminaEspacios">Primera</div>
+                            <div class="col-md-2 encabezado marco eliminaEspacios">Última</div>
+                        </div>
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Depósitos Exitosos</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumDepositos | number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoDepositos | currency:'USD':'symbol':'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerDeposito}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoDeposito}}</div>
+                        </div>
+                        <div class="row eliminaEspacios coloFondo">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Retiros Exitosos</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetiros | number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetiros | currency:'USD':'symbol':'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerRetiro}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoRetiro}}</div>
+                        </div>
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Retiros No Exitosos*</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosNoExito| number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosNoExito| currency:'USD':'symbol':'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerRetiroNoExito}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoRetiroNoExito}}</div>
+                        </div>
+                        <div class="row eliminaEspacios coloFondo">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Reversos</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumReversos | number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoReversos | currency:'USD':'symbol':'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerReverso}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoReverso}}</div>
+                        </div>
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Consultas Exitosas</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsultas | number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios"></div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimeraConsulta}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimaConsulta}}</div>
+                        </div>
+                        <div class="row eliminaEspacios coloFondo">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Consultas No Exitosas*</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsultasNoExito| number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios"></div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimeraConsultaNoExito}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimaConsultaNoExito}}</div>
+                        </div>
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Cambio NIP Exitoso</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumCambioNIP| number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios"></div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerCambioNIP}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoCambioNIP}}</div>
+                        </div>
+                        <div class="row eliminaEspacios coloFondo">
+                            <div class="col-md-5 marco justIzq eliminaEspacios">Cambio NIP Erroneo</div>
+                            <div class="col-md-1 marco justDer eliminaEspacios">{{dNumCambioNIPNoExito| number:'1.0-0'}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios"></div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraPrimerCambioNIPNoExito}}</div>
+                            <div class="col-md-2 marco justDer eliminaEspacios">{{dHraUltimoCambioNIPNoExito}}</div>
+                        </div>
+                        <!-- /div -->
+                    </div>
+                    <!-- content eliminaEspacios -->
+                </div>
+                <!-- card -->
+            </div>
+            <!-- col-md-7 -->
+        </div>
+        <!-- row -->
+
+        <div class="row">
+            <!--
+            <div class="col-md-4">
+                <lbd-chart [title]="'Users Behavior'" [subtitle]="'24 Hours performance'" [chartType]="hoursChartType" [chartData]="hoursChartData" [chartOptions]="hoursChartOptions" [chartResponsive]="hoursChartResponsive" [legendItems]="hoursChartLegendItems" [withHr]="true"
+                    [footerIconClass]="'fa fa-history'" [footerText]="'Updated 3 minutes ago'">
+                </lbd-chart>
+            </div>
+            -->
+            <div class="col-md-5  letraFontMedio">
+                <div class="card">
+                    <div class="content eliminaEspacios">
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-1 encabezadoI marco eliminaEspacios">Hora</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">C</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">R</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">AR</div>
+                            <div class="col-md-2 encabezado marco eliminaEspacios">M</div>
+                            <div class="col-md-2 encabezado marco eliminaEspacios">AM</div>
+                        </div>
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-1 marco justIzq eliminaEspacios">
+                                <7</div>
+                                    <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[6] | number:'1.0-0'}}</div>
+                                    <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[6] | number:'1.0-0'}}</div>
+                                    <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[6] | number:'1.0-0'}}</div>
+                                    <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[6] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                    <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[6] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">07</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[7] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[7] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[7] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[7] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[7] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">08</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[8] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[8] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[8] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[8] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[8] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">09</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[9] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[9] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[9] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[9] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[9] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">10</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[10] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[10] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[10] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[10] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[10] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">11</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[11] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[11] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[11] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[11] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[11] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">12</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[12] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[12] | number:'.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[12] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[12] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[12] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">13</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[13] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[13] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[13] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[13] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[13] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">14</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[14] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[14] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[14] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[14] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[14] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">15</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[15] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[15] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[15] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[15] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[15] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">16</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[16] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[16] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[16] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[16] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[16] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">17</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[17] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[17] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[17] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[17] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[17] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">18</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[18] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[18] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[18] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[18] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[18] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">19</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[19] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[19] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[19] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[19] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[19] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">20</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[20] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[20] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[20] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[20] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[20] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">21</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[21] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[21] | number:'.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[21] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[21] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[21] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">22</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[22] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[22] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[22] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[22] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[22] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                            <div class="row eliminaEspacios coloFondo">
+                                <div class="col-md-1 marco justIzq eliminaEspacios">23</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumConsPorHora[23] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dNumRetirosPorHora[23] | number:'1.0-0'}}</div>
+                                <div class="col-md-1 marco justDer eliminaEspacios">{{dAcumNumRetirosPorHora[23] | number:'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dMontoRetirosPorHora[23] | currency:'USD':'symbol':'1.0-0'}}</div>
+                                <div class="col-md-2 marco justDer eliminaEspacios">{{dAcumMontoRetirosPorHora[23] | currency:'USD':'symbol':'1.0-0'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 letraFontMedio">
+                <!-- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  -->
+                <lbd-chart 
+                    [title]="'Retiros'" 
+                    [subtitle]="fechaHoraOperacion" 
+                    [chartType]="tipoGraficaRetirosPorHora" 
+                    [chartData]="datosGraficaRetirosPorHora" 
+                    [chartOptions]="opcionesGraficaRetirosPorHora" 
+                    [chartResponsive]="responsiveGraficaRetirosPorHora" 
+                    [legendItems]="elementosGraficaRetirosPorHora"
+                    [withHr]="true" 
+                    [footerIconClass]="'fa fa-check'" 
+                    [footerText]="'Data information certified'">
+                </lbd-chart>
+        </div>
+        
+            <div class="col-md-6 letraFontMedio">
+                <!-- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  -->
+                <lbd-chart [title]="'Retiros'" [subtitle]="fechaHoraOperacion" [chartType]="tipoGraficaRetirosPorHora" [chartData]="datosGraficaRetirosPorHora" [chartOptions]="opcionesGraficaRetirosPorHora" [chartResponsive]="responsiveGraficaRetirosPorHora" [legendItems]="elementosGraficaRetirosPorHora"
+                    [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
+                </lbd-chart>
+            </div>
+            
+        <!-- row -->
+
+
+        <div class="row">
+            <div class="col-md-7 letraFontMedio">
+                <!--  style="border-width: 1px; border-style: solid; border-radius: 5px;" -->
+                <div class="card">
+                    <!-- div>
+                            <h2 class="title">Resumen</h2>
+                            <!- p class="category">Corte por hora</p ->
+                        </div -->
+                    <div class="content eliminaEspacios">
+
+                        <!-- formato de numero sin simbolo sin decimales-->
+                        <!-- Formatea con simbolo $ y separador sin decimales -->
+                        <!-- div class="table-full-width" -->
+                        <div class="row eliminaEspacios">
+                            <div class="col-md-4 encabezadoI marco eliminaEspacios">Banco</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">Retiros</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">RetNoOk</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">Reversos</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">Consultas</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">ConsNoOk</div>
+                            <div class="col-md-1 encabezado marco eliminaEspacios">Rechazos</div>
+                        </div>
+                        <div class="row"></div>
+
+
+                        <!-- div class="col-md-6" -->
+
+                        <div *ngFor="let datoBanco of listaDatosBanco; let index=index; let odd=odd; let even=even;" class="row" [ngClass]="{ odd: odd, even: even }">
+
+                            <!-- div *ngFor="let datoBanco of listaDatosBanco" -->
+                            <div class="row">
+                                <div class="col-md-4  letraFontMedio">{{ datoBanco.nomBanco }}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numRetOk | number:'1.0-0'}}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numRetNoOk | number:'1.0-0'}}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numReversos | number:'1.0-0'}}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numCons | number:'1.0-0'}}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numConsNoOk | number:'1.0-0'}}</div>
+                                <div class="col-md-1 letraFontMedio" style="text-align: right;">{{ datoBanco.numRechazos | number:'1.0-0'}}</div>
+                            </div>
+                        </div>
+                        <!-- /div -->
+                    </div>
+                    <!-- content eliminaEspacios -->
+                </div>
+                <!-- card -->
+            </div>
+        </div>
+        <!-- row -->
+
+        <!--
+        <div class="row">
+            <div class="col-md-12">
+                <! - -  style="border-width: 1px; border-style: solid; border-radius: 5px;" - - >
+                <dx-data-grid id="gridContainer" [dataSource]="customers" [columns]="['CompanyName', 'City', 'State', 'Phone', 'Fax']">
+                </dx-data-grid>
+            </div>
+        </div>
+    -->
+
+        <!--
+        <div class="row">
+            <div class="col-md-12">
+                <! - -  style="border-width: 1px; border-style: solid; border-radius: 5px;" - - >
+                <data-table-demo-1></data-table-demo-1>
+            </div>
+        </div>
+        <my-app2 [infoDepositos]="infoDepositos"></my-app2>
+        -->
+        <!--
+        <div class="row">
+            <div class="d-flex flex-row" style="border-width:1px; border-style:solid;">
+                <div class="p-2">Flex item 1</div>
+                <div class="p-2">Flex item 2</div>
+                <div class="p-2">Flex item 3</div>
+            </div>
+            <div class="d-flex flex-row-reverse" style="border-width:1px; border-style:solid;">
+                <div class="p-2">Flex item 1</div>
+                <div class="p-2">Flex item 2</div>
+                <div class="p-2">Flex item 3</div>
+            </div>
+        </div> < !-- row - ->
+
+        <div class="row">
+            <div class="col-md-6">
+                <lbd-chart [title]="'2014 Sales'" [subtitle]="'All products including Taxes'" [chartType]="activityChartType" [chartData]="activityChartData" [chartOptions]="activityChartOptions" [chartResponsive]="activityChartResponsive" [legendItems]="activityChartLegendItems"
+                [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
+                </lbd-chart>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Tasks</h4>
+                        <p class="category">Backend development</p>
+                    </div>
+                    <div class="content">
+                        <div class="table-full-width">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        <div class="checkbox">
+                                        <input id="checkbox1" type="checkbox">
+                                        <label for="checkbox1">
+
+                                        </label>
+                                        </div>
+                                        </td>
+                                        <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                        <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                        <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="fa fa-times"></i>
+                                        </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        <div class="checkbox">
+                                        <input id="checkbox2" type="checkbox" checked>
+                                        <label for="checkbox2">
+
+                                        </label>
+                                        </div>
+                                        </td>
+                                        <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                                        <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                        <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="fa fa-times"></i>
+                                        </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        <div class="checkbox">
+                                        <input id="checkbox3" type="checkbox" checked>
+                                        <label for="checkbox3">
+
+                                        </label>
+                                        </div>
+                                        </td>
+                                        <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                        </td>
+                                        <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                        <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="fa fa-times"></i>
+                                        </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <input id="checkbox4" type="checkbox">
+                                                <label for="checkbox4"></label>
+                                            </div>
+                                        </td>
+                                        <td>Create 4 Invisible User Experiences you Never Knew About</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <input id="checkbox5" type="checkbox">
+                                                <label for="checkbox5"></label>
+                                            </div>
+                                        </td>
+                                        <td>Read "Following makes Medium better"</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <input id="checkbox6" type="checkbox">
+                                                <label for="checkbox6"></label>
+                                            </div>
+                                        </td>
+                                        <td>Unfollow 5 enemies from twitter</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-history"></i> Updated 3 minutes ago
+                            </div>
+                        </div>
+                    </div>  < ! -- container - ->
+                </div>  < ! -- card - - >
+            </div>  < ! -- col-md-6 - ->
+        </div> < ! -- row - ->
+        -->
+    </div>
+    <!-- container-fluid -->
+
+    <!-- /div -->
+    <!-- main-content -->
