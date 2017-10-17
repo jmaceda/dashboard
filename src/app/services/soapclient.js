@@ -127,7 +127,6 @@ SOAPClient.password = null;
 
 SOAPClient.invoke = function(url, method, parameters, async, callback) {
     //console.log("async: [" + async + "]");
-    console.log("SOAPClient.invoke:: Inicio");
     async = false;
     if (async)
         SOAPClient._loadWsdl(url, method, parameters, async, callback);
@@ -140,20 +139,18 @@ SOAPClient_cacheWsdl = new Array();
 
 // private: invoke async
 SOAPClient._loadWsdl = function(url, method, parameters, async, callback) {
-    console.log("SOAPClient._loadWsdl:: Inicio");
+
     // load from cache?
     var wsdl = SOAPClient_cacheWsdl[url];
-    console.log("SOAPClient._loadWsdl:: url[" + url + "]   SOAPClient_cacheWsdl[" + url + "]");
-    console.log("SOAPClient._loadWsdl:: wsdl[" + wsdl + "]");
+
     if (wsdl + "" != "" && wsdl + "" != "undefined")
         return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl);
     // get wsdl
-    console.log("SOAPClient._loadWsdl:: Paso 1");
+
     var xmlHttp = SOAPClient._getXmlHttp();
-    console.log("SOAPClient._loadWsdl:: xmlHttp[" + xmlHttp + "]");
 
     xmlHttp.open("GET", url + "?wsdl", async);
-    console.log("SOAPClient._loadWsdl:: async[" + async + "]");
+
     if (async) {
         xmlHttp.onreadystatechange = function() {
 
@@ -172,13 +169,13 @@ SOAPClient._loadWsdl = function(url, method, parameters, async, callback) {
         return SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp);
 }
 SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req) {
-    console.log("SOAPClient._onLoadWsdl:: Inicio");
+
     var wsdl = req.responseXML;
     SOAPClient_cacheWsdl[url] = wsdl; // save a copy in cache
     return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl);
 }
 SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl) {
-    console.log("SOAPClient._sendSoapRequest:: Inicio");
+
     // get namespace
     var ns = (wsdl.documentElement.attributes["targetNamespace"] + "" == "undefined") ? wsdl.documentElement.attributes.getNamedItem("targetNamespace").nodeValue : wsdl.documentElement.attributes["targetNamespace"].value;
     // build SOAP request
@@ -195,17 +192,19 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
     // send request
     var xmlHttp = SOAPClient._getXmlHttp();
     if (SOAPClient.userName && SOAPClient.password) {
-        console.log("xmlHttp.open (2)");
         xmlHttp.open("POST", url, async, SOAPClient.userName, SOAPClient.password);
         // Some WS implementations (i.e. BEA WebLogic Server 10.0 JAX-WS) don't support Challenge/Response HTTP BASIC, so we send authorization headers in the first request
         xmlHttp.setRequestHeader("Authorization", "Basic " + SOAPClient._toBase64(SOAPClient.userName + ":" + SOAPClient.password));
-        //xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+        xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS");
+        xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
+
         xmlHttp.setRequestHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         xmlHttp.setRequestHeader("Accept-Language", "en-US,en;q=0.5");
         xmlHttp.setRequestHeader("Accept-Encoding", "gzip, deflate, br");
         xmlHttp.setRequestHeader("Connection", "keep-alive");
     } else {
-        console.log("xmlHttp.open (1)");
         xmlHttp.open("POST", url, async);
         // User-Agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0"
     }
@@ -213,7 +212,11 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
     var soapaction = ((ns.lastIndexOf("/") != ns.length - 1) ? ns + "/" : ns) + encodeURIComponent(method);
     xmlHttp.setRequestHeader("SOAPAction", soapaction);
     xmlHttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-    //xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+    xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     if (async) {
         xmlHttp.ontimeout = function(e) {
             callback(null, e.type);

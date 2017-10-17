@@ -29,6 +29,11 @@ import { Logger }                          from "angular2-logger/core"; // ADD T
 import { DepositosComponent }              from "./home/datosDepositos/depositos.component"
 import { AlertComponent }                  from './home/tmp/alert.component';
 
+
+import { ChartsModule } from 'ng2-charts';
+
+import { BrowserXhr }                      from '@angular/http';
+
 //import { AgGridModule }                    from "ag-grid-angular";
 
 // grouped inner
@@ -83,6 +88,7 @@ import { DataTableDemo1 } from './home/tmp/demo1/data-table-demo1';
     AppRoutingModule,
     LbdModule,
     ReactiveFormsModule,
+    ChartsModule
     //DataTableModule,
     //DxDataGridModule,
     //DevExtremeModule
