@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [Light Bootstrap Dashboard Angular CLI](http://lbd-angular2.creative-tim.com/)
 [![version][version-badge]][CHANGELOG]
 
@@ -161,3 +162,7 @@ Instagram: <https://instagram.com/creativetimofficial>
 [LICENSE]: ./LICENSE
 
 [version-badge]: https://img.shields.io/badge/version-1.4.0-blue.svg
+=======
+# dashboard
+Dashboard
+>>>>>>> 702677949a2a86b99647da39a17ad5d8edccf6a4
