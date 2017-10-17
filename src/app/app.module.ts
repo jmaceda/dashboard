@@ -16,7 +16,6 @@ import { IconsComponent }                  from './icons/icons.component';
 import { MapsComponent }                   from './maps/maps.component';
 import { NotificationsComponent }          from './notifications/notifications.component';
 import { UpgradeComponent }                from './upgrade/upgrade.component';
-import { LOCALE_ID }                       from '@angular/core';
 import { FormsModule }                     from '@angular/forms';
 import { ReactiveFormsModule }             from '@angular/forms';
 

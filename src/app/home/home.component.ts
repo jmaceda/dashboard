@@ -1111,9 +1111,11 @@ export class HomeComponent implements OnInit  {
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
-    date2: Date = new Date(2016, 5, 10);
-    date3: Date;
-    date4: Date;
+
+    //date2: Date = new Date(2016, 5, 10);
+    //date3: Date;
+    //date4: Date;
+    /*
     datepickerOpts: any = {
         startDate: new Date(2016, 5, 10),
         autoclose: true,
@@ -1122,12 +1124,15 @@ export class HomeComponent implements OnInit  {
         assumeNearbyYear: true,
         format: 'D, d MM yyyy'
     };
-    date5: Date = new Date();
-    date6: Date = new Date();
-    dateFrom: Date;
-    dateTo: Date;
+    */
+    //date5: Date = new Date();
+    //date6: Date = new Date();
+    //dateFrom: Date;
+    //dateTo: Date;
     datepickerToOpts: any = {};
+
     form: FormGroup;
+
 
 public fechaHoraOperacion: string;
 
