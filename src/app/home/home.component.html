@@ -144,48 +144,62 @@
                 </div>
             </div>
             -->
-        <div class="row">
-            <div class="col-md-5">
-                <div class="col-md-2">
-                    <input [(ngModel)]="dFchIniProceso">
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-1">
-                    <input [(ngModel)]="dHraIniProceso">
-                </div>
-                <div class="col-md-8"></div>
-            </div>
-            <div class="col-md-3">
-                <div style="text-align: center;">ATM</div>
-            </div>
-            <div class="col-md-2">
-                <div>Última Actualización</div>
-            </div>
-            <!-- div class="col-md-1"></div -->
-            <div class="col-md-1">
-                <button (click)="pActualizaInfo()">Refresh</button>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-5">
-                <div class="col-md-2">
-                    <input [(ngModel)]="dFchFinProceso">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-9">
+                        <datetime [(ngModel)]="date"></datetime>
+                    </div>
                 </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-1">
-                    <input [(ngModel)]="dHraFinProceso">
+            </div>
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-md-2">
+                            <input [(ngModel)]="dFchIniProceso">
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input [(ngModel)]="dHraIniProceso">
+                        </div>
+                        <div class="col-md-8"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="text-align: center;">ATM</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div>Última Actualización</div>
+                    </div>
+                    <!-- div class="col-md-1"></div -->
+                    <div class="col-md-1">
+                        <button (click)="pActualizaInfo()">Refresh</button>
+                    </div>
                 </div>
-                <div class="col-md-8"></div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-md-2">
+                            <input [(ngModel)]="dFchFinProceso">
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input [(ngModel)]="dHraFinProceso">
+                        </div>
+                        <div class="col-md-8"></div>
+                    </div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActParams()">
+                            <option *ngFor="let ip of iPs" [ngValue]="ip">{{ip}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <div>{{dUltimaActualizacion}}</div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
             </div>
-            <div class="col-md-3" style="text-align: center;">
-                <input [(ngModel)]="paramsServicioNumPaginas.ip[0]">
-            </div>
-            <div class="col-md-2">
-                <div>{{dUltimaActualizacion}}</div>
-            </div>
-            <div class="col-md-1"></div>
-        </div>
+
         <!-- row -->
 
         <div class="row"></div>

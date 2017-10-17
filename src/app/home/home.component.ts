@@ -10,15 +10,14 @@ import { DepositosModel }                                from './models/deposito
 import { Logger, Level }                                 from "angular2-logger/core";
 import { DepositosComponent }                            from "./datosDepositos/depositos.component"
 import { AlertComponent }                                from './tmp/alert.component';
-//import Dexie                                             from 'dexie';
-
+// import Dexie                                             from 'dexie';
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 // Importamos la clase del servicio
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
-
-//import { DxDataGridModule } from 'devextreme-angular';
-//import { Customer, Service } from './app.service';
+// import { DxDataGridModule } from 'devextreme-angular';
+// import { Customer, Service } from './app.service';
 
 
 export var gNumPaginas                 = 0;
@@ -47,11 +46,6 @@ var bdRedBlu = 'RedBluDB';
 var intervalId = null;
 var arrDepositos = [];
 
-declare interface tblDomResOperacion {
-    headerRow: any[];
-    dataRows: any[];
-}
-//
 declare interface TblResumenPorBanco {
     headerRow: any[];
     dataRows: any[];
@@ -62,9 +56,7 @@ declare interface TblResumenDepositos {
     headerRow: any[];
     dataRows: any[];
 }
-//dataRows: any[];
-//totalRows: any[];
-export var arrDatosServidorx:any[]    = [];
+
 export var arrDatosServidor:any[]     = [];
 export var arrDatosServidorInc:any[]  = [];
 export var arrDatosServidorBack:any[] = [];
@@ -86,10 +78,6 @@ declare interface TblConsRetPorMes {
 export class TblDomResOperacion{
     headerRow: any[];
     dataRows: any[];
-
-    constructor(){
-        this.headerRow =[ {hDesc:'Descripción', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Última'} ];
-    }
 }
 
 export class RetirosXhora {  
@@ -291,7 +279,7 @@ export class HomeComponent implements OnInit  {
     public ipATM: string;
 
     public tblConsRetPorMes: TblConsRetPorMes;
-
+    public iPs:any[] = ['11.40.2.2', '11.40.2.8'];
     model1 = new Date(this.dFchIniProceso);
     model2 = new Date(this.dFchFinProceso);
 
@@ -371,7 +359,7 @@ export class HomeComponent implements OnInit  {
             this.datosRetirosXhora[idx] = new DatosRetirosXhora();
         }
 
-        this.tblDomResOperacion = new TblDomResOperacion();
+        //this.tblDomResOperacion = new TblDomResOperacion();
         arrDepositos = [];
     }
 
@@ -448,7 +436,6 @@ export class HomeComponent implements OnInit  {
         page          : 0
     };
 
-    //public tblResOperacion: tblDomResOperacion;
     public tblResOperacion: TblDomResOperacion
     public retiros: InterRetirosPorHora;
 
@@ -1124,9 +1111,31 @@ export class HomeComponent implements OnInit  {
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
+    date2: Date = new Date(2016, 5, 10);
+    date3: Date;
+    date4: Date;
+    datepickerOpts: any = {
+        startDate: new Date(2016, 5, 10),
+        autoclose: true,
+        todayBtn: 'linked',
+        todayHighlight: true,
+        assumeNearbyYear: true,
+        format: 'D, d MM yyyy'
+    };
+    date5: Date = new Date();
+    date6: Date = new Date();
+    dateFrom: Date;
+    dateTo: Date;
+    datepickerToOpts: any = {};
+    form: FormGroup;
+
 public fechaHoraOperacion: string;
 
   ngOnInit() {
+
+      this.form = this.formBuilder.group({
+          date: [new Date(1991, 8, 12)]
+      });
 
       tIdx = 0;
         let arrRetiros = [];
@@ -1142,8 +1151,6 @@ public fechaHoraOperacion: string;
                 acumMontoRetirosPorHora: ""
             });
         }
-
-        //this.tblResOperacion
 
         this.retiros = {
             headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
@@ -1543,11 +1550,14 @@ public fechaHoraOperacion: string;
         
     }
 
+    // Datos para la fecha.
+    //form: FormGroup;
+
 
     //customers: Customer[];
     constructor(private formBuilder: FormBuilder, public _soapService: SoapService, 
                 public logger            : Logger, private _desglosaBilletes: DesglosaBilletes,
-                public _guardaDepositosBD: GuardaDepositosBD){ //, service                  : Service) { 
+                public _guardaDepositosBD: GuardaDepositosBD){ //, service                  : Service) {
 
         //this.customers = service.getCustomers();
 
@@ -1608,6 +1618,10 @@ public fechaHoraOperacion: string;
         // Acumular el resultado de la multiplicación del número de piezas por la denominación.
 
         return(respBilletes);
+    }
+
+    public pActParams(): void{
+        ipAnterior           = this.paramsServicioNumPaginas.ip[0];
     }
 }
 
