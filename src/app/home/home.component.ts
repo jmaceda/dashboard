@@ -30,6 +30,9 @@ export var tIdx:number = 0;
 var fechaSys = new Date();
 var fechaHoy = sprintf("%4d-%02d-%02d",fechaSys.getFullYear(), (fechaSys.getMonth() + 1), fechaSys.getDate());
 var ipAnterior:string = null;
+var gFchInicioAnterior = null;
+var gFchInicioFinAnterior = null;
+
 
 // Formatea numeros
 var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
@@ -450,11 +453,18 @@ export class HomeComponent implements OnInit  {
     public pActualizaInfo(): void {
 
         console.log("pActualizaInfo:: ipAnterior["+ipAnterior+"]   ip["+this.paramsServicioNumPaginas.ip[0]+"]");
-        if (ipAnterior != this.paramsServicioNumPaginas.ip[0]){
-            ipAnterior           = this.paramsServicioNumPaginas.ip[0];
-            this.numPaginas      = 0;
-            gNumRegsProcesados   = 0;
-            arrDatosServidorBack = [];
+
+        if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
+            (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
+             gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd)){
+            ipAnterior              = this.paramsServicioNumPaginas.ip[0];
+            gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
+            gFchInicioFinAnterior   = this.paramsServicioNumPaginas.timeStampEnd;
+            this.numPaginas         = 0;
+            gNumRegsProcesados      = 0;
+            arrDatosServidorBack    = [];
+            gNumPaginas             = 0;
+            gNumRegsProcesados      = 0;
         }
 
         if (intervalId != null){
@@ -1014,7 +1024,6 @@ export class HomeComponent implements OnInit  {
         arrDatosServidorInc = null;
         numPaginaObtenida++;
         console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
-
         if (result.length >= 200){
             numPagsCompletas++;
             if (arrDatosServidor == undefined){
@@ -1057,6 +1066,7 @@ export class HomeComponent implements OnInit  {
                 ipAnterior = this.paramsServicioNumPaginas.ip[0];
                 this.numPaginas = 0;
             }
+
 
             console.log("1) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
             console.log("1) pDatosDelJournal:: ipAnterior[" + ipAnterior + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
@@ -1189,6 +1199,8 @@ public fechaHoraOperacion: string;
 
         this.ipATM = '11.40.2.2';
         ipAnterior = this.paramsServicioNumPaginas.ip[0];
+        gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
+        gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
         //     this.pDatosDelJournal();
 
         this.pActualizaInfo();
