@@ -21,8 +21,9 @@ import { ReactiveFormsModule }             from '@angular/forms';
 
 import { Logger }                          from "angular2-logger/core"; // ADD THIS
 import { DepositosComponent }              from "./home/datosDepositos/depositos.component";
-import { ChartsModule } from 'ng2-charts';
-import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+//import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
+//import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
 
 
 @NgModule({
@@ -52,8 +53,6 @@ import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
     LbdModule,
     ReactiveFormsModule,
     ChartsModule,
-      NKDatetimeModule,
-
   ],
   providers: [Logger],
   bootstrap: [AppComponent]

@@ -11,13 +11,17 @@ import { Logger, Level }                                 from "angular2-logger/c
 import { DepositosComponent }                            from "./datosDepositos/depositos.component"
 import { AlertComponent }                                from './tmp/alert.component';
 // import Dexie                                             from 'dexie';
-import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
+
+
 // Importamos la clase del servicio
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
 // import { DxDataGridModule } from 'devextreme-angular';
 // import { Customer, Service } from './app.service';
+
+
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
 export var gNumPaginas                 = 0;
@@ -78,6 +82,11 @@ declare interface TblConsRetPorMes {
 
 
 export class TblDomResOperacion{
+    headerRow: any[];
+    dataRows: any[];
+}
+
+export class TblResOperacion{
     headerRow: any[];
     dataRows: any[];
 }
@@ -159,7 +168,7 @@ export class HomeComponent implements OnInit  {
    // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
 
 
-    public tblDomResOperacion: TblDomResOperacion;
+    //public tblDomResOperacion: TblDomResOperacion;
     public tblResumenPorBanco: TblResumenPorBanco;
     public tblResumenDepositos: TblResumenDepositos;
 
@@ -180,12 +189,13 @@ export class HomeComponent implements OnInit  {
     public responsiveGraficaRetirosPorHora: any[];
     public elementosGraficaRetirosPorHora : LegendItem[];
 
+    /*
     public activityChartType       : ChartType;
     public activityChartData       : any;
     public activityChartOptions    : any;
     public activityChartResponsive : any[];
     public activityChartLegendItems: LegendItem[];
-
+*/
     public bsValue     : any ;
     public bsRangeValue: any = [new Date(2017, 7, 4), new Date(2017, 7, 20)];
 
@@ -395,7 +405,7 @@ export class HomeComponent implements OnInit  {
         page          : 0
     };
 
-    public tblResOperacion: TblDomResOperacion;
+    public tblResOperacion: TblResOperacion;
     public retiros: InterRetirosPorHora;
     public retiroNoOk    : object = {};
     public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
@@ -734,18 +744,19 @@ export class HomeComponent implements OnInit  {
 
     // Arma los datos de la tabla del Resumen de Operaciones
     public mResumenOperaciones():void{
+        var arrResOper[] = [
+            {etiqueta: "Depósitos Exitosos",     numOpers: this.dNumDepositos,        monto: this.dMontoDepositos,      primerMto: this.dHraPrimerDeposito,         ultimoMto: this.dHraUltimoDeposito},
+            {etiqueta: "Retiros Exitosos",       numOpers: this.dNumRetiros,          monto: this.dMontoRetiros,        primerMto: this.dHraPrimerRetiro,           ultimoMto: this.dHraUltimoRetiro},
+            {etiqueta: "Retiros No Exitosos*",   numOpers: this.dNumRetirosNoExito,   monto: this.dMontoRetirosNoExito, primerMto: this.dHraPrimerRetiroNoExito,    ultimoMto: this.dHraUltimoRetiroNoExito},
+            {etiqueta: "Consultas Exitosas",     numOpers: this.dNumConsultas,        monto: 0,                        primerMto: this.dHraPrimeraConsulta,        ultimoMto: this.dHraUltimaConsulta},
+            {etiqueta: "Consultas No Exitosas*", numOpers: this.dNumConsultasNoExito, monto: 0,                         primerMto: this.dHraPrimeraConsultaNoExito, ultimoMto: this.dHraUltimaConsultaNoExito},
+            {etiqueta: "Reversos",               numOpers: this.dNumReversos,         monto: this.dMontoReversos,       primerMto: this.dHraPrimerReverso,          ultimoMto: this.dHraUltimoReverso},
+            {etiqueta: "Cambio NIP Exitoso",     numOpers: this.dNumCambioNIP,        monto: 0,                        primerMto: this.dHraPrimerCambioNIP,        ultimoMto: this.dHraUltimoCambioNIP},
+            {etiqueta: "Cambio NIP Erroneo",     numOpers: this.dNumCambioNIPNoExito, monto: 0,                         primerMto: this.dHraPrimerCambioNIPNoExito, ultimoMto: this.dHraUltimoCambioNIPNoExito}
+        ]
         this.tblResOperacion = {
-            headerRow: [ {hDesc:'Descripción', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Última'} ],
-            dataRows: [
-                {etiqueta: "Depósitos Exitosos", numOpers: this.dNumDepositos, monto: this.dMontoDepositos, primerMto: this.dHraPrimerDeposito, ultimoMto: this.dHraUltimoDeposito},
-                {etiqueta: "Retiros Exitosos", numOpers: this.dNumRetiros, monto: this.dMontoRetiros, primerMto: this.dHraPrimerRetiro, ultimoMto: this.dHraUltimoRetiro},
-                {etiqueta: "Retiros No Exitosos*", numOpers: this.dNumRetirosNoExito, monto: this.dMontoRetirosNoExito, primerMto: this.dHraPrimerRetiroNoExito, ultimoMto: this.dHraUltimoRetiroNoExito},
-                {etiqueta: "Consultas Exitosas", numOpers: this.dNumConsultas, monto: "", primerMto: this.dHraPrimeraConsulta, ultimoMto: this.dHraUltimaConsulta},
-                {etiqueta: "Consultas No Exitosas*", numOpers: this.dNumConsultasNoExito, monto:"", primerMto: this.dHraPrimeraConsultaNoExito, ultimoMto: this.dHraUltimaConsultaNoExito},
-                {etiqueta: "Reversos", numOpers: this.dNumReversos, monto: this.dMontoReversos, primerMto: this.dHraPrimerReverso, ultimoMto: this.dHraUltimoReverso},
-                {etiqueta: "Cambio NIP Exitoso", numOpers: this.dNumCambioNIP, monto: "", primerMto: this.dHraPrimerCambioNIP, ultimoMto: this.dHraUltimoCambioNIP},
-                {etiqueta: "Cambio NIP Erroneo", numOpers: this.dNumCambioNIPNoExito, monto:"", primerMto: this.dHraPrimerCambioNIPNoExito, ultimoMto: this.dHraUltimoCambioNIPNoExito},
-            ]
+            headerRow: [ {hDesc:'Descripcion', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Ultima'} ],
+            dataRows: arrResOper
         };
     }
 
@@ -1034,6 +1045,9 @@ public fechaHoraOperacion: string;
 
   ngOnInit() {
 
+      this.datosGrafica();
+
+
       this.form = this.formBuilder.group({
           date: [new Date(1991, 8, 12)]
       });
@@ -1086,7 +1100,6 @@ public fechaHoraOperacion: string;
         gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
 
         this.pActualizaInfo();
-
         this.graficaRetiros();
     }
 
@@ -1483,5 +1496,62 @@ public fechaHoraOperacion: string;
         }
         return(respBilletes);
     }
+
+    // Pie
+    public pieChartLabels:string[] = ['Depósitos', 'Retiros', 'Consultas', 'Reversos'];
+    public pieChartData:number[] = [7, 22, 12, 0];
+    public pieChartType:string = 'pie';
+    public polarAreaLegend:boolean = true;
+
+    // events
+    public chartClicked(e:any):void {
+        console.log(e);
+    }
+
+    public chartHovered(e:any):void {
+        console.log(e);
+    }
+
+    public activityChartType: ChartType;
+    public activityChartData: any;
+    public activityChartOptions: any;
+    public activityChartResponsive: any[];
+    public activityChartLegendItems: LegendItem[];
+
+    public datosGrafica() {
+        console.log("datosGrafica:: Inicio");
+        this.activityChartType = ChartType.Bar;
+        this.activityChartData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [
+                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
+                [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
+            ]
+        };
+        this.activityChartOptions = {
+            seriesBarDistance: 10,
+            axisX: {
+                showGrid: false
+            },
+            height: '245px'
+        };
+        this.activityChartResponsive = [
+            ['screen and (max-width: 640px)', {
+                seriesBarDistance: 5,
+                axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                }
+            }]
+        ];
+        this.activityChartLegendItems = [
+            {title: 'Tesla Model S', imageClass: 'fa fa-circle text-info'},
+            {title: 'BMW 5 Series', imageClass: 'fa fa-circle text-danger'}
+        ];
+
+    }
+
 }
+
 

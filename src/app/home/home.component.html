@@ -120,6 +120,62 @@
         width: 5%;
         text-align: right;
     }
+
+
+
+
+
+    datetime-popup > .dropdown .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    datetime-popup > .dropdown timepicker {
+        display: flex;
+        justify-content: center;
+    }
+
+    datetime-popup > .dropdown .bg-faded {
+        border:0;
+        background-color: #fff;
+    }
+
+    datetime-popup > .dropdown datepicker button {
+        border:0;
+        background-color: #fff;
+    }
+
+    datetime-popup > .dropdown datepicker button.active {
+        background-color: #ddd;
+    }
+
+    datetime-popup > .dropdown .glyphicon.glyphicon-remove-circle:before {
+        content: "\f05c";
+    }
+
+    datetime-popup > .dropdown .glyphicon.glyphicon-chevron-down:before {
+        content: "\f078";
+    }
+
+    datetime-popup > .dropdown .glyphicon.glyphicon-chevron-up:before {
+        content: "\f077";
+    }
+
+    datetime-popup > .dropdown .glyphicon.glyphicon-chevron-left:before {
+        content: "\f053";
+    }
+
+    datetime-popup > .dropdown .glyphicon.glyphicon-chevron-right:before {
+        content: "\f054";
+    }
+
+    datetime-popup > .dropdown .glyphicon.hidden {
+        display: none !important;
+    }
 </style>
 
 <div class="main-content">
@@ -153,10 +209,16 @@
             </div>
             -->
 
+        <div class="card">
+            <div class="row">
+                <!-- datetime-popup [(value)]="myDate"></datetime-popup-->
+            </div>
+        </div>
+
             <div class="card">
                 <div class="row">
                     <div class="col-md-9">
-                        <datetime [(ngModel)]="date"></datetime>
+                        <!-- datetime [(ngModel)]="date"></datetime -->
                     </div>
                 </div>
             </div>
@@ -213,6 +275,7 @@
         <div class="row"></div>
         <div class="row"></div>
 
+        <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -243,7 +306,25 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div style="display: block;">
+                        <lbd-chart
+                                [title]="'2014 Sales'"
+                                [subtitle]="'All products including Taxes'"
+                                [chartType]="activityChartType"
+                                [chartData]="activityChartData"
+                                [chartOptions]="activityChartOptions"
+                                [chartResponsive]="activityChartResponsive"
+                                [legendItems]="activityChartLegendItems"
+                                [withHr]="true"
+                                [footerIconClass]="'fa fa-check'"
+                                [footerText]="'Data information certified'">
+                        </lbd-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 
