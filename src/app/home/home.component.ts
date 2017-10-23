@@ -24,8 +24,7 @@ export var gNumPaginas                 = 0;
 export var gNumRegistros               = 0;
 export var gNumRegsProcesados          = 0;
 export var aDatosJournal               = [];
-export var paramsServicioDatosLogX:any = {};
-export var tIdx:number = 0;
+//export var tIdx:number = 0;
 
 var fechaSys = new Date();
 var fechaHoy = sprintf("%4d-%02d-%02d",fechaSys.getFullYear(), (fechaSys.getMonth() + 1), fechaSys.getDate());
@@ -83,16 +82,6 @@ export class TblDomResOperacion{
     dataRows: any[];
 }
 
-export class RetirosXhora {  
-    hora: string;  
-    numConsultasPorHora: number;
-    acumNumConsultasPorHora: number;
-    numRetirosPorHora: number;
-    acumNumRetirosPorHora: number;
-    montoRetirosPorHora: number; 
-    acumMontoRetirosPorHora: number;            
-}
-
 export class DatosRetirosXhora{
     public dNumConsPorHora:number;
     public dNumRetirosPorHora:number;
@@ -129,12 +118,14 @@ export class HomeComponent implements OnInit  {
         { data: [45, 67, 800, 500], label: 'Account C' }
     ];
 
-    chartLabels = ['January', 'February', 'Mars', 'April'];
+    //chartLabels = ['January', 'February', 'Mars', 'April'];
 
+    /*
     onChartClick(event) {
         console.log(event);
     }
-
+*/
+    /*
     newDataPoint(dataArr = [100, 100, 100], label) {
 
         this.chartData.forEach((dataset, index) => {
@@ -146,20 +137,63 @@ export class HomeComponent implements OnInit  {
         this.chartLabels = [...this.chartLabels, label];
 
     }
+    */
 
 
-    Level = Level;
+    //Level = Level;
 
+
+
+    /*
+    private myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd.mm.yyyy',
+        height    : '34px',
+        width     : '210px',
+        inline    : false
+    };
+
+    private myForm  : FormGroup;
+    private selector: number = 0;
+*/
     // Initialized to specific date (09.10.2018).
-    private model: Object = { date: { year: 2018, month: 10, day: 9 } };
+   // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
 
+
+    public tblDomResOperacion: TblDomResOperacion;
     public tblResumenPorBanco: TblResumenPorBanco;
     public tblResumenDepositos: TblResumenDepositos;
+
+
+    public emailChartType       : ChartType;
+    public emailChartData       : any;
+    public emailChartLegendItems: LegendItem[];
+
+    public hoursChartType       : ChartType;
+    public hoursChartData       : any;
+    public hoursChartOptions    : any;
+    public hoursChartResponsive : any[];
+    public hoursChartLegendItems: LegendItem[];
+
     public tipoGraficaRetirosPorHora      : ChartType;
     public datosGraficaRetirosPorHora     : any;
     public opcionesGraficaRetirosPorHora  : any;
     public responsiveGraficaRetirosPorHora: any[];
     public elementosGraficaRetirosPorHora : LegendItem[];
+
+    public activityChartType       : ChartType;
+    public activityChartData       : any;
+    public activityChartOptions    : any;
+    public activityChartResponsive : any[];
+    public activityChartLegendItems: LegendItem[];
+
+    public bsValue     : any ;
+    public bsRangeValue: any = [new Date(2017, 7, 4), new Date(2017, 7, 20)];
+
+    selectedItem: any;
+    icons       : string[];
+    items       : Array<{title: string, note: string, icon: string}>;
+
+    //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string                  = '/services/dataservices.asmx';
     public nomServicioPaginas: string   = 'GetEjaLogDataLength';
     public nomServicioDatosLog: string  = 'GetEjaLogPage';
@@ -183,31 +217,40 @@ export class HomeComponent implements OnInit  {
     public dUltimoDeposito: string    = "";
     public dHraPrimerDeposito: string = "";
     public dHraUltimoDeposito: string = "";
-    public dHraIniciaSesión: string = "";
+    public dHraIniciaSesion: string = "";
+
     public dNumRetiros: number      = 0;
     public dMontoRetiros: number    = 0;
-    public dHraPrimerRetiro: string = ""
-    public dHraUltimoRetiro: string = ""
+    public dHraPrimerRetiro: string = "";
+    public dHraUltimoRetiro: string = "";
+
+    // Retiros no exitosos
     public dNumRetirosNoExito: number      = 0;
     public dMontoRetirosNoExito: number    = 0;
     public dHraPrimerRetiroNoExito: string = "";
     public dHraUltimoRetiroNoExito: string = "";
+
     public dNumConsultas: number       = 0;
     public dHraPrimeraConsulta: string = "";
     public dHraUltimaConsulta: string  = "";
+
     public dNumConsultasNoExito: number       = 0;
     public dHraPrimeraConsultaNoExito: string = "";
     public dHraUltimaConsultaNoExito: string  = "";
+
     public dNumReversos: number      = 0;
     public dMontoReversos: number    = 0;
     public dHraPrimerReverso: string = "";
     public dHraUltimoReverso: string = "";
+
     public dNumCambioNIP: number       = 0;
     public dHraPrimerCambioNIP: string = "";
     public dHraUltimoCambioNIP: string = "";
+
     public dNumCambioNIPNoExito: number       = 0;
     public dHraPrimerCambioNIPNoExito: string = "";
     public dHraUltimoCambioNIPNoExito: string = "";
+
     public dNumRetirosPorHora      : Array<number>;
     public dNumConsultasPorHora    : Array<number>;
     public dAcumNumRetirosPorHora  : Array<number>;
@@ -216,26 +259,21 @@ export class HomeComponent implements OnInit  {
     public dAcumMontoRetirosPorHora: Array<number>;
     public dNumConsPorHora         : Array<number>;
     public opersBanco : object   = new Object();
-    public listaBancos: string[] = [];
-
+    public listaBancos: any[] = [];
+    public tBillDep:any[] = [{ tMonto: 0, tB20: 0, tB50: 0, tB100: 0, tB200: 0, tB500: 0, tB1000: 0}];
     public infoDepositos: DepositosModel[] = [];
-
-    public resumenDatos: any[];
-
     public datosRetirosXhora: Array<DatosRetirosXhora> = new Array(24);
 
     public ipATM: string;
 
     public tblConsRetPorMes: TblConsRetPorMes;
     public iPs:any[] = ['11.40.2.2', '11.40.2.8'];
-    model1 = new Date(this.dFchIniProceso);
-    model2 = new Date(this.dFchFinProceso);
 
     public iniArrCeros(numElems, valIni):Array<number>{
         return([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
     }
 
-    inicializaVariables(): void {
+    public inicializaVariables(): void {
 
         this.TotalItems    = 0;
         this.TotalPages    = 0;
@@ -253,7 +291,7 @@ export class HomeComponent implements OnInit  {
         this.dUltimoDeposito    = "";
         this.dHraPrimerDeposito = "";
         this.dHraUltimoDeposito = "";
-        this.dHraIniciaSesión = "";
+        this.dHraIniciaSesion = "";
 
         this.dNumRetiros      = 0;
         this.dMontoRetiros    = 0;
@@ -265,28 +303,28 @@ export class HomeComponent implements OnInit  {
         this.dMontoRetirosNoExito    = 0;
         this.dHraPrimerRetiroNoExito = "";
         this.dHraUltimoRetiroNoExito = "";
-
+    
         this.dNumConsultas       = 0;
         this.dHraPrimeraConsulta = "";
         this.dHraUltimaConsulta  = "";
-
+    
         this.dNumConsultasNoExito       = 0;
         this.dHraPrimeraConsultaNoExito = "";
         this.dHraUltimaConsultaNoExito  = "";
-
+    
         this.dNumReversos      = 0;
         this.dMontoReversos    = 0;
         this.dHraPrimerReverso = "";
         this.dHraUltimoReverso = "";
-
+    
         this.dNumCambioNIP       = 0;
         this.dHraPrimerCambioNIP = "";
         this.dHraUltimoCambioNIP = "";
-
+    
         this.dNumCambioNIPNoExito       = 0;
         this.dHraPrimerCambioNIPNoExito = "";
         this.dHraUltimoCambioNIPNoExito = "";
-
+        
         this.dNumRetirosPorHora       = this.iniArrCeros(24, 0);
         this.dNumConsultasPorHora     = this.iniArrCeros(24, 0);
         this.dAcumNumRetirosPorHora   = this.iniArrCeros(24, 0);
@@ -294,7 +332,7 @@ export class HomeComponent implements OnInit  {
         this.dMontoRetirosPorHora     = this.iniArrCeros(24, 0);
         this.dAcumMontoRetirosPorHora = this.iniArrCeros(24, 0);
         this.dNumConsPorHora          = this.iniArrCeros(24, 0);
-
+        this.tBillDep                 = [{ tMonto: 0, tB20: 0, tB50: 0, tB100: 0, tB200: 0, tB500: 0, tB1000: 0}];
 
         this.infoDepositos = [];
 
@@ -306,33 +344,8 @@ export class HomeComponent implements OnInit  {
         for(let idx=0; idx<24; idx++){
             this.datosRetirosXhora[idx] = new DatosRetirosXhora();
         }
+
         arrDepositos = [];
-    }
-
-    public retirosXhora: RetirosXhora[] = [];
-
-
-
-    public paramsServicioGetEjaLog: {
-        ip            : any[],
-        timeStampStart: string,
-        timeStampEnd  : string,
-        events        : string,
-        minAmount     : string,
-        maxAmount     : string,
-        authId        : string,
-        cardNumber    : string,
-        accountId     : string
-    } = {
-        ip            : ['11.40.2.2'],
-        timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
-        timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        minAmount     : "-1",
-        maxAmount     : "-1",
-        authId        : "-1",
-        cardNumber    : "-1",
-        accountId     : "-1"
     };
 
     public paramsServicioNumPaginas: {
@@ -384,30 +397,17 @@ export class HomeComponent implements OnInit  {
 
     public tblResOperacion: TblDomResOperacion;
     public retiros: InterRetirosPorHora;
-
-    public numDep        : number;
-    public listaDepositos: object = {};
     public retiroNoOk    : object = {};
-
     public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
-    public listaDatosBanco:Array<any>     = [];
 
-    public ipAnteriorTmp:string = "";
-
+    // Actualiza informciòn de la pantalla.
     public pActualizaInfo(): void {
 
-        console.log("pActualizaInfo:: ipAnterior["+ipAnterior+"]   ip["+this.paramsServicioNumPaginas.ip[0]+"]");
-
-        console.log("ipAnteriorTmp["+this.ipAnteriorTmp+"]  ["+this.paramsServicioNumPaginas.ip[0]+"]");
-        console.log("gFchInicioAnterior["+gFchInicioAnterior+"]   ["+this.paramsServicioNumPaginas.timeStampStart+"]");
-        console.log("gFchInicioFinAnterior["+gFchInicioFinAnterior+"]   ["+this.paramsServicioNumPaginas.timeStampEnd+"]");
-
-        if (this.ipAnteriorTmp != this.paramsServicioNumPaginas.ip[0] ||
+        if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
              gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd)){
-            console.log("Se reiniciaran parametros por cambio");
+
             ipAnterior              = this.paramsServicioNumPaginas.ip[0];
-            this.ipAnteriorTmp      = this.paramsServicioNumPaginas.ip[0];
             gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
             gFchInicioFinAnterior   = this.paramsServicioNumPaginas.timeStampEnd;
             this.numPaginas         = 0;
@@ -424,23 +424,17 @@ export class HomeComponent implements OnInit  {
         intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
-    //public listaBancos:[]                = [];
 
     public incrementaBanco(tipoOper:string, nomBanco:string): void{
-        //this.opersBanco  = {'nomBanco': "", 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-        //console.log("incrementaBanco:: ["+nomBanco+"]");
 
         if (nomBanco == undefined || nomBanco == null || nomBanco == ""){
             nomBanco = "********";
         }
-
+        
         if ( this.listaBancos[nomBanco] == undefined ){
-            //console.log("incrementaBanco:: nuevo   nomBanco["+nomBanco+"]   tipoOper["+tipoOper+"]");
-            //oBanco    = {'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-            this.opersBanco = {'nomBanco': nomBanco, 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-            this.listaBancos[nomBanco]       = {'opersBanco': {} };
+            this.opersBanco            = {'nomBanco': nomBanco, 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
+            this.listaBancos[nomBanco] = {'opersBanco': {} };
         }else{
-            //console.log("incrementaBanco:: existente   nomBanco["+nomBanco+"]   tipoOper["+tipoOper+"]");
             this.opersBanco = this.listaBancos[nomBanco];
         }
 
@@ -453,40 +447,20 @@ export class HomeComponent implements OnInit  {
             case 'REV': this.opersBanco['numReversos']++; break;
         }
         this.listaBancos[nomBanco] = this.opersBanco;
-        //console.log(JSON.stringify(this.listaBancos[nomBanco]));
     }
-
-
-/*
-    public iniciaDB_Dexie(nomBD): void{
-
-        dbDexie = new Dexie(nomBD);
-
-        dbDexie.version(1).stores({
-            tabDepositos: "++id, nivelDep, [idSesDep+nivelDep]"
-        });
-
-        dbDexie.open().catch (function (err) {
-            console.log('Failed to open db: ' + (err.stack || err));
-        });
-
-        //this.infoDataBaseDexie(bdRedBlu);
-    }
-*/
 
     public obtenDatosLog(result:object, numPag:number): void {
 
         this.inicializaVariables();
 
-        var datosLog        = JSON.parse(JSON.stringify(result))
+        var datosLog        = JSON.parse(JSON.stringify(result));
         var fchSys          = new Date();
         var _horaSys        = fchSys.getHours();
-        var _horaUltimaOper = _horaSys
+        var _horaUltimaOper = _horaSys;
         var tmpFechaSys     = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
         var listaBancos     = {};
         var tmpAquirer      = "";
         var tmpArqc         = "";
-
         var tipoUltimaOperacion  = "";
         var iniciaDeposito       = "";
         var terminaDeposito      = "";
@@ -507,27 +481,20 @@ export class HomeComponent implements OnInit  {
         var tmpAuthId            = "";
         this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
-
+        
 
         datosLog.forEach((reg)=>{
-
-            //console.log("1) Evento: "+reg.Event);
 
             var date = new Date(reg.TimeStamp);
             var _hora = date.getHours();
             var tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
             var tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
-            //console.log("Hora movimiento: "+tmpHoraOperacion + "    Event: ["+reg.Event+"]");
-            //console.log("Hora movimiento: "+tmpHoraOperacion + "    Event: ["+reg.Event+"]");
-
             fchSys = new Date();
             _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
             _horaUltimaOper = _horaSys;
 
-            if (iniciaDeposito != "" && (tipoUltimaOperacion != "D" || (reg.Data == "VALIDAUSUARIO IsValid TRUE" && reg.Id != id))){
-				//this.calculaTiempoDeposito(idSesion, 1, iniciaSesDeposito, terminaDeposito, numDepositos, montoSesion, datosDeposito, rollbackDeposito);
-                //dbDexie             = this._guardaDepositosBD.calculaTiempoDeposito(dbDexie, idSesion, 1, iniciaSesDeposito, terminaDeposito, numDepositos, montoSesion, datosDeposito, rollbackDeposito);
+            if (iniciaDeposito != "" && (tipoUltimaOperacion != "D" || (reg.Data == "VALIDAUSUARIO IsValid TRUE" && reg.Id != id))){ 
                 iniciaDeposito      = "";
                 terminaDeposito     = "";
                 numIntentos         = 0;
@@ -539,15 +506,14 @@ export class HomeComponent implements OnInit  {
                 numDepositos     = 0;
                 rollbackDeposito = 0;
             }
-            //console.log("data: ["+reg.Data+"]");
-            switch(reg.Event) {
-                case "Withdrawal": {
-                    switch(reg.Data){
 
-                        case "Withdrawal DispenseOk": {
+            switch(reg.Event) {
+                case "Withdrawal": { 
+                    switch(reg.Data){
+                        
+                        case "Withdrawal DispenseOk": { 
                             this.dNumRetiros++;
                             this.dMontoRetiros += reg.Amount;
-
 
                             if(this.dHraPrimerRetiro == ""){
                                 this.dHraPrimerRetiro = tmpHoraOperacion;
@@ -556,20 +522,16 @@ export class HomeComponent implements OnInit  {
                             if (_hora < 7){
                                 this.dNumRetirosPorHora[6]++;
                                 this.dAcumNumRetirosPorHora[6]++;
-                                //console.log(_hora+")"+this.dAcumNumRetirosPorHora[6]);
                                 this.dMontoRetirosPorHora     [6] += reg.Amount;
                                 this.dAcumMontoRetirosPorHora[6]  += reg.Amount;
                             }else if(_hora <= _horaSys){
                                 this.dNumRetirosPorHora[_hora]++;
                                 this.dAcumNumRetirosPorHora[_hora]++;
-                                //console.log("hora < 23: " + _hora+") "+this.dAcumNumRetirosPorHora[_hora]);
                                 this.dMontoRetirosPorHora     [_hora] += reg.Amount;
                                 this.dAcumMontoRetirosPorHora[_hora]  += reg.Amount;
                             }
                             this.datosRetirosXhora[_hora].dNumRetirosPorHora++;
                             this.datosRetirosXhora[_hora].dAcumMontoRetirosPorHora += reg.Amount;
-                            //console.log(this.dNumRetirosPorHora, this.dAcumNumRetirosPorHora, this.dMontoRetirosPorHora, this.dAcumMontoRetirosPorHora);
-
                             tipoUltimaOperacion = "R";
 
                             if (tmpArqc == reg.Arqc && tmpCardNumber == reg.CardNumber && tmpAuthId == reg.AuthId){
@@ -650,7 +612,7 @@ export class HomeComponent implements OnInit  {
                     break;
                 }
 
-                case "BalanceCheck":
+                case "BalanceCheck": 
                     if(reg.SwitchResponseCode == 0){
                         this.dNumConsultas++;
                         if(this.dHraPrimeraConsulta == ""){
@@ -674,31 +636,28 @@ export class HomeComponent implements OnInit  {
                         this.incrementaBanco('COE', reg.Aquirer);
                     }
                     tipoUltimaOperacion = "C";
-
+                    
                     break;
-
-                case "CASH MANAGEMENT":
+                    
+                case "CASH MANAGEMENT": 
 
                     if (reg.Data == "VALIDAUSUARIO IsValid TRUE"){
                         iniciaDeposito = tmpHoraOperacion; //reg.TimeStamp;
                         if(this.dHraPrimerDeposito == ""){
                             this.dHraPrimerDeposito = tmpHoraOperacion;
                         }
-                        this.dHraIniciaSesión = tmpHoraOperacion;
+                        this.dHraIniciaSesion = tmpHoraOperacion;
                     }
-                    //if ( dataAnterior.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito"){
+
                     if (reg.Data.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito"){
                         this.dNumDepositos++;
-
                         this.dMontoDepositos += reg.Amount;
-
-
                         this.dHraUltimoDeposito = tmpHoraOperacion;
-                        //console.log("CASH MANAGEMENT:: se va a revisar la denominacion de los billetes");
+
                         let denominaBilletes = this.pDenominacionesBilletes(reg.Data);
 
                         arrDepositos.push(
-                            {   dId: this.dNumDepositos, dHraIni: this.dHraIniciaSesión, dHraFin: tmpHoraOperacion, dMonto: reg.Amount,
+                            {   dId: this.dNumDepositos, dHraIni: this.dHraIniciaSesion, dHraFin: tmpHoraOperacion, dMonto: reg.Amount,
                                 dBill20: denominaBilletes.b20,
                                 dBill50: denominaBilletes.b50,
                                 dBill100: denominaBilletes.b100,
@@ -711,34 +670,26 @@ export class HomeComponent implements OnInit  {
                     
                     if (reg.OperationType == "ControlMessage"){
                         if (reg.Data.substring(0,21) == "VALIDAUSUARIO IsValid"){
-                            // Hora inicio de sesión.
-                            // Numero de sesiones.
-                            // Hora inicio depoisito
                             iniciaSesDeposito   = reg.TimeStamp;
                             iniciaDeposito      = reg.TimeStamp;
                             nivelUltimoDeposito = 1;
                             
                         } else if (reg.Data == "INPUTREFUSED ItemsTaken"){
-                            // Numero de intentos
                             numIntentos++;
                             nivelUltimoDeposito = 2;
                         } else if (reg.Data == "CASHINFAILED OnLoad"){
 
                         } else if (reg.Data == "CASHINFAILED RollbackOk"){
-                            // Depósito cancelado
                             rollbackDeposito++;
                         }
                     }
 
                     if ((reg.OperationType == "CashManagement" && reg.Data.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito") ||
                         (reg.OperationType == "ControlMessage" && reg.Data == "CASHINFAILED ItemsTaken")){
-                        // Guarda datos deposito
                         dbDexie      = this._guardaDepositosBD.calculaTiempoDeposito(dbDexie, idSesion, 2, iniciaDeposito, reg.TimeStamp, numIntentos, reg.Amount, reg.Data, rollbackDeposito);
                         montoSesion += reg.Amount;
                         numIntentos  = 0;
                         numDepositos++;
-
-
                     }
 
                     dataAnterior        = reg.Data;
@@ -773,17 +724,11 @@ export class HomeComponent implements OnInit  {
 
         });
 
+
         this.mResumenOperaciones();
         this.mRretirosPorHora();
         this.mResumenPorBanco();
         this.pResumenDepositos();
-
-
-    }
-
-    public objDepositos; 
-
-    fchActualSys() {
 
     }
 
@@ -817,12 +762,17 @@ export class HomeComponent implements OnInit  {
             dataRows: arrDepositos
         };
 
-        for(let idx in arrDepositos){
-            console.log(arrDepositos[idx])
+        for(let idx=0; idx < arrDepositos.length; idx++){
+            this.tBillDep[0].tMonto += Number(arrDepositos[idx].dMonto);
+            this.tBillDep[0].tB20 += Number(arrDepositos[idx].dBill20);
+            this.tBillDep[0].tB50 += Number(arrDepositos[idx].dBill50);
+            this.tBillDep[0].tB100 += Number(arrDepositos[idx].dBill100);
+            this.tBillDep[0].tB200 += Number(arrDepositos[idx].dBill200);
+            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill1000);
+            this.tBillDep[0].tB1000 += Number(arrDepositos[idx].dBill1000);
         }
-        console.log(JSON.stringify(this.tblResumenDepositos.headerRow));
-
     }
+
 
 
     // Arma la información de la tabla de Resumen de Operaciones por Banco
@@ -852,8 +802,6 @@ export class HomeComponent implements OnInit  {
             fNumCons += datosBanco['numCons'];
             fNumConsNoOk += datosBanco['numConsNoOk'];
             fNumReversos += datosBanco['numReversos'];
-            //fnumRechazos += datosBanco['numRechazos'];
-
         }, this.listaBancos);
 
         this.tblResumenPorBanco = {
@@ -869,7 +817,6 @@ export class HomeComponent implements OnInit  {
                 }
             ]
         };
-        //                     fNumCons: fNumCons, fNumConsNoOk: fNumConsNoOk, fNumReversos: fNumReversos, fnumRechazos: fnumRechazos
     }
 
     // Despiega en la pagina la información de Consultas y Retiros.
@@ -885,6 +832,7 @@ export class HomeComponent implements OnInit  {
         var tNumConsPorHora = 0;
         var arrRetiros = [];
 
+
         for(let idx=0; idx < 7; idx++){
             tNumConsultas += this.dNumConsPorHora[idx];
             tNumRetiros   += this.dNumRetirosPorHora[idx];
@@ -898,7 +846,6 @@ export class HomeComponent implements OnInit  {
                 tAcumNumRetiros    = this.dNumRetirosPorHora[idx];
                 tMontoRetiros      = this.dMontoRetirosPorHora[idx];
                 tAcumMontoRetiros  = this.dAcumMontoRetirosPorHora[idx];
-                tNumConsPorHora    = this.dAcumNumConsultasPorHora[idx];
             }
         }
 
@@ -927,7 +874,6 @@ export class HomeComponent implements OnInit  {
         }
 
         // Agrega al objeto arrRetiros los movimientos que entraron despues de la 7 de la manañana
-
         for(let idx=7; idx < this.dAcumNumRetirosPorHora.length; idx++){
             if ( this.dNumConsPorHora[idx] > 0 || this.dNumRetirosPorHora[idx] > 0) {
                 tmpHora = idx.toString();
@@ -952,24 +898,15 @@ export class HomeComponent implements OnInit  {
 
     public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
-        //console.log("obtenNumeroDePaginasLog: "+ JSON.stringify(result));
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
         console.log("obtenNumeroDePaginasLog: gNumPaginas["+gNumPaginas+"]   gNumRegistros["+gNumRegistros+"]");
     }
 
-    //public arrDatosServidorBak = "";
-    public numPaginasJournal = 0;
     public numPaginas = 0;
-    public paginaIncompleta = 0;
-
-
-
 
     public obtenDatosJournal(result:any[], status){
-        //var datosLog = JSON.parse(JSON.stringify(result));
-
-        tIdx++;
+        //tIdx++;
         arrDatosServidorInc = null;
         numPaginaObtenida++;
         console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
@@ -987,7 +924,8 @@ export class HomeComponent implements OnInit  {
     }
 
     public pDatosDelJournal(){
-    
+
+        /*
         var fchSys   = new Date();
         var _anioSys = fchSys.getFullYear();
         var _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
@@ -995,6 +933,7 @@ export class HomeComponent implements OnInit  {
         var _hraSys  = fchSys.getHours();
         var _minSys  = fchSys.getMinutes();
         var _segSys  = fchSys.getSeconds();
+        */
 
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
@@ -1011,14 +950,14 @@ export class HomeComponent implements OnInit  {
         //if ( gNumRegistros > gNumRegsProcesados ) {
 
             numPaginaObtenida = 0;
-            if (this.ipAnteriorTmp != this.paramsServicioNumPaginas.ip[0]) {
-                this.ipAnteriorTmp = this.paramsServicioNumPaginas.ip[0];
+            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
+                ipAnterior = this.paramsServicioNumPaginas.ip[0];
                 this.numPaginas = 0;
             }
 
 
             console.log("1) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
-            console.log("1) pDatosDelJournal:: ipAnteriorTmp[" + this.ipAnteriorTmp + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
+            console.log("1) pDatosDelJournal:: ipAnterior[" + ipAnterior + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
 
             for (let idx = this.numPaginas; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
@@ -1056,18 +995,16 @@ export class HomeComponent implements OnInit  {
             console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
 
         //}
-        //console.log("3) pDatosDelJournal:: arrDatosServidor["+arrDatosServidor.length+"]");
-        //console.log("3) pDatosDelJournal:: arrDatosServidorBack["+arrDatosServidorBack.length+"]");
 
-        fchSys   = new Date();
-        _anioSys = fchSys.getFullYear();
-        _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        _diaSys  = fchSys.getDate();
-        _hraSys  = fchSys.getHours();
-        _minSys  = fchSys.getMinutes();
-        _segSys  = fchSys.getSeconds();
+        let fchSys   = new Date();
+        let _anioSys = fchSys.getFullYear();
+        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
+        let _diaSys  = fchSys.getDate();
+        let _hraSys  = fchSys.getHours();
+        let _minSys  = fchSys.getMinutes();
+        let _segSys  = fchSys.getSeconds();
         
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
 
@@ -1095,13 +1032,13 @@ export class HomeComponent implements OnInit  {
 
 public fechaHoraOperacion: string;
 
-  public ngOnInit() {
+  ngOnInit() {
 
       this.form = this.formBuilder.group({
           date: [new Date(1991, 8, 12)]
       });
 
-      tIdx = 0;
+      //tIdx = 0;
         let arrRetiros = [];
         for(let idx=0; idx < 24; idx++){
             arrRetiros.push(
@@ -1140,25 +1077,15 @@ public fechaHoraOperacion: string;
         this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
         this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
 
-        //this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 10, 1);
-        //this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 10, 1);
-
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
 
         this.ipATM = '11.40.2.2';
         ipAnterior = this.paramsServicioNumPaginas.ip[0];
-        this.ipAnteriorTmp = this.paramsServicioNumPaginas.ip[0]; //ipAnterior;
         gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
         gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
 
-        //     this.pDatosDelJournal();
-
         this.pActualizaInfo();
-        /*
-        setTimeout(() => { this.pDatosDelJournal(); }, 300);
-        intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
-        */
 
         this.graficaRetiros();
     }
@@ -1535,61 +1462,26 @@ public fechaHoraOperacion: string;
     }
 
     public pDenominacionesBilletes(infoBilletes:string){
-        //console.log(infoBilletes);
+
         var montoTotal = 0;
         var respBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
-        // Localiza la posición del caracter [
         let posInicial = infoBilletes.indexOf('[');
-
-        // Localiza la posición del caracter ]
         let posFinal = infoBilletes.indexOf(']', posInicial);
-
-        // Extrae el contenido que se encuentra entre los caracteres [ y ] y elimina estos caracteres.
         let billetes1 = infoBilletes.substr(posInicial, (posFinal - posInicial)).replace(/[\[\]]/g,'');
-        //console.log("pDenominacionesBilletes:: billetes1("+billetes1+")");
-
-        // Realiza un split sobre el resultado del paso anterior y con el caracter "pipe" para creaer un arreglo.
         let arrBilletes = billetes1.split("|");
         for(let idx=0; idx < arrBilletes.length; idx++){
-            //console.log("pDenominacionesBilletes:: ("+arrBilletes[idx]+")");
             let arrBilletes2 =  arrBilletes[idx].split("x");
-            //for(let idx2=0; idx2 < arrBilletes2.length; idx2++){
-                //console.log("pDenominacionesBilletes:: ("+arrBilletes2[0]+") x ("+arrBilletes2[1]+")");
-                /*
-                switch(arrBilletes2[1]){
-                    case '20':   { respBilletes.b20   += Number(arrBilletes2[0]); break; }
-                    case '50':   { respBilletes.b50   += Number(arrBilletes2[0]); break; }
-                    case '100':  { respBilletes.b100  += Number(arrBilletes2[0]); break; }
-                    case '200':  { respBilletes.b200  += Number(arrBilletes2[0]); break; }
-                    case '500':  { respBilletes.b500  += Number(arrBilletes2[0]); break; }
-                    case '1000': { respBilletes.b1000 += Number(arrBilletes2[0]); break; }
-                }
-                */
-                switch(arrBilletes2[1]){
-                    case '20':   { respBilletes.b20   = Number(arrBilletes2[0]); break; }
-                    case '50':   { respBilletes.b50   = Number(arrBilletes2[0]); break; }
-                    case '100':  { respBilletes.b100  = Number(arrBilletes2[0]); break; }
-                    case '200':  { respBilletes.b200  = Number(arrBilletes2[0]); break; }
-                    case '500':  { respBilletes.b500  = Number(arrBilletes2[0]); break; }
-                    case '1000': { respBilletes.b1000 = Number(arrBilletes2[0]); break; }
-                }
-                //console.log("1) "+respBilletes.total + " - " + arrBilletes2[0] + " - " + arrBilletes2[1]);
-                respBilletes.total += Number(arrBilletes2[1]) * Number(arrBilletes2[0]);
-                //console.log("2) "+respBilletes.total + " - " + arrBilletes2[0] + " - " + arrBilletes2[1]);
-            //}
+            switch(arrBilletes2[1]){
+                case '20':   { respBilletes.b20   = Number(arrBilletes2[0]); break; }
+                case '50':   { respBilletes.b50   = Number(arrBilletes2[0]); break; }
+                case '100':  { respBilletes.b100  = Number(arrBilletes2[0]); break; }
+                case '200':  { respBilletes.b200  = Number(arrBilletes2[0]); break; }
+                case '500':  { respBilletes.b500  = Number(arrBilletes2[0]); break; }
+                case '1000': { respBilletes.b1000 = Number(arrBilletes2[0]); break; }
+            }
+            respBilletes.total += Number(arrBilletes2[1]) * Number(arrBilletes2[0]);
         }
-        //console.log(JSON.stringify(respBilletes));
-        // Entrar a un for sobre el arreglo del paso anterior.
-        // Por cada elemento del arreglo del paso anterior, realizar un split por el caracter "x".
-        // Realizar un for por cada elemento del arreglo del paso anterior.
-        // Acumular el número de billetes.
-        // Acumular el resultado de la multiplicación del número de piezas por la denominación.
-
         return(respBilletes);
-    }
-
-    public pActParams(): void{
-        ipAnterior           = this.paramsServicioNumPaginas.ip[0];
     }
 }
 
