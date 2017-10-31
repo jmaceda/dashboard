@@ -38,7 +38,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     NotificationsComponent,
     UpgradeComponent,
     DepositosComponent,
-
   ],
 
   imports: [
@@ -54,8 +53,11 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ReactiveFormsModule,
     ChartsModule,
   ],
-  providers: [Logger],
-  bootstrap: [AppComponent]
+  providers: [
+    Logger,
+  ],
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }
   

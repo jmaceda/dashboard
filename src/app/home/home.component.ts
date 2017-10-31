@@ -24,6 +24,11 @@ import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
+//import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+//import { listLocales } from 'ngx-bootstrap/bs-moment';
+//import { de } from 'ngx-bootstrap/locale';
+
+
 export var gNumPaginas                 = 0;
 export var gNumRegistros               = 0;
 export var gNumRegsProcesados          = 0;
@@ -91,6 +96,19 @@ export class TblResOperacion{
     dataRows: any[];
 }
 
+export class ErroresPorBanco {
+    private _name: string;
+    public banco: number[] = [];
+
+    constructor (name: string) {
+        this._name = name;
+    }
+
+    acumulaError(name: string){
+
+    }
+}
+
 export class DatosRetirosXhora{
     public dNumConsPorHora:number;
     public dNumRetirosPorHora:number;
@@ -115,7 +133,6 @@ export class DatosRetirosXhora{
   providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
 })
 export class HomeComponent implements OnInit  {
-
 
     chartOptions = {
         responsive: true
@@ -231,6 +248,8 @@ export class HomeComponent implements OnInit  {
 
     public dNumRetiros: number      = 0;
     public dMontoRetiros: number    = 0;
+    public dMontoConsultas: number    = 0;
+    public dMontoConsultasNoExito: number    = 0;
     public dHraPrimerRetiro: string = "";
     public dHraUltimoRetiro: string = "";
 
@@ -305,6 +324,8 @@ export class HomeComponent implements OnInit  {
 
         this.dNumRetiros      = 0;
         this.dMontoRetiros    = 0;
+        this.dMontoConsultas    = 0;
+        this.dMontoConsultasNoExito = 0;
         this.dHraPrimerRetiro = "";
         this.dHraUltimoRetiro = "";
 
@@ -356,6 +377,7 @@ export class HomeComponent implements OnInit  {
         }
 
         arrDepositos = [];
+        this.listaErroresOper = [];
     };
 
     public paramsServicioNumPaginas: {
@@ -459,46 +481,59 @@ export class HomeComponent implements OnInit  {
         this.listaBancos[nomBanco] = this.opersBanco;
     }
 
+    public listaErroresOper: any[] = [];
+
+    public guardaErrores(descError: string):void{
+        //console.log("guardaErrores:: Inicio ["+descError+"]");
+        if ( this.listaErroresOper[descError] == undefined ){
+            this.listaErroresOper[descError] = 1;
+        }else{
+            this.listaErroresOper[descError]++;
+        }
+
+        ErroresPorBanco
+
+    }
+
     public obtenDatosLog(result:object, numPag:number): void {
 
         this.inicializaVariables();
 
-        var datosLog        = JSON.parse(JSON.stringify(result));
-        var fchSys          = new Date();
-        var _horaSys        = fchSys.getHours();
-        var _horaUltimaOper = _horaSys;
-        var tmpFechaSys     = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
-        var listaBancos     = {};
-        var tmpAquirer      = "";
-        var tmpArqc         = "";
-        var tipoUltimaOperacion  = "";
-        var iniciaDeposito       = "";
-        var terminaDeposito      = "";
-        var montoDeposito        = 0;
-        var id                   = 0;
-        var numIntentos          = 0;
-        var nivelUltimoDeposito  = 0;
-        var datosDeposito        = "";
-        var iniciaSesDeposito    = "";
-        var dataAnterior         = "";
-        var idSesion             = 1;
-        var montoSesion          = 0;
-        var numDepositos         = 0;
-        var rollbackDeposito     = 0;                      // 0=Indica que no se provoco Rollback en el depósito / 1=Rollback en el deposito.
-        var tmpArqc              = "";
-        var tmpAquirer           = "";
-        var tmpCardNumber        = "";
-        var tmpAuthId            = "";
-        this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
+        let datosLog        = JSON.parse(JSON.stringify(result));
+        let fchSys          = new Date();
+        let _horaSys        = fchSys.getHours();
+        let _horaUltimaOper = _horaSys;
+        let tmpFechaSys     = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
+        let listaBancos     = {};
+        //let tmpAquirer      = "";
+        //let tmpArqc         = "";
+        let tipoUltimaOperacion  = "";
+        let iniciaDeposito       = "";
+        let terminaDeposito      = "";
+        let montoDeposito        = 0;
+        let id                   = 0;
+        let numIntentos          = 0;
+        let nivelUltimoDeposito  = 0;
+        let datosDeposito        = "";
+        let iniciaSesDeposito    = "";
+        let dataAnterior         = "";
+        let idSesion             = 1;
+        let montoSesion          = 0;
+        let numDepositos         = 0;
+        let rollbackDeposito     = 0;                      // 0=Indica que no se provoco Rollback en el depósito / 1=Rollback en el deposito.
+        let tmpArqc              = "";
+        let tmpAquirer           = "";
+        let tmpCardNumber        = "";
+        let tmpAuthId            = "";
 
-        
+        this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
         datosLog.forEach((reg)=>{
 
-            var date = new Date(reg.TimeStamp);
-            var _hora = date.getHours();
-            var tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
-            var tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
+            let date = new Date(reg.TimeStamp);
+            let _hora = date.getHours();
+            let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
+            let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
             fchSys = new Date();
             _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
@@ -518,6 +553,8 @@ export class HomeComponent implements OnInit  {
             }
 
             switch(reg.Event) {
+
+                // Retiros
                 case "Withdrawal": { 
                     switch(reg.Data){
                         
@@ -557,6 +594,7 @@ export class HomeComponent implements OnInit  {
 
                         case "Withdrawal Service Error": {
                             this.incrementaBanco('REN', tmpAquirer);
+                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
                         case "Approved transaction": {
@@ -580,28 +618,30 @@ export class HomeComponent implements OnInit  {
                         }
 
                         case "Withdrawal DispenseFail": {
-                            this.dNumRetirosNoExito++;
-                            this.dMontoRetirosNoExito += reg.Amount
+                            //this.dNumRetirosNoExito++;
+                            this.dMontoRetirosNoExito += reg.Amount;
                             if(this.dHraPrimerRetiroNoExito == ""){
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
-                            this.dHraUltimoRetiroNoExito = tmpHoraOperacion
+                            this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
+                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
                         case "Declined transaction": {
-                            this.dNumRetirosNoExito++;
-                            this.dMontoRetirosNoExito += reg.Amount
+                            //this.dNumRetirosNoExito++;
+                            this.dMontoRetirosNoExito += reg.Amount;
                             if(this.dHraPrimerRetiroNoExito == ""){
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
-                            this.dHraUltimoRetiroNoExito = tmpHoraOperacion
+                            this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
+                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
                         case "Withdrawal Reverse": {
                             this.dNumReversos++;
-                            this.dMontoReversos += reg.Amount
+                            this.dMontoReversos += reg.Amount;
                             if(this.dHraPrimerReverso == ""){
                                 this.dHraPrimerReverso = tmpHoraOperacion
                             }
@@ -614,17 +654,26 @@ export class HomeComponent implements OnInit  {
                     if (reg.SwitchResponseCode != 0){
                         this.incrementaBanco('REN', reg.Aquirer);
                         if ((reg.HWErrorCode in this.retiroNoOk) == true){
-                            this.retiroNoOk[reg.HWErrorCode] = this.retiroNoOk[reg.HWErrorCode] + 1;
+                            this.retiroNoOk[reg.HWErrorCode]++; // = this.retiroNoOk[reg.HWErrorCode] + 1;
                         } else {
                             this.retiroNoOk[reg.HWErrorCode] = 1;
                         }
+                        if(reg.SwitchResponseCode == 54 || reg.SwitchResponseCode == 12 || reg.SwitchResponseCode == 1003 || reg.SwitchResponseCode == 62  || reg.SwitchResponseCode == 55  || reg.SwitchResponseCode == 38  || reg.SwitchResponseCode == 51){
+                            tmpAquirer = reg.Aquirer;
+                        }
+                        this.incrementaErrorBanco(tmpAquirer, reg.HWErrorCode, reg.SwitchResponseCode);
+                        this.dNumRetirosNoExito++;
                     }
                     break;
                 }
 
-                case "BalanceCheck": 
+                // Consultas
+                case "BalanceCheck":
+
                     if(reg.SwitchResponseCode == 0){
                         this.dNumConsultas++;
+                        this.dMontoConsultas += reg.Amount;
+
                         if(this.dHraPrimeraConsulta == ""){
                             this.dHraPrimeraConsulta = tmpHoraOperacion;
                         }
@@ -637,13 +686,17 @@ export class HomeComponent implements OnInit  {
 
                         this.datosRetirosXhora[_hora].dNumConsPorHora++;
                         this.incrementaBanco('CON', reg.Aquirer);
+                        tmpAquirer = reg.Aquirer;
                     }else{
                         this.dNumConsultasNoExito++;
+                        this.dMontoConsultasNoExito += reg.Amount;
+
                         if(this.dHraPrimeraConsultaNoExito == ""){
                             this.dHraPrimeraConsultaNoExito = tmpHoraOperacion;
                         }
                         this.dHraUltimaConsultaNoExito = tmpHoraOperacion;
                         this.incrementaBanco('COE', reg.Aquirer);
+                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode);
                     }
                     tipoUltimaOperacion = "C";
                     
@@ -722,6 +775,7 @@ export class HomeComponent implements OnInit  {
                             this.dHraPrimerCambioNIPNoExito = tmpHoraOperacion
                         }
                         this.dHraUltimoCambioNIPNoExito = tmpHoraOperacion;
+                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode);
                     }
                     tipoUltimaOperacion = "P";
                     break;
@@ -740,23 +794,58 @@ export class HomeComponent implements OnInit  {
         this.mResumenPorBanco();
         this.pResumenDepositos();
 
+
+        Object.keys(this.listaErrsPorBanco).forEach(function (banco) {
+            let errsBanco = this[banco]
+
+            for (let cve in errsBanco) {
+                console.log(banco + " - " + cve + " - " + errsBanco[cve])
+            }
+        }, this.listaErrsPorBanco)
+
+    }
+
+    public listaErrsPorBanco: any[][] = [];
+
+    public incrementaErrorBanco(nomBanco, descError, codError){
+
+        if (descError.length > 0) {
+            if (nomBanco == undefined || nomBanco == null || nomBanco.length == 0){
+                nomBanco = "********";
+            }
+            let desc = descError.replace(/ /g, "_")+"_("+codError+")";
+            console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
+            if (this.listaErrsPorBanco[nomBanco] == undefined) {
+                this.listaErrsPorBanco[nomBanco] = []
+                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
+                    this.listaErrsPorBanco[nomBanco][desc] = 1;
+                } else {
+                    this.listaErrsPorBanco[nomBanco][desc]++;
+                }
+            } else {
+                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
+                    this.listaErrsPorBanco[nomBanco][desc] = 1;
+                } else {
+                    this.listaErrsPorBanco[nomBanco][desc]++;
+                }
+            }
+        }
     }
 
     // Arma los datos de la tabla del Resumen de Operaciones
     public mResumenOperaciones():void{
-        var arrResOper[] = [
-            {etiqueta: "Depósitos Exitosos",     numOpers: this.dNumDepositos,        monto: this.dMontoDepositos,      primerMto: this.dHraPrimerDeposito,         ultimoMto: this.dHraUltimoDeposito},
-            {etiqueta: "Retiros Exitosos",       numOpers: this.dNumRetiros,          monto: this.dMontoRetiros,        primerMto: this.dHraPrimerRetiro,           ultimoMto: this.dHraUltimoRetiro},
-            {etiqueta: "Retiros No Exitosos*",   numOpers: this.dNumRetirosNoExito,   monto: this.dMontoRetirosNoExito, primerMto: this.dHraPrimerRetiroNoExito,    ultimoMto: this.dHraUltimoRetiroNoExito},
-            {etiqueta: "Consultas Exitosas",     numOpers: this.dNumConsultas,        monto: 0,                        primerMto: this.dHraPrimeraConsulta,        ultimoMto: this.dHraUltimaConsulta},
-            {etiqueta: "Consultas No Exitosas*", numOpers: this.dNumConsultasNoExito, monto: 0,                         primerMto: this.dHraPrimeraConsultaNoExito, ultimoMto: this.dHraUltimaConsultaNoExito},
-            {etiqueta: "Reversos",               numOpers: this.dNumReversos,         monto: this.dMontoReversos,       primerMto: this.dHraPrimerReverso,          ultimoMto: this.dHraUltimoReverso},
-            {etiqueta: "Cambio NIP Exitoso",     numOpers: this.dNumCambioNIP,        monto: 0,                        primerMto: this.dHraPrimerCambioNIP,        ultimoMto: this.dHraUltimoCambioNIP},
-            {etiqueta: "Cambio NIP Erroneo",     numOpers: this.dNumCambioNIPNoExito, monto: 0,                         primerMto: this.dHraPrimerCambioNIPNoExito, ultimoMto: this.dHraUltimoCambioNIPNoExito}
-        ]
         this.tblResOperacion = {
             headerRow: [ {hDesc:'Descripcion', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Ultima'} ],
-            dataRows: arrResOper
+            dataRows: [
+                {etiqueta: "Depósitos Exitosos",     numOpers: this.dNumDepositos,        monto: this.dMontoDepositos,         primerMto: this.dHraPrimerDeposito,         ultimoMto: this.dHraUltimoDeposito},
+                {etiqueta: "Retiros Exitosos",       numOpers: this.dNumRetiros,          monto: this.dMontoRetiros,           primerMto: this.dHraPrimerRetiro,           ultimoMto: this.dHraUltimoRetiro},
+                {etiqueta: "Retiros No Exitosos*",   numOpers: this.dNumRetirosNoExito,   monto: this.dMontoRetirosNoExito,    primerMto: this.dHraPrimerRetiroNoExito,    ultimoMto: this.dHraUltimoRetiroNoExito},
+                {etiqueta: "Consultas Exitosas",     numOpers: this.dNumConsultas,        monto: this.dMontoConsultas,         primerMto: this.dHraPrimeraConsulta,        ultimoMto: this.dHraUltimaConsulta},
+                {etiqueta: "Consultas No Exitosas*", numOpers: this.dNumConsultasNoExito, monto: this.dMontoConsultasNoExito,  primerMto: this.dHraPrimeraConsultaNoExito, ultimoMto: this.dHraUltimaConsultaNoExito},
+                {etiqueta: "Reversos",               numOpers: this.dNumReversos,         monto: this.dMontoReversos,          primerMto: this.dHraPrimerReverso,          ultimoMto: this.dHraUltimoReverso},
+                {etiqueta: "Cambio NIP Exitoso",     numOpers: this.dNumCambioNIP,        monto: 0,                            primerMto: this.dHraPrimerCambioNIP,        ultimoMto: this.dHraUltimoCambioNIP},
+                {etiqueta: "Cambio NIP Erroneo",     numOpers: this.dNumCambioNIPNoExito, monto: 0,                            primerMto: this.dHraPrimerCambioNIPNoExito, ultimoMto: this.dHraUltimoCambioNIPNoExito}
+            ]
         };
     }
 
@@ -789,15 +878,15 @@ export class HomeComponent implements OnInit  {
     // Arma la información de la tabla de Resumen de Operaciones por Banco
     public mResumenPorBanco():void{
 
-        var arrDatos = [];
-        var arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
-        var fNumBancos = 0;
-        var fNumRetOk = 0;
-        var fNumRetNoOK = 0;
-        var fNumCons = 0;
-        var fNumConsNoOk = 0;
-        var fNumReversos = 0;
-        var fnumRechazos = 0;
+        let arrDatos = [];
+        let arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
+        let fNumBancos = 0;
+        let fNumRetOk = 0;
+        let fNumRetNoOK = 0;
+        let fNumCons = 0;
+        let fNumConsNoOk = 0;
+        let fNumReversos = 0;
+        let fnumRechazos = 0;
         Object.keys(this.listaBancos).sort().forEach(function(banco) {
 
             let datosBanco =  this[banco];
@@ -834,14 +923,14 @@ export class HomeComponent implements OnInit  {
     public mRretirosPorHora():void{
 
         // Acumula los movimientos que se realizaron antes de la 7 de la mañana.
-        var tNumRetiros = 0;
-        var tAcumNumRetiros = 0;
-        var tNumConsultas = 0;
-        var tAcumNumConsultas = 0;
-        var tMontoRetiros = 0;
-        var tAcumMontoRetiros = 0;
-        var tNumConsPorHora = 0;
-        var arrRetiros = [];
+        let tNumRetiros = 0;
+        let tAcumNumRetiros = 0;
+        let tNumConsultas = 0;
+        let tAcumNumConsultas = 0;
+        let tMontoRetiros = 0;
+        let tAcumMontoRetiros = 0;
+        let tNumConsPorHora = 0;
+        let arrRetiros = [];
 
 
         for(let idx=0; idx < 7; idx++){
@@ -861,7 +950,7 @@ export class HomeComponent implements OnInit  {
         }
 
         // Agrega al objeto arrRetiros los movimientos que entraron antes de la 7 de la manañana
-        var carVacio = "0";
+        let carVacio = "0";
         let tmpHora = "<7";
         arrRetiros.push(
         {
@@ -953,10 +1042,11 @@ export class HomeComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
         console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
-        console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-        console.log("pDatosDelJournal::  gNumRegistros["+gNumRegistros+"]   gNumRegsProcesados["+gNumRegsProcesados+"]");
+        //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+        //console.log("pDatosDelJournal::  gNumRegistros["+gNumRegistros+"]   gNumRegsProcesados["+gNumRegsProcesados+"]");
 
         //if ( gNumRegistros > gNumRegsProcesados ) {
 
@@ -967,20 +1057,25 @@ export class HomeComponent implements OnInit  {
             }
 
 
-            console.log("1) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
-            console.log("1) pDatosDelJournal:: ipAnterior[" + ipAnterior + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
+            //console.log("1) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
+            //console.log("1) pDatosDelJournal:: ipAnterior[" + ipAnterior + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
 
-            for (let idx = this.numPaginas; idx < gNumPaginas; idx++) {
+            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
+            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
+            // ** gNumPaginas = El número máximo de información.
+            // for (let idx = this.numPaginas; idx < gNumPaginas; idx++) {
+            for (let idx = 0; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
+                console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
                 this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
             }
 
-            console.log("2) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
+            //console.log("2) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
 
             //console.log("1) pDatosDelJournal:: arrDatosServidor["+ arrDatosServidor.length+"]  arrDatosServidorInc["+arrDatosServidorInc.length+"]");
 
-            console.log("1) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]");
-            console.log("1) pDatosDelJournal:: arrDatosServidorInc[" + arrDatosServidorInc.length + "]");
+            //console.log("1) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]");
+            //console.log("1) pDatosDelJournal:: arrDatosServidorInc[" + arrDatosServidorInc.length + "]");
 
             if (arrDatosServidorBack != null && arrDatosServidorBack.length > 0){
                 if (arrDatosServidorBack.length > arrDatosServidor.length) {
@@ -991,8 +1086,8 @@ export class HomeComponent implements OnInit  {
             }
 
             gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-            console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + (arrDatosServidor.concat(arrDatosServidorInc)).length + "]");
-            console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + gNumRegsProcesados + "]");
+            //console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + (arrDatosServidor.concat(arrDatosServidorInc)).length + "]");
+            //console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + gNumRegsProcesados + "]");
             //console.log("2) pDatosDelJournal:: arrDatosServidorBack["+arrDatosServidorBack.length+"]");
             //console.log("2) pDatosDelJournal:: Todos los renglones["+(arrDatosServidor.concat(arrDatosServidorInc)).length+"]");
 
@@ -1003,7 +1098,7 @@ export class HomeComponent implements OnInit  {
             }
 
 
-            console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
+            //console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
 
         //}
 
@@ -1044,6 +1139,10 @@ export class HomeComponent implements OnInit  {
 public fechaHoraOperacion: string;
 
   ngOnInit() {
+
+
+
+
 
       this.datosGrafica();
 
@@ -1550,6 +1649,11 @@ public fechaHoraOperacion: string;
             {title: 'BMW 5 Series', imageClass: 'fa fa-circle text-danger'}
         ];
 
+    }
+
+    public obtenCierreAnterior(){
+        // Restar un día a la fecha de inicio.
+        // Llamar al servicio 
     }
 
 }

@@ -1,3 +1,5 @@
+
+
 <style>
     .justDer {
         text-align: right;
@@ -180,48 +182,42 @@
 
 <div class="main-content">
     <div class="container-fluid">
+
         <!--
         <div class="row">
-
-            <div class="col-md-6">
-                <! -- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  - ->
-                <lbd-chart [title]="'Retiros'" [subtitle]="fechaHoraOperacion" [chartType]="tipoGraficaRetirosPorHora" [chartData]="datosGraficaRetirosPorHora" [chartOptions]="opcionesGraficaRetirosPorHora" [chartResponsive]="responsiveGraficaRetirosPorHora" [legendItems]="elementosGraficaRetirosPorHora"
-                    [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
-                </lbd-chart>
+            <div class="col-xs-6 col-sm-3">
+                <select
+                        class="custom-select form-control "
+                        [(ngModel)]="locale" (ngModelChange)="applyLocale(dp);">
+                    <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
+                </select>
             </div>
+            <div class="col-xs-6 col-sm-3">
+                <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="bsConfig">
+            </div>
+            <input type="button"
+                   class="btn btn-success"
+                   value="Date Picker"
+                   (click)="dp.show()" />
         </div>
-    -->
-        <!--
-            <div class="row">
-                <! - -
-                <div class="col-md-4">
-                    <lbd-chart [title]="'Estadisticas de Operaciones'" [subtitle]="'Last Campaign Performance'" [chartClass]="'ct-perfect-fourth'" [chartType]="emailChartType" [chartData]="emailChartData" [legendItems]="emailChartLegendItems" [withHr]="true" [footerIconClass]="'fa fa-clock-o'"
-                        [footerText]="'Campaign sent 2 days ago'">
-                    </lbd-chart>
-                </div>
-            -->
-        <!--
-            <div class="row">
-                <h4>Access modifier example</h4>
-                <div class="normalmode">
-                    <sample-date-picker-access-modifier>loading...</sample-date-picker-access-modifier>
-                </div>
-            </div>
-            -->
+        <br>
 
-        <div class="card">
-            <div class="row">
-                <!-- datetime-popup [(value)]="myDate"></datetime-popup-->
+        <div class="row">
+            <div class="col-xs-6 col-sm-3">
+                <select
+                        class="custom-select form-control "
+                        [(ngModel)]="locale" (ngModelChange)="applyLocale(dpr);">
+                    <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
+                </select>
             </div>
+            <div class="col-xs-6 col-sm-3">
+                <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker" [bsConfig]="bsConfig">
+            </div>
+            <input type="button"
+                   class="btn btn-success"
+                   value="Date Range Picker" (click)="dpr.show()"/>
         </div>
-
-            <div class="card">
-                <div class="row">
-                    <div class="col-md-9">
-                        <!-- datetime [(ngModel)]="date"></datetime -->
-                    </div>
-                </div>
-            </div>
+        -->
 
             <div class="card">
                 <div class="row">
@@ -276,55 +272,57 @@
         <div class="row"></div>
 
         <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Resumen</h5>
-                    </div>
-                    <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr *ngFor="let hCol of tblResOperacion.headerRow">
-                                    <th class="col1">{{hCol.hDesc}}</th>
-                                    <th class="col2">{{hCol.hOper}}</th>
-                                    <th class="col2">{{hCol.hMonto}}</th>
-                                    <th class="col2">{{hCol.hPrimera}}</th>
-                                    <th class="col2">{{hCol.hUltima}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let row of tblResOperacion.dataRows">
-                                    <td class="col1">{{row.etiqueta}}</td>
-                                    <td class="col2">{{row.numOpers | number:'1.0-0'}}</td>
-                                    <td class="col2">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
-                                    <td class="col2">{{row.primerMto}}</td>
-                                    <td class="col2">{{row.ultimoMto}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div style="display: block;">
-                        <lbd-chart
-                                [title]="'2014 Sales'"
-                                [subtitle]="'All products including Taxes'"
-                                [chartType]="activityChartType"
-                                [chartData]="activityChartData"
-                                [chartOptions]="activityChartOptions"
-                                [chartResponsive]="activityChartResponsive"
-                                [legendItems]="activityChartLegendItems"
-                                [withHr]="true"
-                                [footerIconClass]="'fa fa-check'"
-                                [footerText]="'Data information certified'">
-                        </lbd-chart>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="header" style="padding: 2px;">
+                            <h5 class="title" style="text-align: center; font-weight: bold;">Resumen</h5>
+                        </div>
+                        <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr *ngFor="let hCol of tblResOperacion.headerRow">
+                                        <th class="col1">{{hCol.hDesc}}</th>
+                                        <th class="col2">{{hCol.hOper}}</th>
+                                        <th class="col2">{{hCol.hMonto}}</th>
+                                        <th class="col2">{{hCol.hPrimera}}</th>
+                                        <th class="col2">{{hCol.hUltima}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of tblResOperacion.dataRows">
+                                        <td class="col1">{{row.etiqueta}}</td>
+                                        <td class="col2">{{row.numOpers | number:'1.0-0'}}</td>
+                                        <td class="col2">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                        <td class="col2">{{row.primerMto}}</td>
+                                        <td class="col2">{{row.ultimoMto}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+                <!--
+                <div class="col-md-6">
+                    <div class="card">
+                        <div style="display: block;">
+                            <lbd-chart
+                                    [title]="'2014 Sales'"
+                                    [subtitle]="'All products including Taxes'"
+                                    [chartType]="activityChartType"
+                                    [chartData]="activityChartData"
+                                    [chartOptions]="activityChartOptions"
+                                    [chartResponsive]="activityChartResponsive"
+                                    [legendItems]="activityChartLegendItems"
+                                    [withHr]="true"
+                                    [footerIconClass]="'fa fa-check'"
+                                    [footerText]="'Data information certified'">
+                            </lbd-chart>
+                        </div>
+                    </div>
+                </div>
+                -->
             </div>
-        </div>
         </div>
 
 
@@ -698,6 +696,7 @@
         </div> < ! -- row - ->
         -->
         </div>
+</div>
         <!-- container-fluid -->
 
         <!-- /div -->
