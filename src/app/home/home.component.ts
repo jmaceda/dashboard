@@ -33,6 +33,7 @@ export var gNumPaginas                 = 0;
 export var gNumRegistros               = 0;
 export var gNumRegsProcesados          = 0;
 export var aDatosJournal               = [];
+export var gNumPaginasCompletas = 0;
 //export var tIdx:number = 0;
 
 var fechaSys = new Date();
@@ -46,7 +47,7 @@ var gFchInicioFinAnterior = null;
 var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
 var request;
 var objStore;
-var tiempoRefreshDatos:number = (1000 * 60 * 1); // Actualiza la información cada minuto.
+var tiempoRefreshDatos:number = 30000; //(1000 * 60 * 1); // Actualiza la información cada minuto.
 
 //var Dexie;                    //require('dexie');
 var dbDexie;
@@ -120,6 +121,10 @@ export class DatosRetirosXhora{
         this.dAcumMontoRetirosPorHora = 0
     }
 }
+
+
+export var datosATMs  = [];
+export var ipATMs  = [];
 
 
 @Component({
@@ -293,6 +298,8 @@ export class HomeComponent implements OnInit  {
     public infoDepositos: DepositosModel[] = [];
     public datosRetirosXhora: Array<DatosRetirosXhora> = new Array(24);
 
+
+
     public ipATM: string;
 
     public tblConsRetPorMes: TblConsRetPorMes;
@@ -301,6 +308,9 @@ export class HomeComponent implements OnInit  {
     public iniArrCeros(numElems, valIni):Array<number>{
         return([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
     }
+
+    public datosATMs:any[] = [];
+    public ipATMs:any[] = [];
 
     public inicializaVariables(): void {
 
@@ -435,6 +445,7 @@ export class HomeComponent implements OnInit  {
     // Actualiza informciòn de la pantalla.
     public pActualizaInfo(): void {
 
+        console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
              gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd)){
@@ -447,6 +458,8 @@ export class HomeComponent implements OnInit  {
             arrDatosServidorBack    = [];
             gNumPaginas             = 0;
             gNumRegsProcesados      = 0;
+            numPagsCompletas        = 0;
+            gNumPaginasCompletas    = 0;
         }
 
         if (intervalId != null){
@@ -799,7 +812,7 @@ export class HomeComponent implements OnInit  {
             let errsBanco = this[banco]
 
             for (let cve in errsBanco) {
-                console.log(banco + " - " + cve + " - " + errsBanco[cve])
+ // Descomentar para pruebas               console.log(banco + " - " + cve + " - " + errsBanco[cve])
             }
         }, this.listaErrsPorBanco)
 
@@ -814,7 +827,7 @@ export class HomeComponent implements OnInit  {
                 nomBanco = "********";
             }
             let desc = descError.replace(/ /g, "_")+"_("+codError+")";
-            console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
+ // Descomentar para probar           console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
             if (this.listaErrsPorBanco[nomBanco] == undefined) {
                 this.listaErrsPorBanco[nomBanco] = []
                 if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
@@ -1000,18 +1013,19 @@ export class HomeComponent implements OnInit  {
     public obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
-        console.log("obtenNumeroDePaginasLog: gNumPaginas["+gNumPaginas+"]   gNumRegistros["+gNumRegistros+"]");
+        //console.log("obtenNumeroDePaginasLog: gNumPaginas["+gNumPaginas+"]   gNumRegistros["+gNumRegistros+"]");
     }
 
     public numPaginas = 0;
 
     public obtenDatosJournal(result:any[], status){
-        //tIdx++;
-        arrDatosServidorInc = null;
-        numPaginaObtenida++;
+
+        arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
+        numPaginaObtenida++;         // Numero de paginas obtenidas.
         console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
-        if (result.length >= 200){
-            numPagsCompletas++;
+        //if (result.length >= 200){
+        if (numPagsCompletas < (gNumPaginas -1)){
+            numPagsCompletas++;      // Numero de paginas completas.
             if (arrDatosServidor == undefined){
                 arrDatosServidor = result;
             }else{
@@ -1023,17 +1037,9 @@ export class HomeComponent implements OnInit  {
 
     }
 
-    public pDatosDelJournal(){
 
-        /*
-        var fchSys   = new Date();
-        var _anioSys = fchSys.getFullYear();
-        var _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        var _diaSys  = fchSys.getDate();
-        var _hraSys  = fchSys.getHours();
-        var _minSys  = fchSys.getMinutes();
-        var _segSys  = fchSys.getSeconds();
-        */
+
+    public pDatosDelJournal(){
 
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
@@ -1041,64 +1047,47 @@ export class HomeComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
-        console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
+        console.log("Consulta Jounral ["+new Date()+"]");
+        //console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
-        //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-        //console.log("pDatosDelJournal::  gNumRegistros["+gNumRegistros+"]   gNumRegsProcesados["+gNumRegsProcesados+"]");
+        numPaginaObtenida = 0;
+        if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
+            ipAnterior = this.paramsServicioNumPaginas.ip[0];
+            this.numPaginas = 0;
+        }
 
-        //if ( gNumRegistros > gNumRegsProcesados ) {
-
-            numPaginaObtenida = 0;
-            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
-                ipAnterior = this.paramsServicioNumPaginas.ip[0];
-                this.numPaginas = 0;
-            }
-
-
-            //console.log("1) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
-            //console.log("1) pDatosDelJournal:: ipAnterior[" + ipAnterior + "]    ip[" + this.paramsServicioNumPaginas.ip[0] + "]");
-
-            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
-            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
-            // ** gNumPaginas = El número máximo de información.
-            // for (let idx = this.numPaginas; idx < gNumPaginas; idx++) {
-            for (let idx = 0; idx < gNumPaginas; idx++) {
-                this.paramsServicioDatosLog.page = idx;
-                console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-            }
-
-            //console.log("2) pDatosDelJournal:: numPaginas[" + this.numPaginas + "]    gNumPaginas[" + gNumPaginas + "]");
-
-            //console.log("1) pDatosDelJournal:: arrDatosServidor["+ arrDatosServidor.length+"]  arrDatosServidorInc["+arrDatosServidorInc.length+"]");
-
-            //console.log("1) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]");
-            //console.log("1) pDatosDelJournal:: arrDatosServidorInc[" + arrDatosServidorInc.length + "]");
-
-            if (arrDatosServidorBack != null && arrDatosServidorBack.length > 0){
-                if (arrDatosServidorBack.length > arrDatosServidor.length) {
-                    arrDatosServidor = arrDatosServidorBack;
-                }
-            } else {
-                arrDatosServidorBack = arrDatosServidor;
-            }
-
-            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-            //console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + (arrDatosServidor.concat(arrDatosServidorInc)).length + "]");
-            //console.log("2) pDatosDelJournal:: arrDatosServidor[" + arrDatosServidor.length + "]  arrDatosServidorBack[" + arrDatosServidorBack.length + "]  Todos los renglones[" + gNumRegsProcesados + "]");
-            //console.log("2) pDatosDelJournal:: arrDatosServidorBack["+arrDatosServidorBack.length+"]");
-            //console.log("2) pDatosDelJournal:: Todos los renglones["+(arrDatosServidor.concat(arrDatosServidorInc)).length+"]");
-
-            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
-
-            if (arrDatosServidorInc.length > 0) {
-                this.numPaginas = gNumPaginas - 1;
-            }
+        // *** Llama al servicio remoto para obtener la información solicitada del Journal.
+        // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
+        // ** gNumPaginas = El número máximo de información.
+        for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+            this.paramsServicioDatosLog.page = idx;
+            //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+            this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+        }
 
 
-            //console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
+        // Respalda el arreglo con las paginas completas (200 registros).
+        console.log("gNumRegistros ["+gNumRegistros+"]   gNumPaginasCompletas["+gNumPaginasCompletas+"]");
+        if (gNumRegistros > 200 && (gNumPaginas -1) > gNumPaginasCompletas){ // && arrDatosServidorBack.length == 0){
+            arrDatosServidorBack = arrDatosServidor; /* la primera consulta */
+        }
+
+        //else{
+        {
+            arrDatosServidor = arrDatosServidorBack;
+        }
+
+        gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+        this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+
+        if (arrDatosServidorInc.length > 0) {
+            this.numPaginas = gNumPaginas - 1;
+        }
+
+        gNumPaginasCompletas = (gNumPaginas -1);
+        //console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
 
         //}
 
@@ -1109,7 +1098,7 @@ export class HomeComponent implements OnInit  {
         let _hraSys  = fchSys.getHours();
         let _minSys  = fchSys.getMinutes();
         let _segSys  = fchSys.getSeconds();
-        
+
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
@@ -1143,7 +1132,7 @@ public fechaHoraOperacion: string;
 
 
 
-
+      this.obtieneIpATMs();
       this.datosGrafica();
 
 
@@ -1318,7 +1307,7 @@ public fechaHoraOperacion: string;
         db2.remove('depositosx', 1).then(() => {
             // Do something after remove
         }, (error) => {
-            console.log(error);    
+            console.log(error);
         });
 */
 
@@ -1327,11 +1316,11 @@ public fechaHoraOperacion: string;
         db2.createStore(1, (evt) => {
             var objectStore = evt.currentTarget.result.createObjectStore(
                 'depositosx', { keyPath: "id", autoIncrement: true });
-        
+
             objectStore.createIndex("idx1", ['idDep', 'nivelDeposito'],  {unique: false });
             //objectStore.createIndex("email", "email", { unique: true });
         });
-        
+
         db2.clear('depositosx').then(() => {
             // Do something after clear
             console.log("db2.clear OK");
@@ -1441,90 +1430,7 @@ public fechaHoraOperacion: string;
         console.log("iniciarBD:: Termina");
     }
 
-/*
-    infoDataBaseDexie(nomDB): void{
 
-        new Dexie(nomDB).open().then(function (db) {
-            console.log ("Found database: " + db.name);
-            console.log ("Database version: " + db.verno);
-            db.tables.forEach(function (table) {
-                console.log ("Found table: " + table.name);
-                console.log ("Table Schema: " +
-                    JSON.stringify(table.schema, null, 4));
-            });
-        }).catch('NoSuchDatabaseError', function(e) {
-            // Database with that name did not exist
-            console.log ("Database not found");
-        }).catch(function (e) {
-            console.log ("Oh uh: " + e);
-        });
-        
-    }
-*/
-/*
-    consultaDepositosDexie(): void{
-
-        // count
-        
-        dbDexie.tabDepositos.toCollection().count(function (count) {
-           console.log(count + " Depositos.");
-        });
-
-        / *
-        dbDexie.tabDepositos
-        .each(function (d) {
-
-            console.log(sprintf("%5.5d %3.3d %3.3d %8.8s %8.8s %7.7d %2.2d %4.4d %2.2d %2.2d  %9.9d",
-                d.id, d.idSesDep, d.nivelDep, d.hraIniDep, d.hraTerDep, d.monto, d.numIntentos, d.totSegundos, d.minutos, d.segundos, d.difMiliSegs));
-
-        });
-        * /
-
-        dbDexie.tabDepositos.where('nivelDep').equals(1)
-        .each(function (d) {
-
-            console.log(sprintf("%5.5d %3.3d %3.3d %8.8s %8.8s %7.7d %2.2d %2.2d %4.4d %2.2d %2.2d  %9.9d",
-                d.id, d.idSesDep, d.nivelDep, d.hraIniDep, d.hraTerDep, d.monto, d.numIntentos, d.fallidos, d.totSegundos, d.minutos, d.segundos, d.difMiliSegs));
-
-        });
-        //dbDexie.tabDepositos.where('nivelDep').equals(1).each(function(d){console.log(d.hraIniDep)});
-
-        / *
-        dbDexie.tabDepositos.orderBy('id')(function (dep){
-          console.log(dep.id, dep.hraIniDep, dep.hraTerDep);
-        });
-        * /
-        / *
-        dbDexie.each(function(tabDepositos) {
-            console.log(sprintf("%s - %s - %d",tabDepositos.hraIniDep, tabDepositos.hraTerDep, tabDepositos.monto));
-        });
-        * /
-    }
-*/
-
-/*
-    borraContenidoTabla():  void{
-
-        //console.log("Se va a borrar el contenido de la tabla tabDepositos");
-        / *
-        dbDexie.tabDepositos.clear().then(function (err){
-            //console.log("La tabla tabDepositos se borra correctamente.");
-        }).catch (function (err) {
-            console.log('Error al borrar el contenido de la tabla tabDepositos: ' + (err.stack || err));
-        });
-        * /
-        if (dbDexie.isOpen() == true){
-            dbDexie.tabDepositos.clear().then(function (err){
-                //console.log("La tabla tabDepositos se borra correctamente.");
-            }).catch (function (err) {
-                console.log('Error al borrar el contenido de la tabla tabDepositos: ' + (err.stack || err));
-            });
-        }
-
-        console.log("Estado de la BD: ["+dbDexie.isOpen()+"]")
-
-    }
-*/
     graficaRetiros(): void{
 
         /* Grafica de Retiros */
@@ -1656,6 +1562,55 @@ public fechaHoraOperacion: string;
         // Llamar al servicio 
     }
 
+
+
+
+    // Ip y Clave de ATMs
+
+    public GetEjaFilters(result:any, status){
+
+        //console.log("GetEjaFilters:: Inicio");
+        //console.log(result)
+        var ipATM = '';
+
+        for(let idx = 0; idx < result.length; idx++){
+            //console.log("GetEjaFilters:: idx["+idx+"]   result["+result[idx]+"]");
+            for(let idx2 = 0; idx2 < result[idx].length; idx2++){
+                //console.log("GetEjaFilters:: idx2["+idx2+"]   result["+result[idx][idx2]+"]");
+                if(idx === 0){
+                    //console.log("GetEjaFilters:: (1)");
+                    ipATM = result[idx][idx2];
+                    //console.log("GetEjaFilters:: (2)");
+                    //this.ipATMs.push(result[idx][idx2]);
+                    ipATMs[ipATMs.length] = result[idx][idx2];
+                    //console.log("GetEjaFilters:: (3)");
+                    //console.log(ipATM);
+                }else{
+                    datosATMs.push(result[idx][idx2] + "    ("+ result[0][idx2] + ")");
+
+                }
+                //console.log(result[idx][idx2]);
+            }
+        }
+        //console.log('Datos ATM: ' + datosATMs);
+        //console.log('ipATMs: ' + ipATMs);
+    }
+
+    public obtieneIpATMs(){
+        console.log('obtenIpATMs:: Inicio');
+        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
+        this.ipATMs = ipATMs;
+        this.ipATMs = ipATMs.sort(comparar);
+        /*
+        for(let idx=0; idx < ipATMs.length; idx++){
+            console.log('-> '+idx+")  "+this.ipATMs[idx]+"  -  " + ipATMs[idx]);
+        }
+        */
+        //console.log('this.ipATMs['+this.ipATMs.sort(comparar)+']   ipATMs: ' + ipATMs.sort(comparar));
+        console.log('obtenIpATMs:: Se ejecuto la consulta');
+    }
+
 }
 
+function comparar ( a, b ){ return a - b; }
 
