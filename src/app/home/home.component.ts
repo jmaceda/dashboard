@@ -7,9 +7,9 @@ import { SoapService }                                   from '../services/soap.
 import { sprintf }                                       from "sprintf-js";
 import {FormGroup, FormBuilder, Validators}              from '@angular/forms';
 import { DepositosModel }                                from './models/depositos';
-import { Logger, Level }                                 from "angular2-logger/core";
-import { DepositosComponent }                            from "./datosDepositos/depositos.component"
-import { AlertComponent }                                from './tmp/alert.component';
+//import { Logger, Level }                                 from "angular2-logger/core";
+//import { DepositosComponent }                            from "./datosDepositos/depositos.component"
+//import { AlertComponent }                                from './tmp/alert.component';
 // import Dexie                                             from 'dexie';
 
 
@@ -21,7 +21,7 @@ import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 // import { Customer, Service } from './app.service';
 
 
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+//import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
 //import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
@@ -47,7 +47,7 @@ var gFchInicioFinAnterior = null;
 var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
 var request;
 var objStore;
-var tiempoRefreshDatos:number = 30000; //(1000 * 60 * 1); // Actualiza la información cada minuto.
+var tiempoRefreshDatos:number = (1000 * 60 * 1); // Actualiza la información cada minuto.
 
 //var Dexie;                    //require('dexie');
 var dbDexie;
@@ -135,7 +135,8 @@ export var ipATMs  = [];
   .even { color: red; }
   .odd { color: green; }
   `],
-  providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
+  providers: [SoapService, DesglosaBilletes, GuardaDepositosBD],   //, Service],
+    // providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
 })
 export class HomeComponent implements OnInit  {
 
@@ -733,7 +734,11 @@ export class HomeComponent implements OnInit  {
                         let denominaBilletes = this.pDenominacionesBilletes(reg.Data);
 
                         arrDepositos.push(
-                            {   dId: this.dNumDepositos, dHraIni: this.dHraIniciaSesion, dHraFin: tmpHoraOperacion, dMonto: reg.Amount,
+                            {   dId: this.dNumDepositos,
+                                dCta: reg.AccountId,
+                                dHraIni: this.dHraIniciaSesion,
+                                dHraFin: tmpHoraOperacion,
+                                dMonto: reg.Amount,
                                 dBill20: denominaBilletes.b20,
                                 dBill50: denominaBilletes.b50,
                                 dBill100: denominaBilletes.b100,
@@ -868,7 +873,7 @@ export class HomeComponent implements OnInit  {
         this.tblResumenDepositos = {
             headerRow: [
                 {
-                    hId:'ID',       hHraIni:'Inicio',       hHraFin: 'Finalizo',        hMonto:'Monto',     hBill20:'$20',
+                    hId:'ID',       dCta: 'Cuenta', hHraIni:'Inicio',       hHraFin: 'Finalizo',        hMonto:'Monto',     hBill20:'$20',
                     hBill50:'$50',  hBill100:'$100',        hBill200:'$200',            hBill500:'$500',    hBill1000:'$1000'
                 }
             ],
@@ -881,7 +886,7 @@ export class HomeComponent implements OnInit  {
             this.tBillDep[0].tB50 += Number(arrDepositos[idx].dBill50);
             this.tBillDep[0].tB100 += Number(arrDepositos[idx].dBill100);
             this.tBillDep[0].tB200 += Number(arrDepositos[idx].dBill200);
-            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill1000);
+            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill500);
             this.tBillDep[0].tB1000 += Number(arrDepositos[idx].dBill1000);
         }
     }
@@ -1334,7 +1339,7 @@ public fechaHoraOperacion: string;
 
 
 
-
+/*
     logMsgs(){
         this.logger.error('This is a priority level 1 error message...');
         this.logger.warn('This is a priority level 2 warning message...');
@@ -1358,7 +1363,7 @@ public fechaHoraOperacion: string;
     unstore(){
         this.logger.unstore();
     }
-    
+    */
     public openRequest2;
 
     iniciarBD(){
@@ -1469,12 +1474,13 @@ public fechaHoraOperacion: string;
 
     //customers: Customer[];
     constructor(private formBuilder: FormBuilder, public _soapService: SoapService, 
-                public logger            : Logger, private _desglosaBilletes: DesglosaBilletes,
+                //public logger            : Logger,
+                private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD){ //, service                  : Service) {
 
         //this.customers = service.getCustomers();
 
-        this.setLevel(5);
+//        this.setLevel(5);
         this.inicializaVariables();
 
     }

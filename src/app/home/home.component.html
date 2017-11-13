@@ -460,6 +460,7 @@
                             <thead>
                                 <tr *ngFor="let hCol of tblResumenDepositos.headerRow">
                                     <th class="cold1">{{hCol.hId}}</th>
+                                    <th class="cold1">{{hCol.dCta}}</th>
                                     <th class="cold2">{{hCol.hHraIni}}</th>
                                     <th class="cold2">{{hCol.hHraFin}}</th>
                                     <th class="cold2">{{hCol.hMonto}}</th>
@@ -476,6 +477,7 @@
                             <tbody>
                                 <tr *ngFor="let dCol of tblResumenDepositos.dataRows">
                                     <td class="cold1">{{dCol.dId}}</td>
+                                    <td class="cold1">{{dCol.dCta}}</td>
                                     <td class="cold2">{{dCol.dHraIni}}</td>
                                     <td class="cold2">{{dCol.dHraFin}}</td>
                                     <td class="cold2">{{dCol.dMonto | currency:'USD':'symbol':'1.0-0'}}</td>
@@ -488,6 +490,7 @@
                                 </tr>
                             </tbody>
                             <tr *ngFor="let fCol of tBillDep" class="totalResumenBancos">
+                                <td class="totalResumenBancos cold2"></td>
                                 <td class="totalResumenBancos cold2"></td>
                                 <td class="totalResumenBancos cold2"></td>
                                 <td class="totalResumenBancos cold2"></td>

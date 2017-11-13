@@ -19,12 +19,14 @@ import { UpgradeComponent }                from './upgrade/upgrade.component';
 import { FormsModule }                     from '@angular/forms';
 import { ReactiveFormsModule }             from '@angular/forms';
 
-import { Logger }                          from "angular2-logger/core"; // ADD THIS
-import { DepositosComponent }              from "./home/datosDepositos/depositos.component";
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+//import { Logger }                          from "angular2-logger/core"; // ADD THIS
+//import { DepositosComponent }              from "./home/datosDepositos/depositos.component";
+//import { ChartsModule } from 'ng2-charts/ng2-charts';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
 
+
+import { ReportesComponent } from "./reportes/reportes.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    DepositosComponent,
+    ReportesComponent
+    //DepositosComponent,
   ],
 
   imports: [
@@ -51,10 +54,10 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     AppRoutingModule,
     LbdModule,
     ReactiveFormsModule,
-    ChartsModule,
+    //ChartsModule,
   ],
   providers: [
-    Logger,
+    //Logger,
   ],
   bootstrap: [AppComponent],
 

@@ -4,7 +4,7 @@ import { DepositosModel }   from '../models/depositos';
 import { DesglosaBilletes } from '../services/DesglosaBilletes.service';
 import { sprintf }          from "sprintf-js";
 //import Dexie                from 'dexie';
-import { Logger, Level }                                 from "angular2-logger/core";
+//import { Logger, Level }                                 from "angular2-logger/core";
 
 var bdRedBlu = 'RedBluDB';
 var dbDexieLocal;
@@ -14,6 +14,8 @@ var dbDexieLocal;
 @Injectable()
 export class RetirosXhora {
 
-    constructor(public logger: Logger, public _desglosaBilletes: DesglosaBilletes){}
+    constructor(
+        //public logger: Logger,
+        public _desglosaBilletes: DesglosaBilletes){}
 
 }
