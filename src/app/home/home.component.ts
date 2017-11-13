@@ -1134,9 +1134,6 @@ public fechaHoraOperacion: string;
 
   ngOnInit() {
 
-
-
-
       this.obtieneIpATMs();
       this.datosGrafica();
 
@@ -1172,14 +1169,13 @@ public fechaHoraOperacion: string;
         'series': [[], []]
         };
 
-
-        var fchSys   = new Date();
-        var _anioSys = fchSys.getFullYear();
-        var _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        var _diaSys  = fchSys.getDate();
-        var _hraSys  = fchSys.getHours();
-        var _minSys  = fchSys.getMinutes();
-        var _segSys  = fchSys.getSeconds();
+        let fchSys   = new Date();
+        let _anioSys = fchSys.getFullYear();
+        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
+        let _diaSys  = fchSys.getDate();
+        let _hraSys  = fchSys.getHours();
+        let _minSys  = fchSys.getMinutes();
+        let _segSys  = fchSys.getSeconds();
 
         this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
         this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
@@ -1575,45 +1571,27 @@ public fechaHoraOperacion: string;
 
     public GetEjaFilters(result:any, status){
 
-        //console.log("GetEjaFilters:: Inicio");
-        //console.log(result)
         var ipATM = '';
 
         for(let idx = 0; idx < result.length; idx++){
-            //console.log("GetEjaFilters:: idx["+idx+"]   result["+result[idx]+"]");
             for(let idx2 = 0; idx2 < result[idx].length; idx2++){
-                //console.log("GetEjaFilters:: idx2["+idx2+"]   result["+result[idx][idx2]+"]");
                 if(idx === 0){
-                    //console.log("GetEjaFilters:: (1)");
                     ipATM = result[idx][idx2];
-                    //console.log("GetEjaFilters:: (2)");
-                    //this.ipATMs.push(result[idx][idx2]);
                     ipATMs[ipATMs.length] = result[idx][idx2];
-                    //console.log("GetEjaFilters:: (3)");
-                    //console.log(ipATM);
                 }else{
                     datosATMs.push(result[idx][idx2] + "    ("+ result[0][idx2] + ")");
-
                 }
-                //console.log(result[idx][idx2]);
             }
         }
-        //console.log('Datos ATM: ' + datosATMs);
-        //console.log('ipATMs: ' + ipATMs);
     }
 
     public obtieneIpATMs(){
-        console.log('obtenIpATMs:: Inicio');
+        //console.log('obtenIpATMs:: Inicio');
+        ipATMs  = [];
         this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
         this.ipATMs = ipATMs;
         this.ipATMs = ipATMs.sort(comparar);
-        /*
-        for(let idx=0; idx < ipATMs.length; idx++){
-            console.log('-> '+idx+")  "+this.ipATMs[idx]+"  -  " + ipATMs[idx]);
-        }
-        */
-        //console.log('this.ipATMs['+this.ipATMs.sort(comparar)+']   ipATMs: ' + ipATMs.sort(comparar));
-        console.log('obtenIpATMs:: Se ejecuto la consulta');
+        //console.log('obtenIpATMs:: Se ejecuto la consulta');
     }
 
 }
