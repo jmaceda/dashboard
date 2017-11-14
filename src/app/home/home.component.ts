@@ -835,6 +835,8 @@ export class HomeComponent implements OnInit  {
                 x.push(new ErroresPorBanco(banco, cve, errsBanco[cve]));
             }
         }, this.listaErrsPorBanco)
+        this.xErroresPorBanco = x;
+
 console.log(this.xErroresPorBanco);
 
     }
