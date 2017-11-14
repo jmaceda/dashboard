@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 import { DataTableResource } from 'angular-4-data-table-bootstrap-4';
 import persons from './data-table-demo1-data';
 
@@ -11,9 +12,20 @@ import persons from './data-table-demo1-data';
 })
 export class DataTableDemo1 {
 
-    itemResource = new DataTableResource(persons);
-    items = [];
-    itemCount = 0;
+    //@Input('datosJournal')
+    //    arrJournal :any[];
+
+    //public itemResource;
+    //public items = [];
+    //public itemCount = 0;
+
+    //ngOnInit() {
+
+        itemResource = new DataTableResource(persons);
+        items = [];
+        itemCount = 0;
+    //}
+
 
     constructor() {
         this.itemResource.count().then(count => this.itemCount = count);

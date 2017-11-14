@@ -29,8 +29,8 @@ import {DataTableModule } from 'angular-4-data-table-bootstrap-4';
 
 
 
-import { ReportesComponent } from "./reportes/reportes.component";
-import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
+//import { ReportesComponent } from "./reportes/reportes.component";
+//import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
 
 @NgModule({
   declarations: [
@@ -43,8 +43,8 @@ import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    ReportesComponent,
-    DataTableDemo1
+    //ReportesComponent,
+    //DataTableDemo1
     //DepositosComponent,
   ],
 

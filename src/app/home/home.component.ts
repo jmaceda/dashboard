@@ -17,6 +17,7 @@ import { DepositosModel }                                from './models/deposito
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
+import { ErroresPorBanco } from '../models/errores-por-banco.model'
 // import { DxDataGridModule } from 'devextreme-angular';
 // import { Customer, Service } from './app.service';
 
@@ -97,7 +98,7 @@ export class TblResOperacion{
     dataRows: any[];
 }
 
-export class ErroresPorBanco {
+export class ErroresPorBancoX {
     private _name: string;
     public banco: number[] = [];
 
@@ -505,7 +506,7 @@ export class HomeComponent implements OnInit  {
             this.listaErroresOper[descError]++;
         }
 
-        ErroresPorBanco
+        //ErroresPorBanco
 
     }
 
@@ -540,11 +541,18 @@ export class HomeComponent implements OnInit  {
         let tmpCardNumber        = "";
         let tmpAuthId            = "";
 
+
+
         this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
         datosLog.forEach((reg)=>{
 
+            reg.Time
+            //console.log(JSON.stringify(reg));
             let date = new Date(reg.TimeStamp);
+            let fch=sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+            reg.TimeStamp = fch;
+            //console.log(fch);
             let _hora = date.getHours();
             let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
             let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
@@ -813,17 +821,26 @@ export class HomeComponent implements OnInit  {
         this.pResumenDepositos();
 
 
+
+        //this.pErroresPorBanco=[];
+        let idx = 0;
+        let x:any[] = [];
         Object.keys(this.listaErrsPorBanco).forEach(function (banco) {
             let errsBanco = this[banco]
 
             for (let cve in errsBanco) {
- // Descomentar para pruebas               console.log(banco + " - " + cve + " - " + errsBanco[cve])
+//console.log(banco + " - " + cve + " - " + errsBanco[cve])
+                //this.pErroresPorBanco.push(new dErroresPorBanco(banco, cve, errsBanco[cve]));
+                //this.pErroresPorBanco[this.pErroresPorBanco.length] = new dErroresPorBanco(banco, cve, errsBanco[cve]);
+                x.push(new ErroresPorBanco(banco, cve, errsBanco[cve]));
             }
         }, this.listaErrsPorBanco)
+console.log(this.xErroresPorBanco);
 
     }
-
+    //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
     public listaErrsPorBanco: any[][] = [];
+    xErroresPorBanco: ErroresPorBanco[];
 
     public incrementaErrorBanco(nomBanco, descError, codError){
 
@@ -891,10 +908,9 @@ export class HomeComponent implements OnInit  {
         }
     }
 
-
-
     // Arma la información de la tabla de Resumen de Operaciones por Banco
     public mResumenPorBanco():void{
+
 
         let arrDatos = [];
         let arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
@@ -935,6 +951,8 @@ export class HomeComponent implements OnInit  {
                 }
             ]
         };
+
+
     }
 
     // Despiega en la pagina la información de Consultas y Retiros.

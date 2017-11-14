@@ -9,7 +9,7 @@
         padding-top: 0px;    
     }
 </style>
-
+<!--
 <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
     <data-table id="persons-grid"
         headerTitle="Employees (Double click)"
@@ -59,6 +59,69 @@
                 <span class="fa fa-times" *ngIf="!item.active"></span>
                 </span>
             </ng-template>
+        </data-table-column>
+    </data-table>
+</div>
+-->
+<div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
+    <data-table id="journal-grid"
+                headerTitle="Journal (Double click)"
+                [items]="items"
+                [itemCount]="itemCount"
+                (reload)="reloadItems($event)"
+                (rowClick)="rowClick($event)"
+                (rowDoubleClick)="rowDoubleClick($event)"
+                [rowTooltip]="rowTooltip"
+    >
+        <data-table-column
+                [property]="'fecha'"
+                [header]="'Fecha/Hora'"
+                [sortable]="true"
+                [resizable]="false">
+        </data-table-column>
+        <!--
+        <data-table-column
+                [property]="'Ip'"
+                [header]="'IP'"
+                [sortable]="false"
+                [resizable]="false">
+        </data-table-column>
+        <data-table-column
+                [property]="'AtmName'"
+                [header]="'ATM'"
+                [sortable]="false"
+                [resizable]="false">
+        </data-table-column>
+        -->
+        <data-table-column
+                [property]="'CardNumber'"
+                [header]="'Tarjeta número'"
+                [sortable]="true"
+                [resizable]="false">
+        </data-table-column>
+        <data-table-column
+                [property]="'OperationType'"
+                [header]="'Tipo de Operación'"
+                [sortable]="true"
+                [resizable]="false">
+        </data-table-column>
+        <data-table-column
+                [property]="'Amount'"
+                [header]="'Monto'"
+                [sortable]="true"
+                [resizable]="false">
+        </data-table-column>
+        <data-table-column
+                [property]="'HWErrorCode'"
+                [header]="'Código de error de HW'"
+                [sortable]="true"
+                [resizable]="false">
+        </data-table-column>
+        <data-table-column
+                [property]="'Denomination'"
+                [header]="'Denominación'"
+                [sortable]="true"
+                [resizable]="false">
         </data-table-column>
     </data-table>
 </div>

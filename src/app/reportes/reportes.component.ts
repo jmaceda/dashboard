@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-reportes',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportesComponent implements OnInit {
 
+  //@Input('datosJournal')
+   // arrJournal : Array<string>
   constructor() { }
 
   ngOnInit() {
