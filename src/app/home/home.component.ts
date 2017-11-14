@@ -824,25 +824,27 @@ export class HomeComponent implements OnInit  {
 
         //this.pErroresPorBanco=[];
         let idx = 0;
-        let x:any[] = [];
-        Object.keys(this.listaErrsPorBanco).forEach(function (banco) {
+        let arrErrsBanco:any[] = [];
+        Object.keys(this.listaErrsPorBanco).sort().forEach(function (banco) {
             let errsBanco = this[banco]
 
             for (let cve in errsBanco) {
-//console.log(banco + " - " + cve + " - " + errsBanco[cve])
-                //this.pErroresPorBanco.push(new dErroresPorBanco(banco, cve, errsBanco[cve]));
-                //this.pErroresPorBanco[this.pErroresPorBanco.length] = new dErroresPorBanco(banco, cve, errsBanco[cve]);
-                x.push(new ErroresPorBanco(banco, cve, errsBanco[cve]));
+                let codError = (cve.substring(cve.lastIndexOf("_"))).replace(/[\(\)_]/g,"");
+                let cveError = cve.substring(0,cve.lastIndexOf("_("));
+                console.log(cve+"  -  " + cve.lastIndexOf("_")+"  -  "+(cve.substring(cve.lastIndexOf("_"))).replace(/[\(\)_]/g,"")+"  -  "+codError.replace(/\[\]_/g,""));
+                arrErrsBanco.push(new ErroresPorBanco(banco, cveError, Number(codError), errsBanco[cve]));
             }
         }, this.listaErrsPorBanco)
-        this.xErroresPorBanco = x;
 
-console.log(this.xErroresPorBanco);
+
+        this.cErroresPorBanco = arrErrsBanco;
+
+console.log(this.cErroresPorBanco);
 
     }
     //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
     public listaErrsPorBanco: any[][] = [];
-    xErroresPorBanco: ErroresPorBanco[];
+    cErroresPorBanco: ErroresPorBanco[];
 
     public incrementaErrorBanco(nomBanco, descError, codError){
 

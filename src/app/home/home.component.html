@@ -463,35 +463,21 @@
                     <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
                         <table class="table table-hover table-striped">
                             <thead>
-                            <tr *ngFor="let hCol of tblResumenPorBanco.headerRow">
-                                <th class="col1_25">{{hCol.hBanco}}</th>
-                                <th class="col2_7h">{{hCol.hNumRetOk}}</th>
-                                <th class="col2_7h">{{hCol.hNumRetNoOk}}</th>
-                                <th class="col2_7h">{{hCol.hNumCons}}</th>
-                                <th class="col2_7h">{{hCol.hNumConsNoOk}}</th>
-                                <th class="col2_7h">{{hCol.hNumReversos}}</th>
-                                <!-- th class="col2">{{hCol.hNumRechazos}}</th -->
-                            </tr>
+                                <tr>
+                                    <th class="col1_25">Banco</th>
+                                    <th class="col2_7h">Error</th>
+                                    <th class="col2_7h">Código</th>
+                                    <th class="col2_7h">Ocurrencias</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let dCol of tblResumenPorBanco.dataRows">
-                                <td class="col1_25">{{dCol.dBanco}}</td>
-                                <td class="col2_7d">{{dCol.dNumRetOk | number:'1.0-0'}}</td>
-                                <td class="col2_7d">{{dCol.dNumRetNoOk | number:'1.0-0'}}</td>
-                                <td class="col2_7d">{{dCol.dNumCons | number:'1.0-0'}}</td>
-                                <td class="col2_7d">{{dCol.dNumConsNoOk | number:'1.0-0'}}</td>
-                                <td class="col2_7d">{{dCol.dNumReversos | number:'1.0-0'}}</td>
-                                <!-- td class="col2">{{dCol.dNumRechazos | number:'1.0-0'}}</td -->
-                            </tr>
+                                <tr *ngFor="let dCol of cErroresPorBanco">
+                                    <td class="col1">{{dCol.nomBanco}}</td>
+                                    <td class="col1">{{dCol.descError}}</td>
+                                    <td class="col2_7d">{{dCol.codError | number:'1.0-0'}}</td>
+                                    <td class="col2_7d">{{dCol.numErrores | number:'1.0-0'}}</td>
+                                </tr>
                             </tbody>
-                            <tr *ngFor="let fCol of tblResumenPorBanco.totalRows" class="totalResumenBancos">
-                                <td class="totalResumenBancos col1_25">{{fCol.fNumBancos}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumRetOk | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumRetNoOK | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumCons | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumConsNoOk | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumReversos | number:'1.0-0'}}</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
