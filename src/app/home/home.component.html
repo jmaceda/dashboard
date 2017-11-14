@@ -87,6 +87,10 @@
         width: 7%;
         text-align: center;
     }
+    .col2_7i {
+        width: 7%;
+        text-align: left;
+    }
     .col2_7d {
         width: 7%;
         text-align: right;
@@ -455,7 +459,7 @@
 
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="card">
                     <div class="header" style="padding: 2px;">
                         <h5 class="title" style="text-align: center; font-weight: bold;">Errores por Banco</h5>
@@ -464,15 +468,15 @@
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th class="col1_25">Banco</th>
+                                    <th class="col2_7i">Banco</th>
                                     <th class="col2_7h">Error</th>
-                                    <th class="col2_7h">Código</th>
-                                    <th class="col2_7h">Ocurrencias</th>
+                                    <th class="col2_7d">Código</th>
+                                    <th class="col2_7d">Errs</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let dCol of cErroresPorBanco">
-                                    <td class="col1">{{dCol.nomBanco}}</td>
+                                    <td class="col2_7i">{{dCol.nomBanco}}</td>
                                     <td class="col1">{{dCol.descError}}</td>
                                     <td class="col2_7d">{{dCol.codError | number:'1.0-0'}}</td>
                                     <td class="col2_7d">{{dCol.numErrores | number:'1.0-0'}}</td>
@@ -482,7 +486,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row"></div>

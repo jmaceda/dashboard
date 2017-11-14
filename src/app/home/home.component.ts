@@ -126,7 +126,7 @@ export class DatosRetirosXhora{
 
 export var datosATMs  = [];
 export var ipATMs  = [];
-
+var idxErrBanco:number = 0;
 
 @Component({
   selector   : 'app-home',
@@ -390,6 +390,8 @@ export class HomeComponent implements OnInit  {
 
         arrDepositos = [];
         this.listaErroresOper = [];
+        this.lErroresPorBanco = [];
+        idxErrBanco=0;
     };
 
     public paramsServicioNumPaginas: {
@@ -683,7 +685,7 @@ export class HomeComponent implements OnInit  {
                         if(reg.SwitchResponseCode == 54 || reg.SwitchResponseCode == 12 || reg.SwitchResponseCode == 1003 || reg.SwitchResponseCode == 62  || reg.SwitchResponseCode == 55  || reg.SwitchResponseCode == 38  || reg.SwitchResponseCode == 51){
                             tmpAquirer = reg.Aquirer;
                         }
-                        this.incrementaErrorBanco(tmpAquirer, reg.HWErrorCode, reg.SwitchResponseCode);
+                        this.incrementaErrorBanco(tmpAquirer, reg.HWErrorCode, reg.SwitchResponseCode, 'R');
                         this.dNumRetirosNoExito++;
                     }
                     break;
@@ -718,7 +720,7 @@ export class HomeComponent implements OnInit  {
                         }
                         this.dHraUltimaConsultaNoExito = tmpHoraOperacion;
                         this.incrementaBanco('COE', reg.Aquirer);
-                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode);
+                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode, 'C');
                     }
                     tipoUltimaOperacion = "C";
                     
@@ -801,7 +803,7 @@ export class HomeComponent implements OnInit  {
                             this.dHraPrimerCambioNIPNoExito = tmpHoraOperacion
                         }
                         this.dHraUltimoCambioNIPNoExito = tmpHoraOperacion;
-                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode);
+                        this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode, "P");
                     }
                     tipoUltimaOperacion = "P";
                     break;
@@ -830,28 +832,46 @@ export class HomeComponent implements OnInit  {
 
             for (let cve in errsBanco) {
                 let codError = (cve.substring(cve.lastIndexOf("_"))).replace(/[\(\)_]/g,"");
-                let cveError = cve.substring(0,cve.lastIndexOf("_("));
-                console.log(cve+"  -  " + cve.lastIndexOf("_")+"  -  "+(cve.substring(cve.lastIndexOf("_"))).replace(/[\(\)_]/g,"")+"  -  "+codError.replace(/\[\]_/g,""));
-                arrErrsBanco.push(new ErroresPorBanco(banco, cveError, Number(codError), errsBanco[cve]));
+                let cveError = cve.substring(0,cve.lastIndexOf("_(")).replace(/_/g," ");
+                arrErrsBanco.push(new ErroresPorBanco(banco, cveError, Number(codError), errsBanco[cve], 'X'));
             }
         }, this.listaErrsPorBanco)
 
 
         this.cErroresPorBanco = arrErrsBanco;
 
-console.log(this.cErroresPorBanco);
+        console.log("Contenido de lErroresPorBanco");
+        console.log(this.lErroresPorBanco);
+        for(let idx; idx < this.lErroresPorBanco.length; idx++){
+            console.log("lErroresPorBanco:: " + this.lErroresPorBanco[idx]);
+        }
+        console.log("Termina Contenido de lErroresPorBanco");
+//console.log(this.cErroresPorBanco);
 
     }
     //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
     public listaErrsPorBanco: any[][] = [];
     cErroresPorBanco: ErroresPorBanco[];
+    lErroresPorBanco: ErroresPorBanco[];
+    //xErroresPorBanco: ErroresPorBanco;
 
-    public incrementaErrorBanco(nomBanco, descError, codError){
+    public incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
 
         if (descError.length > 0) {
             if (nomBanco == undefined || nomBanco == null || nomBanco.length == 0){
                 nomBanco = "********";
             }
+            this.lErroresPorBanco[idxErrBanco++] = new ErroresPorBanco(nomBanco, descError, codError, 1, tipoOper);
+
+
+            //if ( this.xErroresPorBanco instanceof ErroresPorBanco ){
+            //    this.xErroresPorBanco = new ErroresPorBanco();
+            //}
+
+            //this.xErroresPorBanco.incErrBanco(nomBanco, descError, codError, tipoOper);
+
+            //console.log(this.xErroresPorBanco.nomBanco);
+
             let desc = descError.replace(/ /g, "_")+"_("+codError+")";
  // Descomentar para probar           console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
             if (this.listaErrsPorBanco[nomBanco] == undefined) {

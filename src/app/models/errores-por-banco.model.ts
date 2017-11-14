@@ -13,4 +13,9 @@ export class ErroresPorBanco{
         this.numErrores = numErrores;
         this.tipoOper = tipoOper;
     };
+
+
+    public incErrBanco(nomBanco:string, descError:string, codError:number, tipoOper:string){
+        console.log("ErroresPorBanco.ErroresPorBanco:: nomBanco["+nomBanco+"]  descError["+descError+"]  codError["+codError+"]  tipoOper["+tipoOper+"]");
+    }
 }
