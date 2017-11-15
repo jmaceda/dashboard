@@ -1,34 +1,49 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit } from '@angular/core';
+import { DataTableResource } from 'angular-4-data-table-bootstrap-4';
 
-import { SoapService } from '../services/soap.service';
-import { AtmsEstatusComponent } from './estatus/atms-estatus.component';
+import { SoapService } from '../../services/soap.service';
 
-
+var arrDatosAtms:any[] = [];
+export var gDatosAtms:any[];
 
 @Component({
-    selector: 'atms-root',
-    templateUrl: './atms.component.html',
-    styleUrls: ['./atms.component.css'],
-    providers: [SoapService],
-    entryComponents: [AtmsEstatusComponent]
+    selector: 'atms-estatus-root',
+    templateUrl: './atms-estatus.component.html',
+    styleUrls: ['./atms-estatus.component.css'],
+    providers: [SoapService]
 })
-export class AtmsComponent implements OnInit {
+export class AtmsEstatusComponent implements OnInit {
 
     public url: string = '/services/dataservices.asmx';
+
+
+    itemResource = new DataTableResource(arrDatosAtms);
+    items = [];
+    itemCount = 0;
 
     constructor(public _soapService: SoapService) {
     }
 
     ngOnInit() {
-        //this.obtenGetAtm();
+        this.obtenGetAtm();
     }
 
 
-    public GetAtmMoneyStat(result:any, status){
+    public GetAtmMoneyStat(datosAtms:any, status){
 
         console.log("GetAtmMoneyStat:: Inicio");
-        console.log(JSON.stringify(result));
+        console.log(JSON.stringify(datosAtms));
+
+        let idx = 0;
+        datosAtms.forEach((reg)=> {
+
+            arrDatosAtms[idx] = {Description: reg.Description, Ip: reg.Ip, Name: reg.Name, IsOnline: reg.IsOnline, }
+
+        });
+
+        this.itemResource.count().then(count => this.itemCount = count);
+
     }
 
     public obtenGetAtmMoneyStat() {
@@ -57,10 +72,13 @@ export class AtmsComponent implements OnInit {
     }
 
 
-    public GetAtm(result:any, status){
+    public GetAtm(datosAtms:any, status){
 
         console.log("GetAtm:: Inicio");
-        console.log(JSON.stringify(result));
+        //console.log(JSON.stringify(datosAtms));
+
+        gDatosAtms = datosAtms;
+
     }
 
     public obtenGetAtm() {
@@ -78,6 +96,17 @@ export class AtmsComponent implements OnInit {
         };
 
         this._soapService.post(this.url, "GetAtm", parameters, this.GetAtm);
+
+        let idx = 0;
+        gDatosAtms.forEach((reg)=> {
+            arrDatosAtms[idx++] = {Description: reg.Description, Ip: reg.Ip, Name: reg.Name, IsOnline: reg.IsOnline,
+                PaperStatus: reg.PaperStatus, SafeOpen: reg.SafeOpen, CabinetOpen: reg.CabinetOpen}
+        });
+
+        //this.itemResource = arrDatosAtms;
+        this.itemResource = new DataTableResource(arrDatosAtms);
+        this.itemResource.count().then(count => this.itemCount = count);
+
     }
 
     // Ip y Clave de ATMs
@@ -108,6 +137,24 @@ export class AtmsComponent implements OnInit {
         //this.ipATMs = ipATMs.sort(comparar);
         //console.log('obtenIpATMs:: Se ejecuto la consulta');
     }
+
+
+    reloadItems(params) {
+        this.itemResource.query(params).then(items => this.items = items);
+    }
+
+    // special properties:
+
+    rowClick(rowEvent) {
+        console.log('Clicked: ' + rowEvent.row.item.name);
+    }
+
+    rowDoubleClick(rowEvent) {
+        alert('Double clicked: ' + rowEvent.row.item.name);
+    }
+
+    rowTooltip(item) { return item.jobTitle; }
+
 
 }
 

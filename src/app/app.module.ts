@@ -26,7 +26,8 @@ import { ReactiveFormsModule }             from '@angular/forms';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
 
 import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
-import { AtmsComponent } from 'app/atms/atms.component';
+import { AtmsComponent } from './atms/atms.component';
+import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
 
 
 //import { ReportesComponent } from "./reportes/reportes.component";
@@ -43,7 +44,8 @@ import { AtmsComponent } from 'app/atms/atms.component';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    AtmsComponent
+    AtmsComponent,
+    AtmsEstatusComponent
     //ReportesComponent,
     //DataTableDemo1
     //DepositosComponent,
