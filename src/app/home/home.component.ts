@@ -452,7 +452,8 @@ export class HomeComponent implements OnInit  {
         console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
-             gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd)){
+             gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd) ||
+             gFchInicioAnterior != this.dFchFinProceso || gFchInicioFinAnterior != this.dHraFinProceso){
 
             ipAnterior              = this.paramsServicioNumPaginas.ip[0];
             gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
@@ -547,6 +548,7 @@ export class HomeComponent implements OnInit  {
 
         this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
+        var idxReg = 0;
         datosLog.forEach((reg)=>{
 
             reg.Time
@@ -558,6 +560,19 @@ export class HomeComponent implements OnInit  {
             let _hora = date.getHours();
             let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
             let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
+
+
+            /*
+            if( reg.CardNumber == '547146XXXXXX8650'){
+                let xReg = reg
+                xReg.TimeStamp = fch;
+                console.log(JSON.stringify(datosLog[idxReg -1]));
+                console.log(JSON.stringify(xReg));
+                console.log("Reg: ["+idxReg+"]");
+                this.arrTarjetas[idxReg++] = reg.CardNumber;
+            }
+            idxReg++;
+            */
 
             fchSys = new Date();
             _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
@@ -612,7 +627,7 @@ export class HomeComponent implements OnInit  {
                                 tmpCardNumber = "";
                                 tmpAuthId     = "";
                             }
-
+                            this.arrTarjetas[idxReg++] = reg.CardNumber;
                             break;
                         }
 
@@ -711,6 +726,7 @@ export class HomeComponent implements OnInit  {
                         this.datosRetirosXhora[_hora].dNumConsPorHora++;
                         this.incrementaBanco('CON', reg.Aquirer);
                         tmpAquirer = reg.Aquirer;
+                        this.arrTarjetas[idxReg++] = reg.CardNumber;
                     }else{
                         this.dNumConsultasNoExito++;
                         this.dMontoConsultasNoExito += reg.Amount;
@@ -823,6 +839,15 @@ export class HomeComponent implements OnInit  {
         this.pResumenDepositos();
 
 
+        console.log(this.arrTarjetas);
+        for(let idx=0; idx < this.arrTarjetas.length; idx++){
+            if( this.arrTarjetas[idx] == '547146XXXXXX8650'){
+                console.log("--> "+JSON.stringify(datosLog[idx -1]));
+                console.log("--> "+JSON.stringify(datosLog[idx]));
+                console.log("--> "+JSON.stringify(datosLog[idx +1]));
+                break;
+            }
+        }
 
         //this.pErroresPorBanco=[];
         let idx = 0;
@@ -849,6 +874,8 @@ export class HomeComponent implements OnInit  {
 //console.log(this.cErroresPorBanco);
 
     }
+
+    public arrTarjetas:any[] = [];
     //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
     public listaErrsPorBanco: any[][] = [];
     cErroresPorBanco: ErroresPorBanco[];
@@ -1094,7 +1121,7 @@ export class HomeComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
-        console.log("Consulta Jounral ["+new Date()+"]");
+        console.log("Consulta Journal ["+new Date()+"]");
         //console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
