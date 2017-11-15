@@ -1,0 +1,236 @@
+GetAtm
+--------------------------------------
+	AddressNumber:"100"
+	AddressStreet:"Miguel Lerdo de Tejada"
+	Area:"Guadalupe Inn"
+	AtmEndHour:0
+	AtmEndMinute:0
+	AtmStartHour:0
+	AtmStartMinute:0
+	Brand:"GRG"
+	CabinetOpen:false
+	CabinetOpenTs:1507830067428
+	CassetteAmount:"LOW"
+	CassettesStatus:(4) ["OK", "OK", "EMPTY", "EMPTY"]
+	CassettesStatusTimestamp:1507832083852
+	City:"Alvaro Obregon"
+	CityKey:"010"
+	CreationDate:"1969/31/12"
+	CriticalPeriod:1
+	Description:"ATM GSS"
+	DeviceStatus:"OK"
+	HopperAmount:"LOW"
+	HoppersStatus:(4) ["OK", "OK", "OK", "OK"]
+	HoppersStatusTimestamp:1507832009237
+	Id:"455002"
+	Ip:"11.40.2.1"
+	IsInMaintenanceMode:false
+	IsOnline:false
+	IsoAddress:"1234567890123456789012345678901234567890"
+	IsoLocation:"123456789012345678901234567890123"
+	LastDetails:[]
+	LastDetailsTimestamps:[]
+	LastIOnlineTimestamp:1507832123727
+	Latitude:19.3558682
+	Locality:"Alvaro Obregon"
+	LocalityKey:"0001"
+	Longitude:-99.1876648
+	MaintenanceModeTimestamp:0
+	Model:"H68NL Recycler"
+	Money:1
+	Name:"CI01GL0001"
+	OfflineDevices:[]
+	OnlineDevices:(8) ["EPP", "ICM", "CDM", "AFD", "PTR", "TIO", "DEP", "VDM"]
+	OperatingSystem:"Windows 7"
+	PaperStatus:"OK"
+	RejectStatus:["OK"]
+	RejectStatusTimestamp:1507832081635
+	RetractStatus:["OK"]
+	RetractStatusTimestamp:1507832081635
+	SafeOpen:false
+	SafeOpenTs:1504156984325
+	SerialNumber:"111111"
+	ServiceDate:1590814800000
+	State:"Distrito Federal"
+	StateKey:"09"
+	WorkingDays:127
+	ZipCode:"01020"
+
+-----------------------------------------
+
+AddressNumber:"185"
+AddressStreet:"Av. Santa Lucia"
+Area:"Alfonso Xiii"
+AtmEndHour:0
+AtmEndMinute:0
+AtmStartHour:0
+AtmStartMinute:0
+Brand:"GRG"
+CabinetOpen:false
+CabinetOpenTs:1510708241250
+CassetteAmount:"FULL"
+CassettesStatus:(4) ["OK", "OK", "OK", "OK"]
+CassettesStatusTimestamp:1510726134154
+City:"Alvaro Obregon"
+CityKey:"010"
+CreationDate:"1969/31/12"
+CriticalPeriod:1
+Description:"CI01GT0003"
+DeviceStatus:"OK"
+HopperAmount:"null"
+HoppersStatus:[]
+HoppersStatusTimestamp:0
+Id:"16281584"
+Ip:"11.40.2.8"
+IsInMaintenanceMode:false
+IsOnline:true
+IsoAddress:"1234567890123456789012345678901234567890"
+IsoLocation:"123456789012345678901234567890123"
+LastDetails:[]
+LastDetailsTimestamps:[]
+LastIOnlineTimestamp:1510726160231
+Latitude:0
+Locality:"Alvaro Obregon"
+LocalityKey:"0001"
+Longitude:0
+MaintenanceModeTimestamp:0
+Model:"H68NL Recycler"
+Money:3
+Name:"CI01GT0003"
+OfflineDevices:[]
+OnlineDevices:(8) ["PTR", "EPP", "DEP", "BAR", "AFD", "ICM", "TIO", "VDM"]
+OperatingSystem:"Windows 7"
+PaperStatus:"OK"
+RejectStatus:["OK"]
+RejectStatusTimestamp:1510726011074
+RetractStatus:["OK"]
+RetractStatusTimestamp:1510726011074
+SafeOpen:false
+SafeOpenTs:1510708374719
+SerialNumber:"223664"
+ServiceDate:1600059600000
+State:"Distrito Federal"
+StateKey:"09"
+WorkingDays:127
+ZipCode:"01460"
+
+============================================================================
+
+GetAtmDetail
+----------------------------------------------------
+AddressNumber:"2509"
+AddressStreet:"Blvrd del Niño poblano"
+Area:"Centro"
+AtmEndHour:0
+AtmEndMinute:0
+AtmStartHour:0
+AtmStartMinute:0
+Brand:"GRG"
+CabinetOpen:true
+CabinetOpenTs:1510704584936
+CassetteAmount:"MED"
+CassettesStatus:(4) ["OK", "OK", "OK", "OK"]
+CassettesStatusTimestamp:1510704444618
+City:"Puebla (Heroica Puebla)"
+CityKey:"114"
+CreationDate:"1969/31/12"
+CriticalPeriod:1
+Description:"Torneo de la amistad 1"
+DeviceStatus:"OK"
+HopperAmount:"null"
+HoppersStatus:[]
+HoppersStatusTimestamp:0
+Id:"31451960"
+Ip:"11.40.2.10"
+IsInMaintenanceMode:false
+IsOnline:false
+IsoAddress:"1234567890123456789012345678901234567890"
+IsoLocation:"123456789012345678901234567890123"
+LastDetails:[]
+LastDetailsTimestamps:[]
+LastIOnlineTimestamp:1510707593769
+Latitude:19.028986
+Locality:"Heroica Puebla De Zaragoza"
+LocalityKey:"0001"
+Longitude:98.240333
+MaintenanceModeTimestamp:0
+Model:"H68NL Recycler"
+Money:2
+Name:"CI21GE0001"
+OfflineDevices:[]
+OnlineDevices:(7) ["EPP", "ICM", "VDM", "PTR", "AFD", "TIO", "DEP"]
+OperatingSystem:"Windows 7"
+PaperStatus:"OK"
+RejectStatus:["OK"]
+RejectStatusTimestamp:1510704533167
+RetractStatus:["OK"]
+RetractStatusTimestamp:1510704533167
+SafeOpen:true
+SafeOpenTs:1510706880014
+SerialNumber:"293454"
+ServiceDate:1573106400000
+State:"Puebla"
+StateKey:"21"
+WorkingDays:127
+ZipCode:"72000"
+
+
+============================================================================
+
+GetAtmMoneyStat
+----------------------------------------------------
+AddressNumber:"2509"
+AddressStreet:"Blvrd del Niño poblano"
+Area:"Centro"
+AtmEndHour:0
+AtmEndMinute:0
+AtmStartHour:0
+AtmStartMinute:0
+Brand:"GRG"
+CabinetOpen:true
+CabinetOpenTs:1510704584936
+CassetteAmount:"MED"
+CassettesStatus:(4) ["OK", "OK", "OK", "OK"]
+CassettesStatusTimestamp:1510704444618
+City:"Puebla (Heroica Puebla)"
+CityKey:"114"
+CreationDate:"1969/31/12"
+CriticalPeriod:1
+Description:"Torneo de la amistad 1"
+DeviceStatus:"OK"
+HopperAmount:"null"
+HoppersStatus:[]
+HoppersStatusTimestamp:0
+Id:"31451960"
+Ip:"11.40.2.10"
+IsInMaintenanceMode:false
+IsOnline:false
+IsoAddress:"1234567890123456789012345678901234567890"
+IsoLocation:"123456789012345678901234567890123"
+LastDetails:[]
+LastDetailsTimestamps:[]
+LastIOnlineTimestamp:1510707593769
+Latitude:19.028986
+Locality:"Heroica Puebla De Zaragoza"
+LocalityKey:"0001"
+Longitude:98.240333
+MaintenanceModeTimestamp:0
+Model:"H68NL Recycler"
+Money:2
+Name:"CI21GE0001"
+OfflineDevices:[]
+OnlineDevices:(7) ["EPP", "ICM", "VDM", "PTR", "AFD", "TIO", "DEP"]
+OperatingSystem:"Windows 7"
+PaperStatus:"OK"
+RejectStatus:["OK"]
+RejectStatusTimestamp:1510704533167
+RetractStatus:["OK"]
+RetractStatusTimestamp:1510704533167
+SafeOpen:true
+SafeOpenTs:1510706880014
+SerialNumber:"293454"
+ServiceDate:1573106400000
+State:"Puebla"
+StateKey:"21"
+WorkingDays:127
+ZipCode:"72000"

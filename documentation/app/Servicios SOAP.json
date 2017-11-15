@@ -1,0 +1,875 @@
+/* GetAtmDetail */
+{
+  "Area": "Alfonso Xiii",
+  "Brand": "GRG",
+  "CassetteAmount": "FULL",
+  "City": "Alvaro Obregon",
+  "CriticalPeriod": 1,
+  "Description": "CI01GT0003",
+  "DeviceStatus": "OK",
+  "HopperAmount": "null",
+  "Id": "16281584",
+  "Ip": "11.40.2.8",
+  "IsOnline": true,
+  "IsoAddress": "1234567890123456789012345678901234567890",
+  "IsoLocation": "123456789012345678901234567890123",
+  "Model": "H68NL Recycler",
+  "Name": "CI01GT0003",
+  "OfflineDevices": [
+    
+  ],
+  "OnlineDevices": [
+    "PTR",
+    "EPP",
+    "DEP",
+    "BAR",
+    "AFD",
+    "ICM",
+    "TIO",
+    "VDM"
+  ],
+  "OperatingSystem": "Windows 7",
+  "PaperStatus": "OK",
+  "SerialNumber": "223664",
+  "ServiceDate": 1600059600000,
+  "State": "Distrito Federal",
+  "ZipCode": "01460",
+  "LastDetails": [
+    
+  ],
+  "CassettesStatus": [
+    "OK",
+    "OK",
+    "OK",
+    "OK"
+  ],
+  "HoppersStatus": [
+    
+  ],
+  "IsInMaintenanceMode": false,
+  "LastDetailsTimestamps": [
+    
+  ],
+  "CassettesStatusTimestamp": 1510728396506,
+  "HoppersStatusTimestamp": 0,
+  "MaintenanceModeTimestamp": 0,
+  "SafeOpen": false,
+  "CabinetOpen": false,
+  "SafeOpenTs": 1510708374719,
+  "CabinetOpenTs": 1510708241250,
+  "RetractStatus": [
+    "OK"
+  ],
+  "RetractStatusTimestamp": 1510728273352,
+  "RejectStatus": [
+    "OK"
+  ],
+  "RejectStatusTimestamp": 1510728273352,
+  "Money": 3,
+  "AtmStartHour": 0,
+  "AtmStartMinute": 0,
+  "AtmEndHour": 0,
+  "AtmEndMinute": 0,
+  "WorkingDays": 127,
+  "LastIOnlineTimestamp": 1510728411056,
+  "AddressStreet": "Av. Santa Lucia",
+  "AddressNumber": "185",
+  "Latitude": 0,
+  "Longitude": 0,
+  "Locality": "Alvaro Obregon",
+  "LocalityKey": "0001",
+  "CityKey": "010",
+  "StateKey": "09",
+  "CreationDate": "1969/31/12"
+}
+
+/* GetAtmMoneyStat */
+[
+  {
+    "Amount": 97,
+    "Currency": "MXN",
+    "Denomination": "50.00",
+    "Device": "Cassette1",
+    "Percentage": "100.00 %"
+  },
+  {
+    "Amount": 174,
+    "Currency": "MXN",
+    "Denomination": "100.00",
+    "Device": "Cassette2",
+    "Percentage": "98.31 %"
+  },
+  {
+    "Amount": 209,
+    "Currency": "MXN",
+    "Denomination": "200.00",
+    "Device": "Cassette3",
+    "Percentage": "96.76 %"
+  },
+  {
+    "Amount": 423,
+    "Currency": "MXN",
+    "Denomination": "500.00",
+    "Device": "Cassette4",
+    "Percentage": "84.60 %"
+  }
+]
+
+/* GetAtm */
+etAtm: : Inicioatms.component.ts: 60[
+  {
+    "Area": "Guadalupe Inn",
+    "Brand": "GRG",
+    "CassetteAmount": "LOW",
+    "City": "Alvaro Obregon",
+    "CriticalPeriod": 1,
+    "Description": "ATM GSS",
+    "DeviceStatus": "OK",
+    "HopperAmount": "LOW",
+    "Id": "455002",
+    "Ip": "11.40.2.1",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI01GL0001",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "EPP",
+      "ICM",
+      "CDM",
+      "AFD",
+      "PTR",
+      "TIO",
+      "DEP",
+      "VDM"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "111111",
+    "ServiceDate": 1590814800000,
+    "State": "Distrito Federal",
+    "ZipCode": "01020",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "HoppersStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1507832083852,
+    "HoppersStatusTimestamp": 1507832009237,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": false,
+    "CabinetOpen": false,
+    "SafeOpenTs": 1504156984325,
+    "CabinetOpenTs": 1507830067428,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1507832081635,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1507832081635,
+    "Money": 1,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1507832123727,
+    "AddressStreet": "Miguel Lerdo de Tejada",
+    "AddressNumber": "100",
+    "Latitude": 19.3558682,
+    "Longitude": -99.1876648,
+    "Locality": "Alvaro Obregon",
+    "LocalityKey": "0001",
+    "CityKey": "010",
+    "StateKey": "09",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Insurgentes Cuicuilco",
+    "Brand": "GRG",
+    "CassetteAmount": "MED",
+    "City": "Coyoacan",
+    "CriticalPeriod": 1,
+    "Description": "Walmart Perisur 1",
+    "DeviceStatus": "OK",
+    "HopperAmount": "LOW",
+    "Id": "3280360",
+    "Ip": "11.40.2.2",
+    "IsOnline": true,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI01GT0011",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "PTR",
+      "TIO",
+      "ICM",
+      "EPP",
+      "CDM",
+      "AFD",
+      "DEP"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "1234567890",
+    "ServiceDate": 1592542800000,
+    "State": "Distrito Federal",
+    "ZipCode": "04530",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510728737700,
+    "HoppersStatusTimestamp": 1510653490336,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": false,
+    "CabinetOpen": false,
+    "SafeOpenTs": 1510701366523,
+    "CabinetOpenTs": 1510701006295,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510728735203,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510728735203,
+    "Money": 1,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510728757150,
+    "AddressStreet": "Avenida Centro Comercial",
+    "AddressNumber": "190",
+    "Latitude": 0,
+    "Longitude": 0,
+    "Locality": "Coyoacan",
+    "LocalityKey": "0001",
+    "CityKey": "003",
+    "StateKey": "09",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Alfonso Xiii",
+    "Brand": "GRG",
+    "CassetteAmount": "FULL",
+    "City": "Alvaro Obregon",
+    "CriticalPeriod": 1,
+    "Description": "CI01GT0003",
+    "DeviceStatus": "OK",
+    "HopperAmount": "null",
+    "Id": "16281584",
+    "Ip": "11.40.2.8",
+    "IsOnline": true,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI01GT0003",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "PTR",
+      "EPP",
+      "DEP",
+      "BAR",
+      "AFD",
+      "ICM",
+      "TIO",
+      "VDM"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "223664",
+    "ServiceDate": 1600059600000,
+    "State": "Distrito Federal",
+    "ZipCode": "01460",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510728759840,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": false,
+    "CabinetOpen": false,
+    "SafeOpenTs": 1510708374719,
+    "CabinetOpenTs": 1510708241250,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510728636858,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510728636858,
+    "Money": 3,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510728760527,
+    "AddressStreet": "Av. Santa Lucia",
+    "AddressNumber": "185",
+    "Latitude": 0,
+    "Longitude": 0,
+    "Locality": "Alvaro Obregon",
+    "LocalityKey": "0001",
+    "CityKey": "010",
+    "StateKey": "09",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Guadalupe Inn",
+    "Brand": "GRG",
+    "CassetteAmount": "LOW",
+    "City": "Alvaro Obregon",
+    "CriticalPeriod": 30,
+    "Description": "Show Room",
+    "DeviceStatus": "OK",
+    "HopperAmount": "LOW",
+    "Id": "28245014",
+    "Ip": "11.40.2.15",
+    "IsOnline": true,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI01GL0002",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "PTR",
+      "EPP",
+      "ICM",
+      "TIO",
+      "CDM",
+      "DEP",
+      "AFD",
+      "VDM"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "123456789",
+    "ServiceDate": 1546322400000,
+    "State": "Distrito Federal",
+    "ZipCode": "01020",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "EMPTY",
+      "OK",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "HoppersStatus": [
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510728732171,
+    "HoppersStatusTimestamp": 1510728662543,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": false,
+    "CabinetOpen": false,
+    "SafeOpenTs": 0,
+    "CabinetOpenTs": 1510592499745,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510728693917,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510728693917,
+    "Money": 1,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510728760672,
+    "AddressStreet": "Miguel Lerdo de Tejada",
+    "AddressNumber": "100",
+    "Latitude": 19.356105,
+    "Longitude": 99.186212,
+    "Locality": "Alvaro Obregon",
+    "LocalityKey": "0001",
+    "CityKey": "010",
+    "StateKey": "09",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Centro",
+    "Brand": "GRG",
+    "CassetteAmount": "MED",
+    "City": "Puebla (Heroica Puebla)",
+    "CriticalPeriod": 1,
+    "Description": "Torneo de la amistad 1",
+    "DeviceStatus": "OK",
+    "HopperAmount": "null",
+    "Id": "31451960",
+    "Ip": "11.40.2.10",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI21GE0001",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "EPP",
+      "ICM",
+      "VDM",
+      "PTR",
+      "AFD",
+      "TIO",
+      "DEP"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "293454",
+    "ServiceDate": 1573106400000,
+    "State": "Puebla",
+    "ZipCode": "72000",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510704444618,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": true,
+    "CabinetOpen": true,
+    "SafeOpenTs": 1510706880014,
+    "CabinetOpenTs": 1510704584936,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510704533167,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510704533167,
+    "Money": 2,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510707593769,
+    "AddressStreet": "Blvrd del Niño poblano",
+    "AddressNumber": "2509",
+    "Latitude": 19.028986,
+    "Longitude": 98.240333,
+    "Locality": "Heroica Puebla De Zaragoza",
+    "LocalityKey": "0001",
+    "CityKey": "114",
+    "StateKey": "21",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Centro",
+    "Brand": "GRG",
+    "CassetteAmount": "LOW",
+    "City": "Puebla (Heroica Puebla)",
+    "CriticalPeriod": 1,
+    "Description": "Torneo de la amistad 2",
+    "DeviceStatus": "OK",
+    "HopperAmount": "null",
+    "Id": "31469665",
+    "Ip": "11.40.2.11",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI21GE0002",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "TIO",
+      "VDM",
+      "ICM",
+      "DEP",
+      "AFD",
+      "PTR",
+      "EPP"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "293455",
+    "ServiceDate": 1573106400000,
+    "State": "Puebla",
+    "ZipCode": "72000",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510702646320,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": true,
+    "CabinetOpen": true,
+    "SafeOpenTs": 1510703433728,
+    "CabinetOpenTs": 1510702965630,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510702863904,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510702863904,
+    "Money": 1,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510704644562,
+    "AddressStreet": "Blvrd del Niño poblano",
+    "AddressNumber": "2509",
+    "Latitude": 19.028986,
+    "Longitude": 98.240333,
+    "Locality": "Heroica Puebla De Zaragoza",
+    "LocalityKey": "0001",
+    "CityKey": "114",
+    "StateKey": "21",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Centro",
+    "Brand": "GRG",
+    "CassetteAmount": "MED",
+    "City": "Puebla (Heroica Puebla)",
+    "CriticalPeriod": 1,
+    "Description": "Torneo de la amistad 3",
+    "DeviceStatus": "OK",
+    "HopperAmount": "null",
+    "Id": "31469670",
+    "Ip": "11.40.2.12",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI21GE0003",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "TIO",
+      "VDM",
+      "PTR",
+      "EPP",
+      "ICM",
+      "AFD",
+      "DEP"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "293457",
+    "ServiceDate": 1573106400000,
+    "State": "Puebla",
+    "ZipCode": "72000",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510702709537,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": true,
+    "CabinetOpen": true,
+    "SafeOpenTs": 1510703220231,
+    "CabinetOpenTs": 1510702752381,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510702694042,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510702694042,
+    "Money": 2,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510704855513,
+    "AddressStreet": "Blvrd del Niño poblano",
+    "AddressNumber": "2509",
+    "Latitude": 19.028986,
+    "Longitude": 98.240333,
+    "Locality": "Heroica Puebla De Zaragoza",
+    "LocalityKey": "0001",
+    "CityKey": "114",
+    "StateKey": "21",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Centro",
+    "Brand": "GRG",
+    "CassetteAmount": "MED",
+    "City": "Puebla (Heroica Puebla)",
+    "CriticalPeriod": 1,
+    "Description": "Torneo de la amistad 4",
+    "DeviceStatus": "OK",
+    "HopperAmount": "null",
+    "Id": "31470934",
+    "Ip": "11.40.2.13",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI21GE0004",
+    "OfflineDevices": [
+      
+    ],
+    "OnlineDevices": [
+      "VDM",
+      "TIO",
+      "PTR",
+      "EPP",
+      "ICM",
+      "AFD",
+      "DEP"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "293460",
+    "ServiceDate": 1573106400000,
+    "State": "Puebla",
+    "ZipCode": "72000",
+    "LastDetails": [
+      
+    ],
+    "CassettesStatus": [
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "HoppersStatus": [
+      
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      
+    ],
+    "CassettesStatusTimestamp": 1510704058480,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": true,
+    "CabinetOpen": true,
+    "SafeOpenTs": 1510705005716,
+    "CabinetOpenTs": 1510704410328,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510704292485,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510704292485,
+    "Money": 2,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510706745934,
+    "AddressStreet": "Blvrd del Niño poblano",
+    "AddressNumber": "2509",
+    "Latitude": 19.028986,
+    "Longitude": 98.240333,
+    "Locality": "Heroica Puebla De Zaragoza",
+    "LocalityKey": "0001",
+    "CityKey": "114",
+    "StateKey": "21",
+    "CreationDate": "1969/31/12"
+  },
+  {
+    "Area": "Guadalupe Inn",
+    "Brand": "GRG",
+    "CassetteAmount": "LOW",
+    "City": "Alvaro Obregon",
+    "CriticalPeriod": 2,
+    "Description": "GRG de Laboratorio",
+    "DeviceStatus": "ERROR",
+    "HopperAmount": "LOW",
+    "Id": "34028153",
+    "Ip": "11.40.2.14",
+    "IsOnline": false,
+    "IsoAddress": "1234567890123456789012345678901234567890",
+    "IsoLocation": "123456789012345678901234567890123",
+    "Model": "H68NL Recycler",
+    "Name": "CI01GL0014",
+    "OfflineDevices": [
+      "CDM"
+    ],
+    "OnlineDevices": [
+      "EPP",
+      "AFD",
+      "ICM",
+      "PTR",
+      "TIO",
+      "DEP",
+      "VDM"
+    ],
+    "OperatingSystem": "Windows 7",
+    "PaperStatus": "OK",
+    "SerialNumber": "123123123",
+    "ServiceDate": 1510380000000,
+    "State": "Distrito Federal",
+    "ZipCode": "01020",
+    "LastDetails": [
+      null
+    ],
+    "CassettesStatus": [
+      "OK",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "HoppersStatus": [
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "IsInMaintenanceMode": false,
+    "LastDetailsTimestamps": [
+      0
+    ],
+    "CassettesStatusTimestamp": 1510625462589,
+    "HoppersStatusTimestamp": 0,
+    "MaintenanceModeTimestamp": 0,
+    "SafeOpen": false,
+    "CabinetOpen": false,
+    "SafeOpenTs": 0,
+    "CabinetOpenTs": 1510446745029,
+    "RetractStatus": [
+      "OK"
+    ],
+    "RetractStatusTimestamp": 1510463415393,
+    "RejectStatus": [
+      "OK"
+    ],
+    "RejectStatusTimestamp": 1510463415393,
+    "Money": 1,
+    "AtmStartHour": 0,
+    "AtmStartMinute": 0,
+    "AtmEndHour": 0,
+    "AtmEndMinute": 0,
+    "WorkingDays": 127,
+    "LastIOnlineTimestamp": 1510625464348,
+    "AddressStreet": "Miguel Lerdo de Tejada",
+    "AddressNumber": "100",
+    "Latitude": 19.3517263,
+    "Longitude": -99.1851295,
+    "Locality": "Alvaro Obregon",
+    "LocalityKey": "0001",
+    "CityKey": "010",
+    "StateKey": "09",
+    "CreationDate": "1969/31/12"
+  }
+]
+
+
