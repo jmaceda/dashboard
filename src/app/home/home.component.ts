@@ -711,6 +711,9 @@ export class HomeComponent implements OnInit  {
                         this.incrementaErrorBanco(tmpAquirer, reg.HWErrorCode, reg.SwitchResponseCode, 'R');
                         this.dNumRetirosNoExito++;
                     }
+                    if(reg.SwitchResponseCode < 1000) {
+                        this.arrTarjetas["i"+idxReg] = reg.CardNumber;
+                    }
                     break;
                 }
 
@@ -734,7 +737,6 @@ export class HomeComponent implements OnInit  {
                         this.datosRetirosXhora[_hora].dNumConsPorHora++;
                         this.incrementaBanco('CON', reg.Aquirer);
                         tmpAquirer = reg.Aquirer;
-                        this.arrTarjetas["i"+idxReg] = reg.CardNumber;
                     }else{
                         this.dNumConsultasNoExito++;
                         this.dMontoConsultasNoExito += reg.Amount;
@@ -745,6 +747,9 @@ export class HomeComponent implements OnInit  {
                         this.dHraUltimaConsultaNoExito = tmpHoraOperacion;
                         this.incrementaBanco('COE', reg.Aquirer);
                         this.incrementaErrorBanco(reg.Aquirer, reg.HWErrorCode, reg.SwitchResponseCode, 'C');
+                    }
+                    if(reg.SwitchResponseCode < 1000) {
+                        this.arrTarjetas["i"+idxReg] = reg.CardNumber;
                     }
                     tipoUltimaOperacion = "C";
                     
@@ -847,38 +852,18 @@ export class HomeComponent implements OnInit  {
         this.mResumenPorBanco();
         this.pResumenDepositos();
 
-
-        //console.log(this.arrTarjetas);
-
-        console.log(this.arrTarjetas);
-        console.log("Buscando la tarjeta  ("+this.arrTarjetas.length+")");
         let idxx=0;
-        for (let cve in this.arrTarjetas) {
-            let tIdxx="i"+idxx;
-            //console.log(tIdxx);
-            if( this.arrTarjetas[tIdxx] == '547146XXXXXX8650'){
-                console.log("--> "+JSON.stringify(datosLog[idxx -1]));
-                console.log("--> "+JSON.stringify(datosLog[idxx]));
-                console.log("--> "+JSON.stringify(datosLog[idxx +1]));
-                break;
-            }
-            idxx++;
-        }
-        /*
-        for(let idxx=0; idxx < this.arrTarjetas.length; idxx++){
-            let tIdxx="i"+idxx;
-            console.log(tIdxx);
-            if( this.arrTarjetas[tIdxx] == '547146XXXXXX8650'){
-                console.log("--> "+JSON.stringify(datosLog[idxx -1]));
-                console.log("--> "+JSON.stringify(datosLog[idxx]));
-                console.log("--> "+JSON.stringify(datosLog[idxx +1]));
+
+         for (var key in this.arrTarjetas) {
+            let value = this.arrTarjetas[key];
+            if( this.arrTarjetas[key] == '547146XXXXXX8650'){
+                idxx = Number( key.substr(1));
+                //console.log(JSON.stringify(datosLog[idxx -1]));
+                //console.log(JSON.stringify(datosLog[idxx]));
+                //console.log(JSON.stringify(datosLog[idxx +1]));
                 break;
             }
         }
-        */
-
-        console.log("---------------------------------");
-
 
         //this.pErroresPorBanco=[];
         let idx = 0;
@@ -896,12 +881,12 @@ export class HomeComponent implements OnInit  {
 
         this.cErroresPorBanco = arrErrsBanco;
 
-        console.log("Contenido de lErroresPorBanco");
-        console.log(this.lErroresPorBanco);
-        for(let idx; idx < this.lErroresPorBanco.length; idx++){
-            console.log("lErroresPorBanco:: " + this.lErroresPorBanco[idx]);
-        }
-        console.log("Termina Contenido de lErroresPorBanco");
+        //console.log("Contenido de lErroresPorBanco");
+        //console.log(this.lErroresPorBanco);
+        //for(let idx; idx < this.lErroresPorBanco.length; idx++){
+        //    console.log("lErroresPorBanco:: " + this.lErroresPorBanco[idx]);
+        //}
+        //console.log("Termina Contenido de lErroresPorBanco");
 //console.log(this.cErroresPorBanco);
 
     }
