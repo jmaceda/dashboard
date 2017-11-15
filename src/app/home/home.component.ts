@@ -549,6 +549,7 @@ export class HomeComponent implements OnInit  {
         this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
         var idxReg = 0;
+        var idxRegLog = 0;
         datosLog.forEach((reg)=>{
 
             reg.Time
@@ -561,7 +562,14 @@ export class HomeComponent implements OnInit  {
             let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
             let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
+            let xReg = reg
+            xReg.TimeStamp = fch;
+           //console.log((idxRegLog++)+") " + JSON.stringify(xReg));
 
+            if( reg.CardNumber == '547146XXXXXX8650'){
+                //console.log("Registro localizado --> idxRegLog["+idxRegLog+"]");
+            }
+            idxRegLog++;
             /*
             if( reg.CardNumber == '547146XXXXXX8650'){
                 let xReg = reg
@@ -627,7 +635,7 @@ export class HomeComponent implements OnInit  {
                                 tmpCardNumber = "";
                                 tmpAuthId     = "";
                             }
-                            this.arrTarjetas[idxReg++] = reg.CardNumber;
+                            this.arrTarjetas["i"+idxReg] = reg.CardNumber;
                             break;
                         }
 
@@ -726,7 +734,7 @@ export class HomeComponent implements OnInit  {
                         this.datosRetirosXhora[_hora].dNumConsPorHora++;
                         this.incrementaBanco('CON', reg.Aquirer);
                         tmpAquirer = reg.Aquirer;
-                        this.arrTarjetas[idxReg++] = reg.CardNumber;
+                        this.arrTarjetas["i"+idxReg] = reg.CardNumber;
                     }else{
                         this.dNumConsultasNoExito++;
                         this.dMontoConsultasNoExito += reg.Amount;
@@ -829,6 +837,7 @@ export class HomeComponent implements OnInit  {
             if (reg.Event == "CASH MANAGEMENT" && reg.Data == "VALIDAUSUARIO IsValid TRUE"){
                 id = reg.Id
             }
+            idxReg++;
 
         });
 
@@ -839,15 +848,37 @@ export class HomeComponent implements OnInit  {
         this.pResumenDepositos();
 
 
+        //console.log(this.arrTarjetas);
+
         console.log(this.arrTarjetas);
-        for(let idx=0; idx < this.arrTarjetas.length; idx++){
-            if( this.arrTarjetas[idx] == '547146XXXXXX8650'){
-                console.log("--> "+JSON.stringify(datosLog[idx -1]));
-                console.log("--> "+JSON.stringify(datosLog[idx]));
-                console.log("--> "+JSON.stringify(datosLog[idx +1]));
+        console.log("Buscando la tarjeta  ("+this.arrTarjetas.length+")");
+        let idxx=0;
+        for (let cve in this.arrTarjetas) {
+            let tIdxx="i"+idxx;
+            //console.log(tIdxx);
+            if( this.arrTarjetas[tIdxx] == '547146XXXXXX8650'){
+                console.log("--> "+JSON.stringify(datosLog[idxx -1]));
+                console.log("--> "+JSON.stringify(datosLog[idxx]));
+                console.log("--> "+JSON.stringify(datosLog[idxx +1]));
+                break;
+            }
+            idxx++;
+        }
+        /*
+        for(let idxx=0; idxx < this.arrTarjetas.length; idxx++){
+            let tIdxx="i"+idxx;
+            console.log(tIdxx);
+            if( this.arrTarjetas[tIdxx] == '547146XXXXXX8650'){
+                console.log("--> "+JSON.stringify(datosLog[idxx -1]));
+                console.log("--> "+JSON.stringify(datosLog[idxx]));
+                console.log("--> "+JSON.stringify(datosLog[idxx +1]));
                 break;
             }
         }
+        */
+
+        console.log("---------------------------------");
+
 
         //this.pErroresPorBanco=[];
         let idx = 0;
@@ -1248,6 +1279,9 @@ public fechaHoraOperacion: string;
 
         this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
         this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
+
+      this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
+      this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
 
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
