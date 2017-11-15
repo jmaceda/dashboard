@@ -1,8 +1,9 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit } from '@angular/core';
-import { DataTableResource } from 'angular-4-data-table-bootstrap-4';
+import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table-bootstrap-4';
 
 import { SoapService } from '../../services/soap.service';
+import {ifTrue} from "codelyzer/util/function";
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
@@ -16,6 +17,7 @@ export var gDatosAtms:any[];
 export class AtmsEstatusComponent implements OnInit {
 
     public url: string = '/services/dataservices.asmx';
+    public ambiente: string = "Producción"
 
 
     itemResource = new DataTableResource(arrDatosAtms);
@@ -99,15 +101,29 @@ export class AtmsEstatusComponent implements OnInit {
 
         let idx = 0;
         gDatosAtms.forEach((reg)=> {
-            arrDatosAtms[idx++] = {Description: reg.Description, Ip: reg.Ip, Name: reg.Name, IsOnline: reg.IsOnline,
-                PaperStatus: reg.PaperStatus, SafeOpen: reg.SafeOpen, CabinetOpen: reg.CabinetOpen}
+            let tSafeOpen = (reg.SafeOpen == false) ? 'Cerrada' : 'Abierta';
+            let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
+            let tIsOnline = (reg.IsOnline == true) ? 'Encendido' : 'Apagado';
+
+            arrDatosAtms[idx++] = {
+                Description: reg.Description, Ip: reg.Ip, Name: reg.Name, IsOnline: tIsOnline,
+                PaperStatus: reg.PaperStatus, SafeOpen: tSafeOpen, CabinetOpen: tCabinetOpen,
+                CassetteAmount: reg.CassetteAmount, IsInMaintenanceMode: reg.IsInMaintenanceMode
+            }
         });
 
-        //this.itemResource = arrDatosAtms;
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
 
     }
+
+    cellColor(line){
+        console.log(line.IsOnline);
+        if(line.IsOnline == 'Apagado'){
+            return 'rgb(237, 28, 53)';
+        }
+        //return color; //(line.IsOnline == false) ? "red" : "black"; //color; //'rgb(255, 255,' + (155 + Math.floor(100 - ((car.rating - 8.7)/1.3)*100)) + ')';
+    };
 
     // Ip y Clave de ATMs
 
@@ -141,6 +157,7 @@ export class AtmsEstatusComponent implements OnInit {
 
     reloadItems(params) {
         this.itemResource.query(params).then(items => this.items = items);
+        this.obtenGetAtm();
     }
 
     // special properties:
