@@ -13,11 +13,13 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { AtmsComponent } from './atms/atms.component';
+import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
 
 const routes: Routes =[
     { path: 'dashboard',      component: HomeComponent },
     //{ path: 'reportes',       component: ReportesComponent },
     { path: 'atms',           component: AtmsComponent },
+    { path: 'atms3',           component: AtmsComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },

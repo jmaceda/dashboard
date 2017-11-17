@@ -60,7 +60,13 @@
                 [header]="'OnLine'"
                 [sortable]="true"
                 [resizable]="false"
-                [cellColors]="cellColor">
+                [cellColors]="cellColor"
+        <template #dataTableCell let-item="item">
+                <span style="color: red">
+                <span class="fa fa-check" *ngIf="item == 'Apagado'"></span>
+                </span>
+        </template>
+        >
         </data-table-column>
         <data-table-column
                 [property]="'PaperStatus'"

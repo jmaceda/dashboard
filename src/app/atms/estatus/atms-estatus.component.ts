@@ -115,13 +115,19 @@ export class AtmsEstatusComponent implements OnInit {
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
 
-    }
+    };
 
     cellColor(line){
-        console.log(line.IsOnline);
+       //console.log(line.IsOnline + "  -  " + this.styleClass);
         if(line.IsOnline == 'Apagado'){
+            //console.log(this.styleClass);
+            //this.styleClass = "column-"+this.property + " clase";
             return 'rgb(237, 28, 53)';
+        }else{
+            //this.styleClass = "column-"+this.property;
+            //console.log(line.IsOnline + "  -  " + this.styleClass);
         }
+
         //return color; //(line.IsOnline == false) ? "red" : "black"; //color; //'rgb(255, 255,' + (155 + Math.floor(100 - ((car.rating - 8.7)/1.3)*100)) + ')';
     };
 

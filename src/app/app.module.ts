@@ -28,10 +28,11 @@ import { ReactiveFormsModule }             from '@angular/forms';
 import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
 import { AtmsComponent } from './atms/atms.component';
 import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
-
+//import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
 
 //import { ReportesComponent } from "./reportes/reportes.component";
 //import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
     NotificationsComponent,
     UpgradeComponent,
     AtmsComponent,
-    AtmsEstatusComponent
+    AtmsEstatusComponent,
+    //ColumnPinningComponent
     //ReportesComponent,
     //DataTableDemo1
     //DepositosComponent,
@@ -63,6 +65,7 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
     LbdModule,
     ReactiveFormsModule,
     DataTableModule,
+    NgxDatatableModule
 
     //ChartsModule,
   ],
