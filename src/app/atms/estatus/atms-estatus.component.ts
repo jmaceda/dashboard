@@ -1,6 +1,6 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit } from '@angular/core';
-import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table-bootstrap-4';
+import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table';
 
 import { SoapService } from '../../services/soap.service';
 import {ifTrue} from "codelyzer/util/function";
@@ -83,6 +83,7 @@ export class AtmsEstatusComponent implements OnInit {
 
     }
 
+    public xtIsOnline:string = "";
     public obtenGetAtm() {
 
         let parameters = {
@@ -100,15 +101,25 @@ export class AtmsEstatusComponent implements OnInit {
         this._soapService.post(this.url, "GetAtm", parameters, this.GetAtm);
 
         let idx = 0;
+
+
         gDatosAtms.forEach((reg)=> {
             let tSafeOpen = (reg.SafeOpen == false) ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline = (reg.IsOnline == true) ? 'Encendido' : 'Apagado';
+            this.xtIsOnline = (reg.IsOnline == true) ? 'Encendido' : 'Apagado';
+            let tOffDispo = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
 
             arrDatosAtms[idx++] = {
-                Description: reg.Description, Ip: reg.Ip, Name: reg.Name, IsOnline: tIsOnline,
-                PaperStatus: reg.PaperStatus, SafeOpen: tSafeOpen, CabinetOpen: tCabinetOpen,
-                CassetteAmount: reg.CassetteAmount, IsInMaintenanceMode: reg.IsInMaintenanceMode
+                Description: reg.Description,
+                Ip: reg.Ip,
+                DeviceStatus: reg.DeviceStatus,
+                IsOnline: tIsOnline,
+                PaperStatus: reg.PaperStatus,
+                SafeOpen: tSafeOpen,
+                CabinetOpen: tCabinetOpen,
+                CassetteAmount: reg.CassetteAmount,
+                OfflineDevices: tOffDispo
             }
         });
 
@@ -117,19 +128,6 @@ export class AtmsEstatusComponent implements OnInit {
 
     };
 
-    cellColor(line){
-       //console.log(line.IsOnline + "  -  " + this.styleClass);
-        if(line.IsOnline == 'Apagado'){
-            //console.log(this.styleClass);
-            //this.styleClass = "column-"+this.property + " clase";
-            return 'rgb(237, 28, 53)';
-        }else{
-            //this.styleClass = "column-"+this.property;
-            //console.log(line.IsOnline + "  -  " + this.styleClass);
-        }
-
-        //return color; //(line.IsOnline == false) ? "red" : "black"; //color; //'rgb(255, 255,' + (155 + Math.floor(100 - ((car.rating - 8.7)/1.3)*100)) + ')';
-    };
 
     // Ip y Clave de ATMs
 

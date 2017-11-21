@@ -25,14 +25,15 @@ import { ReactiveFormsModule }             from '@angular/forms';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
 
-import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
+//import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
+import { DataTableModule } from 'angular-4-data-table';
 import { AtmsComponent } from './atms/atms.component';
 import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
 //import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
 
 //import { ReportesComponent } from "./reportes/reportes.component";
 //import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+//import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     LbdModule,
     ReactiveFormsModule,
     DataTableModule,
-    NgxDatatableModule
+    //NgxDatatableModule
 
     //ChartsModule,
   ],

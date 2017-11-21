@@ -1265,8 +1265,8 @@ public fechaHoraOperacion: string;
         this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
         this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
 
-      this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
-      this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
+      //this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
+      //this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
 
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
