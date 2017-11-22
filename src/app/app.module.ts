@@ -62,6 +62,7 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
     FooterModule,
     SidebarModule,
     RouterModule,
+    //RouterModule,
     AppRoutingModule,
     LbdModule,
     ReactiveFormsModule,

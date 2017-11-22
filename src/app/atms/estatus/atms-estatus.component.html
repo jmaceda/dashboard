@@ -31,12 +31,14 @@
 
 <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
     <data-table id="stat-atms-grid"
-                headerTitle="ATMs (Prod)"
+                [headerTitle]="Titulo"
                 [items]="items"
                 [itemCount]="itemCount"
                 (reload)="reloadItems($event)"
                 (rowClick)="rowClick($event)"
                 (rowDoubleClick)="rowDoubleClick($event)"
+                [limit]="20"
+                [rowColors]="rowColors"
                 [rowTooltip]="rowTooltip">
         <data-table-column
                 [property]="'Description'"

@@ -5,7 +5,9 @@
     "angular-cli": {},
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --port 8687 --proxy-config proxy.conf.json",
+        "start": "ng serve --port 8786 --proxy-config proxy.confQA.json",
+        "startP": "ng serve --port 8687 --proxy-config proxy.confPR.json",
+		"startQ": "ng serve --port 8786 --proxy-config proxy.confQA.json",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",

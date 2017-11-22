@@ -1,25 +1,28 @@
-import { NgModule } from '@angular/core';
-import { CommonModule, } from '@angular/common';
-import { BrowserModule  } from '@angular/platform-browser';
-import { Routes, RouterModule } from '@angular/router';
+/*
+*/
 
-import { HomeComponent } from './home/home.component';
-import { UserComponent } from './user/user.component';
-import { TablesComponent } from './tables/tables.component';
-import { TypographyComponent } from './typography/typography.component';
-import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './notifications/notifications.component';
-import { UpgradeComponent } from './upgrade/upgrade.component';
-import { ReportesComponent } from './reportes/reportes.component';
-import { AtmsComponent } from './atms/atms.component';
-//import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
+
+import { NgModule }                 from '@angular/core';
+import { CommonModule, }            from '@angular/common';
+import { BrowserModule  }           from '@angular/platform-browser';
+import { Routes, RouterModule }     from '@angular/router';
+
+import { HomeComponent }            from './home/home.component';
+import { UserComponent }            from './user/user.component';
+import { TablesComponent }          from './tables/tables.component';
+import { TypographyComponent }      from './typography/typography.component';
+import { IconsComponent }           from './icons/icons.component';
+import { MapsComponent }            from './maps/maps.component';
+import { NotificationsComponent }   from './notifications/notifications.component';
+import { UpgradeComponent }         from './upgrade/upgrade.component';
+import { ReportesComponent }        from './reportes/reportes.component';
+import { AtmsComponent }            from './atms/atms.component';
+
 
 const routes: Routes =[
-    { path: 'dashboard',      component: HomeComponent },
-    //{ path: 'reportes',       component: ReportesComponent },
     { path: 'atms',           component: AtmsComponent },
-    //{ path: 'atms3',           component: AtmsComponent },
+    { path: 'operaciones',    component: HomeComponent },
+    //{ path: 'reportes',       component: ReportesComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },
@@ -27,7 +30,7 @@ const routes: Routes =[
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
-    { path: '',          redirectTo: 'dashboard', pathMatch: 'full' }
+    { path: '',  redirectTo: 'atms',   pathMatch: 'full' }
 ];
 
 @NgModule({

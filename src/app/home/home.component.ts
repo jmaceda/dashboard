@@ -11,6 +11,9 @@ import { DepositosModel }                                from './models/deposito
 //import { DepositosComponent }                            from "./datosDepositos/depositos.component"
 //import { AlertComponent }                                from './tmp/alert.component';
 // import Dexie                                             from 'dexie';
+import 'rxjs/add/operator/pairwise';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 // Importamos la clase del servicio
@@ -48,7 +51,7 @@ var gFchInicioFinAnterior = null;
 var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
 var request;
 var objStore;
-var tiempoRefreshDatos:number = (1000 * 60 * 1); // Actualiza la información cada minuto.
+var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
 
 //var Dexie;                    //require('dexie');
 var dbDexie;
@@ -116,7 +119,7 @@ export class DatosRetirosXhora{
     public dNumRetirosPorHora:number;
     public dAcumMontoRetirosPorHora:number;
 
-    constructor(){
+    constructor() {
         this.dNumConsPorHora = 0
         this.dNumRetirosPorHora = 0
         this.dAcumMontoRetirosPorHora = 0
@@ -228,7 +231,8 @@ export class HomeComponent implements OnInit  {
     items       : Array<{title: string, note: string, icon: string}>;
 
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
-    public url: string                  = '/services/dataservices.asmx';
+    public url: string = '/dataservices.asmx'; //  QA
+    //public url: string = '/services/dataservices.asmx'; // Prod
     public nomServicioPaginas: string   = 'GetEjaLogDataLength';
     public nomServicioDatosLog: string  = 'GetEjaLogPage';
     public TotalItems:number            = 0;
@@ -343,6 +347,7 @@ export class HomeComponent implements OnInit  {
 
         // Retiros no exitosos
         this.dNumRetirosNoExito      = 0;
+        this.dNumRetirosNoExito      = 0;
         this.dMontoRetirosNoExito    = 0;
         this.dHraPrimerRetiroNoExito = "";
         this.dHraUltimoRetiroNoExito = "";
@@ -449,6 +454,9 @@ export class HomeComponent implements OnInit  {
     // Actualiza informciòn de la pantalla.
     public pActualizaInfo(): void {
 
+        console.log("pActualizaInfo:: url["+this.rutaActual+"]");
+
+        // Se obtiene el nombre de la clase actual:  this.constructor.name
         console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
@@ -1103,7 +1111,6 @@ export class HomeComponent implements OnInit  {
     public obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
-        //console.log("obtenNumeroDePaginasLog: gNumPaginas["+gNumPaginas+"]   gNumRegistros["+gNumRegistros+"]");
     }
 
     public numPaginas = 0;
@@ -1131,6 +1138,12 @@ export class HomeComponent implements OnInit  {
 
     public pDatosDelJournal(){
 
+        console.log("pDatosDelJournal -->"+this.urlPath+"<--");
+        if (this.urlPath != "operaciones"){
+            console.log("pDatosDelJournal:: No va a cargar los datos");
+            return(0);
+        }
+
         this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
         this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
 
@@ -1138,7 +1151,7 @@ export class HomeComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
         console.log("Consulta Journal ["+new Date()+"]");
-        //console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
+
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
@@ -1164,10 +1177,7 @@ export class HomeComponent implements OnInit  {
             arrDatosServidorBack = arrDatosServidor; /* la primera consulta */
         }
 
-        //else{
-        {
-            arrDatosServidor = arrDatosServidorBack;
-        }
+        arrDatosServidor = arrDatosServidorBack;
 
         gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
         this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
@@ -1177,9 +1187,6 @@ export class HomeComponent implements OnInit  {
         }
 
         gNumPaginasCompletas = (gNumPaginas -1);
-        //console.log("arrDatosServidor["+arrDatosServidor.length+"]    arrDatosServidorInc["+arrDatosServidorInc.length+"]   NumRegsProcesados["+gNumRegsProcesados+"]");
-
-        //}
 
         let fchSys   = new Date();
         let _anioSys = fchSys.getFullYear();
@@ -1192,32 +1199,20 @@ export class HomeComponent implements OnInit  {
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
-
-    //date2: Date = new Date(2016, 5, 10);
-    //date3: Date;
-    //date4: Date;
-    /*
-    datepickerOpts: any = {
-        startDate: new Date(2016, 5, 10),
-        autoclose: true,
-        todayBtn: 'linked',
-        todayHighlight: true,
-        assumeNearbyYear: true,
-        format: 'D, d MM yyyy'
-    };
-    */
-    //date5: Date = new Date();
-    //date6: Date = new Date();
-    //dateFrom: Date;
-    //dateTo: Date;
-    datepickerToOpts: any = {};
-
     form: FormGroup;
 
 
 public fechaHoraOperacion: string;
 
   ngOnInit() {
+
+      this.activatedRoute.url.subscribe(url =>{
+          this.urlPath = url[0].path;
+          console.log("ngOnInit -->"+this.urlPath+"<--");
+
+      });
+      //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
+      //console.log("ngOnInit -->"+this.urlMenu+"<--");
 
       this.obtieneIpATMs();
       this.datosGrafica();
@@ -1555,12 +1550,35 @@ public fechaHoraOperacion: string;
     // Datos para la fecha.
     //form: FormGroup;
 
+    public rutaActual = "";
 
     //customers: Customer[];
-    constructor(private formBuilder: FormBuilder, public _soapService: SoapService, 
-                //public logger            : Logger,
+    public urlPath = "";
+    public urlMenu = "";
+    constructor(private formBuilder: FormBuilder,
+                public _soapService: SoapService,
                 private _desglosaBilletes: DesglosaBilletes,
-                public _guardaDepositosBD: GuardaDepositosBD){ //, service                  : Service) {
+                public _guardaDepositosBD: GuardaDepositosBD,
+                public activatedRoute: ActivatedRoute) {
+    //private activatedRoute : ActivatedRoute
+                console.log("HomeComponent:: Inicia");
+                this.activatedRoute.url.subscribe(url =>{
+                    this.urlPath = url[0].path;
+                    console.log("constructor:: -->"+this.urlPath+"<--");
+
+                });
+
+
+                //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
+                //console.log("HomeComponent::  url["+activatedRoute._routerState.snapshot.url+"]");
+                //console.log("HomeComponent::  component["+activatedRoute.component.name+"]");
+                //console.log("HomeComponent::  _routerState["+this.activatedRoute._futureSnapshot._routerState.url+"]");
+
+
+
+        //this.rutaActual = this._navigationStart.currentRouterState.snapshot.url;
+
+                //console.log("HomeComponent:: url["+this._navigationStart.currentRouterState.snapshot.url+"]");
 
         //this.customers = service.getCustomers();
 
