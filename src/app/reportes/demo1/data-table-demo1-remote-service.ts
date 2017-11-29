@@ -1,6 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { DataTableParams } from 'angular-4-data-table';
+import { DataTableParams } from 'angular-4-data-table-fix';
 import 'rxjs/add/operator/toPromise';
 
 

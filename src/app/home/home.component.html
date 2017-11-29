@@ -184,6 +184,8 @@
     }
 </style>
 
+<!-- ng-progress [color]="'blue'"></ng-progress -->
+
 <div class="main-content">
     <div class="container-fluid">
         <!--
@@ -278,6 +280,7 @@
         <!-- row -->
 
         <div class="row"></div>
+        <p style="color: red;">{{msgError}}</p>
         <div class="row"></div>
 
         <div class="container-fluid">
@@ -307,6 +310,20 @@
                                         <td class="col2">{{row.ultimoMto}}</td>
                                     </tr>
                                 </tbody>
+                                <tr>
+                                    <td class="col1">Retiro de Valores</td>
+                                    <td class="col2">{{dotacion.estado}}</td>
+                                    <td class="col2">{{dotacion.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    <td class="col2">{{dotacion.iniciaDota}}</td>
+                                    <td class="col2">{{dotacion.terminaDota}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col1">Downtime después del corte</td>
+                                    <td class="col2">{{deposito.tiempoDowntime}}</td>
+                                    <td class="col2">{{deposito.montoDowntime | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    <td class="col2">{{deposito.terminaDota}}</td>
+                                    <td class="col2">{{deposito.iniciaDeposito}}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -440,14 +457,14 @@
                                     <!-- td class="col2">{{dCol.dNumRechazos | number:'1.0-0'}}</td -->
                                 </tr>
                             </tbody>
-                            <tr *ngFor="let fCol of tblResumenPorBanco.totalRows" class="totalResumenBancos">
-                                <td class="totalResumenBancos col1_25">{{fCol.fNumBancos}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumRetOk | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumRetNoOK | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumCons | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumConsNoOk | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos col2_7d">{{fCol.fNumReversos | number:'1.0-0'}}</td>
-                            </tr>
+                                <tr *ngFor="let fCol of tblResumenPorBanco.totalRows" class="totalResumenBancos">
+                                    <td class="totalResumenBancos col1_25">{{fCol.fNumBancos}}</td>
+                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumRetOk | number:'1.0-0'}}</td>
+                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumRetNoOK | number:'1.0-0'}}</td>
+                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumCons | number:'1.0-0'}}</td>
+                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumConsNoOk | number:'1.0-0'}}</td>
+                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumReversos | number:'1.0-0'}}</td>
+                                </tr>
                         </table>
                     </div>
                 </div>

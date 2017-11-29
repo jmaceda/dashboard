@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
-import { DataTableResource } from 'angular-4-data-table';
+import { DataTableResource } from 'angular-4-data-table-fix';
 import persons from './data-table-demo1-data';
 
 

@@ -26,14 +26,23 @@ import { ReactiveFormsModule }             from '@angular/forms';
 //import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
 
 //import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
-import { DataTableModule } from 'angular-4-data-table';
-import { AtmsComponent } from './atms/atms.component';
+import { DataTableModule }      from 'angular-4-data-table-fix';
+import { AtmsComponent }        from './atms/atms.component';
 import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
+import { JournalComponent }     from './reportes/journal/journal.component';
+
+import { ReportesModule }   from './reportes/reportes.module';
+//import { Journal2Component }    from './reportes/journal2/journal2.component';
+import { DataFilterPipe }       from './pipes/data-filter.pipe';
+//import { DataTableModule } from "angular2-datatable";
 //import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
 
 //import { ReportesComponent } from "./reportes/reportes.component";
 //import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
 //import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+//import { NgProgressModule } from 'ngx-progressbar';
+
 
 @NgModule({
   declarations: [
@@ -48,6 +57,8 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
     UpgradeComponent,
     AtmsComponent,
     AtmsEstatusComponent,
+    JournalComponent,
+    //DataFilterPipe
     //ColumnPinningComponent
     //ReportesComponent,
     //DataTableDemo1
@@ -67,6 +78,8 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
     LbdModule,
     ReactiveFormsModule,
     DataTableModule,
+    ReportesModule
+    //NgProgressModule
     //NgxDatatableModule
 
     //ChartsModule,

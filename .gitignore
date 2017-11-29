@@ -4,6 +4,7 @@
 /dist
 /tmp
 /src - copia
+/src - copia (2)
 
 # dependencies
 /node_modules
@@ -13,6 +14,7 @@ node_modules
 /node_modulesNuevo
 /angular-cli.jsonX
 /package - copia.json
+/angular-datatables
 
 
 # IDEs and editors

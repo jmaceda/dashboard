@@ -1,0 +1,115 @@
+
+#x .ngx-table {
+    width: 100%;
+    /*height: 110px;*/
+    border: thin solid black;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+div .ngx-columns {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    higth: 25em;
+}
+
+div.ngx-container div.ngx-columns table{
+    background-color: blue;
+}
+
+
+table[_ngcontent-c2] {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    higth: 25em;
+}
+
+table.ngx-table.ngx-table-striped.ngx-table-hover{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    higth: 25em;
+    background-color: blue;
+}
+/*
+.row__Amount {
+    width: 50px;
+}
+
+.row__Data {
+    width: 100px;
+}
+*/
+
+.tabs {
+    position: relative;
+    min-height: 200px;
+    clear: both;
+    margin: 35px 0 25px;
+    background: white;
+}
+.tab {
+    float: left;
+
+}
+.tab__title {
+    background: #aaa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-left: -1px;
+    position: relative;
+    left: 1px;
+    top: -54px;
+    -webkit-transition: background-color .17s linear;
+}
+.tab [type=radio] {
+    display: none;
+}
+.content {
+    background: white;
+    border: 1px solid #ccc;
+    bottom: 0;
+    display: table;
+    width: 70%;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    opacity: 0;
+}
+[type=radio]:checked ~ label {
+    background: white;
+    border-bottom: 1px solid white;
+    z-index: 2;
+}
+[type=radio]:checked ~ label ~ .content {
+    z-index: 1;
+    opacity: 1;
+}
+
+div.ngx-columns{
+    background-color: blue;
+    overflow-x: scroll;
+}
+table.ngx-table.ngx-table-striped.ngx-table-hover{
+    background-color: red;
+    overflow-x: scroll;
+}
+
+
+#container {
+    /*width: 100%;*/
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    flex-wrap: nowrap;              /* default value; can be omitted */
+    justify-content: space-between; /* switched from default (flex-start, see below) */
+    /* background-color: lightyellow; */
+}
+#container > div {
+    width: 33%;
+    justify-content: center;
+}
+
+/*
+<div _ngcontent-c2="" class="ngx-columns">
+<table _ngcontent-c2="" class="ngx-table ngx-table-striped ngx-table-hover">
+*/

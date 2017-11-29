@@ -1,0 +1,108 @@
+<!--
+<div id="container">
+    <div id="left" >
+        <span>{{fchUltimaActualizacion}}</span>
+    </div>
+    <div id="right">
+        <span>Journal</span>
+    </div>
+    <div id="center">
+        <button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button>
+    </div>
+</div>
+-->
+<!--
+<button class="btn btn-warning pull-right" (click)="changeVisibility()">
+    Mostrar más <i [ngClass]="status === 'inactive' ? 'glyphicon glyphicon-arrow-down' : 'glyphicon glyphicon-arrow-up'" />
+</button>
+
+<button	class="ngx-icon ngx-icon-menu" 	(click)="this.exportaJournal2Excel()">Exporta Excel</button>
+
+<small>Click <span class="ion-navicon"></span> on the right table side to enable menu</small>
+-->
+
+
+
+<div class="row" style="padding: 5px;">
+    <div class="col-md-4">
+        <span></span>
+    </div>
+    <div class="col-md-4" style="text-align: center">
+        <div  id="right" style="text-align: center">Aclaraciones</div>
+        <div style="text-align: center">{{fchUltimaActualizacion}}</div>
+    </div>
+    <div class="col-md-4" style="text-align: right">
+        <button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button>
+    </div>
+</div>
+
+
+<!-- https://github.com/swimlane/ngx-datatable/blob/master/demo/basic/row-detail.component.ts         @swimlane/ngx-datatable-->
+
+<div class="columns">
+    <div class="column col-12">
+        <ngx-table  id="x"
+                    class='material expandable'
+                [configuration]="configuration"
+                [data]="dataJournalRedBlu"
+                [columns]="columns"
+                [pagination]="pagination"
+                style="min-height:400px;">
+
+                <ng-template let-row>
+
+                    <td style="width: 10px;">
+                        <span>{{row.TimeStamp}}</span>
+                    </td>
+
+                    <td>{{row.AtmName}}</td>
+                    <td>{{row.CardNumber}}</td>
+
+                    <td [ngSwitch]=row.Event>
+                        <span style="color: red" *ngSwitchCase="'INIT'">{{row.Event}}</span>
+                        <span style="color: blue" *ngSwitchCase="'ADMIN'">{{row.Event}}</span>
+                        <span style="color: black" *ngSwitchDefault>{{row.Event}}</span>
+                    </td>
+
+                    <td>{{row.OperationType}}</td>
+
+                    <td style="width: 10px; text-align: right;">
+                        <span style="text-align: right;">{{row.Amount | currency:'USD':'symbol':'1.0-0'}}</span>
+                    </td>
+
+                    <td style="width:  10px; text-align: right;">
+                        <span style="text-align: right;">{{row.Available | currency:'USD':'symbol':'1.0-0'}}</span>
+                    </td>
+
+                    <td>{{row.Surcharge}}</td>
+                    <td>{{row.Aquirer}}</td>
+                    <td>{{row.Data}}</td>
+                    <td>{{row.SwitchResponseCode}}</td>
+                    <td style="width: 10px;">
+                        <span>{{row.HWErrorCode}}</span>
+                    </td>
+                    <td>{{row.TransactionCount}}</td>
+                    <td>{{row.Denomination}}</td>
+                    <td>{{row.AccountId}}</td>
+                    <td>{{row.AccountType}}</td>
+                    <td>{{row.AtmId}}</td>
+                    <td>{{row.FlagCode}}</td>
+                    <td style="width: 10em;">{{row.Arqc}}</td>
+                    <td style="width: 10em;">{{row.Arpc}}</td>
+                    <td style="width: 10em;">{{row.TerminalCaps}}</td>
+                    <td style="width: 10em;">{{row.PosMode}}</td>
+                    <td style="width: 10em;">{{row.SwitchAtmId}}</td>
+                    <td style="width: 10em;">{{row.Reference1}}</td>
+                    <td style="width: 10em;">{{row.Reference2}}</td>
+                    <td style="width: 10em;">{{row.Reference3}}</td>
+                    <td style="width: 10em;">{{row.SerializedId}}</td>
+                    <td style="width: 10em;">{{row.Ip}}</td>
+                    <td style="width: 10em;">{{row.Id}}</td>
+                    <!-- td style="width: 100em;">{{row.Location}}</td -->
+                    <div style="width: 60em">
+                        <td>{{row.Location}}</td>
+                    </div>
+                </ng-template>
+        </ngx-table>
+    </div>
+</div>

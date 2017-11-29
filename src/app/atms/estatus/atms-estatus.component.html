@@ -37,7 +37,7 @@
                 (reload)="reloadItems($event)"
                 (rowClick)="rowClick($event)"
                 (rowDoubleClick)="rowDoubleClick($event)"
-                [limit]="20"
+                [limit]="regsLimite"
                 [rowColors]="rowColors"
                 [rowTooltip]="rowTooltip">
         <data-table-column
@@ -97,7 +97,7 @@
                 [header]="'Gabinete'"
                 [sortable]="true"
                 [resizable]="false">
-                <ng-template #dataTableCell let-item="item">
+                <ng-template let-row="row" let-value="value">
                     <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
                     <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
                 </ng-template>

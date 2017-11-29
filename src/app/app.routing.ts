@@ -17,11 +17,18 @@ import { NotificationsComponent }   from './notifications/notifications.componen
 import { UpgradeComponent }         from './upgrade/upgrade.component';
 import { ReportesComponent }        from './reportes/reportes.component';
 import { AtmsComponent }            from './atms/atms.component';
+import { JournalComponent }         from './reportes/journal/journal.component';
+import { Journal2Component }        from './reportes/journal2/journal2.component';
+import { Journal3Component }        from './reportes/journal3/journal3.component';
+
 
 
 const routes: Routes =[
     { path: 'atms',           component: AtmsComponent },
     { path: 'operaciones',    component: HomeComponent },
+    { path: 'journal',        component: JournalComponent },
+    { path: 'journal2',       component: Journal2Component },
+    { path: 'aclaraciones',       component: Journal3Component },
     //{ path: 'reportes',       component: ReportesComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },

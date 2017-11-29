@@ -1,6 +1,6 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit } from '@angular/core';
-import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table';
+import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table-fix';
 import { sprintf }                                       from "sprintf-js";
 import { SoapService } from '../../services/soap.service';
 import { Router } from '@angular/router';
@@ -23,8 +23,8 @@ export class AtmsEstatusComponent implements OnInit {
     public tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
 
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
-    public url: string = '/dataservices.asmx'; //  QA
-    //public url: string = '/services/dataservices.asmx'; // Prod
+    //public url: string = '/dataservices.asmx'; //  QA
+    public url: string = '/services/dataservices.asmx'; // Prod
     public ambiente: string = "Producción"
 
     public xtIsOnline:string = "";
@@ -35,8 +35,9 @@ export class AtmsEstatusComponent implements OnInit {
     public rutaActual = "";
     public urlPath = "";
     public fchActual:any;
+    public regsLimite:number = 20;
 
-    public fechaActual(){
+    public horaActual(){
         let fechaSys = new Date();
         return(sprintf("%4d:%02d:%02d",fechaSys.getHours(), (fechaSys.getMinutes() + 1), fechaSys.getSeconds()));
     }
@@ -79,7 +80,7 @@ export class AtmsEstatusComponent implements OnInit {
 
     public GetAtm(datosAtms:any, status){
 
-        console.log("GetAtm:: Inicio");
+        console.log("GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
@@ -92,29 +93,22 @@ export class AtmsEstatusComponent implements OnInit {
             return(0);
         }
 
-        let parameters = {
-            nemonico: -1,
-            groupId: -1,
-            brandId: -1,
-            modelId: -1,
-            osId: -1,
-            stateId: -1,
-            townId: -1,
-            areaId: -1,
-            zipCode: -1
-        };
+        console.log("obtenGetAtm:: Se van a obtener los datos");
 
+        let parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
+
+        // Obtiene los datos de los ATMs
         this._soapService.post(this.url, "GetAtm", parameters, this.GetAtm);
 
         let idx = 0;
         arrDatosAtms = [];
 
         gDatosAtms.forEach((reg)=> {
-            let tSafeOpen = (reg.SafeOpen == false) ? 'Cerrada' : 'Abierta';
+            let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
-            let tIsOnline = (reg.IsOnline == true) ? 'Encendido' : 'Apagado';
-            this.xtIsOnline = (reg.IsOnline == true) ? 'Encendido' : 'Apagado';
-            let tOffDispo = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
+            let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
+            this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
+            let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
 
             arrDatosAtms[idx++] = {
                 Description: reg.Description,
@@ -129,12 +123,14 @@ export class AtmsEstatusComponent implements OnInit {
             }
         });
 
+        // Obtiene los datos del log de hardware para detectar problemas con los cassetteros.
+
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         let ambiente = "QA"
-        this.Titulo="Ambiente: "+ambiente+"      ("+this.fechaActual()+")";
-        this.Titulo=sprintf("[%s] %s", this.fechaActual(), ambiente);
-        this.Titulo=sprintf("[%s] %s %s", this.fechaActual(), "                 ", ambiente);
+        this.Titulo="Ambiente: "+ambiente+"      ("+this.horaActual()+")";
+        this.Titulo=sprintf("[%s] %s", this.horaActual(), ambiente);
+        this.Titulo=sprintf("[%s] %s %s", this.horaActual(), "                 ", ambiente);
     };
 
     reloadItems(params) {

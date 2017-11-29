@@ -14,13 +14,14 @@ import { DepositosModel }                                from './models/deposito
 import 'rxjs/add/operator/pairwise';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
+//import { NgProgress } from 'ngx-progressbar';
 
 // Importamos la clase del servicio
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
-import { ErroresPorBanco } from '../models/errores-por-banco.model'
+import { ErroresPorBanco } from '../models/errores-por-banco.model';
+
 // import { DxDataGridModule } from 'devextreme-angular';
 // import { Customer, Service } from './app.service';
 
@@ -478,8 +479,11 @@ export class HomeComponent implements OnInit  {
         if (intervalId != null){
             clearInterval(intervalId);
         }
-        setTimeout(() => { this.pDatosDelJournal(); }, 300);
-        intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
+
+        this.pDatosDelJournal();
+
+        //setTimeout(() => { this.pDatosDelJournal(); }, 300);
+        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
 
@@ -531,8 +535,6 @@ export class HomeComponent implements OnInit  {
         let _horaUltimaOper = _horaSys;
         let tmpFechaSys     = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
         let listaBancos     = {};
-        //let tmpAquirer      = "";
-        //let tmpArqc         = "";
         let tipoUltimaOperacion  = "";
         let iniciaDeposito       = "";
         let terminaDeposito      = "";
@@ -557,38 +559,30 @@ export class HomeComponent implements OnInit  {
         this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
 
         var idxReg = 0;
-        var idxRegLog = 0;
+        //var idxRegLog = 0;
+        var iniciaDota = 0;
+        this.veficaHoraUlimaOperacion(datosLog);
+        this.dotacion.estado = "Pendiente";
+        this.deposito.tiempoDowntime = "Pendiente";
+        var fchTerminaDota:any;
+        var fchIniciaDepDota:any;
+
         datosLog.forEach((reg)=>{
 
-            reg.Time
-            //console.log(JSON.stringify(reg));
             let date = new Date(reg.TimeStamp);
             let fch=sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
             reg.TimeStamp = fch;
-            //console.log(fch);
             let _hora = date.getHours();
             let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
             let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
             let xReg = reg
             xReg.TimeStamp = fch;
-           //console.log((idxRegLog++)+") " + JSON.stringify(xReg));
 
-            if( reg.CardNumber == '547146XXXXXX8650'){
-                //console.log("Registro localizado --> idxRegLog["+idxRegLog+"]");
-            }
-            idxRegLog++;
-            /*
-            if( reg.CardNumber == '547146XXXXXX8650'){
-                let xReg = reg
-                xReg.TimeStamp = fch;
-                console.log(JSON.stringify(datosLog[idxReg -1]));
-                console.log(JSON.stringify(xReg));
-                console.log("Reg: ["+idxReg+"]");
-                this.arrTarjetas[idxReg++] = reg.CardNumber;
-            }
-            idxReg++;
-            */
+            //if( reg.CardNumber == '547146XXXXXX8650'){
+             //   //console.log("Registro localizado --> idxRegLog["+idxRegLog+"]");
+            //}
+            //idxRegLog++;
 
             fchSys = new Date();
             _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
@@ -818,6 +812,16 @@ export class HomeComponent implements OnInit  {
                         montoSesion += reg.Amount;
                         numIntentos  = 0;
                         numDepositos++;
+
+                        if(iniciaDota == 3){
+                            this.deposito.iniciaDeposito = this.dHraPrimerDeposito;
+                            this.deposito.terminaDota = this.dotacion.terminaDota;
+                            this.deposito.montoDowntime = reg.Amount;
+                            fchIniciaDepDota = reg.TimeStamp;
+                            this.deposito.iniciaDeposito = reg.TimeStamp.split(" ")[1];
+                            this.deposito.tiempoDowntime = this.calculaDownTime(fchTerminaDota, fchIniciaDepDota,this.deposito.iniciaDeposito, this.deposito.terminaDota );
+                            iniciaDota = 0;
+                        }
                     }
 
                     dataAnterior        = reg.Data;
@@ -845,6 +849,36 @@ export class HomeComponent implements OnInit  {
                     tipoUltimaOperacion = "P";
                     break;
 
+                case "ADMIN":
+                {
+
+                    if(reg.AuthId == "LOGIN") {
+                        iniciaDota = 1;
+                        this.dotacion.iniciaDota = tmpHoraOperacion;
+                        this.dotacion.estado = "En proceso";
+                    }
+
+                    if(reg.Data == "INICIO DOTACIÓN") {
+                        iniciaDota = 2;
+                    }
+                    if (iniciaDota == 2){
+                        if ( reg.Data != null ){
+                            if(reg.Data.substring(0, 40) == "DOTAR CAPTURA CONTADORES - ANTES DE CERO") {
+                                //[50x5|100x1|200x0|500x1087|][20x63|50x2|100x1|200x434|500x27|1000x29|][total=674610]
+                                this.dotacion.monto = reg.Amount;
+                                console.log(this.dotacion.monto + " -- " + reg.Amount)
+                            }
+                        }
+                        console.log("reg.Data["+reg.Data+"]");
+                        if (reg.Data != null && reg.Data == "REGRESANDO A MODO ATM [AFD EXCHANGE ACTIVE TRUE] [CDM EXCHANGE ACTIVE FALSE]"){
+                            this.dotacion.terminaDota = tmpHoraOperacion;
+                            this.dotacion.estado = "Concluida";
+                            console .log("reg.Data["+reg.Data+"]  iniciaDota["+iniciaDota+"]");
+                            iniciaDota = 3;
+                            fchTerminaDota = reg.TimeStamp;
+                        }
+                    }
+                }
             }
 
             if (reg.Event == "CASH MANAGEMENT" && reg.Data == "VALIDAUSUARIO IsValid TRUE"){
@@ -853,7 +887,6 @@ export class HomeComponent implements OnInit  {
             idxReg++;
 
         });
-
 
         this.mResumenOperaciones();
         this.mRretirosPorHora();
@@ -866,14 +899,10 @@ export class HomeComponent implements OnInit  {
             let value = this.arrTarjetas[key];
             if( this.arrTarjetas[key] == '547146XXXXXX8650'){
                 idxx = Number( key.substr(1));
-                //console.log(JSON.stringify(datosLog[idxx -1]));
-                //console.log(JSON.stringify(datosLog[idxx]));
-                //console.log(JSON.stringify(datosLog[idxx +1]));
                 break;
             }
         }
 
-        //this.pErroresPorBanco=[];
         let idx = 0;
         let arrErrsBanco:any[] = [];
         Object.keys(this.listaErrsPorBanco).sort().forEach(function (banco) {
@@ -897,6 +926,72 @@ export class HomeComponent implements OnInit  {
         //console.log("Termina Contenido de lErroresPorBanco");
 //console.log(this.cErroresPorBanco);
 
+    }
+
+    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
+    public minutosSinOperacion:number = 1;
+    public tiempoSinOperaciones:number = 0;
+    public msgError:string = "";
+
+    //public terminaDota:any;
+    //public iniciaDeposito:any;
+    //public tiempoDowntime:any;
+    //public montoDowntime:number;
+    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
+
+    public calculaDownTime(fchInicial, fchFinal, horaInicial, horaFinal){
+
+        let hora1 = (horaInicial).split(":");
+        let hora2 = (horaFinal).split(":");
+
+        let date1 = new Date();
+        let date2 = new Date();
+        let tiempoTranscurrido:string = "";
+
+        date1.setHours(Number(hora1[0]), Number(hora1[1]), Number(hora1[2]));
+        date2.setHours(Number(hora2[0]), Number(hora2[1]), Number(hora2[2]));
+
+        date1.setHours(date1.getHours() - date2.getHours(),
+            date1.getMinutes() - date2.getMinutes(),
+            date1.getSeconds() - date2.getSeconds()
+        );
+
+        if (date1.getHours() > 1){
+            tiempoTranscurrido +=sprintf("%sh. ",date1.getHours());
+        }
+        if (date1.getMinutes() > 1){
+            tiempoTranscurrido +=sprintf("%sm. ",date1.getMinutes());
+        }
+        if (date1.getSeconds() > 1){
+            tiempoTranscurrido +=sprintf("%ss. ",date1.getSeconds());
+        }
+
+        return(tiempoTranscurrido);
+    }
+
+    public veficaHoraUlimaOperacion(datosLog){
+
+        let tiempoSinOperacion = (60 * 1000) * this.minutosSinOperacion;
+        let reg:any = datosLog[datosLog.length-1];
+        let dateSys:any = new Date().getTime();
+        let dateOper = new Date(reg.TimeStamp);
+        let dateSist = new Date();
+        let tmpFechaOper = sprintf("%04d-%02d-%02d", dateOper.getFullYear(), dateOper.getMonth() + 1, dateOper.getDate());
+        let tmpFechaSist = sprintf("%04d-%02d-%02d", dateSist.getFullYear(), dateSist.getMonth() + 1, dateSist.getDate());
+
+
+
+        if (tmpFechaOper == tmpFechaSist) {
+            this.tiempoSinOperaciones = Math.round(((dateSys - reg.TimeStamp) / 1000) / 60);
+
+            console.log("Log: [" + reg.TimeStamp + "]   [" + new Date(reg.TimeStamp) + "]");
+            console.log("Actual: [" + dateSys + "]   [" + new Date(dateSys) + "]");
+            this.msgError = "";
+            if ((dateSys - reg.TimeStamp) > tiempoSinOperacion) {
+                console.log("**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****");
+                this.msgError = "**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****";
+            }
+        }
     }
 
     public arrTarjetas:any[] = [];
@@ -1559,7 +1654,8 @@ public fechaHoraOperacion: string;
                 public _soapService: SoapService,
                 private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD,
-                public activatedRoute: ActivatedRoute) {
+                public activatedRoute: ActivatedRoute){
+                //public ngProgress: NgProgress) {
     //private activatedRoute : ActivatedRoute
                 console.log("HomeComponent:: Inicia");
                 this.activatedRoute.url.subscribe(url =>{
