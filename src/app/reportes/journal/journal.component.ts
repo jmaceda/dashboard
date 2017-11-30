@@ -244,7 +244,7 @@ export class JournalComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
         console.log("Consulta Journal ["+new Date()+"]");
-        console.log("pDatosDelJournal:: <"+JSON.stringify(this.paramsServicioNumPaginas)+">");
+        console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
@@ -257,29 +257,33 @@ export class JournalComponent implements OnInit  {
         // *** Llama al servicio remoto para obtener la información solicitada del Journal.
         // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
         // ** gNumPaginas = El número máximo de información.
-        for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
-            this.paramsServicioDatosLog.page = idx;
-            console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-            this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+        if (gNumPaginas > 0) {
+            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+                this.paramsServicioDatosLog.page = idx;
+                console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+            }
+
+
+            // Respalda el arreglo con las paginas completas (200 registros).
+            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
+            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+                arrDatosServidorBack = arrDatosServidor;
+                /* la primera consulta */
+            }
+
+            arrDatosServidor = arrDatosServidorBack;
+            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+
+            if (arrDatosServidorInc.length > 0) {
+                this.numPaginas = gNumPaginas - 1;
+            }
+
+            gNumPaginasCompletas = (gNumPaginas - 1);
+        }else{
+            this.obtenDatosLog([{}], gNumPaginas);
         }
-
-
-        // Respalda el arreglo con las paginas completas (200 registros).
-        console.log("gNumRegistros ["+gNumRegistros+"]   gNumPaginasCompletas["+gNumPaginasCompletas+"]");
-        if (gNumRegistros > 200 && (gNumPaginas -1) > gNumPaginasCompletas){ // && arrDatosServidorBack.length == 0){
-            arrDatosServidorBack = arrDatosServidor; /* la primera consulta */
-        }
-
-        arrDatosServidor = arrDatosServidorBack;
-        gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-        this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
-
-        if (arrDatosServidorInc.length > 0) {
-            this.numPaginas = gNumPaginas - 1;
-        }
-
-        gNumPaginasCompletas = (gNumPaginas -1);
-
         let fchSys   = new Date();
         let _anioSys = fchSys.getFullYear();
         let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
@@ -306,17 +310,21 @@ export class JournalComponent implements OnInit  {
         var idxReg = 0;
         var idxRegLog = 0;
         arrDatosJournal = [];
+        this.numDatosLog = this.datosLog.length;
 
-        for(let idx=0; idx < this.datosLog.length; idx++){
-            let date = new Date(this.datosLog[idx].TimeStamp);
-            let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
-            let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
+        if(this.numDatosLog > 0) {
+            for (let idx = 0; idx < this.numDatosLog; idx++) {
+                let date = new Date(this.datosLog[idx].TimeStamp);
+                let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
+                let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
-            this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
-            //datosLog[idx].Amount = sprintf("$%10.10s", datosLog[idx].Amount);
+                this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
+                //datosLog[idx].Amount = sprintf("$%10.10s", datosLog[idx].Amount);
+            }
+        }else{
+            this.datosLog = [{}];
         }
 
-        this.numDatosLog = this.datosLog.length;
         this.itemResource = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
