@@ -55,14 +55,14 @@
                         <span>{{row.TimeStamp}}</span>
                     </td>
 
-                    <td>{{row.AtmName}}</td>
+                    <!-- td>{{row.AtmName}}</td -->
                     <td>{{row.CardNumber}}</td>
 
-                    <td [ngSwitch]=row.Event>
+                    <!-- td [ngSwitch]=row.Event>
                         <span style="color: red" *ngSwitchCase="'INIT'">{{row.Event}}</span>
                         <span style="color: blue" *ngSwitchCase="'ADMIN'">{{row.Event}}</span>
                         <span style="color: black" *ngSwitchDefault>{{row.Event}}</span>
-                    </td>
+                    </td -->
 
                     <td>{{row.OperationType}}</td>
 
@@ -76,9 +76,9 @@
 
                     <td>{{row.Surcharge}}</td>
                     <td>{{row.Aquirer}}</td>
-                    <td>{{row.Data}}</td>
+                    <td class="noWrap">{{row.Data}}</td>
                     <td>{{row.SwitchResponseCode}}</td>
-                    <td style="width: 10px;">
+                    <td style="noWrap width: 10px;">
                         <span>{{row.HWErrorCode}}</span>
                     </td>
                     <td>{{row.TransactionCount}}</td>
@@ -87,21 +87,27 @@
                     <td>{{row.AccountType}}</td>
                     <td>{{row.AtmId}}</td>
                     <td>{{row.FlagCode}}</td>
+                    <
                     <td style="width: 10em;">{{row.Arqc}}</td>
                     <td style="width: 10em;">{{row.Arpc}}</td>
-                    <td style="width: 10em;">{{row.TerminalCaps}}</td>
+
+                    <!-- td style="width: 10em;">{{row.TerminalCaps}}</td -->
                     <td style="width: 10em;">{{row.PosMode}}</td>
                     <td style="width: 10em;">{{row.SwitchAtmId}}</td>
+                    <!--
                     <td style="width: 10em;">{{row.Reference1}}</td>
                     <td style="width: 10em;">{{row.Reference2}}</td>
                     <td style="width: 10em;">{{row.Reference3}}</td>
                     <td style="width: 10em;">{{row.SerializedId}}</td>
                     <td style="width: 10em;">{{row.Ip}}</td>
                     <td style="width: 10em;">{{row.Id}}</td>
+                    -->
                     <!-- td style="width: 100em;">{{row.Location}}</td -->
+                    <!--
                     <div style="width: 60em">
                         <td>{{row.Location}}</td>
                     </div>
+                    -->
                 </ng-template>
         </ngx-table>
     </div>

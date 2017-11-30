@@ -127,7 +127,7 @@ export class AtmsEstatusComponent implements OnInit {
 
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
-        let ambiente = "QA"
+        let ambiente = (window.location.port == '8687') ? "PROD" : "QA";
         this.Titulo="Ambiente: "+ambiente+"      ("+this.horaActual()+")";
         this.Titulo=sprintf("[%s] %s", this.horaActual(), ambiente);
         this.Titulo=sprintf("[%s] %s %s", this.horaActual(), "                 ", ambiente);

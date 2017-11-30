@@ -10,6 +10,8 @@ import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import * as XLSX from 'xlsx';
 
+//import { ExcelService } from './excel.service';
+
 var ipAnterior:string = null;
 var gFchInicioAnterior = null;
 var gFchInicioFinAnterior = null;
@@ -107,7 +109,8 @@ export class JournalComponent implements OnInit  {
     };
 
 
-    constructor(public _soapService: SoapService){
+    constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
+        //this.excelService = excelService;
 
     }
 
@@ -136,7 +139,7 @@ export class JournalComponent implements OnInit  {
         gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
         gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
 
-        this.pDatosDelJournal();
+        //this.pDatosDelJournal();
     }
 
     public obtieneIpATMs(){
@@ -313,23 +316,27 @@ export class JournalComponent implements OnInit  {
             //datosLog[idx].Amount = sprintf("$%10.10s", datosLog[idx].Amount);
         }
 
-        //console.log(JSON.stringify(datosLog));
-        //console.log(arrDatosJournal[0]);
-        console.log("Journal aqui");
-
+        this.numDatosLog = this.datosLog.length;
         this.itemResource = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
     }
 
+    public numDatosLog:number = 0;
+
     reloadItems(params) {
         console.log("reloadItems::  parms: "+JSON.stringify(params));
         this.itemResource.query(params).then(items => this.items = items);
-        $('.data-table-header').append('<input type=image src="assets/img/office_excel.png" width="40" height="35" onclick="exportaJournal2Excel();">');
-        //<button _ngcontent-c3="" class="btn btn-default btn-sm column-selector-button" type="button">
-        //<span _ngcontent-c3="" class="glyphicon glyphicon-list"></span></button>
+        if ( $('#btnExpExel').length == 0) {
+            //$('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
+            //$('.data-table-header').append('<button id="btnExpExel" (click)="exportaJournal2Excel($event)">Export</button>');
 
-        //console.log("paginas");
+            //<button (click)="saveFile()">Export</button>
+        } else {
+            //this.exportToExcel();
+        }
+
+        console.log(this.datosLog.length)
     }
 
     // special properties:
@@ -344,18 +351,54 @@ export class JournalComponent implements OnInit  {
 
     rowTooltip(item) { return item.jobTitle; }
 
+    exportToExcel(event) {
+/*
+        let ftoJsonJournal = {
+            TimeStamp:          string,
+            AtmName:            string,
+            AtmId:              number,
+            CardNumber:         string,
+            Event:              string,
+            OperationType:      string,
+            SwitchResponseCode: string,
+            Amount:             number,
+            Denomination:       string,
+            Available:          number,
+            Data:               string,
+            Aquirer:            string,
+            HWErrorCode:        string,
+            TransactionCount:   number,
+            FlagCode:           number,
+            Surcharge:          number,
+            AccountId:          number,
+            AccountType:        string,
+            Arqc:               string,
+            Arpc:               string,
+            TerminalCaps:       string,
+            PosMode:            string,
+            SwitchAtmId:        number,
+            Reference1:         string,
+            Reference2:         string,
+            Reference3:         string,
+            SerializedId:       number,
+            Ip:                 string,
+            Id:                 reg.Id,
+            Location:           string
+        }
+        this.excelService.exportAsExcelFile(ftoJsonJournal, 'this.datosLog');
+        */
+    }
 
-    exportaJournal2Excel(){
+    exportaJournal2Excel(event){
 
         let arrX:any[] = [];
         this.datosLog.forEach((reg)=> {
-            //let date = new Date(reg.TimeStamp);
-            //let fch=sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
-            //reg.TimeStamp = fch;
+
+            // Datos para exportar al excel
             arrX.push(
                 {
                     TimeStamp:          reg.TimeStamp,
-                    AtmName:            reg.AtmName,
+                    /*AtmName:            reg.AtmName,*/
                     AtmId:              reg.AtmId,
                     CardNumber:         reg.CardNumber,
                     Event:              reg.Event,

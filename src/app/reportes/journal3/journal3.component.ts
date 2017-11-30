@@ -6,6 +6,8 @@ import { sprintf }    from "sprintf-js";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import * as XLSX from 'xlsx';
 
+import { saveAs } from 'file-saver/FileSaver';
+
 
 @Component({
     selector: 'my-app',
@@ -17,7 +19,17 @@ export class Journal3Component  {
 
     fchUltimaActualizacion: string = "";
     regsJournal:number = 0;
-    
+
+
+    /* Salva archivo de texto */
+    private saveToFileSystem(texto) {
+        const filename = "prueba.txt";
+        let texto2 = "Bodega Santa Lucia\nDOWNTIME: 0\n\nDEPÓSITOS: 72\nIMPORTE DEPÓSITOS: $712,200.00\nPRIMERO: 11:55:00  ULTIMO: 23:31:00\nRETIROS: 128\nIMPORTE RETIROS: $256,750.00";
+        texto2 += "\nPRIMERO: 00:06:00  ULTIMO: 21:56:00\nCONSULTAS: 58\nPRIMERA: 07:50:00  ULTIMA: 21:05:00";
+        const blob = new Blob([texto2], { type: 'text/plain' });
+        saveAs(blob, filename);
+    }
+
     obtenFchUltimaActualizacion(): void {
 
         let fchSys   = new Date();
@@ -32,8 +44,8 @@ export class Journal3Component  {
     }
     columns = [
         { key: 'TimeStamp',         title: 'Fecha/Hora'},
-        { key: 'AtmName',        	title: 'ATM' },
-        { key: 'CardNumber',        title: 'Tarjeta Núm' },
+        /*{ key: 'AtmName',        	title: 'ATM' },*/
+        { key: 'CardNumber',        title: 'Núm. Tarjeta' },
         { key: 'Event',             title: 'Evento' },
         { key: 'OperationType',     title: 'Tipo de Oper' },
         { key: 'Amount',            title: 'Monto' },
@@ -78,6 +90,7 @@ export class Journal3Component  {
         console.log("constructor:: data["+this.dataJournalRedBlu.length+"]");
     }
     ngOnInit() {
+
         //$("#search_TimeStamp").attr("placeholder", "variable");
         //$("#search_TimeStamp").attr('placeholder','Some New Text');
         $('#search_TimeStamp').attr('placeholder','');
@@ -127,7 +140,15 @@ export class Journal3Component  {
             )
         });
 
-        new Angular2Csv(arrX, 'Journal', {decimalseparator: '.', showLabels: true, useBom: true});
+        var options = {
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: true,
+            showTitle: true
+        };
+
+        new Angular2Csv(arrX, 'Journal', options);
 
         /* generate worksheet */
         const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
@@ -139,5 +160,6 @@ export class Journal3Component  {
         /* save to file */
         const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
+        saveAs(new Blob([(wbout)]), 'SheetJS.xlsx');
     }
 }

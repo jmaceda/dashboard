@@ -34,6 +34,8 @@ import { JournalComponent }     from './reportes/journal/journal.component';
 import { ReportesModule }   from './reportes/reportes.module';
 //import { Journal2Component }    from './reportes/journal2/journal2.component';
 import { DataFilterPipe }       from './pipes/data-filter.pipe';
+//import { ExcelService } from './excel.service';
+
 //import { DataTableModule } from "angular2-datatable";
 //import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
 
@@ -85,6 +87,7 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     //ChartsModule,
   ],
   providers: [
+    //ExcelService
     //Logger,
   ],
   bootstrap: [AppComponent],

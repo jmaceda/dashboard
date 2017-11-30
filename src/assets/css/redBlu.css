@@ -12,6 +12,10 @@ div#right {
     align-content: center;
 }
 
+/*  */
+.noWrap {
+    white-space: nowrap;
+}
 
 table.table.table-condensed.table-bordered.data-table{
     overflow-x: auto;
