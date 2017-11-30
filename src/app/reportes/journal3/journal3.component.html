@@ -23,6 +23,64 @@
 
 
 
+<div class="container-fluid">
+
+    <div class="card"   style="padding: 5px; margin-top: 3px;">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="col-md-2">
+                    <input [(ngModel)]="dFchIniProceso">
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <input [(ngModel)]="dHraIniProceso">
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+
+            <div class="col-md-3">
+                <div style="text-align: center;">ATM</div>
+            </div>
+            <div class="col-md-2">
+                <div>Última Actualización</div>
+            </div>
+            <!-- div class="col-md-1"></div -->
+            <div class="col-md-1">
+                <button (click)="pActualizaInfo()">Refresh</button>
+            </div>
+            <div class="button-panel">
+                <button (click)="pActualizaInfo()" class="btn btn-default btn-sm refresh-button">
+                    <span class="glyphicon glyphicon-refresh" type="button"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="col-md-2">
+                    <input [(ngModel)]="dFchFinProceso">
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <input [(ngModel)]="dHraFinProceso">
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+            <div class="col-md-3" style="text-align: center;">
+                <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActualizaInfo()">
+                    <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div>{{dUltimaActualizacion}}</div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+
+</div>
+
+
 <div class="row" style="padding: 5px;">
     <div class="col-md-4">
         <span></span>
@@ -42,7 +100,7 @@
 <div class="columns">
     <div class="column col-12">
         <ngx-table  id="x"
-                    class='material expandable'
+                class='material expandable'
                 [configuration]="configuration"
                 [data]="dataJournalRedBlu"
                 [columns]="columns"

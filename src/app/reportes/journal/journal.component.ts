@@ -61,6 +61,39 @@ export class JournalComponent implements OnInit  {
     public ipATMs:any[] = [];
     public regsLimite: number = 15;
 
+    columns = [
+        { key: 'TimeStamp',         title: 'Fecha/Hora'},
+        /*{ key: 'AtmName',        	title: 'ATM' },*/
+        { key: 'CardNumber',        title: 'Núm. Tarjeta' },
+        { key: 'Event',             title: 'Evento' },
+        { key: 'OperationType',     title: 'Tipo de Oper' },
+        { key: 'Amount',            title: 'Monto' },
+        { key: 'Available',         title: 'Saldo' },
+        { key: 'Surcharge',        	title: 'Surcharge' },
+        { key: 'Aquirer',           title: 'Emisor' },
+        { key: 'Data',              title: 'Datos' },
+        { key: 'SwitchResponseCode',title: 'Respuesta Switch' },
+        { key: 'HWErrorCode',       title: 'Descripción Error' },
+        { key: 'TransactionCount',  title: 'Contador Transacción' },
+        { key: 'Denomination',      title: 'Denominación' },
+        { key: 'AccountId',        	title: 'Cuenta'},
+        { key: 'AccountType',       title: 'Tipo Cuenta'},
+        { key: 'AtmId',        		title: 'Id Atm', },
+        { key: 'FlagCode',        	title: 'Flag Code' },
+        { key: 'Arqc',        		title: 'Arqc' },
+        { key: 'Arpc',        		title: 'Arpc' },
+        { key: 'TerminalCaps',      title: 'Cap. Terminal' },
+        { key: 'PosMode',        	title: 'Tipo POS' },
+        { key: 'SwitchAtmId',       title: 'Id Switch Atm' },
+        { key: 'Reference1',        title: 'Referencia 1' },
+        { key: 'Reference2',        title: 'Referencia 2' },
+        { key: 'Reference3',        title: 'Referencia 3' },
+        { key: 'SerializedId',      title: 'Id Serial' },
+        { key: 'Ip',        		title: 'Ip' },
+        { key: 'Id',        		title: 'Id' },
+        { key: 'Location',        	title: 'Ubicación'}
+    ];
+
     public paramsServicioNumPaginas: {
         ip            : any[],
         timeStampStart: string,
