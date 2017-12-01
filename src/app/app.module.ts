@@ -19,31 +19,15 @@ import { UpgradeComponent }                from './upgrade/upgrade.component';
 import { FormsModule }                     from '@angular/forms';
 import { ReactiveFormsModule }             from '@angular/forms';
 
-//import { Logger }                          from "angular2-logger/core"; // ADD THIS
-//import { DepositosComponent }              from "./home/datosDepositos/depositos.component";
-//import { ChartsModule } from 'ng2-charts/ng2-charts';
-//import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
-//import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup/lib/datetime-popup.module';
-
-//import { DataTableModule } from 'angular-4-data-table-bootstrap-4';
 import { DataTableModule }      from 'angular-4-data-table-fix';
 import { AtmsComponent }        from './atms/atms.component';
 import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
 import { JournalComponent }     from './reportes/journal/journal.component';
+import { LogHmaComponent }      from './reportes/log-hma/log-hma.component';
+import { ReportesModule }       from './reportes/reportes.module';
 
-import { ReportesModule }   from './reportes/reportes.module';
-//import { Journal2Component }    from './reportes/journal2/journal2.component';
 import { DataFilterPipe }       from './pipes/data-filter.pipe';
-//import { ExcelService } from './excel.service';
 
-//import { DataTableModule } from "angular2-datatable";
-//import { ColumnPinningComponent } from './atms/estatus3/atms-estatus3.component';
-
-//import { ReportesComponent } from "./reportes/reportes.component";
-//import { DataTableDemo1 } from './reportes/demo1/data-table-demo1';
-//import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
-//import { NgProgressModule } from 'ngx-progressbar';
 
 
 @NgModule({
@@ -60,11 +44,8 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     AtmsComponent,
     AtmsEstatusComponent,
     JournalComponent,
-    //DataFilterPipe
-    //ColumnPinningComponent
-    //ReportesComponent,
-    //DataTableDemo1
-    //DepositosComponent,
+    LogHmaComponent
+
   ],
 
   imports: [
@@ -75,20 +56,13 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     FooterModule,
     SidebarModule,
     RouterModule,
-    //RouterModule,
     AppRoutingModule,
     LbdModule,
     ReactiveFormsModule,
     DataTableModule,
     ReportesModule
-    //NgProgressModule
-    //NgxDatatableModule
-
-    //ChartsModule,
   ],
   providers: [
-    //ExcelService
-    //Logger,
   ],
   bootstrap: [AppComponent],
 

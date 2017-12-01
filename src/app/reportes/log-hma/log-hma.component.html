@@ -58,8 +58,8 @@
 
     <div style="margin: auto; height: 27em; width: 1000px; margin-bottom: 50px;">
         <!-- div style="margin: auto; height: 27em; width: 1000px; margin-bottom: 50px;" -->
-        <data-table id="LogHMA"
-                    [headerTitle]="Log HMA"
+        <data-table id="loghma"
+                    [headerTitle]="tituloLogHMA"
                     [items]="items"
                     [itemCount]="itemCount"
                     (reload)="reloadItems($event)"
@@ -74,91 +74,41 @@
                     [header]="'Fecha/Hora'"
                     [sortable]="true"
                     [resizable]="false"
-                    width="13em">
+                    width="8em">
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.TimeStamp}}</span>
+                        </div>
+                    </ng-template>
             </data-table-column>
-
             <data-table-column
-                    [property]="'CardNumber'"
-                    [header]="'Núm.Tarjeta'"
+                    [property]="'Ip'"
+                    [header]="'IP'"
                     [sortable]="true"
                     [resizable]="false"
-                    width="12em">
-            </data-table-column>
-
-            <data-table-column
-                    [property]="'Event'"
-                    [header]="'Evento'"
-                    [sortable]="true"
-                    [resizable]="true"
-                    width="15em">
+                    width="8em">
             </data-table-column>
             <data-table-column
-                    [property]="'OperationType'"
-                    [header]="'Tipo Operación'"
-                    [sortable]="true"
-                    [resizable]="true"
-                    width="15em">
-            </data-table-column>
-            <data-table-column
-                [property]="'Amount'"
-                [header]="'Monto'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-                <ng-template #dataTableCell let-item="item">
-                    <div class="colNum" >
-                        <span *ngIf="item.Amount == ''"></span>
-                        <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
-                    </div>
-                </ng-template>
-            </data-table-column>
-            <data-table-column
-                    [property]="'Available'"
-                    [header]="'Saldo'"
+                    [property]="'Device'"
+                    [header]="'Dispositivo'"
                     [sortable]="true"
                     [resizable]="false"
                     width="8em">
                     <ng-template #dataTableCell let-item="item">
-                        <div class="colNum" >
-                            <span *ngIf="item.Available == '' && item.Amount != ''">{{0 | currency:'USD':'symbol':'1.2-2'}}</span>
-                            <span *ngIf="item.Available != ''">{{item.Available | currency:'USD':'symbol':'1.2-2'}}</span>
+                        <div  class="noWrap">
+                            <span>{{item.Device}}</span>
                         </div>
                     </ng-template>
             </data-table-column>
             <data-table-column
-                    [property]="'Surcharge'"
-                    [header]="'Comisión'"
+                    [property]="'Events'"
+                    [header]="'Evento'"
                     [sortable]="true"
                     [resizable]="false"
-                    width="7em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div class="colNum" >
-                            <span *ngIf="item.OperationType != 'BalanceCheck' && item.OperationType != 'Withdrawal'"></span>
-                            <span class="colNum" *ngIf="item.OperationType == 'BalanceCheck' || item.OperationType == 'Withdrawal' || item.OperationType == 'ControlMessage'">{{item.Surcharge | number:'1.2-2'}}</span>
-                        </div>
-                    </ng-template>
-            </data-table-column>
-            <data-table-column
-                    [property]="'SwitchResponseCode'"
-                    [header]="'Resp'"
-                    [sortable]="true"
-                    [resizable]="true"
-                    width="6em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div class="colCent" >
-                            <span>{{item.SwitchResponseCode}}</span>
-                        </div>
-                    </ng-template>
-            </data-table-column>
-            <data-table-column
-                    [property]="'HWErrorCode'"
-                    [header]="'Información HW'"
-                    [sortable]="true"
-                    [resizable]="true"
-                    width="20em">
+                    width="12em">
                     <ng-template #dataTableCell let-item="item">
                         <div  class="noWrap">
-                            <span>{{item.HWErrorCode}}</span>
+                            <span>{{item.Events}}</span>
                         </div>
                     </ng-template>
             </data-table-column>
@@ -167,42 +117,13 @@
                     [header]="'Datos'"
                     [sortable]="true"
                     [resizable]="true"
-                    width="20em">
+                    width="12em">
                     <ng-template #dataTableCell let-item="item">
-                        <div class="noWrap">
+                        <div  class="noWrap">
                             <span>{{item.Data}}</span>
                         </div>
                     </ng-template>
-
             </data-table-column>
 
-
-
-
-
-
-
-
-
-
-            <data-table-column
-                    [property]="'Location'"
-                    [header]="'Location'"
-                    [sortable]="true"
-                    [resizable]="true"
-                    width="30em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div  class="noWrap">
-                            <span>{{item.Location}}</span>
-                        </div>
-                    </ng-template>
-            </data-table-column>
-
-            <data-table-column
-                    [property]="'Id'"
-                    [header]="'Id'"
-                    [sortable]="true"
-                    [resizable]="false">
-            </data-table-column>
         </data-table>
     </div>

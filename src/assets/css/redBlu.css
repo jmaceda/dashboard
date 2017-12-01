@@ -42,7 +42,7 @@ div.pagination-box {
 /* Activa scroll horizontal del journal */
 div.data-table-box{
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 /* Altura del renglon del journal */

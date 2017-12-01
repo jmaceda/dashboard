@@ -51,6 +51,7 @@ export class LogHmaComponent implements OnInit  {
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
     public itemCount = 0;
+    public tituloLogHMA:string = "Log HMA";
 
     public ipATM: string;
     public dFchIniProceso: string = '2017-09-10';
@@ -59,7 +60,7 @@ export class LogHmaComponent implements OnInit  {
     public dHraFinProceso: string = '23-59';
     public fechaHoraOperacion: string;
     public ipATMs:any[] = [];
-    public regsLimite: number = 15;
+    public regsLimite: number = 200;
 
     columns = [
         { key: 'Ip',                title: 'IP'},
@@ -75,14 +76,14 @@ export class LogHmaComponent implements OnInit  {
         ip            : any[],
         timeStampStart: string,
         timeStampEnd  : string,
-        events        : string,
-        device        : string
+        events        : number,
+        device        : number
     } = {
         ip            : ['11.40.2.2'],
         timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
         timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        device        : "-1"
+        events        : -1,
+        device        : -1
     };
 
 
@@ -161,7 +162,7 @@ export class LogHmaComponent implements OnInit  {
             }
         }
     }
-    public nomServicioPaginas: string   = 'GetHmaFilters';
+    public nomServicioPaginas: string   = 'GetHmaLogDataLength';
     public nomServicioDatosLog: string  = 'GetHmaLogPage';
 
     public pActualizaInfo(): void {
@@ -191,7 +192,7 @@ export class LogHmaComponent implements OnInit  {
         }
         this.pDatosDelJournal();
 
-        intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
+        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
 
@@ -206,6 +207,7 @@ export class LogHmaComponent implements OnInit  {
     public numPaginas = 0;
 
     public obtenDatosJournal(result:any[], status){
+
         console.log("obtenDatosJournal:: Inicio");
         arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
         numPaginaObtenida++;         // Numero de paginas obtenidas.
@@ -238,7 +240,7 @@ export class LogHmaComponent implements OnInit  {
         this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
         this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
-        console.log("Consulta Journal ["+new Date()+"]");
+        console.log("Consulta Log HMA ["+new Date()+"]");
         console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
@@ -299,31 +301,32 @@ export class LogHmaComponent implements OnInit  {
 
     public obtenDatosLog(result:object, numPag:number): void {
 
-        //this.inicializaVariables();
-
-
         this.datosLog        = JSON.parse(JSON.stringify(result));
         var idxReg = 0;
         var idxRegLog = 0;
         arrDatosJournal = [];
         this.numDatosLog = this.datosLog.length;
-
+        console.log(this.numDatosLog);
+        console.log(this.datosLog);
         if(this.numDatosLog > 0) {
             for (let idx = 0; idx < this.numDatosLog; idx++) {
-                let date = new Date(this.datosLog[idx].TimeStamp);
-                let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
-                let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
+                if(this.datosLog[idx] != null) {
+                    let date = new Date(this.datosLog[idx].TimeStamp);
+                    let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
+                    let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
-                this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
-                //datosLog[idx].Amount = sprintf("$%10.10s", datosLog[idx].Amount);
+                    this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
+                    console.log(idx + " - " + this.datosLog[idx].TimeStamp);
+                }
             }
         }else{
             this.datosLog = [{}];
         }
-
+        console.log(this.datosLog);
         this.itemResource = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
+
     }
 
     public numDatosLog:number = 0;
