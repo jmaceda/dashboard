@@ -91,15 +91,15 @@ export class LogHmaComponent implements OnInit  {
         ip            : any[],
         timeStampStart: string,
         timeStampEnd  : string,
-        events        : string,
-        device        : string,
+        events        : any[],
+        device        : any[],
         page          : number
     } = {
         ip            : this.paramsServicioNumPaginas.ip,
         timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
         timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        device        : "-1",
+        events        : ["-1"],
+        device        : ["-1"],
         page          : 0
     };
 
