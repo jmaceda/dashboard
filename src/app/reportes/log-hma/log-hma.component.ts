@@ -10,6 +10,7 @@ import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import * as XLSX from 'xlsx';
 
+
 //import { ExcelService } from './excel.service';
 
 var ipAnterior:string = null;

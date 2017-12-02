@@ -1250,38 +1250,44 @@ export class HomeComponent implements OnInit  {
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
-        numPaginaObtenida = 0;
-        if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
-            ipAnterior = this.paramsServicioNumPaginas.ip[0];
-            this.numPaginas = 0;
+        if (gNumPaginas > 0) {
+            numPaginaObtenida = 0;
+            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
+                ipAnterior = this.paramsServicioNumPaginas.ip[0];
+                this.numPaginas = 0;
+            }
+
+            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
+            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
+            // ** gNumPaginas = El número máximo de información.
+            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+                this.paramsServicioDatosLog.page = idx;
+                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+            }
+
+
+            // Respalda el arreglo con las paginas completas (200 registros).
+            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
+            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+                arrDatosServidorBack = arrDatosServidor;
+                /* la primera consulta */
+            }
+
+            arrDatosServidor = arrDatosServidorBack;
+
+            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+
+            if (arrDatosServidorInc.length > 0) {
+                this.numPaginas = gNumPaginas - 1;
+            }
+
+            gNumPaginasCompletas = (gNumPaginas - 1);
+        }else{
+            this.obtenDatosLog([{}], gNumPaginas);
+            this.cErroresPorBanco = [];
         }
-
-        // *** Llama al servicio remoto para obtener la información solicitada del Journal.
-        // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
-        // ** gNumPaginas = El número máximo de información.
-        for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
-            this.paramsServicioDatosLog.page = idx;
-            //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-            this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-        }
-
-
-        // Respalda el arreglo con las paginas completas (200 registros).
-        console.log("gNumRegistros ["+gNumRegistros+"]   gNumPaginasCompletas["+gNumPaginasCompletas+"]");
-        if (gNumRegistros > 200 && (gNumPaginas -1) > gNumPaginasCompletas){ // && arrDatosServidorBack.length == 0){
-            arrDatosServidorBack = arrDatosServidor; /* la primera consulta */
-        }
-
-        arrDatosServidor = arrDatosServidorBack;
-
-        gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-        this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
-
-        if (arrDatosServidorInc.length > 0) {
-            this.numPaginas = gNumPaginas - 1;
-        }
-
-        gNumPaginasCompletas = (gNumPaginas -1);
 
         let fchSys   = new Date();
         let _anioSys = fchSys.getFullYear();

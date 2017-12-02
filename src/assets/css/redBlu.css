@@ -123,3 +123,26 @@ table.table.table-condensed.table-bordered.data-table tbody tr td {
 div.data-table-header {
     margin-bottom: 0px;
 }
+
+/* Botón Refresh */
+.botonbusqueda {
+    background-image: url(../img/refresh.png);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+/* Botón refresh Journal */
+.botonRefresh {
+    display: block;
+    width: 70px;
+    padding: 2px 2px 2px 35px;
+    background: url(../img/refresh.png) no-repeat 5px 5px;
+}
+
+#btnRefreshJournal {
+
+}

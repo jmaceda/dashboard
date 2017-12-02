@@ -11,7 +11,8 @@
         "declaration": true,
         "sourceMap": true,
         "mapRoot": "./",
-        "diagnostics": true
+        "diagnostics": true,
+        "allowSyntheticDefaultImports": true,
     },
     "exclude": [
         "node_modules",

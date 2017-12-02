@@ -20,7 +20,8 @@
       "styles": [
         "assets/sass/light-bootstrap-dashboard.scss",
         "../node_modules/ngx-easy-table/spectre.css",
-        "../node_modules/ngx-easy-table/spectre-icons.css"
+        "../node_modules/ngx-easy-table/spectre-icons.css",
+        "../node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
       ],
       "scripts": [
           "../node_modules/jquery/dist/jquery.js",

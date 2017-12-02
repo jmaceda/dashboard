@@ -1,0 +1,107 @@
+<!-- app/reportes/params/params.component.html -->
+
+<div style="margin: .5% 0%; height: 75px; width: 100%;">
+    <div class="card" style="padding: 8px;">
+
+        <div class="row">
+
+            <div class="col-md-1">
+                <div style="vertical-align: middle;">
+                    <input id="btnParams" type=image src="assets/img/../img/volume-synsizer-settings-icon.png" width="40" height="40" (click)="pActualizaInfo()">
+                </div>
+            </div>
+
+            <div class="col-md-10">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="col-md-3">
+                            <input [(ngModel)]="dFchIniProceso">
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input [(ngModel)]="dHraIniProceso">
+                        </div>
+                        <div class="col-md-8"></div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div style="text-align: center;">ATM</div>
+                    </div>
+
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-3">
+                        <div>Última Actualización</div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-md-2">
+                            <input [(ngModel)]="dFchFinProceso">
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input [(ngModel)]="dHraFinProceso">
+                        </div>
+                        <div class="col-md-8"></div>
+                    </div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <select type="number" [(ngModel)]="ip" (ngModelChange)="pActualizaInfo()">
+                            <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <div>{{dUltimaActualizacion}}</div>
+                    </div>
+
+                    <div class="col-md-1"></div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-1">
+                <div style="vertical-align: middle;">
+                    <input id="btnRefreshJournal" type=image src="assets/img/../img/refresh--database-icon-40430.png" width="40" height="40" (click)="pActualizaInfo()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<datetime [timepicker]="{ showMeridian: false, minuteStep: 1 }" [datepicker]="datepickerOpts" [(ngModel)]="date2"></datetime>
+<datetime [(ngModel)]="date4" [timepicker]="{ icon: 'fa fa-clock-o' }" [datepicker]="{ icon: 'fa fa-calendar' }"></datetime>
+-->
+
+<!--
+<div class="container">
+    <div class="col-sm-6" style="height:130px;">
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker8'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar">
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker8').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                }
+            });
+        });
+    </script>
+</div>
+-->

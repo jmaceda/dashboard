@@ -25,8 +25,11 @@ import { AtmsEstatusComponent } from './atms/estatus/atms-estatus.component';
 import { JournalComponent }     from './reportes/journal/journal.component';
 import { LogHmaComponent }      from './reportes/log-hma/log-hma.component';
 import { ReportesModule }       from './reportes/reportes.module';
+import { ParamsComponent }      from './reportes/params/params.component';
 
 import { DataFilterPipe }       from './pipes/data-filter.pipe';
+
+//import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 
 
 
@@ -44,7 +47,9 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     AtmsComponent,
     AtmsEstatusComponent,
     JournalComponent,
-    LogHmaComponent
+    LogHmaComponent,
+    ParamsComponent,
+    //DateTimePickerDirective,
 
   ],
 
@@ -60,8 +65,11 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     LbdModule,
     ReactiveFormsModule,
     DataTableModule,
-    ReportesModule
+    ReportesModule,
+    //NKDatetimeModule
+    //Edatetimepicker
   ],
+  exports: [],
   providers: [
   ],
   bootstrap: [AppComponent],
