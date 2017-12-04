@@ -8,8 +8,8 @@ import { DataTable } from 'angular-4-data-table-fix';
 import { DataTableTranslations } from 'angular-4-data-table-fix';
 import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import * as XLSX from 'xlsx';
-
+//import * as XLSX from 'xlsx';
+import { EventEmitter}      from '@angular/core';
 
 //import { ExcelService } from './excel.service';
 
@@ -48,6 +48,8 @@ export class LogHmaComponent implements OnInit  {
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
     //public url: string = '/services/dataservices.asmx'; // Prod
+
+    public arrParams:any[] = [];
 
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
@@ -105,6 +107,12 @@ export class LogHmaComponent implements OnInit  {
     };
 
 
+
+    Params(event){
+        console.log("Params:: Inicio");
+        console.log(event);
+        console.log("Params:: Fin");
+    }
 
     constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
         //this.excelService = excelService;
@@ -442,14 +450,14 @@ export class LogHmaComponent implements OnInit  {
         new Angular2Csv(arrX, 'Journal', {decimalseparator: '.', showLabels: true, useBom: true});
 
         /* generate worksheet */
-        const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
+        //const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
 
         /* generate workbook and add the worksheet */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        //const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         /* save to file */
-        const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
     }
 

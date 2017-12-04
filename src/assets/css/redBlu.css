@@ -53,10 +53,6 @@ tr.data-table-row.row-odd td, tr.data-table-row.row-even td {
     padding-right: 2px;
 }
 
-td.index-column {
-    text-align: center;
-}
-
 table.table.table-condensed.table-bordered.data-table thead tr th {
     padding-bottom: 0px;
     padding-top: 0px;
@@ -145,4 +141,31 @@ div.data-table-header {
 
 #btnRefreshJournal {
 
+}
+
+
+th.index-column-header,
+th.expand-column-header {
+    width: 5px;
+}
+
+td.index-column {
+    text-align: center;
+    width: 5px;
+    max-width: 5px;
+    min-width: 5px;
+}
+
+/* Clases para el objeto DateTimePicker */
+/* Clases para centrar los signos más y menos de la hora del time */
+div.time > div.hour span,
+div.time > div.minutes span {
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+div.time-view-btn {
+    padding-top: 3px;
+    padding-bottom: 3px;
 }

@@ -1,4 +1,4 @@
-// app/reportes/journal.component.ts
+// app/reportes/aclara.component.ts
 import { Component }                          from '@angular/core';
 import { OnInit }                             from '@angular/core';
 import { OnDestroy } from '@angular/core';
@@ -8,7 +8,7 @@ import { DataTable } from 'angular-4-data-table-fix';
 import { DataTableTranslations } from 'angular-4-data-table-fix';
 import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import * as XLSX from 'xlsx';
+//import * as XLSX from 'xlsx';
 
 import { ConfigService } from './configuration.service';
 
@@ -37,15 +37,15 @@ export var numPaginaObtenida:number   = 0;
 
 @Component({
     selector: 'my-app',
-    templateUrl: './journal3.component.html',
-    styleUrls: [ './journal3.component.css' ],
+    templateUrl: './aclara.component.html',
+    styleUrls: [ './aclara.component.css' ],
     styles     : [`
         .even { color: red; }
         .odd { color: green; }
     `],
     providers: [SoapService, ConfigService]
 })
-export class Journal3Component implements OnInit  {
+export class AclaracionesComponent implements OnInit  {
 
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
@@ -527,14 +527,14 @@ export class Journal3Component implements OnInit  {
         new Angular2Csv(arrX, 'Journal', {decimalseparator: '.', showLabels: true, useBom: true});
 
         /* generate worksheet */
-        const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
+        //const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
 
         /* generate workbook and add the worksheet */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        //const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         /* save to file */
-        const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
     }
 

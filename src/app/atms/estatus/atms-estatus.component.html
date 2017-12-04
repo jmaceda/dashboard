@@ -29,107 +29,111 @@
     }
 </style>
 
-<div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
-    <data-table id="stat-atms-grid"
-                [headerTitle]="Titulo"
-                [items]="items"
-                [itemCount]="itemCount"
-                (reload)="reloadItems($event)"
-                (rowClick)="rowClick($event)"
-                (rowDoubleClick)="rowDoubleClick($event)"
-                [limit]="regsLimite"
-                [rowColors]="rowColors"
-                [rowTooltip]="rowTooltip">
-        <data-table-column
-                [property]="'Description'"
-                [header]="'Descripción'"
-                [sortable]="true"
-                [resizable]="true"
-                width="15em">
-        </data-table-column>
-        <data-table-column
-                [property]="'Ip'"
-                [header]="'IP'"
-                [sortable]="true"
-                [resizable]="false"
-                width="8em">
-        </data-table-column>
-        <!--
-        <data-table-column
-                [property]="'DeviceStatus'"
-                [header]="'Dispositivo'"
-                [sortable]="true"
-                [resizable]="false">
-                <ng-template #dataTableCell let-item="item">
-                    <span style="color: red" *ngIf="item.DeviceStatus == 'ERROR'">ERROR</span>
-                    <span style="color: black" *ngIf="item.DeviceStatus == 'OK'">OK</span>
-                </ng-template>
-        </data-table-column>
-        -->
-        <data-table-column
-                [property]="'IsOnline'"
-                [header]="'OnLine'"
-                [sortable]="true"
-                [resizable]="false"
-                width="8em">
-            <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
-                <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
-            </ng-template>
-        </data-table-column>
-        <data-table-column
-                [property]="'PaperStatus'"
-                [header]="'Papel'"
-                [sortable]="true"
-                [resizable]="false"
-                width="5em">
-        </data-table-column>
-        <data-table-column
-                [property]="'SafeOpen'"
-                [header]="'Bóveda'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-            <ng-template #dataTableCell let-item="item">
-                <span style="color: red" *ngIf="item.SafeOpen == 'Abierta'">Abierta</span>
-                <span style="color: black" *ngIf="item.SafeOpen == 'Cerrada'">Cerrada</span>
-            </ng-template>
-        </data-table-column>
-        <data-table-column
-                [property]="'CabinetOpen'"
-                [header]="'Gabinete'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-            <ng-template let-row="row" let-value="value">
-                <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
-                <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
-            </ng-template>
-        </data-table-column>
+<div style="margin: 2% 1%; height: 20em; width: 98%;">
+    <div class="card" style="padding: 3px;">
 
-        <data-table-column
-                [property]="'CassetteAmount'"
-                [header]="'Efectivo'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-            <ng-template #dataTableCell let-item="item">
-                <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
-                <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
-                <span style="color: black" *ngIf="item.CassetteAmount == 'FULL'">FULL</span>
-            </ng-template>
-        </data-table-column>
+        <data-table id="stat-atms-grid"
+                    [headerTitle]="Titulo"
+                    [items]="items"
+                    [itemCount]="itemCount"
+                    (reload)="reloadItems($event)"
+                    (rowClick)="rowClick($event)"
+                    (rowDoubleClick)="rowDoubleClick($event)"
+                    [limit]="regsLimite"
+                    [rowColors]="rowColors"
+                    [selectOnRowClick]="true"
+                    [rowTooltip]="rowTooltip">
+            <data-table-column
+                    [property]="'Description'"
+                    [header]="'Descripción'"
+                    [sortable]="true"
+                    [resizable]="true"
+                    [width]="110">
+            </data-table-column>
+            <data-table-column
+                    [property]="'Ip'"
+                    [header]="'IP'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="50">
+            </data-table-column>
+            <!--
+            <data-table-column
+                    [property]="'DeviceStatus'"
+                    [header]="'Dispositivo'"
+                    [sortable]="true"
+                    [resizable]="false">
+                    <ng-template #dataTableCell let-item="item">
+                        <span style="color: red" *ngIf="item.DeviceStatus == 'ERROR'">ERROR</span>
+                        <span style="color: black" *ngIf="item.DeviceStatus == 'OK'">OK</span>
+                    </ng-template>
+            </data-table-column>
+            -->
+            <data-table-column
+                    [property]="'IsOnline'"
+                    [header]="'OnLine'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="50">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
+                        <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
+                    </ng-template>
+            </data-table-column>
+            <data-table-column
+                    [property]="'PaperStatus'"
+                    [header]="'Papel'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="35">
+            </data-table-column>
+            <data-table-column
+                    [property]="'SafeOpen'"
+                    [header]="'Bóveda'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="35">
+                    <ng-template #dataTableCell let-item="item">
+                        <span style="color: red" *ngIf="item.SafeOpen == 'Abierta'">Abierta</span>
+                        <span style="color: black" *ngIf="item.SafeOpen == 'Cerrada'">Cerrada</span>
+                    </ng-template>
+            </data-table-column>
+            <data-table-column
+                    [property]="'CabinetOpen'"
+                    [header]="'Gabinete'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="35">
+                    <ng-template let-row="row" let-value="value">
+                        <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
+                        <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
+                    </ng-template>
+            </data-table-column>
 
-        <data-table-column
-                [property]="'OfflineDevices'"
-                [header]="'Disp.Error'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-            <ng-template #dataTableCell let-item="item">
-                <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
-                <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
-            </ng-template>
-        </data-table-column>
-    </data-table>
+            <data-table-column
+                    [property]="'CassetteAmount'"
+                    [header]="'Efectivo'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="35">
+                    <ng-template #dataTableCell let-item="item">
+                        <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
+                        <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
+                        <span style="color: black" *ngIf="item.CassetteAmount == 'FULL'">FULL</span>
+                    </ng-template>
+            </data-table-column>
+
+            <data-table-column
+                    [property]="'OfflineDevices'"
+                    [header]="'Disp.Error'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    [width]="35">
+                    <ng-template #dataTableCell let-item="item">
+                        <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
+                        <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
+                    </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>
 </div>

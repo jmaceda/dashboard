@@ -8,7 +8,7 @@ import { DataTable } from 'angular-4-data-table-fix';
 import { DataTableTranslations } from 'angular-4-data-table-fix';
 import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import * as XLSX from 'xlsx';
+//import * as XLSX from 'xlsx';
 
 //import { ExcelService } from './excel.service';
 
@@ -475,14 +475,14 @@ export class JournalComponent implements OnInit  {
         new Angular2Csv(arrX, 'Journal', {decimalseparator: '.', showLabels: true, useBom: true});
 
         /* generate worksheet */
-        const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
+        //const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
 
         /* generate workbook and add the worksheet */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        //const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         /* save to file */
-        const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
     }
 

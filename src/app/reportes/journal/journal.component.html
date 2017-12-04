@@ -82,6 +82,7 @@
                         (rowDoubleClick)="rowDoubleClick($event)"
                         [limit]="regsLimite"
                         [rowColors]="rowColors"
+                        [selectOnRowClick]="true"
                         [rowTooltip]="rowTooltip">
 
                 <data-table-column
@@ -89,7 +90,7 @@
                         [header]="'Fecha/Hora'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="13em">
+                        width="12em">
                 </data-table-column>
 
                 <data-table-column

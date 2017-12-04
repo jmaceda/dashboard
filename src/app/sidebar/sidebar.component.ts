@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
     { path: 'journal',          title: 'Journal',           icon: 'pe-7s-note2',        class: '' },
     { path: 'journal2',         title: 'Journal2',          icon: 'pe-7s-look',         class: '' },
     { path: 'aclaraciones',     title: 'aclaraciones',      icon: 'pe-7s-search',       class: '' },
-    { path: 'loghma',           title: 'Log HMA',           icon: 'pe-7s-search',       class: '' },
+    { path: 'loghma',           title: 'Log HMA',           icon: 'pe-7s-notebook',     class: '' },
 ];
 
 /*

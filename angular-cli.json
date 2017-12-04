@@ -20,8 +20,7 @@
       "styles": [
         "assets/sass/light-bootstrap-dashboard.scss",
         "../node_modules/ngx-easy-table/spectre.css",
-        "../node_modules/ngx-easy-table/spectre-icons.css",
-        "../node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+        "../node_modules/ngx-easy-table/spectre-icons.css"
       ],
       "scripts": [
           "../node_modules/jquery/dist/jquery.js",
@@ -34,7 +33,12 @@
         "environments": {
             "dev": "environments/environment.ts",
             "prod": "environments/environment.prod.ts"
-        }
+        },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "assets/sass"
+        ]
+      }
     }
   ],
   "e2e": {

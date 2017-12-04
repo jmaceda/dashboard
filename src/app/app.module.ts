@@ -29,7 +29,7 @@ import { ParamsComponent }      from './reportes/params/params.component';
 
 import { DataFilterPipe }       from './pipes/data-filter.pipe';
 
-//import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 
 
@@ -49,7 +49,6 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     JournalComponent,
     LogHmaComponent,
     ParamsComponent,
-    //DateTimePickerDirective,
 
   ],
 
@@ -66,8 +65,7 @@ import { DataFilterPipe }       from './pipes/data-filter.pipe';
     ReactiveFormsModule,
     DataTableModule,
     ReportesModule,
-    //NKDatetimeModule
-    //Edatetimepicker
+    AngularDateTimePickerModule
   ],
   exports: [],
   providers: [

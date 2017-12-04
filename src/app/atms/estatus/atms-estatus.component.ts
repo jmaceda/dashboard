@@ -35,7 +35,7 @@ export class AtmsEstatusComponent implements OnInit {
     public rutaActual = "";
     public urlPath = "";
     public fchActual:any;
-    public regsLimite:number = 20;
+    public regsLimite:number = 18;
 
     public horaActual(){
         let fechaSys = new Date();
@@ -66,7 +66,7 @@ export class AtmsEstatusComponent implements OnInit {
         this.intervalId = setInterval(() => { this.obtenGetAtm(); }, this.tiempoRefreshDatos);
     }
 
-    ngOnInit() {
+        ngOnInit() {
 
         console.log("AtmsEstatusComponent.ngOnInit -->"+this.urlPath+"<--");
         if (this.urlPath != "atms"){

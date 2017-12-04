@@ -19,7 +19,7 @@ import { ReportesComponent }        from './reportes/reportes.component';
 import { AtmsComponent }            from './atms/atms.component';
 import { JournalComponent }         from './reportes/journal/journal.component';
 import { Journal2Component }        from './reportes/journal2/journal2.component';
-import { Journal3Component }        from './reportes/journal3/journal3.component';
+import { AclaracionesComponent }    from './reportes/aclaraciones/aclara.component';
 import { LogHmaComponent }          from './reportes/log-hma/log-hma.component';
 
 
@@ -29,7 +29,7 @@ const routes: Routes =[
     { path: 'operaciones',    component: HomeComponent },
     { path: 'journal',        component: JournalComponent },
     { path: 'journal2',       component: Journal2Component },
-    { path: 'aclaraciones',   component: Journal3Component },
+    { path: 'aclaraciones',   component: AclaracionesComponent },
     { path: 'loghma',         component: LogHmaComponent },
     //{ path: 'reportes',       component: ReportesComponent },
     { path: 'user',           component: UserComponent },
