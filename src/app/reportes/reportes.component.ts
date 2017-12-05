@@ -8,8 +8,6 @@ import { Input } from '@angular/core';
 })
 export class ReportesComponent implements OnInit {
 
-  //@Input('datosJournal')
-   // arrJournal : Array<string>
   constructor() { }
 
   ngOnInit() {

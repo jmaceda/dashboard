@@ -1,16 +1,16 @@
 // app/reportes/aclara.component.ts
-import { Component }                          from '@angular/core';
-import { OnInit }                             from '@angular/core';
-import { OnDestroy } from '@angular/core';
-import { SoapService } from '../../services/soap.service';
-import { sprintf }                                       from "sprintf-js";
-import { DataTable } from 'angular-4-data-table-fix';
-import { DataTableTranslations } from 'angular-4-data-table-fix';
-import { DataTableResource } from 'angular-4-data-table-fix';
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { Component }                            from '@angular/core';
+import { OnInit }                               from '@angular/core';
+import { OnDestroy }                            from '@angular/core';
+import { SoapService }                          from '../../services/soap.service';
+import { sprintf }                              from "sprintf-js";
+import { DataTable }                            from 'angular-4-data-table-fix';
+import { DataTableTranslations }                from 'angular-4-data-table-fix';
+import { DataTableResource }                    from 'angular-4-data-table-fix';
+import { Angular2Csv }                          from 'angular2-csv/Angular2-csv';
 //import * as XLSX from 'xlsx';
 
-import { ConfigService } from './configuration.service';
+import { ConfigService }                        from './configuration.service';
 
 
 //import { ExcelService } from './excel.service';
@@ -50,7 +50,7 @@ export class AclaracionesComponent implements OnInit  {
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
     //public url: string = '/services/dataservices.asmx'; // Prod
-
+    public dUltimaActualizacion: string;
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
     public itemCount = 0;
@@ -230,16 +230,15 @@ export class AclaracionesComponent implements OnInit  {
             gNumPaginasCompletas    = 0;
         }
 
-        if (intervalId != null){
-            clearInterval(intervalId);
-        }
-        this.pDatosDelJournal();
+        //if (intervalId != null){
+        //    clearInterval(intervalId);
+        //}
+        this.pDatosDelJournal('');
 
         //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
 
-    public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
         console.log("obtenNumeroDePaginasLog:: Inicio");
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
@@ -274,13 +273,16 @@ export class AclaracionesComponent implements OnInit  {
 
 
 
-    public pDatosDelJournal(){
+    public pDatosDelJournal(params){
 
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
+        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
 
-        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
+        this.paramsServicioDatosLog.timeStampStart = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd   = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
+
+        this.paramsServicioNumPaginas.ip[0] = params.ip;
+        this.paramsServicioDatosLog.ip[0] = params.ip;
 
         console.log("Consulta Journal ["+new Date()+"]");
         console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
@@ -536,6 +538,29 @@ export class AclaracionesComponent implements OnInit  {
         /* save to file */
         //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
+    }
+
+    parametrosConsulta(infoRecibida){
+        console.log("Se va mostrar la información enviada desde el componente Params");
+        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        console.log(fchIniParam);
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(fchFinParam);
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
     }
 
 }

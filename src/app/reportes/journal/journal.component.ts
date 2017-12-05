@@ -1,13 +1,13 @@
 // app/reportes/journal.component.ts
-import { Component }                          from '@angular/core';
-import { OnInit }                             from '@angular/core';
-import { OnDestroy } from '@angular/core';
-import { SoapService } from '../../services/soap.service';
-import { sprintf }                                       from "sprintf-js";
-import { DataTable } from 'angular-4-data-table-fix';
-import { DataTableTranslations } from 'angular-4-data-table-fix';
-import { DataTableResource } from 'angular-4-data-table-fix';
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { Component }                            from '@angular/core';
+import { OnInit }                               from '@angular/core';
+import { OnDestroy }                            from '@angular/core';
+import { SoapService }                          from '../../services/soap.service';
+import { sprintf }                              from "sprintf-js";
+import { DataTable }                            from 'angular-4-data-table-fix';
+import { DataTableTranslations }                from 'angular-4-data-table-fix';
+import { DataTableResource }                    from 'angular-4-data-table-fix';
+import { Angular2Csv }                          from 'angular2-csv/Angular2-csv';
 //import * as XLSX from 'xlsx';
 
 //import { ExcelService } from './excel.service';
@@ -204,10 +204,9 @@ export class JournalComponent implements OnInit  {
 
     public pActualizaInfo(): void {
 
-        //console.log("pActualizaInfo:: url["+this.rutaActual+"]");
-
         // Se obtiene el nombre de la clase actual:  this.constructor.name
         console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
+
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
             gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd) ||
@@ -224,12 +223,8 @@ export class JournalComponent implements OnInit  {
             gNumPaginasCompletas    = 0;
         }
 
-        if (intervalId != null){
-            clearInterval(intervalId);
-        }
-        this.pDatosDelJournal();
+        this.pDatosDelJournal('');
 
-        intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
 
@@ -268,13 +263,16 @@ export class JournalComponent implements OnInit  {
 
 
 
-    public pDatosDelJournal(){
+    public pDatosDelJournal(params){
 
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
+        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
 
-        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
+        this.paramsServicioDatosLog.timeStampStart = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd   = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
+
+        this.paramsServicioNumPaginas.ip[0] = params.ip;
+        this.paramsServicioDatosLog.ip[0] = params.ip;
 
         console.log("Consulta Journal ["+new Date()+"]");
         console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
@@ -484,6 +482,29 @@ export class JournalComponent implements OnInit  {
         /* save to file */
         //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
+    }
+
+    parametrosConsulta(infoRecibida){
+        console.log("Se va mostrar la información enviada desde el componente Params");
+        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        console.log(fchIniParam);
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(fchFinParam);
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
     }
 
 }

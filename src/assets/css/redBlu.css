@@ -169,3 +169,25 @@ div.time-view-btn {
     padding-top: 3px;
     padding-bottom: 3px;
 }
+
+
+/*  Clases de la tabla */
+th.ngx-table__header-cell,
+th.ngx-table__header-cell-additional-actions ul.ngx-menu.ngx-table__table-menu{
+    padding: 0px;
+    background-color: #DCDCDC;
+}
+
+ul.ngx-menu.ngx-table__table-menu {
+    padding: 0px;
+}
+thead tr.ngx-table__header {
+    height: 16px;
+}
+
+div.ngx-column.ngx-col-4.ngx-col-mr-auto {
+    line-height: 1;
+}
+.ngx-table__header {
+    height: 16px;
+}

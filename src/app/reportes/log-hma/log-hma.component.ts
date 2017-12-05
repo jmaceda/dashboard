@@ -46,11 +46,11 @@ export var numPaginaObtenida:number   = 0;
 export class LogHmaComponent implements OnInit  {
 
 
-    parametrosConsultaX(infoRecibida){
+    parametrosConsulta(infoRecibida){
         console.log("Se va mostrar la información enviada desde el componente Params");
         console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
         console.log("Se mostro la información enviada desde el componente Params");
-        let parametrosConsulta:any = {};
+        let parametrossConsulta:any = {};
 
         let fIniParam = infoRecibida.fchInicio;
         let fFinParam = infoRecibida.fchFin;
@@ -74,7 +74,7 @@ export class LogHmaComponent implements OnInit  {
     //public url: string = '/services/dataservices.asmx'; // Prod
 
     public arrParams:any[] = [];
-
+    public dUltimaActualizacion: string;
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
     public itemCount = 0;
@@ -129,14 +129,6 @@ export class LogHmaComponent implements OnInit  {
         device        : ["-1"],
         page          : 0
     };
-
-
-
-    parametrosConsulta(event){
-        console.log("Params:: Inicio");
-        console.log(event);
-        console.log("Params:: Fin");
-    }
 
     constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
         //this.excelService = excelService;
@@ -223,13 +215,11 @@ export class LogHmaComponent implements OnInit  {
         if (intervalId != null){
             clearInterval(intervalId);
         }
-        this.pDatosDelJournal();
+        this.pDatosDelJournal('');
 
         //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
-
-    public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
         //console.log("obtenNumeroDePaginasLog:: Inicio");
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
@@ -328,7 +318,7 @@ export class LogHmaComponent implements OnInit  {
         let _minSys  = fchSys.getMinutes();
         let _segSys  = fchSys.getSeconds();
 
-        //this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
 
     }
 
@@ -346,6 +336,7 @@ export class LogHmaComponent implements OnInit  {
         this.numDatosLog = this.datosLog.length;
         console.log(this.numDatosLog);
         console.log(this.datosLog);
+        /*
         if(this.numDatosLog > 0) {
             for (let idx = 0; idx < this.numDatosLog; idx++) {
                 if(this.datosLog[idx] != null) {
@@ -354,14 +345,19 @@ export class LogHmaComponent implements OnInit  {
                     let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
                     this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
-                    //console.log(idx + " - " + this.datosLog[idx].TimeStamp);
                 }
             }
         }else{
             this.datosLog = [{}];
         }
+*/
+        if(this.numDatosLog == 0) {
+            this.datosLog = [{}];
+        }
         console.log(this.datosLog);
+
         this.itemResource = new DataTableResource(this.datosLog);
+
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 

@@ -31,7 +31,7 @@ export var ipATMs  = [];
 })
 export class ParamsComponent implements OnInit  {
 
-    @Input() arrParams: any[];
+    @Input() dUltimaActualizacion: string;
     @Output() parametrosConsulta = new EventEmitter();
 
     fchInicio: Date;
@@ -131,7 +131,7 @@ export class ParamsComponent implements OnInit  {
 
     public paramsActuales(idOrigen:number){
         console.log("pActualizaParams:: inicia");
-        this.arrParams  = this.ipATMs;
+        //this.arrParams  = this.ipATMs;
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);
         let ipATM       = this.atmSeleccionado;
