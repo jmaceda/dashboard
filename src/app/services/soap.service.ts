@@ -14,7 +14,7 @@ export class SoapService {
     public url:string = "";
 
     constructor() {
-        console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]");
+        //console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]");
 
         if (window.location.port == '8687'){
             this.url = '/services/dataservices.asmx'; // Prod
@@ -26,7 +26,7 @@ export class SoapService {
 
    post(url, action, params, fncCallBack){
 
-        console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
+        //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
         this.soapParams = new SOAPClientParameters;
         this.soapClient = SOAPClient;
 

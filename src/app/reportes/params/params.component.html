@@ -20,11 +20,13 @@
                         <angular2-date-picker [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-2">
                         <div style="text-align: center;">ATM</div>
                     </div>
 
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
 
                     <div class="col-md-3">
                         <div>Última Actualización</div>
@@ -36,16 +38,23 @@
                     <div class="col-md-3">
                         <angular2-date-picker [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
                     </div>
-                    <div class="col-md-3" style="text-align: center;">
-                        <select type="string" [(ngModel)]="elijaOpcion" (ngModelChange)="pActualizaInfo()">
-                            <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
+
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-2" style="text-align: center;">
+                        <select type="string" [(ngModel)]="atmSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
+                            <option value="" disabled>Seleccione ATM</option>
+                            <option *ngFor="let atm of ipATMs; let i = index" [ngValue]="atm">{{atm}}</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-3">
                         <div>{{dUltimaActualizacion}}</div>
                     </div>
 
-                    <div class="col-md-1"></div>
+                    <!-- div class="col-md-1"></div -->
 
                 </div>
 
@@ -62,4 +71,4 @@
     </div>
 </div>
 
-<input ng-show="hidden" type="text" [value]="arrParams" >
+<!-- input ng-show="hidden" type="text" [value]="arrParams" -->

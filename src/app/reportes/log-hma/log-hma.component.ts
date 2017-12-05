@@ -45,6 +45,30 @@ export var numPaginaObtenida:number   = 0;
 })
 export class LogHmaComponent implements OnInit  {
 
+
+    parametrosConsultaX(infoRecibida){
+        console.log("Se va mostrar la información enviada desde el componente Params");
+        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        console.log(fchIniParam);
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(fchFinParam);
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
+    }
+
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
     //public url: string = '/services/dataservices.asmx'; // Prod
@@ -108,7 +132,7 @@ export class LogHmaComponent implements OnInit  {
 
 
 
-    Params(event){
+    parametrosConsulta(event){
         console.log("Params:: Inicio");
         console.log(event);
         console.log("Params:: Fin");
@@ -207,7 +231,7 @@ export class LogHmaComponent implements OnInit  {
 
     public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
-        console.log("obtenNumeroDePaginasLog:: Inicio");
+        //console.log("obtenNumeroDePaginasLog:: Inicio");
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
         console.log("obtenNumeroDePaginasLog:: gNumPaginas["+gNumPaginas+"]  gNumRegistros["+gNumRegistros+"]");
@@ -217,15 +241,15 @@ export class LogHmaComponent implements OnInit  {
 
     public obtenDatosJournal(result:any[], status){
 
-        console.log("obtenDatosJournal:: Inicio");
+        //console.log("obtenDatosJournal:: Inicio");
         arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
         numPaginaObtenida++;         // Numero de paginas obtenidas.
 
-        console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
+        //console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
         //if (result.length >= 200){
-        console.log("obtenDatosJournal:: numPagsCompletas["+numPagsCompletas+"]   (gNumPaginas -1)["+(gNumPaginas -1)+"]");
+        //console.log("obtenDatosJournal:: numPagsCompletas["+numPagsCompletas+"]   (gNumPaginas -1)["+(gNumPaginas -1)+"]");
         if (numPagsCompletas < (gNumPaginas -1)){
-            console.log("obtenDatosJournal:: (1)");
+            //console.log("obtenDatosJournal:: (1)");
             numPagsCompletas++;      // Numero de paginas completas.
             if (arrDatosServidor == undefined){
                 arrDatosServidor = result;
@@ -233,7 +257,7 @@ export class LogHmaComponent implements OnInit  {
                 arrDatosServidor = arrDatosServidor.concat(result);
             }
         }else {
-            console.log("obtenDatosJournal:: (2)");
+            //console.log("obtenDatosJournal:: (2)");
             arrDatosServidorInc = result;
         }
 
@@ -241,16 +265,21 @@ export class LogHmaComponent implements OnInit  {
 
 
 
-    public pDatosDelJournal(){
+    public pDatosDelJournal(params){
 
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
+        //let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
 
-        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
+        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
 
-        console.log("Consulta Log HMA ["+new Date()+"]");
-        console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
+        this.paramsServicioDatosLog.timeStampStart = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd   = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
+
+        this.paramsServicioNumPaginas.ip[0] = params.ip;
+        this.paramsServicioDatosLog.ip[0] = params.ip;
+
+        //console.log("Consulta Log HMA ["+new Date()+"]");
+        //console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
@@ -266,9 +295,9 @@ export class LogHmaComponent implements OnInit  {
         if (gNumPaginas > 0) {
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
-                console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
+                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
                 this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-                break;
+                //break;
             }
 
 
@@ -283,7 +312,7 @@ export class LogHmaComponent implements OnInit  {
             gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
             this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
 
-            if (arrDatosServidorInc.length > 0) {
+            if (arrDatosServidorInc != null && arrDatosServidorInc.length > 0) {
                 this.numPaginas = gNumPaginas - 1;
             }
 
@@ -299,7 +328,7 @@ export class LogHmaComponent implements OnInit  {
         let _minSys  = fchSys.getMinutes();
         let _segSys  = fchSys.getSeconds();
 
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+        //this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
 
     }
 
@@ -325,7 +354,7 @@ export class LogHmaComponent implements OnInit  {
                     let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
                     this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
-                    console.log(idx + " - " + this.datosLog[idx].TimeStamp);
+                    //console.log(idx + " - " + this.datosLog[idx].TimeStamp);
                 }
             }
         }else{

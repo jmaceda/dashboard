@@ -32,7 +32,7 @@ export var ipATMs  = [];
 export class ParamsComponent implements OnInit  {
 
     @Input() arrParams: any[];
-    @Output() Params = new EventEmitter();
+    @Output() parametrosConsulta = new EventEmitter();
 
     fchInicio: Date;
     fchFin: Date;
@@ -49,6 +49,7 @@ export class ParamsComponent implements OnInit  {
     public ipATMs:any[] = [];
     public ip;
     public url;
+    public paramsConsulta:any = {};
 
     obtenFchSys(){
 
@@ -73,19 +74,14 @@ export class ParamsComponent implements OnInit  {
         if (this.ipATMs.length == 0) {
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
 
-            this.arrParams = this.ipATMs;
-            this.Params.emit({
-                value: this.arrParams
-            });
+
+
         }
 
         console.log(this.ipATMs);
     }
 
-    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService){
-
-    }
-
+    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService){ }
 
     public GetEjaFilters(result:any, status){
 
@@ -113,6 +109,10 @@ export class ParamsComponent implements OnInit  {
     }
 
     public Date2Json(fecha:Date):string {
+
+        if ( typeof(fecha) == 'string') {
+            fecha = new Date(this.fchInicio);
+        }
         let fchJson:any = {};
         fchJson.year    = fecha.getFullYear();
         fchJson.month   = fecha.getMonth() +1;
@@ -122,25 +122,42 @@ export class ParamsComponent implements OnInit  {
         fchJson.sec     = fecha.getSeconds();
         fchJson.milsec  = fecha.getTime();
 
-        console.log(fchJson);
+        console.log(JSON.stringify(fchJson));
 
         return(fchJson);
     }
-    public pActualizaParams() {
 
+
+
+    public paramsActuales(idOrigen:number){
         console.log("pActualizaParams:: inicia");
-        let fchInicio = this.fchInicio;
-        let fchFin = this.fchFin;
-        this.Date2Json(fchInicio);
-        this.Date2Json(fchFin);
-        console.log(fchInicio.getDate())
-        //console.log(fchInicio.getFullYear() + "  -  " + this.fchFin);
+        this.arrParams  = this.ipATMs;
+        let fchInicio   = this.Date2Json(this.fchInicio);
+        let fchFin      = this.Date2Json(this.fchFin);
+        let ipATM       = this.atmSeleccionado;
+
+        ipATM = ipATM.substring(ipATM.lastIndexOf("(")+1).replace(")","");
+        this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
+
+        this.parametrosConsulta.emit(this.paramsConsulta);
+    }
+
+    public pActualizaParams() {
+        console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
+        this.paramsActuales(3);
     }
 
     public pActualizaInfo(){
-
+        console.log("pActualizaInfo:: Atm seleccionado["+this.atmSeleccionado+"]");
+        this.paramsActuales(1);
     }
 
+    public atmSeleccionado:string = "";
+    public value:number;
+    public pAtmSeleccionado(idx){
+        console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
+        this.paramsActuales(2);
+    }
 }
 
 function comparar ( a, b ){ return a - b; }
