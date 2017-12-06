@@ -229,7 +229,7 @@
                    value="Date Range Picker" (click)="dpr.show()"/>
         </div>
         -->
-
+<!--
             <div class="card">
                 <div class="row">
                     <div class="col-md-5">
@@ -248,7 +248,7 @@
                     <div class="col-md-2">
                         <div>Última Actualización</div>
                     </div>
-                    <!-- div class="col-md-1"></div -->
+                    < !- - div class="col-md-1"></div - - >
                     <div class="col-md-1">
                         <button (click)="pActualizaInfo()">Refresh</button>
                     </div>
@@ -276,8 +276,13 @@
                     <div class="col-md-1"></div>
                 </div>
             </div>
-
+-->
         <!-- row -->
+
+        <params
+                (parametrosConsulta) = "parametrosConsulta($event)"
+                [dUltimaActualizacion] = "dUltimaActualizacion">
+        </params>
 
         <div class="row"></div>
         <p style="color: red;">{{msgError}}</p>
@@ -354,7 +359,7 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="card" style="height: 29em;">
+                <div class="card">
                     <div class="header" style="padding: 2px;">
                         <h5 class="title" style="text-align: center; font-weight: bold;">Consultas y Retiros por Hora</h5>
                     </div>
@@ -387,7 +392,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6" style="height: 20em;">
+            <div class="col-md-6">
                 <div class="card">
 
                         <!-- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  -->

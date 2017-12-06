@@ -73,15 +73,14 @@ export class ParamsComponent implements OnInit  {
         console.log("Se va a ejecutar el servicio detalleAtmsService...");
         if (this.ipATMs.length == 0) {
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
-
-
-
         }
 
         console.log(this.ipATMs);
     }
 
-    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService){ }
+    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService){
+        console.log(datosATMs);
+    }
 
     public GetEjaFilters(result:any, status){
 
@@ -156,7 +155,7 @@ export class ParamsComponent implements OnInit  {
     public value:number;
     public pAtmSeleccionado(idx){
         console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
-        this.paramsActuales(2);
+        //this.paramsActuales(2);
     }
 }
 

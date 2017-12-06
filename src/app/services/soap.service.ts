@@ -16,7 +16,7 @@ export class SoapService {
     constructor() {
         //console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]");
 
-        if (window.location.port == '8687'){
+        if (window.location.port == '8687' || window.location.port == '3000'){
             this.url = '/services/dataservices.asmx'; // Prod
         }else{
             this.url = '/dataservices.asmx'; //  QA
