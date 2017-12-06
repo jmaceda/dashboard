@@ -286,10 +286,11 @@ export class LogHmaComponent implements OnInit  {
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
                 //console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-                //break;
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal);
+                if (idx == 1) {
+                    break;
+                }
             }
-
 
             // Respalda el arreglo con las paginas completas (200 registros).
             console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
@@ -356,7 +357,7 @@ export class LogHmaComponent implements OnInit  {
         }
         console.log(this.datosLog);
 
-        this.itemResource = new DataTableResource(this.datosLog);
+        this.itemResource = new DataTableResource(this.datosLog.pop());
 
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
@@ -365,9 +366,15 @@ export class LogHmaComponent implements OnInit  {
 
     public numDatosLog:number = 0;
 
+    numPag:number = 0;
+
     reloadItems(params) {
         console.log("reloadItems::  parms: "+JSON.stringify(params));
+
+        //items = consulta(this.nomServicioDatosLog, this.paramsServicioDatosLog, numPag);
         this.itemResource.query(params).then(items => this.items = items);
+
+        /*
         if ( $('#btnExpExel').length == 0) {
             //$('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
             //$('.data-table-header').append('<button id="btnExpExel" (click)="exportaJournal2Excel($event)">Export</button>');
@@ -376,6 +383,7 @@ export class LogHmaComponent implements OnInit  {
         } else {
             //this.exportToExcel();
         }
+        */
 
         console.log(this.datosLog.length)
     }

@@ -20,6 +20,7 @@ import { MapsComponent }                    from './maps/maps.component';
 import { NotificationsComponent }           from './notifications/notifications.component';
 import { UpgradeComponent }                 from './upgrade/upgrade.component';
 import { TableModule }                      from 'ngx-easy-table';
+import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 import { AtmsComponent }                    from './atms/atms.component';
@@ -29,7 +30,7 @@ import { LogHmaComponent }                  from './reportes/log-hma/log-hma.com
 import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
-
+import { NgbdModalContent }                 from './utils/ngbd-modal-content';
 import { DataFilterPipe }       from './pipes/data-filter.pipe';
 
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
@@ -52,7 +53,8 @@ import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
     JournalComponent,
     LogHmaComponent,
     ParamsComponent,
-    AclaracionesComponent
+    AclaracionesComponent,
+
   ],
 
   imports: [
@@ -69,8 +71,11 @@ import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
     DataTableModule,
     ReportesModule,
     AngularDateTimePickerModule,
-    TableModule
+    TableModule,
+    NgbModule.forRoot(),
+
   ],
+  entryComponents: [],
   exports: [],
   providers: [
   ],

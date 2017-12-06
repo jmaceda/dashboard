@@ -1,35 +1,36 @@
 /* app/reportes/params/params.component.ts */
-import { Component }        from '@angular/core';
-import { OnInit }           from '@angular/core';
-import { Input}             from '@angular/core';
-import { Output}            from '@angular/core';
-import { EventEmitter}      from '@angular/core';
-
-import { sprintf }          from "sprintf-js";
-import { SoapService }      from '../../services/soap.service';
-
-import { DetalleAtmsService } from '../../services/detalle-atms.service';
-//import '../sass/main.scss';
+import { Component }            from '@angular/core';
+import { OnInit }               from '@angular/core';
+import { Input}                 from '@angular/core';
+import { Output}                from '@angular/core';
+import { EventEmitter}          from '@angular/core';
+import { ViewChild, ViewChildren}          from '@angular/core';
+import { TemplateRef } from '@angular/core';
 
 
+import { sprintf }              from "sprintf-js";
+import { SoapService }          from '../../services/soap.service';
 
-//import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
-//mport * as moment from 'moment';
+import { DetalleAtmsService }   from '../../services/detalle-atms.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalBasic }       from '../../utils/modal-basic';
+import { NgbdModalContent }     from '../../utils/ngbd-modal-content';
 
-//import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
-//import { FormGroup, FormBuilder } from '@angular/forms';
 
 export var datosATMs  = [];
 export var ipATMs  = [];
+
+
+
 
 
 @Component({
     selector   : 'params',
     templateUrl: './params.component.html',
     styleUrls  : ['./params.component.css'],
-    providers: [SoapService, DetalleAtmsService]
+    providers: [SoapService, DetalleAtmsService],
 })
-export class ParamsComponent implements OnInit  {
+export class ParamsComponent implements OnInit {
 
     @Input() dUltimaActualizacion: string;
     @Output() parametrosConsulta = new EventEmitter();
@@ -78,7 +79,9 @@ export class ParamsComponent implements OnInit  {
         console.log(this.ipATMs);
     }
 
-    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService){
+    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
+                private modalService: NgbModal){
+
         console.log(datosATMs);
     }
 
@@ -156,7 +159,32 @@ export class ParamsComponent implements OnInit  {
     public pAtmSeleccionado(idx){
         console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
         //this.paramsActuales(2);
+        //open(this.msgModal);
     }
+
+    closeResult: string;
+
+    @ViewChild('msgModal')
+    private msgModal:TemplateRef<any>;
+
+    open(content) {
+        this.modalService.open(content).result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+    }
+
 }
 
 function comparar ( a, b ){ return a - b; }
