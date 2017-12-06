@@ -101,7 +101,7 @@
                         width="8em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
-                                <span>{{item.TimeStamp}}</span>
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>

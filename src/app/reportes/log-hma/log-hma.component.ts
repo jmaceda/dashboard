@@ -8,6 +8,7 @@ import { DataTable } from 'angular-4-data-table-fix';
 import { DataTableTranslations } from 'angular-4-data-table-fix';
 import { DataTableResource } from 'angular-4-data-table-fix';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+//import { RemoteService } from '../../services/remote.service';
 //import * as XLSX from 'xlsx';
 import { EventEmitter}      from '@angular/core';
 
@@ -41,7 +42,7 @@ export var numPaginaObtenida:number   = 0;
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService]
+    providers: [SoapService, RemoteService]
 })
 export class LogHmaComponent implements OnInit  {
 
@@ -130,7 +131,7 @@ export class LogHmaComponent implements OnInit  {
         page          : 0
     };
 
-    constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
+    constructor(public _soapService: SoapService, public remoteService: RemoteService){//}, private excelService: ExcelService){
         //this.excelService = excelService;
 
     }
@@ -357,7 +358,8 @@ export class LogHmaComponent implements OnInit  {
         }
         console.log(this.datosLog);
 
-        this.itemResource = new DataTableResource(this.datosLog.pop());
+        this.itemResource = new DataTableResource(this.datosLog);
+        //this.itemResource = new DataTableResource(this.datosLog.pop());
 
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
@@ -373,6 +375,12 @@ export class LogHmaComponent implements OnInit  {
 
         //items = consulta(this.nomServicioDatosLog, this.paramsServicioDatosLog, numPag);
         this.itemResource.query(params).then(items => this.items = items);
+/*
+        this.remoteService.query(params).then(result => {
+            this.items = result.items;
+            this.itemCount = result.count;
+        });
+        */
 
         /*
         if ( $('#btnExpExel').length == 0) {
