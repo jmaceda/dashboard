@@ -480,7 +480,7 @@ export class HomeComponent implements OnInit  {
             clearInterval(intervalId);
         }
 
-        this.pDatosDelJournal('');
+        this.pDatosDelJournal();
 
         //setTimeout(() => { this.pDatosDelJournal(); }, 300);
         //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
@@ -1231,7 +1231,7 @@ export class HomeComponent implements OnInit  {
 
 
 
-    public pDatosDelJournal(params){
+    public pDatosDelJournal(){
 
         console.log("pDatosDelJournal -->"+this.urlPath+"<--");
         if (this.urlPath != "operaciones"){
@@ -1239,18 +1239,13 @@ export class HomeComponent implements OnInit  {
             return(0);
         }
 
-        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
+        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
 
-        this.paramsServicioDatosLog.timeStampStart = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
-
-        this.paramsServicioNumPaginas.ip[0] = params.ip;
-        this.paramsServicioDatosLog.ip[0] = params.ip;
+        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
 
         console.log("Consulta Journal ["+new Date()+"]");
-
-        console.log(JSON.stringify(this.paramsServicioNumPaginas));
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
@@ -1808,28 +1803,6 @@ public fechaHoraOperacion: string;
     }
 
 
-    parametrosConsulta(infoRecibida){
-        console.log("Se va mostrar la información enviada desde el componente Params");
-        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        console.log("Se mostro la información enviada desde el componente Params");
-        let parametrosConsulta:any = {};
-
-        let fIniParam = infoRecibida.fchInicio;
-        let fFinParam = infoRecibida.fchFin;
-        let ipParam   = infoRecibida.atm;
-
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
-        console.log(fchIniParam);
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
-
-        console.log(fchFinParam);
-
-        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
-
-        this.pDatosDelJournal(datosParam);
-    }
 
 }
 

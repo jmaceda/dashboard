@@ -1,13 +1,13 @@
 // app/reportes/log-hma.component.ts
-import { Component }                          from '@angular/core';
-import { OnInit }                             from '@angular/core';
-import { OnDestroy } from '@angular/core';
-import { SoapService } from '../../services/soap.service';
-import { sprintf }                                       from "sprintf-js";
-import { DataTable } from 'angular-4-data-table-fix';
-import { DataTableTranslations } from 'angular-4-data-table-fix';
-import { DataTableResource } from 'angular-4-data-table-fix';
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { Component }                                    from '@angular/core';
+import { OnInit }                                       from '@angular/core';
+import { OnDestroy }                                    from '@angular/core';
+import { SoapService }                                  from '../../services/soap.service';
+import { sprintf }                                      from "sprintf-js";
+import { DataTable }                                    from 'angular-4-data-table-fix';
+import { DataTableTranslations }                        from 'angular-4-data-table-fix';
+import { DataTableResource }                            from 'angular-4-data-table-fix';
+import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
 //import { RemoteService } from '../../services/remote.service';
 //import * as XLSX from 'xlsx';
 import { EventEmitter}      from '@angular/core';
@@ -42,7 +42,7 @@ export var numPaginaObtenida:number   = 0;
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, RemoteService]
+    providers: [SoapService]
 })
 export class LogHmaComponent implements OnInit  {
 
@@ -131,7 +131,7 @@ export class LogHmaComponent implements OnInit  {
         page          : 0
     };
 
-    constructor(public _soapService: SoapService, public remoteService: RemoteService){//}, private excelService: ExcelService){
+    constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
         //this.excelService = excelService;
 
     }
@@ -288,7 +288,7 @@ export class LogHmaComponent implements OnInit  {
                 this.paramsServicioDatosLog.page = idx;
                 //console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
                 this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal);
-                if (idx == 1) {
+                if (idx == -1) {
                     break;
                 }
             }

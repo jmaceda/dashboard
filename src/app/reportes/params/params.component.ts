@@ -67,11 +67,11 @@ export class ParamsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("ParamsComponent.ngOnInit:: Inicio");
+        //console.log("ParamsComponent.ngOnInit:: Inicio");
 
         this.obtenFchSys();
         //this.obtieneIpATMs();
-        console.log("Se va a ejecutar el servicio detalleAtmsService...");
+        //console.log("Se va a ejecutar el servicio detalleAtmsService...");
         if (this.ipATMs.length == 0) {
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
         }
@@ -82,7 +82,7 @@ export class ParamsComponent implements OnInit {
     constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
                 private modalService: NgbModal){
 
-        console.log(datosATMs);
+        //console.log(datosATMs);
     }
 
     public GetEjaFilters(result:any, status){
@@ -102,29 +102,33 @@ export class ParamsComponent implements OnInit {
     }
 
     public obtieneIpATMs(){
-        console.log('ParamsComponent.obtenIpATMs:: Inicio');
+        //console.log('ParamsComponent.obtenIpATMs:: Inicio');
         ipATMs  = [];
         this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters);
         this.ipATMs = ipATMs;
         this.ipATMs = ipATMs.sort(comparar);
-        console.log('ParamsComponent.obtenIpATMs:: Se ejecuto la consulta');
+        //console.log('ParamsComponent.obtenIpATMs:: Se ejecuto la consulta');
     }
 
     public Date2Json(fecha:Date):string {
 
+        let fchLocal: Date;
         if ( typeof(fecha) == 'string') {
-            fecha = new Date(this.fchInicio);
+            //fecha = new Date(this.fchInicio);
+            fchLocal = new Date(fecha);
+        }else{
+            fchLocal = fecha;
         }
         let fchJson:any = {};
-        fchJson.year    = fecha.getFullYear();
-        fchJson.month   = fecha.getMonth() +1;
-        fchJson.day     = fecha.getDate();
-        fchJson.hour    = fecha.getHours();
-        fchJson.min     = fecha.getMinutes();
-        fchJson.sec     = fecha.getSeconds();
-        fchJson.milsec  = fecha.getTime();
+        fchJson.year    = fchLocal.getFullYear();
+        fchJson.month   = fchLocal.getMonth() +1;
+        fchJson.day     = fchLocal.getDate();
+        fchJson.hour    = fchLocal.getHours();
+        fchJson.min     = fchLocal.getMinutes();
+        fchJson.sec     = fchLocal.getSeconds();
+        fchJson.milsec  = fchLocal.getTime();
 
-        console.log(JSON.stringify(fchJson));
+        //console.log("Date2Json:: ["+JSON.stringify(fchJson));
 
         return(fchJson);
     }
@@ -138,6 +142,7 @@ export class ParamsComponent implements OnInit {
         let fchFin      = this.Date2Json(this.fchFin);
         let ipATM       = this.atmSeleccionado;
 
+        //console.log("params.component.paramsActuales: fchInicio["+fchInicio+"] fchFin["+fchFin+"]");
         ipATM = ipATM.substring(ipATM.lastIndexOf("(")+1).replace(")","");
         this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
 
@@ -145,19 +150,19 @@ export class ParamsComponent implements OnInit {
     }
 
     public pActualizaParams() {
-        console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
+        //console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
         this.paramsActuales(3);
     }
 
     public pActualizaInfo(){
-        console.log("pActualizaInfo:: Atm seleccionado["+this.atmSeleccionado+"]");
+        //console.log("pActualizaInfo:: Atm seleccionado["+this.atmSeleccionado+"]");
         this.paramsActuales(1);
     }
 
     public atmSeleccionado:string = "";
     public value:number;
     public pAtmSeleccionado(idx){
-        console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
+        //console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
         //this.paramsActuales(2);
         //open(this.msgModal);
     }
