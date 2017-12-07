@@ -25,6 +25,7 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 import { AtmsComponent }                    from './atms/atms.component';
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
+import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { JournalComponent }                 from './reportes/journal/journal.component';
 import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
 import { ReportesModule }                   from './reportes/reportes.module';
@@ -50,6 +51,7 @@ import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
     UpgradeComponent,
     AtmsComponent,
     AtmsEstatusComponent,
+    ResumenCifrasComponent,
     JournalComponent,
     LogHmaComponent,
     ParamsComponent,

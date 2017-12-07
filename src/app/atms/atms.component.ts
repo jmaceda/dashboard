@@ -1,8 +1,7 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit } from '@angular/core';
 
-import { SoapService } from '../services/soap.service';
-import { AtmsEstatusComponent } from './estatus/atms-estatus.component';
+import { SoapService }              from '../services/soap.service';
 
 
 
@@ -11,7 +10,7 @@ import { AtmsEstatusComponent } from './estatus/atms-estatus.component';
     templateUrl: './atms.component.html',
     styleUrls: ['./atms.component.css'],
     providers: [SoapService],
-    entryComponents: [AtmsEstatusComponent]
+    /*entryComponents: [AtmsEstatusComponent, ResumenCifrasComponent]*/
 })
 export class AtmsComponent implements OnInit {
 

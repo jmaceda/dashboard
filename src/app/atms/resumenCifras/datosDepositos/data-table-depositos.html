@@ -1,0 +1,44 @@
+<div style="margin: auto; max-width: 400px; margin-bottom: 50px;">
+    <data-table id="depositos-grid"
+        headerTitle="Depósitos"
+        [items]="items"
+        [itemCount]="itemCount"
+        (reload)="reloadItems($event)"
+
+        (rowClick)="rowClick($event)"
+        (rowDoubleClick)="rowDoubleClick($event)"
+        [rowTooltip]="rowTooltip"
+        width="10px"
+        >
+        <data-table-column
+            [property]="'fchInicio'"
+            [header]="'Inicio'"
+            [sortable]="false"
+            [resizable]="false"
+            width="30px">
+        </data-table-column>
+        <data-table-column
+            [property]="'fchTermino'"
+            [header]="'Termino'"
+            [sortable]="false"
+            width="30px">
+        </data-table-column>
+        <data-table-column
+            property="monto"
+            header="Monto"
+            width="30px">
+        </data-table-column>
+        <data-table-column
+            [property]="'intentos'"
+            [header]="'Intentos'"
+            [visible]="true"
+            width="30px">
+        </data-table-column>
+        <data-table-column
+            [property]="'duracion'"
+            [header]="'Duración'"
+            [visible]="true"
+            width="30px">
+        </data-table-column>
+    </data-table>
+</div>

@@ -18,11 +18,14 @@ import { AtmsComponent }            from './atms/atms.component';
 import { JournalComponent }         from './reportes/journal/journal.component';
 import { AclaracionesComponent }    from './reportes/aclaraciones/aclara.component';
 import { LogHmaComponent }          from './reportes/log-hma/log-hma.component';
+import { AtmsEstatusComponent }     from './atms/estatus/atms-estatus.component';
+import { ResumenCifrasComponent }   from './atms/resumenCifras/resumen-cifras.component';
 
 
 
 const routes: Routes =[
-    { path: 'atms',           component: AtmsComponent },
+    { path: 'atms',           component: AtmsEstatusComponent },
+    { path: 'resumen',        component: ResumenCifrasComponent },
     { path: 'operaciones',    component: HomeComponent },
     { path: 'journal',        component: JournalComponent },
     { path: 'aclaraciones',   component: AclaracionesComponent },

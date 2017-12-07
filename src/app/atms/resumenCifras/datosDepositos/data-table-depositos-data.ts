@@ -1,0 +1,16 @@
+export default [
+    {'fchInicio':'12:34:09', 'fchTermino':'12:40:09', 'monto':  61300, 'intentos': 2, 'Fallidos': 0,'duracion':'6:01'},
+    {'fchInicio':'12:43:28', 'fchTermino':'12:47:20', 'monto':  20000, 'intentos': 1, 'Fallidos': 0,'duracion':'3:52'},
+    {'fchInicio':'14:19:45', 'fchTermino':'14:28:32', 'monto':  44500, 'intentos': 2, 'Fallidos': 0,'duracion':'8:46'},
+    {'fchInicio':'15:21:30', 'fchTermino':'15:28:23', 'monto':  22120, 'intentos': 2, 'Fallidos': 0,'duracion':'6:53'},
+    {'fchInicio':'16:24:56', 'fchTermino':'16:37:12', 'monto':  51150, 'intentos': 4, 'Fallidos': 1,'duracion':'12:16'},
+    {'fchInicio':'16:37:30', 'fchTermino':'16:47:26', 'monto':  66300, 'intentos': 3, 'Fallidos': 1,'duracion':'9:56'},
+    {'fchInicio':'16:47:41', 'fchTermino':'16:50:39', 'monto':  53900, 'intentos': 2, 'Fallidos': 0,'duracion':'2:58'},
+    {'fchInicio':'16:57:59', 'fchTermino':'17:05:37', 'monto':  35400, 'intentos': 1, 'Fallidos': 0,'duracion':'7:38'},
+    {'fchInicio':'18:03:35', 'fchTermino':'18:05:10', 'monto':  10500, 'intentos': 1, 'Fallidos': 0,'duracion':'1:35'},
+    {'fchInicio':'18:06:07', 'fchTermino':'18:12:15', 'monto':  59800, 'intentos': 2, 'Fallidos': 0,'duracion':'6:08'},
+    {'fchInicio':'19:17:15', 'fchTermino':'19:20:55', 'monto':  35000, 'intentos': 2, 'Fallidos': 0,'duracion':'3:40'},
+    {'fchInicio':'19:44:00', 'fchTermino':'19:46:05', 'monto':  10000, 'intentos': 1, 'Fallidos': 0,'duracion':'2:05'},
+    {'fchInicio':'21:05:36', 'fchTermino':'21:10:55', 'monto': 101300, 'intentos': 3, 'Fallidos': 0,'duracion':'5:19'},
+    {'fchInicio':'22:11:07', 'fchTermino':'22:15:30', 'monto':  67900, 'intentos': 3, 'Fallidos': 0,'duracion':'4:22'},
+]
