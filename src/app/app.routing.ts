@@ -5,7 +5,7 @@ import { CommonModule, }            from '@angular/common';
 import { BrowserModule  }           from '@angular/platform-browser';
 import { Routes, RouterModule }     from '@angular/router';
 
-import { HomeComponent }            from './home/home.component';
+import { HomeComponent }            from './atms/resumen-operaciones/resumen-operaciones.component';
 import { UserComponent }            from './user/user.component';
 import { TablesComponent }          from './tables/tables.component';
 import { TypographyComponent }      from './typography/typography.component';

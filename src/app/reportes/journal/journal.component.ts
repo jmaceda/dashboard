@@ -12,25 +12,27 @@ import { Angular2Csv }                          from 'angular2-csv/Angular2-csv'
 
 //import { ExcelService } from './excel.service';
 
-var ipAnterior:string                   = null;
-var gFchInicioAnterior                  = null;
-var gFchInicioFinAnterior               = null;
-var intervalId                          = null;
-var tiempoRefreshDatos:number           = (1000 * 30 * 1); // Actualiza la información cada minuto.
-var arrDatosJournal:any[]               = [];
+var ipAnterior:string = null;
+var gFchInicioAnterior = null;
+var gFchInicioFinAnterior = null;
+var intervalId = null;
+var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
+var arrDatosJournal:any[] = [];
 
-export var arrDatosServidor:any[]       = [];
-export var arrDatosServidorInc:any[]    = [];
-export var arrDatosServidorBack:any[]   = [];
-export var datosATMs                    = [];
-export var ipATMs                       = [];
-export var gNumRegsProcesados           = 0;
-export var gNumPaginas                  = 0;
-export var gNumRegistros                = 0;
-export var aDatosJournal                = [];
-export var gNumPaginasCompletas         = 0;
-export var numPagsCompletas:number      = 0;
-export var numPaginaObtenida:number     = 0;
+export var arrDatosServidor:any[]     = [];
+export var arrDatosServidorInc:any[]  = [];
+export var arrDatosServidorBack:any[] = [];
+export var datosATMs  = [];
+export var ipATMs  = [];
+export var gNumRegsProcesados          = 0;
+export var gNumPaginas                 = 0;
+export var gNumRegistros               = 0;
+export var aDatosJournal               = [];
+export var gNumPaginasCompletas = 0;
+export var numPagsCompletas:number    = 0;
+export var numPaginaObtenida:number   = 0;
+
+const nomComponente:string = "JournalComponent";
 
 @Component({
     selector   : 'app-journal',
@@ -246,6 +248,10 @@ export class JournalComponent implements OnInit  {
         console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
         //if (result.length >= 200){
         console.log("obtenDatosJournal:: numPagsCompletas["+numPagsCompletas+"]   (gNumPaginas -1)["+(gNumPaginas -1)+"]");
+        //arrDatosServidor += result;
+        arrDatosServidor = arrDatosServidor.concat(result);
+
+        /*
         if (numPagsCompletas < (gNumPaginas -1)){
             console.log("obtenDatosJournal:: (1)");
             numPagsCompletas++;      // Numero de paginas completas.
@@ -258,6 +264,7 @@ export class JournalComponent implements OnInit  {
             console.log("obtenDatosJournal:: (2)");
             arrDatosServidorInc = result;
         }
+        */
 
     }
 
@@ -274,47 +281,52 @@ export class JournalComponent implements OnInit  {
         this.paramsServicioNumPaginas.ip[0] = params.ip;
         this.paramsServicioDatosLog.ip[0] = params.ip;
 
-        console.log("Consulta Journal ["+new Date()+"]");
-        console.log("pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
+        //console.log(nomComponente+".pDatosDelJournal:: Consulta Journal ["+new Date()+"]");
+        //console.log(nomComponente+".pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
+
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
+        arrDatosServidor = [];
+        /*
         numPaginaObtenida = 0;
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
             ipAnterior = this.paramsServicioNumPaginas.ip[0];
             this.numPaginas = 0;
         }
+        */
 
         // *** Llama al servicio remoto para obtener la información solicitada del Journal.
         // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
         // ** gNumPaginas = El número máximo de información.
         if (gNumPaginas > 0) {
-            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+            for (let idx = 0; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
-                console.log("pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+                console.log(nomComponente+".pDatosDelJournal::  this.paramsServicioDatosLog[" + JSON.stringify(this.paramsServicioDatosLog) + "]");
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal);
             }
 
 
             // Respalda el arreglo con las paginas completas (200 registros).
-            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
-            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
-                arrDatosServidorBack = arrDatosServidor;
+            //console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
+            //if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+            //    arrDatosServidorBack = arrDatosServidor;
                 /* la primera consulta */
-            }
+            //}
 
-            arrDatosServidor = arrDatosServidorBack;
-            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            //arrDatosServidor = arrDatosServidorBack;
+            //gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
             this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
 
-            if (arrDatosServidorInc.length > 0) {
-                this.numPaginas = gNumPaginas - 1;
-            }
+            //if (arrDatosServidorInc.length > 0) {
+            //    this.numPaginas = gNumPaginas - 1;
+            //}
 
-            gNumPaginasCompletas = (gNumPaginas - 1);
+            //gNumPaginasCompletas = (gNumPaginas - 1);
         }else{
             this.obtenDatosLog([{}], gNumPaginas);
         }
+
         let fchSys   = new Date();
         let _anioSys = fchSys.getFullYear();
         let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
@@ -343,6 +355,7 @@ export class JournalComponent implements OnInit  {
         arrDatosJournal = [];
         this.numDatosLog = this.datosLog.length;
 
+        /*
         if(this.numDatosLog > 0) {
             for (let idx = 0; idx < this.numDatosLog; idx++) {
                 let date = new Date(this.datosLog[idx].TimeStamp);
@@ -355,7 +368,9 @@ export class JournalComponent implements OnInit  {
         }else{
             this.datosLog = [{}];
         }
+        */
 
+        console.log(JSON.stringify(this.datosLog));
         this.itemResource = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
@@ -364,8 +379,11 @@ export class JournalComponent implements OnInit  {
     public numDatosLog:number = 0;
 
     reloadItems(params) {
-        console.log("reloadItems::  parms: "+JSON.stringify(params));
+        console.log(nomComponente+".reloadItems::  parms: "+JSON.stringify(params));
+        console.log(nomComponente+".reloadItems::  this: "+JSON.stringify(this.items));
+
         this.itemResource.query(params).then(items => this.items = items);
+
         if ( $('#btnExpExel').length == 0) {
             //$('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
             //$('.data-table-header').append('<button id="btnExpExel" (click)="exportaJournal2Excel($event)">Export</button>');
@@ -375,7 +393,7 @@ export class JournalComponent implements OnInit  {
             //this.exportToExcel();
         }
 
-        console.log(this.datosLog.length)
+        console.log(nomComponente+".reloadItems:: "+this.datosLog.length)
     }
 
     // special properties:
@@ -484,6 +502,30 @@ export class JournalComponent implements OnInit  {
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
     }
 
+    parametrosConsulta(infoRecibida){
+        console.log(nomComponente+".parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
+        console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log(nomComponente+".parametrosConsulta:: Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
+    }
 }
 
 function comparar ( a, b ){ return a - b; }

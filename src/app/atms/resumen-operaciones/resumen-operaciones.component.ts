@@ -1,9 +1,9 @@
 import { Component, OnInit }                             from '@angular/core';
 import { Input, Output} from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location }  from '@angular/common';
-import { LegendItem, ChartType }                         from '../lbd/lbd-chart/lbd-chart.component';
+import { LegendItem, ChartType }                         from '../../lbd/lbd-chart/lbd-chart.component';
 import * as Chartist                                     from 'chartist';
-import { SoapService }                                   from '../services/soap.service';
+import { SoapService }                                   from '../../services/soap.service';
 import { sprintf }                                       from "sprintf-js";
 import {FormGroup, FormBuilder, Validators}              from '@angular/forms';
 import { DepositosModel }                                from './models/depositos';
@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
-import { ErroresPorBanco } from '../models/errores-por-banco.model';
+import { ErroresPorBanco } from '../../models/errores-por-banco.model';
 
 // import { DxDataGridModule } from 'devextreme-angular';
 // import { Customer, Service } from './app.service';
@@ -134,8 +134,8 @@ var idxErrBanco:number = 0;
 
 @Component({
   selector   : 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls  : ['./home.component.css'],
+  templateUrl: './resumen-operaciones.component.html',
+  styleUrls  : ['./resumen-operaciones.component.css'],
   styles     : [`
   .even { color: red; }
   .odd { color: green; }

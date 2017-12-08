@@ -148,6 +148,11 @@ export class ParamsComponent implements OnInit {
 
     public pActualizaParams() {
         //console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
+        //$(".alert").alert();
+        bootbox.alert({
+            message: "This is the small alert!",
+            size: 'small'
+        });
         this.paramsActuales(3);
     }
 

@@ -73,6 +73,13 @@
         [dUltimaActualizacion] = "dUltimaActualizacion">
     </params>
 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    </div>
+
     <!-- div style="margin: 0% 1%; height: 24em; width: 98%;" -->
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
@@ -96,6 +103,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="12em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
                 <data-table-column
