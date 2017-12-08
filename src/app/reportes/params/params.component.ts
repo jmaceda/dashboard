@@ -16,6 +16,7 @@ import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 
+import { bootbox }                          from "bootbox";
 
 export var datosATMs  = [];
 export var ipATMs  = [];
