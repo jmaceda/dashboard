@@ -1,55 +1,35 @@
-import { Component, OnInit }                             from '@angular/core';
-import { Input, Output} from '@angular/core';
-import { LocationStrategy, PlatformLocation, Location }  from '@angular/common';
-import { LegendItem, ChartType }                         from '../../lbd/lbd-chart/lbd-chart.component';
-import * as Chartist                                     from 'chartist';
-import { SoapService }                                   from '../../services/soap.service';
-import { sprintf }                                       from "sprintf-js";
-import {FormGroup, FormBuilder, Validators}              from '@angular/forms';
-import { DepositosModel }                                from './models/depositos';
-//import { Logger, Level }                                 from "angular2-logger/core";
-//import { DepositosComponent }                            from "./datosDepositos/depositos.component"
-//import { AlertComponent }                                from './tmp/alert.component';
-// import Dexie                                             from 'dexie';
+import { Component, OnInit }                                from '@angular/core';
+import { Input, Output}                                     from '@angular/core';
+import { LocationStrategy, PlatformLocation, Location }     from '@angular/common';
+import { LegendItem, ChartType }                            from '../../lbd/lbd-chart/lbd-chart.component';
+import * as Chartist                                        from 'chartist';
+import { SoapService }                                      from '../../services/soap.service';
+import { sprintf }                                          from "sprintf-js";
+import {FormGroup, FormBuilder, Validators}                 from '@angular/forms';
+import { DepositosModel }                                   from './models/depositos';
 import 'rxjs/add/operator/pairwise';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-//import { NgProgress } from 'ngx-progressbar';
+import { Router }                                           from '@angular/router';
+import { ActivatedRoute }                                   from '@angular/router';
+import { DesglosaBilletes }                                 from './services/DesglosaBilletes.service';
+import { GuardaDepositosBD }                                from './services/GuardaDepositosBD.service';
+import { ErroresPorBanco }                                  from '../../models/errores-por-banco.model';
 
-// Importamos la clase del servicio
-import { DesglosaBilletes } from './services/DesglosaBilletes.service';
-import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
+export var gNumPaginas                  = 0;
+export var gNumRegistros                = 0;
+export var gNumRegsProcesados           = 0;
+export var aDatosJournal                = [];
+export var gNumPaginasCompletas         = 0;
 
-import { ErroresPorBanco } from '../../models/errores-por-banco.model';
+var fechaSys                            = new Date();
+var fechaHoy                            = sprintf("%4d-%02d-%02d",fechaSys.getFullYear(), (fechaSys.getMonth() + 1), fechaSys.getDate());
+var ipAnterior:string                   = null;
+var gFchInicioAnterior                  = null;
+var gFchInicioFinAnterior               = null;
 
-// import { DxDataGridModule } from 'devextreme-angular';
-// import { Customer, Service } from './app.service';
-
-
-//import { ChartsModule } from 'ng2-charts/ng2-charts';
-
-
-//import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-//import { listLocales } from 'ngx-bootstrap/bs-moment';
-//import { de } from 'ngx-bootstrap/locale';
-
-
-export var gNumPaginas                 = 0;
-export var gNumRegistros               = 0;
-export var gNumRegsProcesados          = 0;
-export var aDatosJournal               = [];
-export var gNumPaginasCompletas = 0;
-//export var tIdx:number = 0;
-
-var fechaSys = new Date();
-var fechaHoy = sprintf("%4d-%02d-%02d",fechaSys.getFullYear(), (fechaSys.getMonth() + 1), fechaSys.getDate());
-var ipAnterior:string = null;
-var gFchInicioAnterior = null;
-var gFchInicioFinAnterior = null;
-
+var nomModulo                           = "ResumenCifras";
 
 // Formatea numeros
-var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
+var l10nUSD                             = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
 var request;
 var objStore;
 var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
@@ -128,20 +108,16 @@ export class DatosRetirosXhora{
 }
 
 
-export var datosATMs  = [];
-export var ipATMs  = [];
-var idxErrBanco:number = 0;
+export var datosATMs        = [];
+export var ipATMs           = [];
+var idxErrBanco:number      = 0;
 
 @Component({
   selector   : 'app-resumen',
   templateUrl: './resumen-cifras.component.html',
   styleUrls  : ['./resumen-cifras.component.css'],
-  styles     : [`
-  .even { color: red; }
-  .odd { color: green; }
-  `],
+  styles     : [],
   providers: [SoapService, DesglosaBilletes, GuardaDepositosBD],   //, Service],
-    // providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
 })
 export class ResumenCifrasComponent implements OnInit  {
 
@@ -154,6 +130,40 @@ export class ResumenCifrasComponent implements OnInit  {
         { data: [120, 455, 100, 340], label: 'Account B' },
         { data: [45, 67, 800, 500], label: 'Account C' }
     ];
+
+
+    public tblResOperacion: TblResOperacion;
+    public retiros: InterRetirosPorHora;
+    public retiroNoOk    : object = {};
+    public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
+    public listaErroresOper: any[] = [];
+    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
+    public minutosSinOperacion:number = 1;
+    public tiempoSinOperaciones:number = 0;
+    public msgError:string = "";
+    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
+    public arrTarjetas:any[] = [];
+    public listaErrsPorBanco: any[][] = [];
+    public cErroresPorBanco: ErroresPorBanco[];
+    public lErroresPorBanco: ErroresPorBanco[];
+    public dUltimaActualizacion: string;
+    public numPaginas = 0;
+    public activityChartType: ChartType;
+    public activityChartData: any;
+    public activityChartOptions: any;
+    public activityChartResponsive: any[];
+    public activityChartLegendItems: LegendItem[];
+    // Pie
+    public pieChartLabels:string[] = ['Depósitos', 'Retiros', 'Consultas', 'Reversos'];
+    public pieChartData:number[] = [7, 22, 12, 0];
+    public pieChartType:string = 'pie';
+    public polarAreaLegend:boolean = true;
+    form: FormGroup;
+    public fechaHoraOperacion: string;
+    public openRequest2;
+    public rutaActual = "";
+    public urlPath = "";
+    public urlMenu = "";
 
     //chartLabels = ['January', 'February', 'Mars', 'April'];
 
@@ -319,86 +329,6 @@ export class ResumenCifrasComponent implements OnInit  {
     public datosATMs:any[] = [];
     public ipATMs:any[] = [];
 
-    public inicializaVariables(): void {
-
-        this.TotalItems    = 0;
-        this.TotalPages    = 0;
-        this.tmpTotalItems = 0;
-        this.tmpTotalPages = 0;
-
-        this.numRetiros      = 0;
-        this.numConsultas    = 0;
-        this.tmpNumRetiros   = 0;
-        this.tmpNumConsultas = 0;
-
-        this.dNumDepositos      = 0;
-        this.dMontoDepositos    = 0;
-        this.dPrimerDeposito    = "";
-        this.dUltimoDeposito    = "";
-        this.dHraPrimerDeposito = "";
-        this.dHraUltimoDeposito = "";
-        this.dHraIniciaSesion = "";
-
-        this.dNumRetiros      = 0;
-        this.dMontoRetiros    = 0;
-        this.dMontoConsultas    = 0;
-        this.dMontoConsultasNoExito = 0;
-        this.dHraPrimerRetiro = "";
-        this.dHraUltimoRetiro = "";
-
-        // Retiros no exitosos
-        this.dNumRetirosNoExito      = 0;
-        this.dNumRetirosNoExito      = 0;
-        this.dMontoRetirosNoExito    = 0;
-        this.dHraPrimerRetiroNoExito = "";
-        this.dHraUltimoRetiroNoExito = "";
-    
-        this.dNumConsultas       = 0;
-        this.dHraPrimeraConsulta = "";
-        this.dHraUltimaConsulta  = "";
-    
-        this.dNumConsultasNoExito       = 0;
-        this.dHraPrimeraConsultaNoExito = "";
-        this.dHraUltimaConsultaNoExito  = "";
-    
-        this.dNumReversos      = 0;
-        this.dMontoReversos    = 0;
-        this.dHraPrimerReverso = "";
-        this.dHraUltimoReverso = "";
-    
-        this.dNumCambioNIP       = 0;
-        this.dHraPrimerCambioNIP = "";
-        this.dHraUltimoCambioNIP = "";
-    
-        this.dNumCambioNIPNoExito       = 0;
-        this.dHraPrimerCambioNIPNoExito = "";
-        this.dHraUltimoCambioNIPNoExito = "";
-        
-        this.dNumRetirosPorHora       = this.iniArrCeros(24, 0);
-        this.dNumConsultasPorHora     = this.iniArrCeros(24, 0);
-        this.dAcumNumRetirosPorHora   = this.iniArrCeros(24, 0);
-        this.dAcumNumConsultasPorHora = this.iniArrCeros(24, 0);
-        this.dMontoRetirosPorHora     = this.iniArrCeros(24, 0);
-        this.dAcumMontoRetirosPorHora = this.iniArrCeros(24, 0);
-        this.dNumConsPorHora          = this.iniArrCeros(24, 0);
-        this.tBillDep                 = [{ tMonto: 0, tB20: 0, tB50: 0, tB100: 0, tB200: 0, tB500: 0, tB1000: 0}];
-
-        this.infoDepositos = [];
-
-
-        this.opersBanco  = {'nomBanco': "", 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-        this.listaBancos = [];
-
-        arrDatosServidor = [];
-        for(let idx=0; idx<24; idx++){
-            this.datosRetirosXhora[idx] = new DatosRetirosXhora();
-        }
-
-        arrDepositos = [];
-        this.listaErroresOper = [];
-        this.lErroresPorBanco = [];
-        idxErrBanco=0;
-    };
 
     public paramsServicioNumPaginas: {
         ip            : any[],
@@ -447,83 +377,268 @@ export class ResumenCifrasComponent implements OnInit  {
         page          : 0
     };
 
-    public tblResOperacion: TblResOperacion;
-    public retiros: InterRetirosPorHora;
-    public retiroNoOk    : object = {};
-    public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
 
-    // Actualiza informciòn de la pantalla.
-    public pActualizaInfo(): void {
 
-        console.log("pActualizaInfo:: url["+this.rutaActual+"]");
 
-        // Se obtiene el nombre de la clase actual:  this.constructor.name
-        console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
-        if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
-            (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
-             gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd) ||
-             gFchInicioAnterior != this.dFchFinProceso || gFchInicioFinAnterior != this.dHraFinProceso){
+    constructor(private formBuilder: FormBuilder,
+                public _soapService: SoapService,
+                private _desglosaBilletes: DesglosaBilletes,
+                public _guardaDepositosBD: GuardaDepositosBD,
+                public activatedRoute: ActivatedRoute){
 
-            ipAnterior              = this.paramsServicioNumPaginas.ip[0];
-            gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
-            gFchInicioFinAnterior   = this.paramsServicioNumPaginas.timeStampEnd;
-            this.numPaginas         = 0;
-            gNumRegsProcesados      = 0;
-            arrDatosServidorBack    = [];
-            gNumPaginas             = 0;
-            gNumRegsProcesados      = 0;
-            numPagsCompletas        = 0;
-            gNumPaginasCompletas    = 0;
+        console.log(nomModulo + ".constructor:: Inicia");
+        this.activatedRoute.url.subscribe(url =>{
+            this.urlPath = url[0].path;
+            console.log(nomModulo + ".constructor:: --> urlPath["+this.urlPath+"]<--");
+
+        });
+
+    }
+
+    ngOnInit() {
+
+        this.activatedRoute.url.subscribe(url =>{
+            this.urlPath = url[0].path;
+            console.log("ngOnInit -->"+this.urlPath+"<--");
+
+        });
+
+        console.log(nomModulo + ".ngOnInit -->"+this.urlMenu+"<--");
+
+        this.inicializaVariables();
+        //this.datosGrafica();
+
+
+        this.form = this.formBuilder.group({
+            date: [new Date(1991, 8, 12)]
+        });
+
+        //tIdx = 0;
+        let arrRetiros = [];
+
+        this.retiros = {
+            headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
+            datos: arrRetiros
+        };
+
+
+        this.fechaHoraOperacion         = this.dFchIniProceso + " " + this.dHraIniProceso.replace("-", ":") + "  /  " +  this.dFchFinProceso + " " + this.dHraFinProceso.replace("-", ":");
+        this.datosGraficaRetirosPorHora = {
+            'labels': ['<7', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+            'series': [[], []]
+        };
+
+        //this.pActualizaInfo();
+        this.graficaRetiros();
+    }
+
+    public inicializaVariables(): void {
+
+        this.TotalItems    = 0;
+        this.TotalPages    = 0;
+        this.tmpTotalItems = 0;
+        this.tmpTotalPages = 0;
+
+        this.numRetiros      = 0;
+        this.numConsultas    = 0;
+        this.tmpNumRetiros   = 0;
+        this.tmpNumConsultas = 0;
+
+        this.dNumDepositos      = 0;
+        this.dMontoDepositos    = 0;
+        this.dPrimerDeposito    = "";
+        this.dUltimoDeposito    = "";
+        this.dHraPrimerDeposito = "";
+        this.dHraUltimoDeposito = "";
+        this.dHraIniciaSesion = "";
+
+        this.dNumRetiros      = 0;
+        this.dMontoRetiros    = 0;
+        this.dMontoConsultas    = 0;
+        this.dMontoConsultasNoExito = 0;
+        this.dHraPrimerRetiro = "";
+        this.dHraUltimoRetiro = "";
+
+        // Retiros no exitosos
+        this.dNumRetirosNoExito      = 0;
+        this.dNumRetirosNoExito      = 0;
+        this.dMontoRetirosNoExito    = 0;
+        this.dHraPrimerRetiroNoExito = "";
+        this.dHraUltimoRetiroNoExito = "";
+
+        this.dNumConsultas       = 0;
+        this.dHraPrimeraConsulta = "";
+        this.dHraUltimaConsulta  = "";
+
+        this.dNumConsultasNoExito       = 0;
+        this.dHraPrimeraConsultaNoExito = "";
+        this.dHraUltimaConsultaNoExito  = "";
+
+        this.dNumReversos      = 0;
+        this.dMontoReversos    = 0;
+        this.dHraPrimerReverso = "";
+        this.dHraUltimoReverso = "";
+
+        this.dNumCambioNIP       = 0;
+        this.dHraPrimerCambioNIP = "";
+        this.dHraUltimoCambioNIP = "";
+
+        this.dNumCambioNIPNoExito       = 0;
+        this.dHraPrimerCambioNIPNoExito = "";
+        this.dHraUltimoCambioNIPNoExito = "";
+
+        this.dNumRetirosPorHora       = this.iniArrCeros(24, 0);
+        this.dNumConsultasPorHora     = this.iniArrCeros(24, 0);
+        this.dAcumNumRetirosPorHora   = this.iniArrCeros(24, 0);
+        this.dAcumNumConsultasPorHora = this.iniArrCeros(24, 0);
+        this.dMontoRetirosPorHora     = this.iniArrCeros(24, 0);
+        this.dAcumMontoRetirosPorHora = this.iniArrCeros(24, 0);
+        this.dNumConsPorHora          = this.iniArrCeros(24, 0);
+        this.tBillDep                 = [{ tMonto: 0, tB20: 0, tB50: 0, tB100: 0, tB200: 0, tB500: 0, tB1000: 0}];
+
+        this.infoDepositos = [];
+
+
+        this.opersBanco  = {'nomBanco': "", 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
+        this.listaBancos = [];
+
+        arrDatosServidor = [];
+        for(let idx=0; idx<24; idx++){
+            this.datosRetirosXhora[idx] = new DatosRetirosXhora();
         }
 
-        if (intervalId != null){
-            clearInterval(intervalId);
-        }
+        arrDepositos = [];
+        this.listaErroresOper = [];
+        this.lErroresPorBanco = [];
+        idxErrBanco=0;
+    };
 
-        this.pDatosDelJournal();
 
-        //setTimeout(() => { this.pDatosDelJournal(); }, 300);
-        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
+    parametrosConsulta(infoRecibida){
+        console.log("ResumenCifras.parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
+        console.log("ResumenCifras.parametrosConsulta:: Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("ResumenCifras.parametrosConsulta:: Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        //console.log(fchIniParam);
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        //console.log(fchFinParam);
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
     }
 
 
-    public incrementaBanco(tipoOper:string, nomBanco:string): void{
 
-        if (nomBanco == undefined || nomBanco == null || nomBanco == ""){
-            nomBanco = "********";
+
+
+    public pDatosDelJournal(params){
+
+        console.log("ResumenCifras.pDatosDelJournal:: -->"+this.urlPath+"<--");
+
+        if (this.urlPath != "operaciones"){
+            console.log("ResumenCifras.pDatosDelJournal:: No va a cargar los datos");
+            return(0);
         }
-        
-        if ( this.listaBancos[nomBanco] == undefined ){
-            this.opersBanco            = {'nomBanco': nomBanco, 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-            this.listaBancos[nomBanco] = {'opersBanco': {} };
+
+        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
+
+        this.paramsServicioDatosLog.timeStampStart  = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd    = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
+
+        this.paramsServicioNumPaginas.ip[0]         = params.ip;
+        this.paramsServicioDatosLog.ip[0]           = params.ip;
+
+        //console.log("Consulta Journal ["+new Date()+"]");
+
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
+
+        if (gNumPaginas > 0) {
+            numPaginaObtenida = 0;
+            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
+                ipAnterior = this.paramsServicioNumPaginas.ip[0];
+                this.numPaginas = 0;
+            }
+
+            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
+            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
+            // ** gNumPaginas = El número máximo de información.
+            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+                this.paramsServicioDatosLog.page = idx;
+                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+            }
+
+
+            // Respalda el arreglo con las paginas completas (200 registros).
+            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
+            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+                arrDatosServidorBack = arrDatosServidor;
+                /* la primera consulta */
+            }
+
+            arrDatosServidor = arrDatosServidorBack;
+
+            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+
+            if (arrDatosServidorInc.length > 0) {
+                this.numPaginas = gNumPaginas - 1;
+            }
+
+            gNumPaginasCompletas = (gNumPaginas - 1);
         }else{
-            this.opersBanco = this.listaBancos[nomBanco];
+            this.obtenDatosLog([{}], gNumPaginas);
+            this.cErroresPorBanco = [];
         }
 
-        switch(tipoOper){
-            case 'RE' : this.opersBanco['numRetOk']++; break;
-            case 'REN': this.opersBanco['numRetNoOk']++; break;
-            /*case 'REC': this.opersBanco['numRechazos']++; break;*/
-            case 'CON': this.opersBanco['numCons']++; break;
-            case 'COE': this.opersBanco['numConsNoOk']++; break;
-            case 'REV': this.opersBanco['numReversos']++; break;
-        }
-        this.listaBancos[nomBanco] = this.opersBanco;
+        let fchSys   = new Date();
+        let _anioSys = fchSys.getFullYear();
+        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
+        let _diaSys  = fchSys.getDate();
+        let _hraSys  = fchSys.getHours();
+        let _minSys  = fchSys.getMinutes();
+        let _segSys  = fchSys.getSeconds();
+
+        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
     }
 
-    public listaErroresOper: any[] = [];
 
-    public guardaErrores(descError: string):void{
-        //console.log("guardaErrores:: Inicio ["+descError+"]");
-        if ( this.listaErroresOper[descError] == undefined ){
-            this.listaErroresOper[descError] = 1;
-        }else{
-            this.listaErroresOper[descError]++;
+    public obtenNumeroDePaginasLog(result:object, status){
+        gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
+        gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
+    }
+
+    public obtenDatosJournal(result:any[], status){
+
+        arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
+        numPaginaObtenida++;         // Numero de paginas obtenidas.
+        console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
+        //if (result.length >= 200){
+        if (numPagsCompletas < (gNumPaginas -1)){
+            numPagsCompletas++;      // Numero de paginas completas.
+            if (arrDatosServidor == undefined){
+                arrDatosServidor = result;
+            }else{
+                arrDatosServidor = arrDatosServidor.concat(result);
+            }
+        }else {
+            arrDatosServidorInc = result;
         }
 
-        //ErroresPorBanco
-
     }
+
 
     public obtenDatosLog(result:object, numPag:number): void {
 
@@ -569,24 +684,17 @@ export class ResumenCifrasComponent implements OnInit  {
 
         datosLog.forEach((reg)=>{
 
-            let date = new Date(reg.TimeStamp);
-            let fch=sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
-            reg.TimeStamp = fch;
-            let _hora = date.getHours();
-            let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
-            let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
-
-            let xReg = reg
-            xReg.TimeStamp = fch;
-
-            //if( reg.CardNumber == '547146XXXXXX8650'){
-             //   //console.log("Registro localizado --> idxRegLog["+idxRegLog+"]");
-            //}
-            //idxRegLog++;
-
-            fchSys = new Date();
-            _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
-            _horaUltimaOper = _horaSys;
+            let date                 = new Date(reg.TimeStamp);
+            let fch                  = sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+            reg.TimeStamp            = fch;
+            let _hora                = date.getHours();
+            let tmpHoraOperacion     = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
+            let tmpFechaOper         = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
+            let xReg                 = reg
+            xReg.TimeStamp           = fch;
+            fchSys                   = new Date();
+            _horaSys                 = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
+            _horaUltimaOper          = _horaSys;
 
             if (iniciaDeposito != "" && (tipoUltimaOperacion != "D" || (reg.Data == "VALIDAUSUARIO IsValid TRUE" && reg.Id != id))){ 
                 iniciaDeposito      = "";
@@ -596,9 +704,9 @@ export class ResumenCifrasComponent implements OnInit  {
                 iniciaSesDeposito   = reg.TimeStamp;
                 nivelUltimoDeposito = 0;
                 idSesion++;
-                montoSesion      = 0;
-                numDepositos     = 0;
-                rollbackDeposito = 0;
+                montoSesion         = 0;
+                numDepositos        = 0;
+                rollbackDeposito    = 0;
             }
 
             switch(reg.Event) {
@@ -643,7 +751,6 @@ export class ResumenCifrasComponent implements OnInit  {
 
                         case "Withdrawal Service Error": {
                             this.incrementaBanco('REN', tmpAquirer);
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
                         case "Approved transaction": {
@@ -667,24 +774,20 @@ export class ResumenCifrasComponent implements OnInit  {
                         }
 
                         case "Withdrawal DispenseFail": {
-                            //this.dNumRetirosNoExito++;
                             this.dMontoRetirosNoExito += reg.Amount;
                             if(this.dHraPrimerRetiroNoExito == ""){
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
                             this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
                         case "Declined transaction": {
-                            //this.dNumRetirosNoExito++;
                             this.dMontoRetirosNoExito += reg.Amount;
                             if(this.dHraPrimerRetiroNoExito == ""){
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
                             this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
@@ -703,7 +806,7 @@ export class ResumenCifrasComponent implements OnInit  {
                     if (reg.SwitchResponseCode != 0){
                         this.incrementaBanco('REN', reg.Aquirer);
                         if ((reg.HWErrorCode in this.retiroNoOk) == true){
-                            this.retiroNoOk[reg.HWErrorCode]++; // = this.retiroNoOk[reg.HWErrorCode] + 1;
+                            this.retiroNoOk[reg.HWErrorCode]++;
                         } else {
                             this.retiroNoOk[reg.HWErrorCode] = 1;
                         }
@@ -928,16 +1031,67 @@ export class ResumenCifrasComponent implements OnInit  {
 
     }
 
-    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
-    public minutosSinOperacion:number = 1;
-    public tiempoSinOperaciones:number = 0;
-    public msgError:string = "";
 
-    //public terminaDota:any;
-    //public iniciaDeposito:any;
-    //public tiempoDowntime:any;
-    //public montoDowntime:number;
-    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
+    public incrementaBanco(tipoOper:string, nomBanco:string): void{
+
+        if (nomBanco == undefined || nomBanco == null || nomBanco == ""){
+            nomBanco = "********";
+        }
+
+        if ( this.listaBancos[nomBanco] == undefined ){
+            this.opersBanco            = {'nomBanco': nomBanco, 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
+            this.listaBancos[nomBanco] = {'opersBanco': {} };
+        }else{
+            this.opersBanco = this.listaBancos[nomBanco];
+        }
+
+        switch(tipoOper){
+            case 'RE' : this.opersBanco['numRetOk']++; break;
+            case 'REN': this.opersBanco['numRetNoOk']++; break;
+            /*case 'REC': this.opersBanco['numRechazos']++; break;*/
+            case 'CON': this.opersBanco['numCons']++; break;
+            case 'COE': this.opersBanco['numConsNoOk']++; break;
+            case 'REV': this.opersBanco['numReversos']++; break;
+        }
+        this.listaBancos[nomBanco] = this.opersBanco;
+    }
+
+
+    public incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
+
+        if (descError.length > 0) {
+            if (nomBanco == undefined || nomBanco == null || nomBanco.length == 0){
+                nomBanco = "********";
+            }
+            this.lErroresPorBanco[idxErrBanco++] = new ErroresPorBanco(nomBanco, descError, codError, 1, tipoOper);
+
+
+            //if ( this.xErroresPorBanco instanceof ErroresPorBanco ){
+            //    this.xErroresPorBanco = new ErroresPorBanco();
+            //}
+
+            //this.xErroresPorBanco.incErrBanco(nomBanco, descError, codError, tipoOper);
+
+            //console.log(this.xErroresPorBanco.nomBanco);
+
+            let desc = descError.replace(/ /g, "_")+"_("+codError+")";
+            // Descomentar para probar           console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
+            if (this.listaErrsPorBanco[nomBanco] == undefined) {
+                this.listaErrsPorBanco[nomBanco] = []
+                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
+                    this.listaErrsPorBanco[nomBanco][desc] = 1;
+                } else {
+                    this.listaErrsPorBanco[nomBanco][desc]++;
+                }
+            } else {
+                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
+                    this.listaErrsPorBanco[nomBanco][desc] = 1;
+                } else {
+                    this.listaErrsPorBanco[nomBanco][desc]++;
+                }
+            }
+        }
+    }
 
     public calculaDownTime(fchInicial, fchFinal, horaInicial, horaFinal){
 
@@ -969,74 +1123,6 @@ export class ResumenCifrasComponent implements OnInit  {
         return(tiempoTranscurrido);
     }
 
-    public veficaHoraUlimaOperacion(datosLog){
-
-        let tiempoSinOperacion = (60 * 1000) * this.minutosSinOperacion;
-        let reg:any = datosLog[datosLog.length-1];
-        let dateSys:any = new Date().getTime();
-        let dateOper = new Date(reg.TimeStamp);
-        let dateSist = new Date();
-        let tmpFechaOper = sprintf("%04d-%02d-%02d", dateOper.getFullYear(), dateOper.getMonth() + 1, dateOper.getDate());
-        let tmpFechaSist = sprintf("%04d-%02d-%02d", dateSist.getFullYear(), dateSist.getMonth() + 1, dateSist.getDate());
-
-
-
-        if (tmpFechaOper == tmpFechaSist) {
-            this.tiempoSinOperaciones = Math.round(((dateSys - reg.TimeStamp) / 1000) / 60);
-
-            console.log("Log: [" + reg.TimeStamp + "]   [" + new Date(reg.TimeStamp) + "]");
-            console.log("Actual: [" + dateSys + "]   [" + new Date(dateSys) + "]");
-            this.msgError = "";
-            if ((dateSys - reg.TimeStamp) > tiempoSinOperacion) {
-                console.log("**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****");
-                this.msgError = "**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****";
-            }
-        }
-    }
-
-    public arrTarjetas:any[] = [];
-    //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
-    public listaErrsPorBanco: any[][] = [];
-    cErroresPorBanco: ErroresPorBanco[];
-    lErroresPorBanco: ErroresPorBanco[];
-    //xErroresPorBanco: ErroresPorBanco;
-
-    public incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
-
-        if (descError.length > 0) {
-            if (nomBanco == undefined || nomBanco == null || nomBanco.length == 0){
-                nomBanco = "********";
-            }
-            this.lErroresPorBanco[idxErrBanco++] = new ErroresPorBanco(nomBanco, descError, codError, 1, tipoOper);
-
-
-            //if ( this.xErroresPorBanco instanceof ErroresPorBanco ){
-            //    this.xErroresPorBanco = new ErroresPorBanco();
-            //}
-
-            //this.xErroresPorBanco.incErrBanco(nomBanco, descError, codError, tipoOper);
-
-            //console.log(this.xErroresPorBanco.nomBanco);
-
-            let desc = descError.replace(/ /g, "_")+"_("+codError+")";
- // Descomentar para probar           console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
-            if (this.listaErrsPorBanco[nomBanco] == undefined) {
-                this.listaErrsPorBanco[nomBanco] = []
-                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
-                    this.listaErrsPorBanco[nomBanco][desc] = 1;
-                } else {
-                    this.listaErrsPorBanco[nomBanco][desc]++;
-                }
-            } else {
-                if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
-                    this.listaErrsPorBanco[nomBanco][desc] = 1;
-                } else {
-                    this.listaErrsPorBanco[nomBanco][desc]++;
-                }
-            }
-        }
-    }
-
     // Arma los datos de la tabla del Resumen de Operaciones
     public mResumenOperaciones():void{
         this.tblResOperacion = {
@@ -1054,76 +1140,6 @@ export class ResumenCifrasComponent implements OnInit  {
         };
     }
 
-    // Arma los datos de la tabla del Depositos
-    public pResumenDepositos():void{
-
-        this.tblResumenDepositos = {
-            headerRow: [
-                {
-                    hId:'ID',       dCta: 'Cuenta', hHraIni:'Inicio',       hHraFin: 'Finalizo',        hMonto:'Monto',     hBill20:'$20',
-                    hBill50:'$50',  hBill100:'$100',        hBill200:'$200',            hBill500:'$500',    hBill1000:'$1000'
-                }
-            ],
-            dataRows: arrDepositos
-        };
-
-        for(let idx=0; idx < arrDepositos.length; idx++){
-            this.tBillDep[0].tMonto += Number(arrDepositos[idx].dMonto);
-            this.tBillDep[0].tB20 += Number(arrDepositos[idx].dBill20);
-            this.tBillDep[0].tB50 += Number(arrDepositos[idx].dBill50);
-            this.tBillDep[0].tB100 += Number(arrDepositos[idx].dBill100);
-            this.tBillDep[0].tB200 += Number(arrDepositos[idx].dBill200);
-            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill500);
-            this.tBillDep[0].tB1000 += Number(arrDepositos[idx].dBill1000);
-        }
-    }
-
-    // Arma la información de la tabla de Resumen de Operaciones por Banco
-    public mResumenPorBanco():void{
-
-
-        let arrDatos = [];
-        let arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
-        let fNumBancos = 0;
-        let fNumRetOk = 0;
-        let fNumRetNoOK = 0;
-        let fNumCons = 0;
-        let fNumConsNoOk = 0;
-        let fNumReversos = 0;
-        let fnumRechazos = 0;
-        Object.keys(this.listaBancos).sort().forEach(function(banco) {
-
-            let datosBanco =  this[banco];
-            arrDatos.push({ dBanco: banco,                          dNumRetOk: datosBanco['numRetOk'],
-                            dNumRetNoOk: datosBanco['numRetNoOk'],  dNumCons: datosBanco['numCons'],
-                            dNumConsNoOk: datosBanco['numConsNoOk'],dNumReversos: datosBanco['numReversos'],
-                            dNumRechazos: datosBanco['numRechazos']
-            });
-
-            fNumBancos++;
-            fNumRetOk += datosBanco['numRetOk'];
-            fNumRetNoOK += datosBanco['numRetNoOk'];
-            fNumCons += datosBanco['numCons'];
-            fNumConsNoOk += datosBanco['numConsNoOk'];
-            fNumReversos += datosBanco['numReversos'];
-        }, this.listaBancos);
-
-        this.tblResumenPorBanco = {
-            headerRow: [
-                {   hBanco:'Banco',         hNumRetOk:'Retiros Exitosos',       hNumRetNoOk:'Retiros Fallidos',
-                    hNumCons:'Consultas',   hNumConsNoOk:'Consultas Fallidas',  hNumReversos: 'Reversos'
-                }
-            ],
-            dataRows: arrDatos,
-            totalRows: [
-                {   fNumBancos: "Total Bancos: "+fNumBancos, fNumRetOk: fNumRetOk, fNumRetNoOK: fNumRetNoOK,
-                    fNumCons: fNumCons, fNumConsNoOk: fNumConsNoOk, fNumReversos: fNumReversos
-                }
-            ]
-        };
-
-
-    }
 
     // Despiega en la pagina la información de Consultas y Retiros.
     public mRretirosPorHora():void{
@@ -1158,8 +1174,7 @@ export class ResumenCifrasComponent implements OnInit  {
         // Agrega al objeto arrRetiros los movimientos que entraron antes de la 7 de la manañana
         let carVacio = "0";
         let tmpHora = "<7";
-        arrRetiros.push(
-        {
+        arrRetiros.push({
             hora:                    tmpHora,
             numConsultasPorHora:     tNumConsultas,
             acumNumConsultasPorHora: tAcumNumConsultas,
@@ -1183,15 +1198,14 @@ export class ResumenCifrasComponent implements OnInit  {
         for(let idx=7; idx < this.dAcumNumRetirosPorHora.length; idx++){
             if ( this.dNumConsPorHora[idx] > 0 || this.dNumRetirosPorHora[idx] > 0) {
                 tmpHora = idx.toString();
-                arrRetiros.push(
-                {
-                    hora: sprintf("%02s", idx.toString()),
-                    numConsultasPorHora: (this.dNumConsPorHora[idx] > 0 ? this.dNumConsPorHora[idx] : carVacio),
-                    acumNumConsultasPorHora: acumCons[idx],
-                    numRetirosPorHora: (this.dNumRetirosPorHora[idx] > 0 ? this.dNumRetirosPorHora[idx] : carVacio),
-                    acumNumRetirosPorHora: acumRet[idx],
-                    montoRetirosPorHora: (this.dMontoRetirosPorHora[idx] > 0 ? this.dMontoRetirosPorHora[idx] : carVacio),
-                    acumMontoRetirosPorHora: acumMonto[idx]
+                arrRetiros.push({
+                        hora: sprintf("%02s", idx.toString()),
+                        numConsultasPorHora: (this.dNumConsPorHora[idx] > 0 ? this.dNumConsPorHora[idx] : carVacio),
+                        acumNumConsultasPorHora: acumCons[idx],
+                        numRetirosPorHora: (this.dNumRetirosPorHora[idx] > 0 ? this.dNumRetirosPorHora[idx] : carVacio),
+                        acumNumRetirosPorHora: acumRet[idx],
+                        montoRetirosPorHora: (this.dMontoRetirosPorHora[idx] > 0 ? this.dMontoRetirosPorHora[idx] : carVacio),
+                        acumMontoRetirosPorHora: acumMonto[idx]
                 });
             }
         }
@@ -1202,179 +1216,182 @@ export class ResumenCifrasComponent implements OnInit  {
         };
     }
 
-    public dUltimaActualizacion: string;
-    public obtenNumeroDePaginasLog(result:object, status){
-        gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
-        gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
-    }
-
-    public numPaginas = 0;
-
-    public obtenDatosJournal(result:any[], status){
-
-        arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
-        numPaginaObtenida++;         // Numero de paginas obtenidas.
-        console.log("obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
-        //if (result.length >= 200){
-        if (numPagsCompletas < (gNumPaginas -1)){
-            numPagsCompletas++;      // Numero de paginas completas.
-            if (arrDatosServidor == undefined){
-                arrDatosServidor = result;
-            }else{
-                arrDatosServidor = arrDatosServidor.concat(result);
-            }
-        }else {
-            arrDatosServidorInc = result;
-        }
-
-    }
+    // Arma la información de la tabla de Resumen de Operaciones por Banco
+    public mResumenPorBanco():void{
 
 
+        let arrDatos = [];
+        let arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
+        let fNumBancos = 0;
+        let fNumRetOk = 0;
+        let fNumRetNoOK = 0;
+        let fNumCons = 0;
+        let fNumConsNoOk = 0;
+        let fNumReversos = 0;
+        let fnumRechazos = 0;
+        Object.keys(this.listaBancos).sort().forEach(function(banco) {
 
-    public pDatosDelJournal(){
-
-        console.log("pDatosDelJournal -->"+this.urlPath+"<--");
-        if (this.urlPath != "operaciones"){
-            console.log("pDatosDelJournal:: No va a cargar los datos");
-            return(0);
-        }
-
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
-
-        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
-
-        console.log("Consulta Journal ["+new Date()+"]");
-
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
-
-        if (gNumPaginas > 0) {
-            numPaginaObtenida = 0;
-            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
-                ipAnterior = this.paramsServicioNumPaginas.ip[0];
-                this.numPaginas = 0;
-            }
-
-            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
-            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
-            // ** gNumPaginas = El número máximo de información.
-            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
-                this.paramsServicioDatosLog.page = idx;
-                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-            }
-
-
-            // Respalda el arreglo con las paginas completas (200 registros).
-            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
-            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
-                arrDatosServidorBack = arrDatosServidor;
-                /* la primera consulta */
-            }
-
-            arrDatosServidor = arrDatosServidorBack;
-
-            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
-
-            if (arrDatosServidorInc.length > 0) {
-                this.numPaginas = gNumPaginas - 1;
-            }
-
-            gNumPaginasCompletas = (gNumPaginas - 1);
-        }else{
-            this.obtenDatosLog([{}], gNumPaginas);
-            this.cErroresPorBanco = [];
-        }
-
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-    }
-
-    form: FormGroup;
-
-
-public fechaHoraOperacion: string;
-
-  ngOnInit() {
-
-      this.activatedRoute.url.subscribe(url =>{
-          this.urlPath = url[0].path;
-          console.log("ngOnInit -->"+this.urlPath+"<--");
-
-      });
-      //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
-      //console.log("ngOnInit -->"+this.urlMenu+"<--");
-
-      this.obtieneIpATMs();
-      this.datosGrafica();
-
-
-      this.form = this.formBuilder.group({
-          date: [new Date(1991, 8, 12)]
-      });
-
-      //tIdx = 0;
-        let arrRetiros = [];
-        for(let idx=0; idx < 24; idx++){
-            arrRetiros.push(
-            {
-                hora: sprintf("%02s", idx.toString()),
-                numConsultasPorHora: "",
-                acumNumConsultasPorHora: "",
-                numRetirosPorHora: "",
-                acumNumRetirosPorHora: "",
-                montoRetirosPorHora: "",
-                acumMontoRetirosPorHora: ""
+            let datosBanco =  this[banco];
+            arrDatos.push({ dBanco: banco,                          dNumRetOk: datosBanco['numRetOk'],
+                dNumRetNoOk: datosBanco['numRetNoOk'],  dNumCons: datosBanco['numCons'],
+                dNumConsNoOk: datosBanco['numConsNoOk'],dNumReversos: datosBanco['numReversos'],
+                dNumRechazos: datosBanco['numRechazos']
             });
+
+            fNumBancos++;
+            fNumRetOk += datosBanco['numRetOk'];
+            fNumRetNoOK += datosBanco['numRetNoOk'];
+            fNumCons += datosBanco['numCons'];
+            fNumConsNoOk += datosBanco['numConsNoOk'];
+            fNumReversos += datosBanco['numReversos'];
+        }, this.listaBancos);
+
+        this.tblResumenPorBanco = {
+            headerRow: [
+                {   hBanco:'Banco',         hNumRetOk:'Retiros Exitosos',       hNumRetNoOk:'Retiros Fallidos',
+                    hNumCons:'Consultas',   hNumConsNoOk:'Consultas Fallidas',  hNumReversos: 'Reversos'
+                }
+            ],
+            dataRows: arrDatos,
+            totalRows: [
+                {   fNumBancos: "Total Bancos: "+fNumBancos, fNumRetOk: fNumRetOk, fNumRetNoOK: fNumRetNoOK,
+                    fNumCons: fNumCons, fNumConsNoOk: fNumConsNoOk, fNumReversos: fNumReversos
+                }
+            ]
+        };
+
+
+    }
+
+
+    // Arma los datos de la tabla del Depositos
+    public pResumenDepositos():void{
+
+        this.tblResumenDepositos = {
+            headerRow: [
+                {
+                    hId:'ID',       dCta: 'Cuenta', hHraIni:'Inicio',       hHraFin: 'Finalizo',        hMonto:'Monto',     hBill20:'$20',
+                    hBill50:'$50',  hBill100:'$100',        hBill200:'$200',            hBill500:'$500',    hBill1000:'$1000'
+                }
+            ],
+            dataRows: arrDepositos
+        };
+
+        for(let idx=0; idx < arrDepositos.length; idx++){
+            this.tBillDep[0].tMonto += Number(arrDepositos[idx].dMonto);
+            this.tBillDep[0].tB20 += Number(arrDepositos[idx].dBill20);
+            this.tBillDep[0].tB50 += Number(arrDepositos[idx].dBill50);
+            this.tBillDep[0].tB100 += Number(arrDepositos[idx].dBill100);
+            this.tBillDep[0].tB200 += Number(arrDepositos[idx].dBill200);
+            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill500);
+            this.tBillDep[0].tB1000 += Number(arrDepositos[idx].dBill1000);
+        }
+    }
+
+
+    public veficaHoraUlimaOperacion(datosLog){
+
+        let tiempoSinOperacion = (60 * 1000) * this.minutosSinOperacion;
+        let reg:any = datosLog[datosLog.length-1];
+        let dateSys:any = new Date().getTime();
+        let dateOper = new Date(reg.TimeStamp);
+        let dateSist = new Date();
+        let tmpFechaOper = sprintf("%04d-%02d-%02d", dateOper.getFullYear(), dateOper.getMonth() + 1, dateOper.getDate());
+        let tmpFechaSist = sprintf("%04d-%02d-%02d", dateSist.getFullYear(), dateSist.getMonth() + 1, dateSist.getDate());
+
+
+
+        if (tmpFechaOper == tmpFechaSist) {
+            this.tiempoSinOperaciones = Math.round(((dateSys - reg.TimeStamp) / 1000) / 60);
+
+            console.log("Log: [" + reg.TimeStamp + "]   [" + new Date(reg.TimeStamp) + "]");
+            console.log("Actual: [" + dateSys + "]   [" + new Date(dateSys) + "]");
+            this.msgError = "";
+            if ((dateSys - reg.TimeStamp) > tiempoSinOperacion) {
+                console.log("**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****");
+                this.msgError = "**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****";
+            }
+        }
+    }
+
+    public pDenominacionesBilletes(infoBilletes:string){
+
+        var montoTotal = 0;
+        var respBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
+        let posInicial = infoBilletes.indexOf('[');
+        let posFinal = infoBilletes.indexOf(']', posInicial);
+        let billetes1 = infoBilletes.substr(posInicial, (posFinal - posInicial)).replace(/[\[\]]/g,'');
+        let arrBilletes = billetes1.split("|");
+        for(let idx=0; idx < arrBilletes.length; idx++){
+            let arrBilletes2 =  arrBilletes[idx].split("x");
+            switch(arrBilletes2[1]){
+                case '20':   { respBilletes.b20   = Number(arrBilletes2[0]); break; }
+                case '50':   { respBilletes.b50   = Number(arrBilletes2[0]); break; }
+                case '100':  { respBilletes.b100  = Number(arrBilletes2[0]); break; }
+                case '200':  { respBilletes.b200  = Number(arrBilletes2[0]); break; }
+                case '500':  { respBilletes.b500  = Number(arrBilletes2[0]); break; }
+                case '1000': { respBilletes.b1000 = Number(arrBilletes2[0]); break; }
+            }
+            respBilletes.total += Number(arrBilletes2[1]) * Number(arrBilletes2[0]);
+        }
+        return(respBilletes);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Actualiza informciòn de la pantalla.
+    public pActualizaInfoXXX(): void {
+
+        console.log("pActualizaInfo:: url["+this.rutaActual+"]");
+
+        // Se obtiene el nombre de la clase actual:  this.constructor.name
+        console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
+        if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
+            (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
+            gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd) ||
+            gFchInicioAnterior != this.dFchFinProceso || gFchInicioFinAnterior != this.dHraFinProceso){
+
+            ipAnterior              = this.paramsServicioNumPaginas.ip[0];
+            gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
+            gFchInicioFinAnterior   = this.paramsServicioNumPaginas.timeStampEnd;
+            this.numPaginas         = 0;
+            gNumRegsProcesados      = 0;
+            arrDatosServidorBack    = [];
+            gNumPaginas             = 0;
+            gNumRegsProcesados      = 0;
+            numPagsCompletas        = 0;
+            gNumPaginasCompletas    = 0;
         }
 
-        this.retiros = {
-            headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
-            datos: arrRetiros
-        };
+        if (intervalId != null){
+            clearInterval(intervalId);
+        }
 
+        this.pDatosDelJournal('');
 
-        this.fechaHoraOperacion         = this.dFchIniProceso + " " + this.dHraIniProceso.replace("-", ":") + "  /  " +  this.dFchFinProceso + " " + this.dHraFinProceso.replace("-", ":");
-        this.datosGraficaRetirosPorHora = {
-        'labels': ['<7', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
-        'series': [[], []]
-        };
-
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-        this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-
-      //this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
-      //this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
-
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
-
-        this.ipATM = '11.40.2.2';
-        ipAnterior = this.paramsServicioNumPaginas.ip[0];
-        gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
-        gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
-
-        this.pActualizaInfo();
-        this.graficaRetiros();
+        //setTimeout(() => { this.pDatosDelJournal(); }, 300);
+        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
+
 
     public otrasGraficas(): void{
       /*
@@ -1544,8 +1561,6 @@ public fechaHoraOperacion: string;
         this.logger.unstore();
     }
     */
-    public openRequest2;
-
     iniciarBD(){
         console.log("iniciarBD:: Inicia");
 
@@ -1648,75 +1663,9 @@ public fechaHoraOperacion: string;
         
     }
 
-    // Datos para la fecha.
-    //form: FormGroup;
-
-    public rutaActual = "";
-
-    //customers: Customer[];
-    public urlPath = "";
-    public urlMenu = "";
-    constructor(private formBuilder: FormBuilder,
-                public _soapService: SoapService,
-                private _desglosaBilletes: DesglosaBilletes,
-                public _guardaDepositosBD: GuardaDepositosBD,
-                public activatedRoute: ActivatedRoute){
-                //public ngProgress: NgProgress) {
-    //private activatedRoute : ActivatedRoute
-                console.log("HomeComponent:: Inicia");
-                this.activatedRoute.url.subscribe(url =>{
-                    this.urlPath = url[0].path;
-                    console.log("constructor:: -->"+this.urlPath+"<--");
-
-                });
-
-
-                //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
-                //console.log("HomeComponent::  url["+activatedRoute._routerState.snapshot.url+"]");
-                //console.log("HomeComponent::  component["+activatedRoute.component.name+"]");
-                //console.log("HomeComponent::  _routerState["+this.activatedRoute._futureSnapshot._routerState.url+"]");
 
 
 
-        //this.rutaActual = this._navigationStart.currentRouterState.snapshot.url;
-
-                //console.log("HomeComponent:: url["+this._navigationStart.currentRouterState.snapshot.url+"]");
-
-        //this.customers = service.getCustomers();
-
-//        this.setLevel(5);
-        this.inicializaVariables();
-
-    }
-
-    public pDenominacionesBilletes(infoBilletes:string){
-
-        var montoTotal = 0;
-        var respBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
-        let posInicial = infoBilletes.indexOf('[');
-        let posFinal = infoBilletes.indexOf(']', posInicial);
-        let billetes1 = infoBilletes.substr(posInicial, (posFinal - posInicial)).replace(/[\[\]]/g,'');
-        let arrBilletes = billetes1.split("|");
-        for(let idx=0; idx < arrBilletes.length; idx++){
-            let arrBilletes2 =  arrBilletes[idx].split("x");
-            switch(arrBilletes2[1]){
-                case '20':   { respBilletes.b20   = Number(arrBilletes2[0]); break; }
-                case '50':   { respBilletes.b50   = Number(arrBilletes2[0]); break; }
-                case '100':  { respBilletes.b100  = Number(arrBilletes2[0]); break; }
-                case '200':  { respBilletes.b200  = Number(arrBilletes2[0]); break; }
-                case '500':  { respBilletes.b500  = Number(arrBilletes2[0]); break; }
-                case '1000': { respBilletes.b1000 = Number(arrBilletes2[0]); break; }
-            }
-            respBilletes.total += Number(arrBilletes2[1]) * Number(arrBilletes2[0]);
-        }
-        return(respBilletes);
-    }
-
-    // Pie
-    public pieChartLabels:string[] = ['Depósitos', 'Retiros', 'Consultas', 'Reversos'];
-    public pieChartData:number[] = [7, 22, 12, 0];
-    public pieChartType:string = 'pie';
-    public polarAreaLegend:boolean = true;
 
     // events
     public chartClicked(e:any):void {
@@ -1727,12 +1676,8 @@ public fechaHoraOperacion: string;
         console.log(e);
     }
 
-    public activityChartType: ChartType;
-    public activityChartData: any;
-    public activityChartOptions: any;
-    public activityChartResponsive: any[];
-    public activityChartLegendItems: LegendItem[];
 
+    /* Graficas */
     public datosGrafica() {
         console.log("datosGrafica:: Inicio");
         this.activityChartType = ChartType.Bar;
@@ -1793,17 +1738,60 @@ public fechaHoraOperacion: string;
         }
     }
 
-    public obtieneIpATMs(){
-        //console.log('obtenIpATMs:: Inicio');
-        ipATMs  = [];
-        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
-        this.ipATMs = ipATMs;
-        this.ipATMs = ipATMs.sort(comparar);
-        //console.log('obtenIpATMs:: Se ejecuto la consulta');
+
+
+
+
+    // Actualiza informciòn de la pantalla.
+    public pActualizaInfo(): void {
+
+        console.log("pActualizaInfo:: url["+this.rutaActual+"]");
+
+        // Se obtiene el nombre de la clase actual:  this.constructor.name
+        console.log("this.paramsServicioNumPaginas.ip["+this.paramsServicioNumPaginas.ip[0]+"]");
+        if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
+            (gFchInicioAnterior     != this.paramsServicioNumPaginas.timeStampStart ||
+            gFchInicioFinAnterior   != this.paramsServicioNumPaginas.timeStampEnd) ||
+            gFchInicioAnterior      != this.dFchFinProceso ||
+            gFchInicioFinAnterior   != this.dHraFinProceso){
+
+            ipAnterior              = this.paramsServicioNumPaginas.ip[0];
+            gFchInicioAnterior      = this.paramsServicioNumPaginas.timeStampStart;
+            gFchInicioFinAnterior   = this.paramsServicioNumPaginas.timeStampEnd;
+            this.numPaginas         = 0;
+            gNumRegsProcesados      = 0;
+            arrDatosServidorBack    = [];
+            gNumPaginas             = 0;
+            gNumRegsProcesados      = 0;
+            numPagsCompletas        = 0;
+            gNumPaginasCompletas    = 0;
+        }
+
+        if (intervalId != null){
+            clearInterval(intervalId);
+        }
+
+        this.pDatosDelJournal('');
+
+        //setTimeout(() => { this.pDatosDelJournal(); }, 300);
+        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
     }
 
 
 
+
+
+    public guardaErrores(descError: string):void{
+        //console.log("guardaErrores:: Inicio ["+descError+"]");
+        if ( this.listaErroresOper[descError] == undefined ){
+            this.listaErroresOper[descError] = 1;
+        }else{
+            this.listaErroresOper[descError]++;
+        }
+
+        //ErroresPorBanco
+
+    }
 }
 
 function comparar ( a, b ){ return a - b; }

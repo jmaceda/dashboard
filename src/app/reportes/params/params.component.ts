@@ -1,27 +1,26 @@
 /* app/reportes/params/params.component.ts */
-import { Component }            from '@angular/core';
-import { OnInit }               from '@angular/core';
-import { Input}                 from '@angular/core';
-import { Output}                from '@angular/core';
-import { EventEmitter}          from '@angular/core';
-import { ViewChild, ViewChildren}          from '@angular/core';
-import { TemplateRef } from '@angular/core';
+import { Component }                        from '@angular/core';
+import { OnInit }                           from '@angular/core';
+import { Input}                             from '@angular/core';
+import { Output}                            from '@angular/core';
+import { EventEmitter}                      from '@angular/core';
+import { ViewChild, ViewChildren}           from '@angular/core';
+import { TemplateRef }                      from '@angular/core';
 
 
-import { sprintf }              from "sprintf-js";
-import { SoapService }          from '../../services/soap.service';
+import { sprintf }                          from "sprintf-js";
+import { SoapService }                      from '../../services/soap.service';
 
-import { DetalleAtmsService }   from '../../services/detalle-atms.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalBasic }       from '../../utils/modal-basic';
-import { NgbdModalContent }     from '../../utils/ngbd-modal-content';
+import { DetalleAtmsService }               from '../../services/detalle-atms.service';
+import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalBasic }                   from '../../utils/modal-basic';
+import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 
 
 export var datosATMs  = [];
 export var ipATMs  = [];
 
-
-
+var nomModulo = "ParamsComponent";
 
 
 @Component({
@@ -45,7 +44,7 @@ export class ParamsComponent implements OnInit {
         format: 'dd-MMM-yyyy HH:mm',
         defaultOpen: false,
         closeOnSelect: true
-    }
+    };
 
     public ipATMs:any[] = [];
     public ip;
@@ -53,36 +52,34 @@ export class ParamsComponent implements OnInit {
     public paramsConsulta:any = {};
 
     obtenFchSys(){
+        console.log(nomModulo+".obtenFchSys:: init");
+        let fchSys      = new Date();
+        let _anioSys    = fchSys.getFullYear();
+        let _mesSys     = fchSys.getMonth();   //hoy es 0!
+        let _diaSys     = fchSys.getDate();
+        let _hraSys     = fchSys.getHours();
+        let _minSys     = fchSys.getMinutes();
+        let _segSys     = fchSys.getSeconds();
 
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth();   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.fchInicio = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
-        this.fchFin = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
+        this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
+        this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
     }
 
     ngOnInit() {
-        //console.log("ParamsComponent.ngOnInit:: Inicio");
+        console.log(nomModulo+".ngOnInit:: Inicio");
 
         this.obtenFchSys();
-        //this.obtieneIpATMs();
+
         //console.log("Se va a ejecutar el servicio detalleAtmsService...");
         if (this.ipATMs.length == 0) {
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
         }
 
-        console.log(this.ipATMs);
+        console.log(nomModulo+".ngOnInit:: " + this.ipATMs);
     }
 
     constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
                 private modalService: NgbModal){
-
-        //console.log(datosATMs);
     }
 
     public GetEjaFilters(result:any, status){
@@ -136,7 +133,7 @@ export class ParamsComponent implements OnInit {
 
 
     public paramsActuales(idOrigen:number){
-        console.log("pActualizaParams:: inicia");
+        console.log("ParamsComponent.paramsActuales:: inicia");
         //this.arrParams  = this.ipATMs;
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);
@@ -167,6 +164,7 @@ export class ParamsComponent implements OnInit {
         //open(this.msgModal);
     }
 
+    /*
     closeResult: string;
 
     @ViewChild('msgModal')
@@ -189,7 +187,7 @@ export class ParamsComponent implements OnInit {
             return  `with: ${reason}`;
         }
     }
-
+*/
 }
 
 function comparar ( a, b ){ return a - b; }

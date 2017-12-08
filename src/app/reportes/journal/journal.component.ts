@@ -12,25 +12,25 @@ import { Angular2Csv }                          from 'angular2-csv/Angular2-csv'
 
 //import { ExcelService } from './excel.service';
 
-var ipAnterior:string = null;
-var gFchInicioAnterior = null;
-var gFchInicioFinAnterior = null;
-var intervalId = null;
-var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
-var arrDatosJournal:any[] = [];
+var ipAnterior:string                   = null;
+var gFchInicioAnterior                  = null;
+var gFchInicioFinAnterior               = null;
+var intervalId                          = null;
+var tiempoRefreshDatos:number           = (1000 * 30 * 1); // Actualiza la información cada minuto.
+var arrDatosJournal:any[]               = [];
 
-export var arrDatosServidor:any[]     = [];
-export var arrDatosServidorInc:any[]  = [];
-export var arrDatosServidorBack:any[] = [];
-export var datosATMs  = [];
-export var ipATMs  = [];
-export var gNumRegsProcesados          = 0;
-export var gNumPaginas                 = 0;
-export var gNumRegistros               = 0;
-export var aDatosJournal               = [];
-export var gNumPaginasCompletas = 0;
-export var numPagsCompletas:number    = 0;
-export var numPaginaObtenida:number   = 0;
+export var arrDatosServidor:any[]       = [];
+export var arrDatosServidorInc:any[]    = [];
+export var arrDatosServidorBack:any[]   = [];
+export var datosATMs                    = [];
+export var ipATMs                       = [];
+export var gNumRegsProcesados           = 0;
+export var gNumPaginas                  = 0;
+export var gNumRegistros                = 0;
+export var aDatosJournal                = [];
+export var gNumPaginasCompletas         = 0;
+export var numPagsCompletas:number      = 0;
+export var numPaginaObtenida:number     = 0;
 
 @Component({
     selector   : 'app-journal',
@@ -482,29 +482,6 @@ export class JournalComponent implements OnInit  {
         /* save to file */
         //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
-    }
-
-    parametrosConsulta(infoRecibida){
-        console.log("Se va mostrar la información enviada desde el componente Params");
-        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        console.log("Se mostro la información enviada desde el componente Params");
-        let parametrosConsulta:any = {};
-
-        let fIniParam = infoRecibida.fchInicio;
-        let fFinParam = infoRecibida.fchFin;
-        let ipParam   = infoRecibida.atm;
-
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
-        console.log(fchIniParam);
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
-
-        console.log(fchFinParam);
-
-        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
-
-        this.pDatosDelJournal(datosParam);
     }
 
 }

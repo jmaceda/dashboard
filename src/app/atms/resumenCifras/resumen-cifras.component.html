@@ -1,6 +1,7 @@
 
 
 <style>
+    /*
     .justDer {
         text-align: right;
     }
@@ -78,8 +79,8 @@
         width: 25%;
     }
     .totalResumenBancos {
-        /*background-color: #0B0B0B;*/
-        /*color: #FFFFFF;*/
+         *background-color: #0B0B0B;*
+         * color: #FFFFFF;*
         text-transform: none;
         font-weight: bold;
     }
@@ -182,583 +183,241 @@
     datetime-popup > .dropdown .glyphicon.hidden {
         display: none !important;
     }
+    */
 </style>
 
-<!-- ng-progress [color]="'blue'"></ng-progress -->
+<div class="container-fluid">
 
-<div class="main-content">
-    <div class="container-fluid">
-        <!--
-        <app-reportes
-                [datosJournal]="datosLog">
-        </app-reportes>
-        -->
+    <params
+        (parametrosConsulta) = "parametrosConsulta($event)"
+        [dUltimaActualizacion] = "dUltimaActualizacion">
+    </params>
 
-        <!--
-        <div class="row">
-            <div class="col-xs-6 col-sm-3">
-                <select
-                        class="custom-select form-control "
-                        [(ngModel)]="locale" (ngModelChange)="applyLocale(dp);">
-                    <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
-                </select>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="bsConfig">
-            </div>
-            <input type="button"
-                   class="btn btn-success"
-                   value="Date Picker"
-                   (click)="dp.show()" />
-        </div>
-        <br>
+    <div class="row"></div>
 
-        <div class="row">
-            <div class="col-xs-6 col-sm-3">
-                <select
-                        class="custom-select form-control "
-                        [(ngModel)]="locale" (ngModelChange)="applyLocale(dpr);">
-                    <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
-                </select>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker" [bsConfig]="bsConfig">
-            </div>
-            <input type="button"
-                   class="btn btn-success"
-                   value="Date Range Picker" (click)="dpr.show()"/>
-        </div>
-        -->
-
+    <div class="row">
+        <div class="col-md-6">
             <div class="card">
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="col-md-2">
-                            <input [(ngModel)]="dFchIniProceso">
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1">
-                            <input [(ngModel)]="dHraIniProceso">
-                        </div>
-                        <div class="col-md-8"></div>
-                    </div>
-                    <div class="col-md-3">
-                        <div style="text-align: center;">ATM</div>
-                    </div>
-                    <div class="col-md-2">
-                        <div>Última Actualización</div>
-                    </div>
-                    <!-- div class="col-md-1"></div -->
-                    <div class="col-md-1">
-                        <button (click)="pActualizaInfo()">Refresh</button>
-                    </div>
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Resumen</h5>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="col-md-2">
-                            <input [(ngModel)]="dFchFinProceso">
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1">
-                            <input [(ngModel)]="dHraFinProceso">
-                        </div>
-                        <div class="col-md-8"></div>
-                    </div>
-                    <div class="col-md-3" style="text-align: center;">
-                        <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActualizaInfo()">
-                            <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <div>{{dUltimaActualizacion}}</div>
-                    </div>
-                    <div class="col-md-1"></div>
+                <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr *ngFor="let hCol of tblResOperacion.headerRow">
+                            <th class="col1">{{hCol.hDesc}}</th>
+                            <th class="col2">{{hCol.hOper}}</th>
+                            <th class="col2">{{hCol.hMonto}}</th>
+                            <th class="col2">{{hCol.hPrimera}}</th>
+                            <th class="col2">{{hCol.hUltima}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of tblResOperacion.dataRows">
+                            <td class="col1">{{row.etiqueta}}</td>
+                            <td class="col2">{{row.numOpers | number:'1.0-0'}}</td>
+                            <td class="col2">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="col2">{{row.primerMto}}</td>
+                            <td class="col2">{{row.ultimoMto}}</td>
+                        </tr>
+                        </tbody>
+                        <tr>
+                            <td class="col1">Retiro de Valores</td>
+                            <td class="col2">{{dotacion.estado}}</td>
+                            <td class="col2">{{dotacion.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="col2">{{dotacion.iniciaDota}}</td>
+                            <td class="col2">{{dotacion.terminaDota}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col1">Downtime después del corte</td>
+                            <td class="col2">{{deposito.tiempoDowntime}}</td>
+                            <td class="col2">{{deposito.montoDowntime | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="col2">{{deposito.terminaDota}}</td>
+                            <td class="col2">{{deposito.iniciaDeposito}}</td>
+                        </tr>
+                    </table>
                 </div>
-            </div>
-
-        <!-- row -->
-
-        <div class="row"></div>
-        <p style="color: red;">{{msgError}}</p>
-        <div class="row"></div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="header" style="padding: 2px;">
-                            <h5 class="title" style="text-align: center; font-weight: bold;">Resumen</h5>
-                        </div>
-                        <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr *ngFor="let hCol of tblResOperacion.headerRow">
-                                        <th class="col1">{{hCol.hDesc}}</th>
-                                        <th class="col2">{{hCol.hOper}}</th>
-                                        <th class="col2">{{hCol.hMonto}}</th>
-                                        <th class="col2">{{hCol.hPrimera}}</th>
-                                        <th class="col2">{{hCol.hUltima}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let row of tblResOperacion.dataRows">
-                                        <td class="col1">{{row.etiqueta}}</td>
-                                        <td class="col2">{{row.numOpers | number:'1.0-0'}}</td>
-                                        <td class="col2">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
-                                        <td class="col2">{{row.primerMto}}</td>
-                                        <td class="col2">{{row.ultimoMto}}</td>
-                                    </tr>
-                                </tbody>
-                                <tr>
-                                    <td class="col1">Retiro de Valores</td>
-                                    <td class="col2">{{dotacion.estado}}</td>
-                                    <td class="col2">{{dotacion.monto | currency:'USD':'symbol':'1.0-0'}}</td>
-                                    <td class="col2">{{dotacion.iniciaDota}}</td>
-                                    <td class="col2">{{dotacion.terminaDota}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="col1">Downtime después del corte</td>
-                                    <td class="col2">{{deposito.tiempoDowntime}}</td>
-                                    <td class="col2">{{deposito.montoDowntime | currency:'USD':'symbol':'1.0-0'}}</td>
-                                    <td class="col2">{{deposito.terminaDota}}</td>
-                                    <td class="col2">{{deposito.iniciaDeposito}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!--
-                <div class="col-md-6">
-                    <div class="card">
-                        <div style="display: block;">
-                            <lbd-chart
-                                    [title]="'2014 Sales'"
-                                    [subtitle]="'All products including Taxes'"
-                                    [chartType]="activityChartType"
-                                    [chartData]="activityChartData"
-                                    [chartOptions]="activityChartOptions"
-                                    [chartResponsive]="activityChartResponsive"
-                                    [legendItems]="activityChartLegendItems"
-                                    [withHr]="true"
-                                    [footerIconClass]="'fa fa-check'"
-                                    [footerText]="'Data information certified'">
-                            </lbd-chart>
-                        </div>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
+    </div>
 
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card" style="height: 29em;">
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Consultas y Retiros por Hora</h5>
-                    </div>
-                    <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr *ngFor="let hCol of tblConsRetPorMes.headerRow">
-                                    <th class="col11">{{hCol.hHora}}</th>
-                                    <th class="col12">{{hCol.hCons}}</th>
-                                    <th class="col12">{{hCol.hAcumCons}}</th>
-                                    <th class="col12">{{hCol.hRet}}</th>
-                                    <th class="col12">{{hCol.hAcumRet}}</th>
-                                    <th class="col12">{{hCol.hMonto}}</th>
-                                    <th class="col12">{{hCol.hAcumRet}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let row of tblConsRetPorMes.datos">
-                                    <td class="col10">{{row.hora}}</td>
-                                    <td class="col11">{{row.numConsultasPorHora}}</td>
-                                    <td class="col11">{{row.acumNumConsultasPorHora}}</td>
-                                    <td class="col11">{{row.numRetirosPorHora}}</td>
-                                    <td class="col11">{{row.acumNumRetirosPorHora}}</td>
-                                    <td class="col12">{{row.montoRetirosPorHora | currency:'USD':'symbol':'1.0-0'}}</td>
-                                    <td class="col12">{{row.acumMontoRetirosPorHora | currency:'USD':'symbol':'1.0-0'}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" style="height: 29em;">
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Consultas y Retiros por Hora</h5>
                 </div>
-            </div>
-
-            <div class="col-md-6" style="height: 20em;">
-                <div class="card">
-
-                        <!-- lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  -->
-                    <!--
-                        <lbd-chart  
-                            [title]="'Retiros'" 
-                            [subtitle]="fechaHoraOperacion" 
-                            [chartType]="tipoGraficaRetirosPorHora" 
-                            [chartData]="datosGraficaRetirosPorHora" 
-                            [chartOptions]="opcionesGraficaRetirosPorHora" 
-                            [chartResponsive]="responsiveGraficaRetirosPorHora" 
-                            [legendItems]="elementosGraficaRetirosPorHora"
-                            [withHr]="true" 
-                            [footerIconClass]="'fa fa-check'" 
-                            [footerText]="'Data information certified'">
-                        </lbd-chart>
-                    -->
-                    <!--
-                    <div style="width: 40%;">
-                        <canvas
-                                baseChart
-                                [chartType]="'line'"
-                                [datasets]="chartData"
-                                [labels]="chartLabels"
-                                [options]="chartOptions"
-                                [legend]="true"
-                                (chartClick)="onChartClick($event)">
-                        </canvas>
-                        <button (click)="newDataPoint([900, 50, 300], 'May')">
-                            Add data point
-                        </button>
-                    </div>
-                    -->
+                <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr *ngFor="let hCol of tblConsRetPorMes.headerRow">
+                            <th class="col11">{{hCol.hHora}}</th>
+                            <th class="col12">{{hCol.hCons}}</th>
+                            <th class="col12">{{hCol.hAcumCons}}</th>
+                            <th class="col12">{{hCol.hRet}}</th>
+                            <th class="col12">{{hCol.hAcumRet}}</th>
+                            <th class="col12">{{hCol.hMonto}}</th>
+                            <th class="col12">{{hCol.hAcumRet}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of tblConsRetPorMes.datos">
+                            <td class="col10">{{row.hora}}</td>
+                            <td class="col11">{{row.numConsultasPorHora}}</td>
+                            <td class="col11">{{row.acumNumConsultasPorHora}}</td>
+                            <td class="col11">{{row.numRetirosPorHora}}</td>
+                            <td class="col11">{{row.acumNumRetirosPorHora}}</td>
+                            <td class="col12">{{row.montoRetirosPorHora | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="col12">{{row.acumMontoRetirosPorHora | currency:'USD':'symbol':'1.0-0'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <div class="row"></div>
+        <div class="col-md-6" style="height: 20em;"></div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Resumen por Banco</h5>
-                    </div>
-                    <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr *ngFor="let hCol of tblResumenPorBanco.headerRow">
-                                    <th class="col1_25">{{hCol.hBanco}}</th>
-                                    <th class="col2_7h">{{hCol.hNumRetOk}}</th>
-                                    <th class="col2_7h">{{hCol.hNumRetNoOk}}</th>
-                                    <th class="col2_7h">{{hCol.hNumCons}}</th>
-                                    <th class="col2_7h">{{hCol.hNumConsNoOk}}</th>
-                                    <th class="col2_7h">{{hCol.hNumReversos}}</th>
-                                    <!-- th class="col2">{{hCol.hNumRechazos}}</th -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let dCol of tblResumenPorBanco.dataRows">
-                                    <td class="col1_25">{{dCol.dBanco}}</td>
-                                    <td class="col2_7d">{{dCol.dNumRetOk | number:'1.0-0'}}</td>
-                                    <td class="col2_7d">{{dCol.dNumRetNoOk | number:'1.0-0'}}</td>
-                                    <td class="col2_7d">{{dCol.dNumCons | number:'1.0-0'}}</td>
-                                    <td class="col2_7d">{{dCol.dNumConsNoOk | number:'1.0-0'}}</td>
-                                    <td class="col2_7d">{{dCol.dNumReversos | number:'1.0-0'}}</td>
-                                    <!-- td class="col2">{{dCol.dNumRechazos | number:'1.0-0'}}</td -->
-                                </tr>
-                            </tbody>
-                                <tr *ngFor="let fCol of tblResumenPorBanco.totalRows" class="totalResumenBancos">
-                                    <td class="totalResumenBancos col1_25">{{fCol.fNumBancos}}</td>
-                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumRetOk | number:'1.0-0'}}</td>
-                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumRetNoOK | number:'1.0-0'}}</td>
-                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumCons | number:'1.0-0'}}</td>
-                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumConsNoOk | number:'1.0-0'}}</td>
-                                    <td class="totalResumenBancos col2_7d">{{fCol.fNumReversos | number:'1.0-0'}}</td>
-                                </tr>
-                        </table>
-                    </div>
+    <div class="row"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Resumen por Banco</h5>
+                </div>
+                <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr *ngFor="let hCol of tblResumenPorBanco.headerRow">
+                            <th class="col1_25">{{hCol.hBanco}}</th>
+                            <th class="col2_7h">{{hCol.hNumRetOk}}</th>
+                            <th class="col2_7h">{{hCol.hNumRetNoOk}}</th>
+                            <th class="col2_7h">{{hCol.hNumCons}}</th>
+                            <th class="col2_7h">{{hCol.hNumConsNoOk}}</th>
+                            <th class="col2_7h">{{hCol.hNumReversos}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let dCol of tblResumenPorBanco.dataRows">
+                            <td class="col1_25">{{dCol.dBanco}}</td>
+                            <td class="col2_7d">{{dCol.dNumRetOk | number:'1.0-0'}}</td>
+                            <td class="col2_7d">{{dCol.dNumRetNoOk | number:'1.0-0'}}</td>
+                            <td class="col2_7d">{{dCol.dNumCons | number:'1.0-0'}}</td>
+                            <td class="col2_7d">{{dCol.dNumConsNoOk | number:'1.0-0'}}</td>
+                            <td class="col2_7d">{{dCol.dNumReversos | number:'1.0-0'}}</td>
+                            <!-- td class="col2">{{dCol.dNumRechazos | number:'1.0-0'}}</td -->
+                        </tr>
+                        </tbody>
+                        <tr *ngFor="let fCol of tblResumenPorBanco.totalRows" class="totalResumenBancos">
+                            <td class="totalResumenBancos col1_25">{{fCol.fNumBancos}}</td>
+                            <td class="totalResumenBancos col2_7d">{{fCol.fNumRetOk | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos col2_7d">{{fCol.fNumRetNoOK | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos col2_7d">{{fCol.fNumCons | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos col2_7d">{{fCol.fNumConsNoOk | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos col2_7d">{{fCol.fNumReversos | number:'1.0-0'}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-6"></div>
         </div>
+        <div class="col-md-6"></div>
+    </div>
 
-        <div class="row"></div>
+    <div class="row"></div>
 
-
-        <div class="row">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Errores por Banco</h5>
-                    </div>
-                    <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="col2_7i">Banco</th>
-                                    <th class="col2_7h">Error</th>
-                                    <th class="col2_7d">Código</th>
-                                    <th class="col2_7d">Errs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let dCol of cErroresPorBanco">
-                                    <td class="col2_7i">{{dCol.nomBanco}}</td>
-                                    <td class="col1">{{dCol.descError}}</td>
-                                    <td class="col2_7d">{{dCol.codError | number:'1.0-0'}}</td>
-                                    <td class="col2_7d">{{dCol.numErrores | number:'1.0-0'}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Errores por Banco</h5>
+                </div>
+                <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col2_7i">Banco</th>
+                            <th class="col2_7h">Error</th>
+                            <th class="col2_7d">Código</th>
+                            <th class="col2_7d">Errs</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let dCol of cErroresPorBanco">
+                            <td class="col2_7i">{{dCol.nomBanco}}</td>
+                            <td class="col1">{{dCol.descError}}</td>
+                            <td class="col2_7d">{{dCol.codError | number:'1.0-0'}}</td>
+                            <td class="col2_7d">{{dCol.numErrores | number:'1.0-0'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-5"></div>
         </div>
+        <div class="col-md-5"></div>
+    </div>
 
-        <div class="row"></div>
-        <div class="row">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Depósitos</h5>
-                    </div>
-                    <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr *ngFor="let hCol of tblResumenDepositos.headerRow">
-                                    <th class="cold1">{{hCol.hId}}</th>
-                                    <th class="cold1">{{hCol.dCta}}</th>
-                                    <th class="cold2">{{hCol.hHraIni}}</th>
-                                    <th class="cold2">{{hCol.hHraFin}}</th>
-                                    <th class="cold2">{{hCol.hMonto}}</th>
-                                    <th class="cold2">{{hCol.hBill20}}</th>
-                                    <th class="cold2">{{hCol.hBill50}}</th>
-                                    <th class="cold2">{{hCol.hBill100}}</th>
-                                    <th class="cold2">{{hCol.hBill200}}</th>
-                                    <th class="cold2">{{hCol.hBill500}}</th>
-                                    <th class="cold2">{{hCol.hBill1000}}</th>
+    <div class="row"></div>
 
-                                </tr>
-                            </thead>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Depósitos</h5>
+                </div>
+                <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr *ngFor="let hCol of tblResumenDepositos.headerRow">
+                            <th class="cold1">{{hCol.hId}}</th>
+                            <th class="cold1">{{hCol.dCta}}</th>
+                            <th class="cold2">{{hCol.hHraIni}}</th>
+                            <th class="cold2">{{hCol.hHraFin}}</th>
+                            <th class="cold2">{{hCol.hMonto}}</th>
+                            <th class="cold2">{{hCol.hBill20}}</th>
+                            <th class="cold2">{{hCol.hBill50}}</th>
+                            <th class="cold2">{{hCol.hBill100}}</th>
+                            <th class="cold2">{{hCol.hBill200}}</th>
+                            <th class="cold2">{{hCol.hBill500}}</th>
+                            <th class="cold2">{{hCol.hBill1000}}</th>
 
-                            <tbody>
-                                <tr *ngFor="let dCol of tblResumenDepositos.dataRows">
-                                    <td class="cold1">{{dCol.dId}}</td>
-                                    <td class="cold1">{{dCol.dCta}}</td>
-                                    <td class="cold2">{{dCol.dHraIni}}</td>
-                                    <td class="cold2">{{dCol.dHraFin}}</td>
-                                    <td class="cold2">{{dCol.dMonto | currency:'USD':'symbol':'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill20 | number:'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill50 | number:'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill100 | number:'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill200 | number:'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill500 | number:'1.0-0'}}</td>
-                                    <td class="cold2">{{dCol.dBill1000 | number:'1.0-0'}}</td>
-                                </tr>
-                            </tbody>
-                            <tr *ngFor="let fCol of tBillDep" class="totalResumenBancos">
-                                <td class="totalResumenBancos cold2"></td>
-                                <td class="totalResumenBancos cold2"></td>
-                                <td class="totalResumenBancos cold2"></td>
-                                <td class="totalResumenBancos cold2"></td>
-                                <td class="totalResumenBancos cold2">{{fCol.tMonto | currency:'USD':'symbol':'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB20 | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB50 | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB100 | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB200 | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB500 | number:'1.0-0'}}</td>
-                                <td class="totalResumenBancos cold2">{{fCol.tB1000 | number:'1.0-0'}}</td>
-                            </tr>
-                        </table>
-                    </div>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr *ngFor="let dCol of tblResumenDepositos.dataRows">
+                            <td class="cold1">{{dCol.dId}}</td>
+                            <td class="cold1">{{dCol.dCta}}</td>
+                            <td class="cold2">{{dCol.dHraIni}}</td>
+                            <td class="cold2">{{dCol.dHraFin}}</td>
+                            <td class="cold2">{{dCol.dMonto | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill20 | number:'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill50 | number:'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill100 | number:'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill200 | number:'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill500 | number:'1.0-0'}}</td>
+                            <td class="cold2">{{dCol.dBill1000 | number:'1.0-0'}}</td>
+                        </tr>
+                        </tbody>
+                        <tr *ngFor="let fCol of tBillDep" class="totalResumenBancos">
+                            <td class="totalResumenBancos cold2"></td>
+                            <td class="totalResumenBancos cold2"></td>
+                            <td class="totalResumenBancos cold2"></td>
+                            <td class="totalResumenBancos cold2"></td>
+                            <td class="totalResumenBancos cold2">{{fCol.tMonto | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB20 | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB50 | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB100 | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB200 | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB500 | number:'1.0-0'}}</td>
+                            <td class="totalResumenBancos cold2">{{fCol.tB1000 | number:'1.0-0'}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-7"></div>
         </div>
+        <div class="col-md-7"></div>
+    </div>
 
-
-        <!--
-        <div class="col-md-6 letraFontMedio">
-            < ! - - lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  - - >
-            <lbd-chart [title]="'Retiros'" [subtitle]="fechaHoraOperacion" [chartType]="tipoGraficaRetirosPorHora" [chartData]="datosGraficaRetirosPorHora" [chartOptions]="opcionesGraficaRetirosPorHora" [chartResponsive]="responsiveGraficaRetirosPorHora" [legendItems]="elementosGraficaRetirosPorHora"
-                       [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
-            </lbd-chart>
-        </div>
-
-        <div class="col-md-6 letraFontMedio">
-            < ! - - lbd-chart [title]="'Retiros'" [subtitle]="'Retiros por hora'"  - - >
-            <lbd-chart [title]="'Retiros'" [subtitle]="fechaHoraOperacion" [chartType]="tipoGraficaRetirosPorHora" [chartData]="datosGraficaRetirosPorHora" [chartOptions]="opcionesGraficaRetirosPorHora" [chartResponsive]="responsiveGraficaRetirosPorHora" [legendItems]="elementosGraficaRetirosPorHora"
-                       [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
-            </lbd-chart>
-        </div>
--->
-        <!-- row -->
-            <!--
-        <div class="row">
-            <div class="col-md-12">
-                <! - -  style="border-width: 1px; border-style: solid; border-radius: 5px;" - - >
-                <dx-data-grid id="gridContainer" [dataSource]="customers" [columns]="['CompanyName', 'City', 'State', 'Phone', 'Fax']">
-                </dx-data-grid>
-            </div>
-        </div>
-    -->
-
-            <!--
-        <div class="row">
-            <div class="col-md-12">
-                <! - -  style="border-width: 1px; border-style: solid; border-radius: 5px;" - - >
-                <data-table-demo-1></data-table-demo-1>
-            </div>
-        </div>
-        <my-app2 [infoDepositos]="infoDepositos"></my-app2>
-        -->
-            <!--
-        <div class="row">
-            <div class="d-flex flex-row" style="border-width:1px; border-style:solid;">
-                <div class="p-2">Flex item 1</div>
-                <div class="p-2">Flex item 2</div>
-                <div class="p-2">Flex item 3</div>
-            </div>
-            <div class="d-flex flex-row-reverse" style="border-width:1px; border-style:solid;">
-                <div class="p-2">Flex item 1</div>
-                <div class="p-2">Flex item 2</div>
-                <div class="p-2">Flex item 3</div>
-            </div>
-        </div> < !-- row - ->
-
-        <div class="row">
-            <div class="col-md-6">
-                <lbd-chart [title]="'2014 Sales'" [subtitle]="'All products including Taxes'" [chartType]="activityChartType" [chartData]="activityChartData" [chartOptions]="activityChartOptions" [chartResponsive]="activityChartResponsive" [legendItems]="activityChartLegendItems"
-                [withHr]="true" [footerIconClass]="'fa fa-check'" [footerText]="'Data information certified'">
-                </lbd-chart>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Tasks</h4>
-                        <p class="category">Backend development</p>
-                    </div>
-                    <div class="content">
-                        <div class="table-full-width">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                        <div class="checkbox">
-                                        <input id="checkbox1" type="checkbox">
-                                        <label for="checkbox1">
-
-                                        </label>
-                                        </div>
-                                        </td>
-                                        <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                        <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                        <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                        <i class="fa fa-times"></i>
-                                        </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        <div class="checkbox">
-                                        <input id="checkbox2" type="checkbox" checked>
-                                        <label for="checkbox2">
-
-                                        </label>
-                                        </div>
-                                        </td>
-                                        <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                        <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                        <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                        <i class="fa fa-times"></i>
-                                        </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        <div class="checkbox">
-                                        <input id="checkbox3" type="checkbox" checked>
-                                        <label for="checkbox3">
-
-                                        </label>
-                                        </div>
-                                        </td>
-                                        <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                        </td>
-                                        <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                        <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                        <i class="fa fa-times"></i>
-                                        </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <input id="checkbox4" type="checkbox">
-                                                <label for="checkbox4"></label>
-                                            </div>
-                                        </td>
-                                        <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <input id="checkbox5" type="checkbox">
-                                                <label for="checkbox5"></label>
-                                            </div>
-                                        </td>
-                                        <td>Read "Following makes Medium better"</td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <input id="checkbox6" type="checkbox">
-                                                <label for="checkbox6"></label>
-                                            </div>
-                                        </td>
-                                        <td>Unfollow 5 enemies from twitter</td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer">
-                            <hr>
-                            <div class="stats">
-                                <i class="fa fa-history"></i> Updated 3 minutes ago
-                            </div>
-                        </div>
-                    </div>  < ! -- container - ->
-                </div>  < ! -- card - - >
-            </div>  < ! -- col-md-6 - ->
-        </div> < ! -- row - ->
-        -->
-        </div>
 </div>
-        <!-- container-fluid -->
-
-        <!-- /div -->
-        <!-- main-content -->

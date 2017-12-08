@@ -32,8 +32,7 @@ import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
 import { NgbdModalContent }                 from './utils/ngbd-modal-content';
-import { DataFilterPipe }       from './pipes/data-filter.pipe';
-
+import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 
 
