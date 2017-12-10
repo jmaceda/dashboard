@@ -7,6 +7,7 @@ import { Instance } from 'JsStore';
 //import JsStore  from 'jsstore';
 
 //import * as JsStore from "jsstore";
+//<reference path="../node_modules/jsstore/dist/jsstore.d.ts"/>
 declare var JsStore: any;
 
 @Injectable()

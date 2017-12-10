@@ -7,35 +7,18 @@ import { SoapService }                                   from '../../services/so
 import { sprintf }                                       from "sprintf-js";
 import {FormGroup, FormBuilder, Validators}              from '@angular/forms';
 import { DepositosModel }                                from './models/depositos';
-//import { Logger, Level }                                 from "angular2-logger/core";
-//import { DepositosComponent }                            from "./datosDepositos/depositos.component"
-//import { AlertComponent }                                from './tmp/alert.component';
-// import Dexie                                             from 'dexie';
 import 'rxjs/add/operator/pairwise';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-//import { NgProgress } from 'ngx-progressbar';
+import { Router }                               from '@angular/router';
+import { ActivatedRoute }                       from '@angular/router';
 
 // Importamos la clase del servicio
-import { DesglosaBilletes } from './services/DesglosaBilletes.service';
-import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
+import { DesglosaBilletes }                     from './services/DesglosaBilletes.service';
+import { GuardaDepositosBD }                    from './services/GuardaDepositosBD.service';
+import { ErroresPorBanco }                      from '../../model/errores-por-banco.model';
+//import { ResOpersService }                    from '../../services/res-opers.service';
+//import { ResOpersModel, IResOpersModel }      from '../../model/res-opers.model';
+//import { DataBaseService }                    from '../../services/data-base.service';
 
-import { ErroresPorBanco } from '../../model/errores-por-banco.model';
-
-import { ResOpersService } from '../../services/res-opers.service';
-import { ResOpersModel, IResOpersModel } from '../../model/res-opers.model';
-//import { DataBaseService } from '../../services/data-base.service';
-
-// import { DxDataGridModule } from 'devextreme-angular';
-// import { Customer, Service } from './app.service';
-
-
-//import { ChartsModule } from 'ng2-charts/ng2-charts';
-
-
-//import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-//import { listLocales } from 'ngx-bootstrap/bs-moment';
-//import { de } from 'ngx-bootstrap/locale';
 
 
 class ResumenOpers {
@@ -157,8 +140,13 @@ var idxErrBanco:number = 0;
   .even { color: red; }
   .odd { color: green; }
   `],
-  providers: [SoapService, DesglosaBilletes, GuardaDepositosBD, ResOpersService],   //, Service],
-    // providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
+  providers: [
+      SoapService,
+      DesglosaBilletes,
+      GuardaDepositosBD,
+      //ResOpersService,
+      //DataBaseService
+  ],
 })
 export class ResumenOperacionesComponent implements OnInit  {
 
@@ -341,7 +329,59 @@ export class ResumenOperacionesComponent implements OnInit  {
     public datosATMs:any[] = [];
     public ipATMs:any[] = [];
 
-    public inicializaVariables(): void {
+    public paramsServicioNumPaginas:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"};
+    public paramsServicioDatosLog:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1", page: 0 };
+    public tblResOperacion: TblResOperacion;
+    public retiros: InterRetirosPorHora;
+    public retiroNoOk    : object = {};
+    public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
+    public listaErroresOper: any[] = [];
+    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
+    public minutosSinOperacion:number = 1;
+    public tiempoSinOperaciones:number = 0;
+    public msgError:string = "";
+    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
+    public arrTarjetas:any[] = [];
+    public listaErrsPorBanco: any[][] = [];
+    public cErroresPorBanco: ErroresPorBanco[];
+    public lErroresPorBanco: ErroresPorBanco[];
+    public dUltimaActualizacion: string;
+    public numPaginas = 0;
+    public openRequest2;
+    public rutaActual = "";
+    public urlPath = "";
+
+
+    constructor(private formBuilder: FormBuilder,
+                public _soapService: SoapService,
+                private _desglosaBilletes: DesglosaBilletes,
+                public _guardaDepositosBD: GuardaDepositosBD,
+                public activatedRoute: ActivatedRoute){
+        //resOpersService: ResOpersService){
+
+        console.log("ResumenOperacionesComponent:: Inicia");
+        this.activatedRoute.url.subscribe(url =>{
+            this.urlPath = url[0].path;
+            console.log("constructor:: -->"+this.urlPath+"<--");
+
+        });
+
+        /*
+         this._resOpersService = resOpersService;
+
+         this._newResOpers.Descripcion = "Nuevo registro";
+         this._newResOpers.NumOpers = 34;
+         this._newResOpers.Monto = 1500;
+         this._newResOpers.FchPrimerMto = "2017-12-11-00-03";
+         this._newResOpers.FchUltimoMto = "2017-12-11-23-59";
+         this.nuevoResOpers();
+         */
+
+        this.inicializaVariables();
+
+    }
+
+    inicializaVariables(): void {
 
         this.TotalItems    = 0;
         this.TotalPages    = 0;
@@ -425,76 +465,129 @@ export class ResumenOperacionesComponent implements OnInit  {
             new ResumenOpers("Depósitos Exitosos", 0, 0, '', '')
         ]
     };
-/*
-    public paramsServicioNumPaginas: {
-        ip            : any[],
-        timeStampStart: string,
-        timeStampEnd  : string,
-        events        : string,
-        minAmount     : string,
-        maxAmount     : string,
-        authId        : string,
-        cardNumber    : string,
-        accountId     : string
-    } = {
-        ip            : ['11.40.2.2'],
-        timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
-        timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        minAmount     : "-1",
-        maxAmount     : "-1",
-        authId        : "-1",
-        cardNumber    : "-1",
-        accountId     : "-1"
-    };
-    */
-    public paramsServicioNumPaginas:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"};
-    /*
-    paramsServicioDatosLog: {
-        ip            : any[],
-        timeStampStart: string,
-        timeStampEnd  : string,
-        events        : string,
-        minAmount     : string,
-        maxAmount     : string,
-        authId        : string,
-        cardNumber    : string,
-        accountId     : string,
-        page          : number
-    } = {
-        ip            : this.paramsServicioNumPaginas.ip,
-        timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
-        timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        minAmount     : "-1",
-        maxAmount     : "-1",
-        authId        : "-1",
-        cardNumber    : "-1",
-        accountId     : "-1",
-        page          : 0
-    };
-    */
-    public paramsServicioDatosLog:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1", page: 0 };
 
-    public tblResOperacion: TblResOperacion;
-    public retiros: InterRetirosPorHora;
-    public retiroNoOk    : object = {};
-    public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
-    public listaErroresOper: any[] = [];
-    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
-    public minutosSinOperacion:number = 1;
-    public tiempoSinOperaciones:number = 0;
-    public msgError:string = "";
-    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
-    public arrTarjetas:any[] = [];
-    public listaErrsPorBanco: any[][] = [];
-    public cErroresPorBanco: ErroresPorBanco[];
-    public lErroresPorBanco: ErroresPorBanco[];
-    public dUltimaActualizacion: string;
-    public numPaginas = 0;
-    public openRequest2;
-    public rutaActual = "";
-    public urlPath = "";
+
+    ngOnInit() {
+
+        this.activatedRoute.url.subscribe(url =>{
+            this.urlPath = url[0].path;
+            console.log("ngOnInit -->"+this.urlPath+"<--");
+
+        });
+
+        this.resumenInicialOperaciones();
+    }
+
+
+    resumenInicialOperaciones(){
+        this.mResumenOperaciones();
+        this.mRretirosPorHora();
+        this.mResumenPorBanco();
+        this.pResumenDepositos();
+    }
+
+
+    parametrosConsulta(filtrosConsulta){
+
+        console.log(nomComponente+".parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
+        console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(filtrosConsulta)+"]");
+        console.log(nomComponente+".parametrosConsulta:: Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = filtrosConsulta.fchInicio;
+        let fFinParam = filtrosConsulta.fchFin;
+        let ipParam   = filtrosConsulta.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        let paramsConsulta:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(paramsConsulta);
+    }
+
+
+    pDatosDelJournal(paramsConsulta){
+
+        console.log("pDatosDelJournal -->"+this.urlPath+"<--");
+        if (this.urlPath != "operaciones"){
+            console.log("pDatosDelJournal:: No va a cargar los datos");
+            return(0);
+        }
+
+        // *** Actualiza parametros para la consulta de los servicios.
+        this.paramsServicioNumPaginas.timeStampStart    = paramsConsulta.fchIni;
+        this.paramsServicioNumPaginas.timeStampEnd      = paramsConsulta.fchFin;
+
+        this.paramsServicioDatosLog.timeStampStart      = paramsConsulta.fchIni;
+        this.paramsServicioDatosLog.timeStampEnd        = paramsConsulta.fchFin;
+
+        this.paramsServicioNumPaginas.ip[0]             = paramsConsulta.ip;
+        this.paramsServicioDatosLog.ip[0]               = paramsConsulta.ip;
+
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
+
+
+        //
+        if (gNumPaginas > 0) {
+
+            numPaginaObtenida = 0;
+            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
+                ipAnterior = this.paramsServicioNumPaginas.ip[0];
+                this.numPaginas = 0;
+            }
+
+            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
+            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
+            // ** gNumPaginas = El número máximo de información.
+            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
+                this.paramsServicioDatosLog.page = idx;
+                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+            }
+
+
+            // Respalda el arreglo con las paginas completas (200 registros).
+            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
+            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+                arrDatosServidorBack = arrDatosServidor;
+                /* la primera consulta */
+            }
+
+            arrDatosServidor = arrDatosServidorBack;
+
+            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+
+            if (arrDatosServidorInc.length > 0) {
+                this.numPaginas = gNumPaginas - 1;
+            }
+
+            gNumPaginasCompletas = (gNumPaginas - 1);
+        }else{
+            this.obtenDatosLog([{}], gNumPaginas);
+            this.cErroresPorBanco = [];
+        }
+
+        let fchSys   = new Date();
+        let _anioSys = fchSys.getFullYear();
+        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
+        let _diaSys  = fchSys.getDate();
+        let _hraSys  = fchSys.getHours();
+        let _minSys  = fchSys.getMinutes();
+        let _segSys  = fchSys.getSeconds();
+
+        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+    }
+
 
     // Actualiza informciòn de la pantalla.
 
@@ -934,7 +1027,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
 
-    public calculaDownTime(fchInicial, fchFinal, horaInicial, horaFinal){
+    calculaDownTime(fchInicial, fchFinal, horaInicial, horaFinal){
 
         let hora1 = (horaInicial).split(":");
         let hora2 = (horaFinal).split(":");
@@ -964,7 +1057,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         return(tiempoTranscurrido);
     }
 
-    public veficaHoraUlimaOperacion(datosLog){
+    veficaHoraUlimaOperacion(datosLog){
 
         let tiempoSinOperacion  = (60 * 1000) * this.minutosSinOperacion;
         let reg:any             = datosLog[datosLog.length-1];
@@ -988,7 +1081,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
 
-    public incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
+    incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
 
         if (descError.length > 0) {
             if (nomBanco == undefined || nomBanco == null || nomBanco.length == 0){
@@ -1016,7 +1109,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
     // Arma los datos de la tabla del Resumen de Operaciones
-    public mResumenOperaciones():void{
+    mResumenOperaciones():void{
 
         this.tblResOperacion = {
             dataRows: [
@@ -1033,7 +1126,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
     // Arma los datos de la tabla del Depositos
-    public pResumenDepositos():void{
+    pResumenDepositos():void{
 
         this.tblResumenDepositos = {
             dataRows: arrDepositos
@@ -1051,7 +1144,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
     // Arma la información de la tabla de Resumen de Operaciones por Banco
-    public mResumenPorBanco():void{
+    mResumenPorBanco():void{
 
 
         let arrDatos = [];
@@ -1091,7 +1184,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
     // Despiega en la pagina la información de Consultas y Retiros.
-    public mRretirosPorHora():void{
+    mRretirosPorHora():void{
 
         // Acumula los movimientos que se realizaron antes de la 7 de la mañana.
         let tNumRetiros = 0;
@@ -1168,12 +1261,12 @@ export class ResumenOperacionesComponent implements OnInit  {
         };
     }
 
-    public obtenNumeroDePaginasLog(result:object, status){
+    obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
     }
 
-    public obtenDatosJournal(result:any[], status){
+    obtenDatosJournal(result:any[], status){
 
         arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
         numPaginaObtenida++;         // Numero de paginas obtenidas.
@@ -1193,450 +1286,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     }
 
 
-
-    public pDatosDelJournal(paramsConsulta){
-
-        console.log("pDatosDelJournal -->"+this.urlPath+"<--");
-        if (this.urlPath != "operaciones"){
-            console.log("pDatosDelJournal:: No va a cargar los datos");
-            return(0);
-        }
-
-        this.paramsServicioNumPaginas.timeStampStart    = paramsConsulta.fchIni;
-        this.paramsServicioNumPaginas.timeStampEnd      = paramsConsulta.fchFin;
-
-        this.paramsServicioDatosLog.timeStampStart      = paramsConsulta.fchIni;
-        this.paramsServicioDatosLog.timeStampEnd        = paramsConsulta.fchFin;
-
-        this.paramsServicioNumPaginas.ip[0]             = paramsConsulta.ip;
-        this.paramsServicioDatosLog.ip[0]               = paramsConsulta.ip;
-
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
-
-        if (gNumPaginas > 0) {
-            numPaginaObtenida = 0;
-            if (ipAnterior != this.paramsServicioNumPaginas.ip[0]) {
-                ipAnterior = this.paramsServicioNumPaginas.ip[0];
-                this.numPaginas = 0;
-            }
-
-            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
-            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
-            // ** gNumPaginas = El número máximo de información.
-            for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
-                this.paramsServicioDatosLog.page = idx;
-                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
-            }
-
-
-            // Respalda el arreglo con las paginas completas (200 registros).
-            console.log("gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
-            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
-                arrDatosServidorBack = arrDatosServidor;
-                /* la primera consulta */
-            }
-
-            arrDatosServidor = arrDatosServidorBack;
-
-            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
-
-            if (arrDatosServidorInc.length > 0) {
-                this.numPaginas = gNumPaginas - 1;
-            }
-
-            gNumPaginasCompletas = (gNumPaginas - 1);
-        }else{
-            this.obtenDatosLog([{}], gNumPaginas);
-            this.cErroresPorBanco = [];
-        }
-
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-  }
-
-  resumenInicialOperaciones(){
-      this.mResumenOperaciones();
-      this.mRretirosPorHora();
-      this.mResumenPorBanco();
-      this.pResumenDepositos();
-  }
-
-  ngOnInit() {
-
-        this.activatedRoute.url.subscribe(url =>{
-          this.urlPath = url[0].path;
-          console.log("ngOnInit -->"+this.urlPath+"<--");
-
-        });
-
-
-
-      this.resumenInicialOperaciones();
-/*
-        this.datosGrafica();
-
-
-        this.form = this.formBuilder.group({
-          date: [new Date(1991, 8, 12)]
-        });
-
-        let arrRetiros = [];
-        for(let idx=0; idx < 24; idx++){
-            arrRetiros.push(
-            {
-                hora: sprintf("%02s", idx.toString()),
-                numConsultasPorHora: "",
-                acumNumConsultasPorHora: "",
-                numRetirosPorHora: "",
-                acumNumRetirosPorHora: "",
-                montoRetirosPorHora: "",
-                acumMontoRetirosPorHora: ""
-            });
-        }
-
-        this.retiros = {
-            headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
-            datos: [{}]
-        };
-
-
-        this.fechaHoraOperacion         = this.dFchIniProceso + " " + this.dHraIniProceso.replace("-", ":") + "  /  " +  this.dFchFinProceso + " " + this.dHraFinProceso.replace("-", ":");
-        this.datosGraficaRetirosPorHora = {
-        'labels': ['<7', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
-        'series': [[], []]
-        };
-    }
-
-    public otrasGraficas(): void{
-      /*
-      this.emailChartType = ChartType.Pie;
-      
-      this.emailChartData = {
-        labels: ['62%', '32%', '6%'],
-        series: [62, 32, 6]
-      };
-      
-      this.emailChartData = {
-        labels: [35,212,33,18,31,1],
-        series: [35,212,33,18,31,1]
-      };      
-      this.emailChartLegendItems = [
-        { title: 'Open', imageClass: 'fa fa-circle text-info' },
-        { title: 'Bounce', imageClass: 'fa fa-circle text-danger' },
-        { title: 'Unsubscribe', imageClass: 'fa fa-circle text-warning' }
-      ];
-
-      this.hoursChartType = ChartType.Line;
-      this.hoursChartData = {
-        labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-        series: [
-          [287, 385, 490, 492, 554, 586, 698, 695, 752, 788, 846, 944],
-          [67, 152, 143, 240, 287, 335, 435, 437, 539, 542, 544, 647],
-          [23, 113, 67, 108, 190, 239, 307, 308, 439, 410, 410, 509]
-        ]
-      };
-      this.hoursChartOptions = {
-        low     : 0,
-        high    : 800,
-        showArea: true,
-        height  : '245px',
-        axisX   : {
-          showGrid: false,
-        },
-        lineSmooth: Chartist.Interpolation.simple({
-          divisor: 3
-        }),
-        showLine : false,
-        showPoint: false,
-      };
-      this.hoursChartResponsive = [
-        ['screen and (max-width: 640px)', {
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value[0];
-            }
-          }
-        }]
-      ];
-      this.hoursChartLegendItems = [
-        { title: 'Open', imageClass: 'fa fa-circle text-info' },
-        { title: 'Click', imageClass: 'fa fa-circle text-danger' },
-        { title: 'Click Second Time', imageClass: 'fa fa-circle text-warning' }
-      ];
-
-      this.activityChartType = ChartType.Bar;
-      this.activityChartData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-          [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
-        ]
-      };
-      this.activityChartOptions = {
-        seriesBarDistance: 10,
-        axisX            : {
-          showGrid: false
-        },
-        height: '245px'
-      };
-      this.activityChartResponsive = [
-        ['screen and (max-width: 640px)', {
-          seriesBarDistance: 5,
-          axisX            : {
-            labelInterpolationFnc: function (value) {
-              return value[0];
-            }
-          }
-        }]
-      ];
-      this.activityChartLegendItems = [
-        { title: 'Tesla Model S', imageClass: 'fa fa-circle text-info' },
-        { title: 'BMW 5 Series', imageClass: 'fa fa-circle text-danger' }
-      ];
-*/
-
-
-
-    /* Transacciones */
-    /*
-    this.transChartData = {
-        labels: ['62%', '32%', '6%'],
-        series: [62, 32, 6]
-      };
-      
-      this.transChartData = {
-        labels: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-        series: [35,212,33,0,18,31,1,0]
-      };      
-      this.transChartLegendItems = [
-        { title: 'Open', imageClass: 'fa fa-circle text-info' },
-        { title: 'Bounce', imageClass: 'fa fa-circle text-danger' },
-        { title: 'Unsubscribe', imageClass: 'fa fa-circle text-warning' }
-      ];
-*/
-
-    }
-
-    fncAngularIndexedDB(){
-
-/*
-        db2.remove('depositosx', 1).then(() => {
-            // Do something after remove
-        }, (error) => {
-            console.log(error);
-        });
-*/
-
-
-/*
-        db2.createStore(1, (evt) => {
-            var objectStore = evt.currentTarget.result.createObjectStore(
-                'depositosx', { keyPath: "id", autoIncrement: true });
-
-            objectStore.createIndex("idx1", ['idDep', 'nivelDeposito'],  {unique: false });
-            //objectStore.createIndex("email", "email", { unique: true });
-        });
-
-        db2.clear('depositosx').then(() => {
-            // Do something after clear
-            console.log("db2.clear OK");
-        }, (error) => {
-            console.log(error);
-        });
-        */
-    }
-
-
-
-
-
-/*
-    logMsgs(){
-        this.logger.error('This is a priority level 1 error message...');
-        this.logger.warn('This is a priority level 2 warning message...');
-        this.logger.info('This is a priority level 3 info message...');
-        this.logger.debug('This is a priority level 4 debug message...');
-        this.logger.log('This is a priority level 5 log message...');
-    }
-
-    setLevel(level:Level){
-        this.logger.level = level;
-    }
-
-    clear(){
-        console.clear();
-    }
-
-    store(){
-        this.logger.store();
-    }
-
-    unstore(){
-        this.logger.unstore();
-    }
-    */
-
-    iniciarBD(){
-        console.log("iniciarBD:: Inicia");
-
-        //window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-        
-        console.log("iniciarBD:: Se va a abrir la BD dbName");
-        this.openRequest2 = window.indexedDB.open('dbName', 1 /* versión de base de datos */);
-
-        console.log("iniciarBD:: Se va a ejecutar openRequest.onsuccess");
-        this.openRequest2.onsuccess = function(e) {
-            // Almacenamos una referencia global a la base de datos que acabamos de abrir
-            db3 = e.target.result;
-            console.log("Base de datos dbName: "+db3);
-        };
-            
-        /*
-        this.logger.error("iniciarBD:: Se va a ejecutar openRequest.onupgradeneeded");
-        openRequest.onupgradeneeded = function(e) {
-            // La base de datos no existía o su versión era inferior a la solicitada,
-            // podemos proceder a actualizarla, crear los objectStores que queramos, etc.
-            // ...
-            this.logger.error('openRequest.onupgradeneeded ['+e+"]");
-        };
-        */
-
-        console.log("iniciarBD:: Se va a ejecutar openRequest.onupgradeneeded");
-        this.openRequest2.onupgradeneeded = function(e) {
-            console.log("iniciarBD:: Se va a ejecutar e.target.result");
-            //this.logger.error("iniciarBD:: Se va a ejecutar e.target.result");
-            db3 = e.target.result;
-            // Creamos un objectStore llamado "people" para guardarobjetos
-            // cuya clave estará en la propiedad "id" y será generada por
-            // indexedDB con un valor autoincremental
-
-            console.log("iniciarBD:: Se va a ejecutar db3.createObjectStore");
-            //this.logger.error("iniciarBD:: Se va a ejecutar db3.createObjectStore");
-            storeRequest = db3.createObjectStore('people', {
-              keyPath      : 'id',
-              autoIncrement: 'true'
-            });
-           
-            // Creamos un índice único sobre el email de cada persona
-            console.log("iniciarBD:: Se va a ejecutar storeRequest.createIndex: idx_email");
-            storeRequest.createIndex("idx_email", "email", {unique: true});
-            
-            // Creamos otro índice sobre la ciudad:
-            console.log("iniciarBD:: Se va a ejecutar storeRequest.createIndex: idx_city");
-            storeRequest.createIndex("idx_city", "city", {unique: false});
-           
-            console.log("iniciarBD:: Se va a ejecutar storeRequest.transaction.oncomplete");
-            storeRequest.transaction.oncomplete = function(e) {
-              // Todo es asíncrono, incluida la creación de objectStores
-              // e índices. Cuando se complete la transacción sabremos
-              // que ha terminado la operación y podemos empezar a trabajar
-              // con el objectStore y el índice
-              console.log("storeRequest.transaction.oncomplete ["+e+"]");
-            };
-          }
-
-
-          console.log("iniciarBD:: Se va a ejecutar openRequest.onerror");
-        this.openRequest2.onerror = function(e) {
-            // No hemos podido abrir la base de datos
-            console.log('openRequest.onerror ['+e+"]");
-        };
-
-        console.log("iniciarBD:: Termina");
-    }
-
-
-    graficaRetiros(): void{
-
-        /* Grafica de Retiros */
-
-        this.tipoGraficaRetirosPorHora = ChartType.Bar;
-    
-        this.opcionesGraficaRetirosPorHora = {
-          seriesBarDistance: 10,
-          axisX            : {
-            showGrid: false
-          },
-          height: '145px'
-        };
-    
-        this.responsiveGraficaRetirosPorHora = [
-          ['screen and (max-width: 640px)', {
-            seriesBarDistance: 5,
-            axisX            : {
-              labelInterpolationFnc: function (value) {
-                return value[0];
-              }
-            }
-          }]
-        ];
-    
-        this.elementosGraficaRetirosPorHora = [
-          { title: 'Retiros', imageClass: 'fa fa-circle text-info' },
-          { title: 'Consultas', imageClass: 'fa fa-circle text-danger' }
-        ];
-        
-    }
-
-    private _resOpersService: ResOpersService;
-    _newResOpers: ResOpersModel = new ResOpersModel();
-    _resOpers: Array<ResOpersModel> = [];
-    nuevoResOpers = function () {
-        this._service.insertReg(this._newResOpers).
-        then(rowsAdded => {
-            if (rowsAdded > 0) {
-                this._resOpers.push(this._newResOpers);
-                this.clearNewResOpers();
-                alert('Successfully added');
-            }
-        }).catch(error => {
-            console.error(error);
-            alert(error.Message);
-        });
-    };
-
-    clearNewResOpers = function () {
-        this._newResOpers = new ResOpersModel();
-    };
-
-    constructor(private formBuilder: FormBuilder,
-                public _soapService: SoapService,
-                private _desglosaBilletes: DesglosaBilletes,
-                public _guardaDepositosBD: GuardaDepositosBD,
-                public activatedRoute: ActivatedRoute,
-                resOpersService: ResOpersService){
-                //public ngProgress: NgProgress) {
-
-        this._resOpersService = resOpersService;
-
-        console.log("ResumenOperacionesComponent:: Inicia");
-        this.activatedRoute.url.subscribe(url =>{
-            this.urlPath = url[0].path;
-            console.log("constructor:: -->"+this.urlPath+"<--");
-
-        });
-
-        this._newResOpers.Descripcion = "Nuevo registro";
-        this._newResOpers.NumOpers = 34;
-        this._newResOpers.Monto = 1500;
-        this._newResOpers.FchPrimerMto = "2017-12-11-00-03";
-        this._newResOpers.FchUltimoMto = "2017-12-11-23-59";
-        this.nuevoResOpers();
-        this.inicializaVariables();
-
-    }
-
-    public pDenominacionesBilletes(infoBilletes:string){
+    pDenominacionesBilletes(infoBilletes:string){
 
         var montoTotal = 0;
         var respBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
@@ -1659,122 +1309,40 @@ export class ResumenOperacionesComponent implements OnInit  {
         return(respBilletes);
     }
 
-    // Pie
-    public pieChartLabels:string[] = ['Depósitos', 'Retiros', 'Consultas', 'Reversos'];
-    public pieChartData:number[] = [7, 22, 12, 0];
-    public pieChartType:string = 'pie';
-    public polarAreaLegend:boolean = true;
-
-    // events
-    public chartClicked(e:any):void {
-        console.log(e);
-    }
-
-    public chartHovered(e:any):void {
-        console.log(e);
-    }
-
-    public activityChartType: ChartType;
-    public activityChartData: any;
-    public activityChartOptions: any;
-    public activityChartResponsive: any[];
-    public activityChartLegendItems: LegendItem[];
-
-    public datosGrafica() {
-        console.log("datosGrafica:: Inicio");
-        this.activityChartType = ChartType.Bar;
-        this.activityChartData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            series: [
-                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-                [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
-            ]
-        };
-        this.activityChartOptions = {
-            seriesBarDistance: 10,
-            axisX: {
-                showGrid: false
-            },
-            height: '245px'
-        };
-        this.activityChartResponsive = [
-            ['screen and (max-width: 640px)', {
-                seriesBarDistance: 5,
-                axisX: {
-                    labelInterpolationFnc: function (value) {
-                        return value[0];
-                    }
-                }
-            }]
-        ];
-        this.activityChartLegendItems = [
-            {title: 'Tesla Model S', imageClass: 'fa fa-circle text-info'},
-            {title: 'BMW 5 Series', imageClass: 'fa fa-circle text-danger'}
-        ];
-
-    }
-
-    public obtenCierreAnterior(){
-        // Restar un día a la fecha de inicio.
-        // Llamar al servicio 
-    }
 
 
 
 
-    // Ip y Clave de ATMs
 
-    public GetEjaFilters(result:any, status){
 
-        var ipATM = '';
 
-        for(let idx = 0; idx < result.length; idx++){
-            for(let idx2 = 0; idx2 < result[idx].length; idx2++){
-                if(idx === 0){
-                    ipATM = result[idx][idx2];
-                    ipATMs[ipATMs.length] = result[idx][idx2];
-                }else{
-                    datosATMs.push(result[idx][idx2] + "    ("+ result[0][idx2] + ")");
-                }
+
+
+
+    /*
+    private _resOpersService: ResOpersService;
+    _newResOpers: ResOpersModel = new ResOpersModel();
+    _resOpers: Array<ResOpersModel> = [];
+    nuevoResOpers = function () {
+        this._service.insertReg(this._newResOpers).
+        then(rowsAdded => {
+            if (rowsAdded > 0) {
+                this._resOpers.push(this._newResOpers);
+                this.clearNewResOpers();
+                alert('Successfully added');
             }
-        }
-    }
+        }).catch(error => {
+            console.error(error);
+            alert(error.Message);
+        });
+    };
 
-    public obtieneIpATMs(){
-        //console.log('obtenIpATMs:: Inicio');
-        ipATMs  = [];
-        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
-        this.ipATMs = ipATMs;
-        this.ipATMs = ipATMs.sort(comparar);
-        //console.log('obtenIpATMs:: Se ejecuto la consulta');
-    }
+    clearNewResOpers = function () {
+        this._newResOpers = new ResOpersModel();
+    };
+*/
 
 
-    parametrosConsulta(filtrosConsulta){
-
-        console.log(nomComponente+".parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
-        console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(filtrosConsulta)+"]");
-        console.log(nomComponente+".parametrosConsulta:: Se mostro la información enviada desde el componente Params");
-        let parametrosConsulta:any = {};
-
-        let fIniParam = filtrosConsulta.fchInicio;
-        let fFinParam = filtrosConsulta.fchFin;
-        let ipParam   = filtrosConsulta.atm;
-
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
-
-        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
-
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
-
-        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
-
-        let paramsConsulta:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
-
-        this.pDatosDelJournal(paramsConsulta);
-    }
 
 
 }
