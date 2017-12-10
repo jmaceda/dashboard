@@ -15,8 +15,10 @@ import { DetalleAtmsService }               from '../../services/detalle-atms.se
 import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
+import { BsModalComponent } from 'ng2-bs3-modal';
+import * as $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle.js';
 
-import { bootbox }                          from "bootbox";
 
 export var datosATMs  = [];
 export var ipATMs  = [];
@@ -34,6 +36,9 @@ export class ParamsComponent implements OnInit {
 
     @Input() dUltimaActualizacion: string;
     @Output() parametrosConsulta = new EventEmitter();
+
+    @ViewChild('myModal')
+    modal: BsModalComponent;
 
     fchInicio: Date;
     fchFin: Date;
@@ -150,10 +155,9 @@ export class ParamsComponent implements OnInit {
     public pActualizaParams() {
         //console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
         //$(".alert").alert();
-        bootbox.alert({
-            message: "This is the small alert!",
-            size: 'small'
-        });
+        console.log("ParamsComponent.pActualizaParams:: Se va a abrir la modal");
+        this.modal.open();
+        console.log("ParamsComponent.pActualizaParams:: Se abrio la modal");
         this.paramsActuales(3);
     }
 

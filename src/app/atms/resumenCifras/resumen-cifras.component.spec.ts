@@ -6,7 +6,7 @@ import { DebugElement } from '@angular/core';
 import { ResumenCifrasComponent } from './resumen-cifras.component';
 
 
-describe('HomeComponent', () => {
+describe('ResumenOperacionesComponent', () => {
   let component: ResumenCifrasComponent;
   let fixture  : ComponentFixture<ResumenCifrasComponent>;
 

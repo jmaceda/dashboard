@@ -11,7 +11,7 @@ import { FooterModule }                     from './shared/footer/footer.module'
 import { SidebarModule }                    from './sidebar/sidebar.module';
 import { LbdModule }                        from './lbd/lbd.module';
 import { AppComponent }                     from './app.component';
-import { HomeComponent }                    from './atms/resumen-operaciones/resumen-operaciones.component';
+import { ResumenOperacionesComponent }                    from './atms/resumen-operaciones/resumen-operaciones.component';
 import { UserComponent }                    from './user/user.component';
 import { TablesComponent }                  from './tables/tables.component';
 import { TypographyComponent }              from './typography/typography.component';
@@ -34,13 +34,14 @@ import { AclaracionesComponent }            from './reportes/aclaraciones/aclara
 import { NgbdModalContent }                 from './utils/ngbd-modal-content';
 import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
+import { BsModalModule } from 'ng2-bs3-modal';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    ResumenOperacionesComponent,
     UserComponent,
     TablesComponent,
     TypographyComponent,
@@ -74,6 +75,7 @@ import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
     AngularDateTimePickerModule,
     TableModule,
     NgbModule.forRoot(),
+    BsModalModule
 
   ],
   entryComponents: [],

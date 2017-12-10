@@ -34,6 +34,22 @@ import { ErroresPorBanco } from '../../models/errores-por-banco.model';
 //import { de } from 'ngx-bootstrap/locale';
 
 
+class ResumenOpers {
+    desc: string;
+    numOpers: number;
+    monto: number;
+    fchPrimerMto: string;
+    fchUltimoMto: string;
+
+    constructor(desc: string, numOpers: number, monto: number, fchPrimerMto: string, fchUltimoMto: string) {
+        this.desc = desc;
+        this.numOpers = numOpers;
+        this.monto = monto;
+        this.fchPrimerMto = fchPrimerMto;
+        this.fchUltimoMto = fchUltimoMto;
+    }
+}
+
 export var gNumPaginas                 = 0;
 export var gNumRegistros               = 0;
 export var gNumRegsProcesados          = 0;
@@ -62,15 +78,13 @@ var storeRequest;
 var bdRedBlu = 'RedBluDB';
 var intervalId = null;
 var arrDepositos = [];
-
+var nomComponente:string = "ResumenOperacionesComponent"
 declare interface TblResumenPorBanco {
-    headerRow: any[];
     dataRows: any[];
     totalRows: any[];
 }
 
 declare interface TblResumenDepositos {
-    headerRow: any[];
     dataRows: any[];
 }
 
@@ -98,7 +112,6 @@ export class TblDomResOperacion{
 }
 
 export class TblResOperacion{
-    headerRow: any[];
     dataRows: any[];
 }
 
@@ -143,7 +156,7 @@ var idxErrBanco:number = 0;
   providers: [SoapService, DesglosaBilletes, GuardaDepositosBD],   //, Service],
     // providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
 })
-export class HomeComponent implements OnInit  {
+export class ResumenOperacionesComponent implements OnInit  {
 
     chartOptions = {
         responsive: true
@@ -196,6 +209,8 @@ export class HomeComponent implements OnInit  {
    // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
 
 
+    resumenOpers: ResumenOpers[];
+
     //public tblDomResOperacion: TblDomResOperacion;
     public tblResumenPorBanco: TblResumenPorBanco;
     public tblResumenDepositos: TblResumenDepositos;
@@ -212,7 +227,7 @@ export class HomeComponent implements OnInit  {
     public hoursChartLegendItems: LegendItem[];
 
     public tipoGraficaRetirosPorHora      : ChartType;
-    public datosGraficaRetirosPorHora     : any;
+    //public datosGraficaRetirosPorHora     : any;
     public opcionesGraficaRetirosPorHora  : any;
     public responsiveGraficaRetirosPorHora: any[];
     public elementosGraficaRetirosPorHora : LegendItem[];
@@ -224,11 +239,11 @@ export class HomeComponent implements OnInit  {
     public activityChartResponsive : any[];
     public activityChartLegendItems: LegendItem[];
 */
-    public bsValue     : any ;
-    public bsRangeValue: any = [new Date(2017, 7, 4), new Date(2017, 7, 20)];
+    //public bsValue     : any ;
+    //public bsRangeValue: any = [new Date(2017, 7, 4), new Date(2017, 7, 20)];
 
-    selectedItem: any;
-    icons       : string[];
+    //selectedItem: any;
+    //icons       : string[];
     items       : Array<{title: string, note: string, icon: string}>;
 
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
@@ -305,7 +320,10 @@ export class HomeComponent implements OnInit  {
     public infoDepositos: DepositosModel[] = [];
     public datosRetirosXhora: Array<DatosRetirosXhora> = new Array(24);
 
-
+    public encabRetPorHora  = {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'};
+    public encabResumenOper = {hDesc:'Descripción', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Última'};
+    public encabResPorBanco = {hBanco:'Banco', hNumRetOk:'Retiros Exitosos', hNumRetNoOk:'Retiros Fallidos', hNumCons:'Consultas', hNumConsNoOk:'Consultas Fallidas', hNumReversos: 'Reversos'};
+    public encabDepositos   = {hId:'ID', dCta: 'Cuenta', hHraIni:'Inicio', hHraFin: 'Finalizo', hMonto:'Monto', hBill20:'$20', hBill50:'$50', hBill100:'$100', hBill200:'$200', hBill500:'$500', hBill1000:'$1000'};
 
     public ipATM: string;
 
@@ -398,8 +416,12 @@ export class HomeComponent implements OnInit  {
         this.listaErroresOper = [];
         this.lErroresPorBanco = [];
         idxErrBanco=0;
-    };
 
+        this.resumenOpers = [
+            new ResumenOpers("Depósitos Exitosos", 0, 0, '', '')
+        ]
+    };
+/*
     public paramsServicioNumPaginas: {
         ip            : any[],
         timeStampStart: string,
@@ -421,8 +443,9 @@ export class HomeComponent implements OnInit  {
         cardNumber    : "-1",
         accountId     : "-1"
     };
-
-
+    */
+    public paramsServicioNumPaginas:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"};
+    /*
     paramsServicioDatosLog: {
         ip            : any[],
         timeStampStart: string,
@@ -446,13 +469,31 @@ export class HomeComponent implements OnInit  {
         accountId     : "-1",
         page          : 0
     };
+    */
+    public paramsServicioDatosLog:any = { ip: [], timeStampStart: "", timeStampEnd: "", events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1", page: 0 };
 
     public tblResOperacion: TblResOperacion;
     public retiros: InterRetirosPorHora;
     public retiroNoOk    : object = {};
     public resumenPorBanco: Array<number> = [0, 0, 0, 0, 0, 0, 0];  //Dep, Ret, RetNo, Rech, Cons,ConsNo, Rev
+    public listaErroresOper: any[] = [];
+    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
+    public minutosSinOperacion:number = 1;
+    public tiempoSinOperaciones:number = 0;
+    public msgError:string = "";
+    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
+    public arrTarjetas:any[] = [];
+    public listaErrsPorBanco: any[][] = [];
+    public cErroresPorBanco: ErroresPorBanco[];
+    public lErroresPorBanco: ErroresPorBanco[];
+    public dUltimaActualizacion: string;
+    public numPaginas = 0;
+    public openRequest2;
+    public rutaActual = "";
+    public urlPath = "";
 
     // Actualiza informciòn de la pantalla.
+
     public pActualizaInfo(): void {
 
         console.log("pActualizaInfo:: url["+this.rutaActual+"]");
@@ -480,10 +521,7 @@ export class HomeComponent implements OnInit  {
             clearInterval(intervalId);
         }
 
-        this.pDatosDelJournal();
-
-        //setTimeout(() => { this.pDatosDelJournal(); }, 300);
-        //intervalId = setInterval(() => { this.pDatosDelJournal(); }, tiempoRefreshDatos);
+        this.pDatosDelJournal('');
     }
 
 
@@ -511,52 +549,35 @@ export class HomeComponent implements OnInit  {
         this.listaBancos[nomBanco] = this.opersBanco;
     }
 
-    public listaErroresOper: any[] = [];
-
-    public guardaErrores(descError: string):void{
-        //console.log("guardaErrores:: Inicio ["+descError+"]");
-        if ( this.listaErroresOper[descError] == undefined ){
-            this.listaErroresOper[descError] = 1;
-        }else{
-            this.listaErroresOper[descError]++;
-        }
-
-        //ErroresPorBanco
-
-    }
-
     public obtenDatosLog(result:object, numPag:number): void {
 
         this.inicializaVariables();
 
-        let datosLog        = JSON.parse(JSON.stringify(result));
-        let fchSys          = new Date();
-        let _horaSys        = fchSys.getHours();
-        let _horaUltimaOper = _horaSys;
-        let tmpFechaSys     = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
-        let listaBancos     = {};
-        let tipoUltimaOperacion  = "";
-        let iniciaDeposito       = "";
-        let terminaDeposito      = "";
-        let montoDeposito        = 0;
-        let id                   = 0;
-        let numIntentos          = 0;
-        let nivelUltimoDeposito  = 0;
-        let datosDeposito        = "";
-        let iniciaSesDeposito    = "";
-        let dataAnterior         = "";
-        let idSesion             = 1;
-        let montoSesion          = 0;
-        let numDepositos         = 0;
-        let rollbackDeposito     = 0;                      // 0=Indica que no se provoco Rollback en el depósito / 1=Rollback en el deposito.
-        let tmpArqc              = "";
-        let tmpAquirer           = "";
-        let tmpCardNumber        = "";
-        let tmpAuthId            = "";
-
-
-
-        this.resumenPorBanco = [0, 0, 0, 0, 0, 0, 0];
+        let datosLog                = JSON.parse(JSON.stringify(result));
+        let fchSys                  = new Date();
+        let _horaSys                = fchSys.getHours();
+        let _horaUltimaOper         = _horaSys;
+        let tmpFechaSys             = sprintf("%04d-%02d-%02d",fchSys.getFullYear(), fchSys.getMonth() +1, fchSys.getDate());
+        let listaBancos             = {};
+        let tipoUltimaOperacion     = "";
+        let iniciaDeposito          = "";
+        let terminaDeposito         = "";
+        let montoDeposito           = 0;
+        let id                      = 0;
+        let numIntentos             = 0;
+        let nivelUltimoDeposito     = 0;
+        let datosDeposito           = "";
+        let iniciaSesDeposito       = "";
+        let dataAnterior            = "";
+        let idSesion                = 1;
+        let montoSesion             = 0;
+        let numDepositos            = 0;
+        let rollbackDeposito        = 0;                      // 0=Indica que no se provoco Rollback en el depósito / 1=Rollback en el deposito.
+        let tmpArqc                 = "";
+        let tmpAquirer              = "";
+        let tmpCardNumber           = "";
+        let tmpAuthId               = "";
+        this.resumenPorBanco        = [0, 0, 0, 0, 0, 0, 0];
 
         var idxReg = 0;
         //var idxRegLog = 0;
@@ -579,11 +600,6 @@ export class HomeComponent implements OnInit  {
             let xReg = reg
             xReg.TimeStamp = fch;
 
-            //if( reg.CardNumber == '547146XXXXXX8650'){
-             //   //console.log("Registro localizado --> idxRegLog["+idxRegLog+"]");
-            //}
-            //idxRegLog++;
-
             fchSys = new Date();
             _horaSys = (tmpFechaOper != tmpFechaSys) ? 23 : fchSys.getHours();
             _horaUltimaOper = _horaSys;
@@ -595,10 +611,10 @@ export class HomeComponent implements OnInit  {
                 datosDeposito       = "";
                 iniciaSesDeposito   = reg.TimeStamp;
                 nivelUltimoDeposito = 0;
+                montoSesion         = 0;
+                numDepositos        = 0;
+                rollbackDeposito    = 0;
                 idSesion++;
-                montoSesion      = 0;
-                numDepositos     = 0;
-                rollbackDeposito = 0;
             }
 
             switch(reg.Event) {
@@ -643,7 +659,6 @@ export class HomeComponent implements OnInit  {
 
                         case "Withdrawal Service Error": {
                             this.incrementaBanco('REN', tmpAquirer);
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
                         case "Approved transaction": {
@@ -667,13 +682,11 @@ export class HomeComponent implements OnInit  {
                         }
 
                         case "Withdrawal DispenseFail": {
-                            //this.dNumRetirosNoExito++;
                             this.dMontoRetirosNoExito += reg.Amount;
                             if(this.dHraPrimerRetiroNoExito == ""){
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
                             this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
@@ -684,7 +697,6 @@ export class HomeComponent implements OnInit  {
                                 this.dHraPrimerRetiroNoExito = tmpHoraOperacion
                             }
                             this.dHraUltimoRetiroNoExito = tmpHoraOperacion;
-                            //this.guardaErrores(reg.HWErrorCode);
                             break;
                         }
 
@@ -775,17 +787,18 @@ export class HomeComponent implements OnInit  {
                         let denominaBilletes = this.pDenominacionesBilletes(reg.Data);
 
                         arrDepositos.push(
-                            {   dId: this.dNumDepositos,
-                                dCta: reg.AccountId,
-                                dHraIni: this.dHraIniciaSesion,
-                                dHraFin: tmpHoraOperacion,
-                                dMonto: reg.Amount,
-                                dBill20: denominaBilletes.b20,
-                                dBill50: denominaBilletes.b50,
-                                dBill100: denominaBilletes.b100,
-                                dBill200: denominaBilletes.b200,
-                                dBill500: denominaBilletes.b500,
-                                dBill1000: denominaBilletes.b1000,
+                            {
+                                dId:        this.dNumDepositos,
+                                dCta:       reg.AccountId,
+                                dHraIni:    this.dHraIniciaSesion,
+                                dHraFin:    tmpHoraOperacion,
+                                dMonto:     reg.Amount,
+                                dBill20:    denominaBilletes.b20,
+                                dBill50:    denominaBilletes.b50,
+                                dBill100:   denominaBilletes.b100,
+                                dBill200:   denominaBilletes.b200,
+                                dBill500:   denominaBilletes.b500,
+                                dBill1000:  denominaBilletes.b1000,
                             }
                         );
                     }    
@@ -866,16 +879,14 @@ export class HomeComponent implements OnInit  {
                             if(reg.Data.substring(0, 40) == "DOTAR CAPTURA CONTADORES - ANTES DE CERO") {
                                 //[50x5|100x1|200x0|500x1087|][20x63|50x2|100x1|200x434|500x27|1000x29|][total=674610]
                                 this.dotacion.monto = reg.Amount;
-                                console.log(this.dotacion.monto + " -- " + reg.Amount)
                             }
                         }
                         console.log("reg.Data["+reg.Data+"]");
                         if (reg.Data != null && reg.Data == "REGRESANDO A MODO ATM [AFD EXCHANGE ACTIVE TRUE] [CDM EXCHANGE ACTIVE FALSE]"){
-                            this.dotacion.terminaDota = tmpHoraOperacion;
-                            this.dotacion.estado = "Concluida";
-                            console .log("reg.Data["+reg.Data+"]  iniciaDota["+iniciaDota+"]");
-                            iniciaDota = 3;
-                            fchTerminaDota = reg.TimeStamp;
+                            this.dotacion.terminaDota   = tmpHoraOperacion;
+                            this.dotacion.estado        = "Concluida";
+                            iniciaDota                  = 3;
+                            fchTerminaDota              = reg.TimeStamp;
                         }
                     }
                 }
@@ -915,29 +926,9 @@ export class HomeComponent implements OnInit  {
             }
         }, this.listaErrsPorBanco)
 
-
         this.cErroresPorBanco = arrErrsBanco;
-
-        //console.log("Contenido de lErroresPorBanco");
-        //console.log(this.lErroresPorBanco);
-        //for(let idx; idx < this.lErroresPorBanco.length; idx++){
-        //    console.log("lErroresPorBanco:: " + this.lErroresPorBanco[idx]);
-        //}
-        //console.log("Termina Contenido de lErroresPorBanco");
-//console.log(this.cErroresPorBanco);
-
     }
 
-    public dotacion:any = {monto:0, estado: '', iniciaDota:'', terminaDota: ''};
-    public minutosSinOperacion:number = 1;
-    public tiempoSinOperaciones:number = 0;
-    public msgError:string = "";
-
-    //public terminaDota:any;
-    //public iniciaDeposito:any;
-    //public tiempoDowntime:any;
-    //public montoDowntime:number;
-    public deposito:any = {terminaDota: '', iniciaDeposito: '', tiempoDowntime: '', montoDowntime: 0};
 
     public calculaDownTime(fchInicial, fchFinal, horaInicial, horaFinal){
 
@@ -971,15 +962,13 @@ export class HomeComponent implements OnInit  {
 
     public veficaHoraUlimaOperacion(datosLog){
 
-        let tiempoSinOperacion = (60 * 1000) * this.minutosSinOperacion;
-        let reg:any = datosLog[datosLog.length-1];
-        let dateSys:any = new Date().getTime();
-        let dateOper = new Date(reg.TimeStamp);
-        let dateSist = new Date();
-        let tmpFechaOper = sprintf("%04d-%02d-%02d", dateOper.getFullYear(), dateOper.getMonth() + 1, dateOper.getDate());
-        let tmpFechaSist = sprintf("%04d-%02d-%02d", dateSist.getFullYear(), dateSist.getMonth() + 1, dateSist.getDate());
-
-
+        let tiempoSinOperacion  = (60 * 1000) * this.minutosSinOperacion;
+        let reg:any             = datosLog[datosLog.length-1];
+        let dateSys:any         = new Date().getTime();
+        let dateOper            = new Date(reg.TimeStamp);
+        let dateSist            = new Date();
+        let tmpFechaOper        = sprintf("%04d-%02d-%02d", dateOper.getFullYear(), dateOper.getMonth() + 1, dateOper.getDate());
+        let tmpFechaSist        = sprintf("%04d-%02d-%02d", dateSist.getFullYear(), dateSist.getMonth() + 1, dateSist.getDate());
 
         if (tmpFechaOper == tmpFechaSist) {
             this.tiempoSinOperaciones = Math.round(((dateSys - reg.TimeStamp) / 1000) / 60);
@@ -994,12 +983,6 @@ export class HomeComponent implements OnInit  {
         }
     }
 
-    public arrTarjetas:any[] = [];
-    //public pErroresPorBanco: any[] = Array(dErroresPorBanco);
-    public listaErrsPorBanco: any[][] = [];
-    cErroresPorBanco: ErroresPorBanco[];
-    lErroresPorBanco: ErroresPorBanco[];
-    //xErroresPorBanco: ErroresPorBanco;
 
     public incrementaErrorBanco(nomBanco, descError, codError, tipoOper){
 
@@ -1009,17 +992,8 @@ export class HomeComponent implements OnInit  {
             }
             this.lErroresPorBanco[idxErrBanco++] = new ErroresPorBanco(nomBanco, descError, codError, 1, tipoOper);
 
-
-            //if ( this.xErroresPorBanco instanceof ErroresPorBanco ){
-            //    this.xErroresPorBanco = new ErroresPorBanco();
-            //}
-
-            //this.xErroresPorBanco.incErrBanco(nomBanco, descError, codError, tipoOper);
-
-            //console.log(this.xErroresPorBanco.nomBanco);
-
             let desc = descError.replace(/ /g, "_")+"_("+codError+")";
- // Descomentar para probar           console.log(nomBanco + " <--> " + desc + " <--> " + this.listaErrsPorBanco[nomBanco])
+
             if (this.listaErrsPorBanco[nomBanco] == undefined) {
                 this.listaErrsPorBanco[nomBanco] = []
                 if (this.listaErrsPorBanco[nomBanco][desc] == undefined) {
@@ -1039,8 +1013,8 @@ export class HomeComponent implements OnInit  {
 
     // Arma los datos de la tabla del Resumen de Operaciones
     public mResumenOperaciones():void{
+
         this.tblResOperacion = {
-            headerRow: [ {hDesc:'Descripcion', hOper:'Opers', hMonto:'Monto', hPrimera:'Primera', hUltima:'Ultima'} ],
             dataRows: [
                 {etiqueta: "Depósitos Exitosos",     numOpers: this.dNumDepositos,        monto: this.dMontoDepositos,         primerMto: this.dHraPrimerDeposito,         ultimoMto: this.dHraUltimoDeposito},
                 {etiqueta: "Retiros Exitosos",       numOpers: this.dNumRetiros,          monto: this.dMontoRetiros,           primerMto: this.dHraPrimerRetiro,           ultimoMto: this.dHraUltimoRetiro},
@@ -1058,22 +1032,16 @@ export class HomeComponent implements OnInit  {
     public pResumenDepositos():void{
 
         this.tblResumenDepositos = {
-            headerRow: [
-                {
-                    hId:'ID',       dCta: 'Cuenta', hHraIni:'Inicio',       hHraFin: 'Finalizo',        hMonto:'Monto',     hBill20:'$20',
-                    hBill50:'$50',  hBill100:'$100',        hBill200:'$200',            hBill500:'$500',    hBill1000:'$1000'
-                }
-            ],
             dataRows: arrDepositos
         };
 
         for(let idx=0; idx < arrDepositos.length; idx++){
             this.tBillDep[0].tMonto += Number(arrDepositos[idx].dMonto);
-            this.tBillDep[0].tB20 += Number(arrDepositos[idx].dBill20);
-            this.tBillDep[0].tB50 += Number(arrDepositos[idx].dBill50);
-            this.tBillDep[0].tB100 += Number(arrDepositos[idx].dBill100);
-            this.tBillDep[0].tB200 += Number(arrDepositos[idx].dBill200);
-            this.tBillDep[0].tB500 += Number(arrDepositos[idx].dBill500);
+            this.tBillDep[0].tB20   += Number(arrDepositos[idx].dBill20);
+            this.tBillDep[0].tB50   += Number(arrDepositos[idx].dBill50);
+            this.tBillDep[0].tB100  += Number(arrDepositos[idx].dBill100);
+            this.tBillDep[0].tB200  += Number(arrDepositos[idx].dBill200);
+            this.tBillDep[0].tB500  += Number(arrDepositos[idx].dBill500);
             this.tBillDep[0].tB1000 += Number(arrDepositos[idx].dBill1000);
         }
     }
@@ -1109,11 +1077,6 @@ export class HomeComponent implements OnInit  {
         }, this.listaBancos);
 
         this.tblResumenPorBanco = {
-            headerRow: [
-                {   hBanco:'Banco',         hNumRetOk:'Retiros Exitosos',       hNumRetNoOk:'Retiros Fallidos',
-                    hNumCons:'Consultas',   hNumConsNoOk:'Consultas Fallidas',  hNumReversos: 'Reversos'
-                }
-            ],
             dataRows: arrDatos,
             totalRows: [
                 {   fNumBancos: "Total Bancos: "+fNumBancos, fNumRetOk: fNumRetOk, fNumRetNoOK: fNumRetNoOK,
@@ -1121,8 +1084,6 @@ export class HomeComponent implements OnInit  {
                 }
             ]
         };
-
-
     }
 
     // Despiega en la pagina la información de Consultas y Retiros.
@@ -1173,6 +1134,7 @@ export class HomeComponent implements OnInit  {
         let acumRet:Array<number>   = new Array(24);
         let acumMonto:Array<number> = new Array(24);
 
+
         for(let idx=0; idx < 24; idx++){
             acumCons[idx]   = (idx == 0) ? this.dNumConsPorHora[idx] : this.dNumConsPorHora[idx] + acumCons[idx -1];
             acumRet[idx]    = (idx == 0) ? this.dNumRetirosPorHora[idx] : this.dNumRetirosPorHora[idx] + acumRet[idx -1];
@@ -1202,13 +1164,10 @@ export class HomeComponent implements OnInit  {
         };
     }
 
-    public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
     }
-
-    public numPaginas = 0;
 
     public obtenDatosJournal(result:any[], status){
 
@@ -1231,7 +1190,7 @@ export class HomeComponent implements OnInit  {
 
 
 
-    public pDatosDelJournal(){
+    public pDatosDelJournal(paramsConsulta){
 
         console.log("pDatosDelJournal -->"+this.urlPath+"<--");
         if (this.urlPath != "operaciones"){
@@ -1239,13 +1198,14 @@ export class HomeComponent implements OnInit  {
             return(0);
         }
 
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
+        this.paramsServicioNumPaginas.timeStampStart    = paramsConsulta.fchIni;
+        this.paramsServicioNumPaginas.timeStampEnd      = paramsConsulta.fchFin;
 
-        this.paramsServicioDatosLog.timeStampStart = this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = this.paramsServicioNumPaginas.timeStampEnd;
+        this.paramsServicioDatosLog.timeStampStart      = paramsConsulta.fchIni;
+        this.paramsServicioDatosLog.timeStampEnd        = paramsConsulta.fchFin;
 
-        console.log("Consulta Journal ["+new Date()+"]");
+        this.paramsServicioNumPaginas.ip[0]             = paramsConsulta.ip;
+        this.paramsServicioDatosLog.ip[0]               = paramsConsulta.ip;
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
@@ -1298,32 +1258,34 @@ export class HomeComponent implements OnInit  {
         let _segSys  = fchSys.getSeconds();
 
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-    }
+  }
 
-    form: FormGroup;
-
-
-public fechaHoraOperacion: string;
+  resumenInicialOperaciones(){
+      this.mResumenOperaciones();
+      this.mRretirosPorHora();
+      this.mResumenPorBanco();
+      this.pResumenDepositos();
+  }
 
   ngOnInit() {
 
-      this.activatedRoute.url.subscribe(url =>{
+        this.activatedRoute.url.subscribe(url =>{
           this.urlPath = url[0].path;
           console.log("ngOnInit -->"+this.urlPath+"<--");
 
-      });
-      //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
-      //console.log("ngOnInit -->"+this.urlMenu+"<--");
-
-      this.obtieneIpATMs();
-      this.datosGrafica();
+        });
 
 
-      this.form = this.formBuilder.group({
+
+      this.resumenInicialOperaciones();
+/*
+        this.datosGrafica();
+
+
+        this.form = this.formBuilder.group({
           date: [new Date(1991, 8, 12)]
-      });
+        });
 
-      //tIdx = 0;
         let arrRetiros = [];
         for(let idx=0; idx < 24; idx++){
             arrRetiros.push(
@@ -1340,7 +1302,7 @@ public fechaHoraOperacion: string;
 
         this.retiros = {
             headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
-            datos: arrRetiros
+            datos: [{}]
         };
 
 
@@ -1349,31 +1311,6 @@ public fechaHoraOperacion: string;
         'labels': ['<7', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
         'series': [[], []]
         };
-
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-        this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-
-      //this.dFchIniProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
-      //this.dFchFinProceso = sprintf("%4d-%02d-%02d", 2017, 8, 12);
-
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
-
-        this.ipATM = '11.40.2.2';
-        ipAnterior = this.paramsServicioNumPaginas.ip[0];
-        gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
-        gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
-
-        this.pActualizaInfo();
-        this.graficaRetiros();
     }
 
     public otrasGraficas(): void{
@@ -1544,7 +1481,6 @@ public fechaHoraOperacion: string;
         this.logger.unstore();
     }
     */
-    public openRequest2;
 
     iniciarBD(){
         console.log("iniciarBD:: Inicia");
@@ -1648,43 +1584,20 @@ public fechaHoraOperacion: string;
         
     }
 
-    // Datos para la fecha.
-    //form: FormGroup;
-
-    public rutaActual = "";
-
-    //customers: Customer[];
-    public urlPath = "";
-    public urlMenu = "";
     constructor(private formBuilder: FormBuilder,
                 public _soapService: SoapService,
                 private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD,
                 public activatedRoute: ActivatedRoute){
                 //public ngProgress: NgProgress) {
-    //private activatedRoute : ActivatedRoute
-                console.log("HomeComponent:: Inicia");
-                this.activatedRoute.url.subscribe(url =>{
-                    this.urlPath = url[0].path;
-                    console.log("constructor:: -->"+this.urlPath+"<--");
 
-                });
+        console.log("ResumenOperacionesComponent:: Inicia");
+        this.activatedRoute.url.subscribe(url =>{
+            this.urlPath = url[0].path;
+            console.log("constructor:: -->"+this.urlPath+"<--");
 
+        });
 
-                //this.urlMenu = this.activatedRoute._futureSnapshot._routerState.url;
-                //console.log("HomeComponent::  url["+activatedRoute._routerState.snapshot.url+"]");
-                //console.log("HomeComponent::  component["+activatedRoute.component.name+"]");
-                //console.log("HomeComponent::  _routerState["+this.activatedRoute._futureSnapshot._routerState.url+"]");
-
-
-
-        //this.rutaActual = this._navigationStart.currentRouterState.snapshot.url;
-
-                //console.log("HomeComponent:: url["+this._navigationStart.currentRouterState.snapshot.url+"]");
-
-        //this.customers = service.getCustomers();
-
-//        this.setLevel(5);
         this.inicializaVariables();
 
     }
@@ -1802,6 +1715,32 @@ public fechaHoraOperacion: string;
         //console.log('obtenIpATMs:: Se ejecuto la consulta');
     }
 
+
+    parametrosConsulta(filtrosConsulta){
+
+        console.log(nomComponente+".parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
+        console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(filtrosConsulta)+"]");
+        console.log(nomComponente+".parametrosConsulta:: Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = filtrosConsulta.fchInicio;
+        let fFinParam = filtrosConsulta.fchFin;
+        let ipParam   = filtrosConsulta.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        let paramsConsulta:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(paramsConsulta);
+    }
 
 
 }

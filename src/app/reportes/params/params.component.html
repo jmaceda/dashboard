@@ -71,6 +71,19 @@
     </div>
 </div>
 
+
+<bs-modal #myModal>
+    <bs-modal-header>
+        <h4 class="modal-title">I'm a modal!</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+        Hello World!
+    </bs-modal-body>
+    <bs-modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
+    </bs-modal-footer>
+</bs-modal>
 <!--
 <ng-template #msgModal let-c="close" let-d="dismiss">
     <div class="modal-header">

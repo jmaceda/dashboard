@@ -5,7 +5,7 @@ import { CommonModule, }            from '@angular/common';
 import { BrowserModule  }           from '@angular/platform-browser';
 import { Routes, RouterModule }     from '@angular/router';
 
-import { HomeComponent }            from './atms/resumen-operaciones/resumen-operaciones.component';
+import { ResumenOperacionesComponent }            from './atms/resumen-operaciones/resumen-operaciones.component';
 import { UserComponent }            from './user/user.component';
 import { TablesComponent }          from './tables/tables.component';
 import { TypographyComponent }      from './typography/typography.component';
@@ -26,7 +26,7 @@ import { ResumenCifrasComponent }   from './atms/resumenCifras/resumen-cifras.co
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
     { path: 'resumen',        component: ResumenCifrasComponent },
-    { path: 'operaciones',    component: HomeComponent },
+    { path: 'operaciones',    component: ResumenOperacionesComponent },
     { path: 'journal',        component: JournalComponent },
     { path: 'aclaraciones',   component: AclaracionesComponent },
     { path: 'loghma',         component: LogHmaComponent },

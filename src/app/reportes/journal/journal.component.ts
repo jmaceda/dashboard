@@ -151,8 +151,9 @@ export class JournalComponent implements OnInit  {
 
     ngOnInit() {
 
-        this.obtieneIpATMs();
+        //this.obtieneIpATMs();
 
+        /*
         this.fechaHoraOperacion         = this.dFchIniProceso + " " + this.dHraIniProceso.replace("-", ":") + "  /  " +  this.dFchFinProceso + " " + this.dHraFinProceso.replace("-", ":");
 
         let fchSys   = new Date();
@@ -173,6 +174,7 @@ export class JournalComponent implements OnInit  {
         ipAnterior = this.paramsServicioNumPaginas.ip[0];
         gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
         gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
+        */
 
         //this.pDatosDelJournal();
     }
@@ -272,14 +274,14 @@ export class JournalComponent implements OnInit  {
 
     public pDatosDelJournal(params){
 
-        this.paramsServicioNumPaginas.timeStampStart = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
+        this.paramsServicioNumPaginas.timeStampStart    = params.fchIni; //this.dFchIniProceso + "-" + this.dHraIniProceso;
+        this.paramsServicioNumPaginas.timeStampEnd      = params.fchFin; //this.dFchFinProceso + "-" + this.dHraFinProceso;
 
-        this.paramsServicioDatosLog.timeStampStart = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
-        this.paramsServicioDatosLog.timeStampEnd   = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
+        this.paramsServicioDatosLog.timeStampStart      = params.fchIni; //this.paramsServicioNumPaginas.timeStampStart;
+        this.paramsServicioDatosLog.timeStampEnd        = params.fchFin; //this.paramsServicioNumPaginas.timeStampEnd;
 
-        this.paramsServicioNumPaginas.ip[0] = params.ip;
-        this.paramsServicioDatosLog.ip[0] = params.ip;
+        this.paramsServicioNumPaginas.ip[0]             = params.ip;
+        this.paramsServicioDatosLog.ip[0]               = params.ip;
 
         //console.log(nomComponente+".pDatosDelJournal:: Consulta Journal ["+new Date()+"]");
         //console.log(nomComponente+".pDatosDelJournal:: paramsServicioNumPaginas<"+JSON.stringify(this.paramsServicioNumPaginas)+">");
