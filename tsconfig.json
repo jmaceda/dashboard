@@ -1,11 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "ES6",
-        "module": "es6",
+        "target": "es5",
+        "module": "commonjs",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "lib": ["es6", "dom"],
         "removeComments": true,
         "noImplicitAny": true,
         "declaration": true,
@@ -13,6 +14,9 @@
         "mapRoot": "./",
         "diagnostics": true,
         "allowSyntheticDefaultImports": true,
+        "typeRoots": [
+            "../node_modules/@types"
+        ]
     },
     "exclude": [
         "node_modules",

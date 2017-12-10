@@ -36,6 +36,7 @@ import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 import { BsModalModule } from 'ng2-bs3-modal';
 
+import { DataBaseService } from './services/data-base.service';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { BsModalModule } from 'ng2-bs3-modal';
   entryComponents: [],
   exports: [],
   providers: [
+    DataBaseService
   ],
   bootstrap: [AppComponent],
 

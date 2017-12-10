@@ -20,7 +20,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DesglosaBilletes } from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD } from './services/GuardaDepositosBD.service';
 
-import { ErroresPorBanco } from '../../models/errores-por-banco.model';
+import { ErroresPorBanco } from '../../model/errores-por-banco.model';
+
+import { ResOpersService } from '../../services/res-opers.service';
+import { ResOpersModel, IResOpersModel } from '../../model/res-opers.model';
+//import { DataBaseService } from '../../services/data-base.service';
 
 // import { DxDataGridModule } from 'devextreme-angular';
 // import { Customer, Service } from './app.service';
@@ -153,7 +157,7 @@ var idxErrBanco:number = 0;
   .even { color: red; }
   .odd { color: green; }
   `],
-  providers: [SoapService, DesglosaBilletes, GuardaDepositosBD],   //, Service],
+  providers: [SoapService, DesglosaBilletes, GuardaDepositosBD, ResOpersService],   //, Service],
     // providers: [SoapService, DepositosComponent, DesglosaBilletes, GuardaDepositosBD],   //, Service],
 })
 export class ResumenOperacionesComponent implements OnInit  {
@@ -1584,12 +1588,36 @@ export class ResumenOperacionesComponent implements OnInit  {
         
     }
 
+    private _resOpersService: ResOpersService;
+    _newResOpers: ResOpersModel = new ResOpersModel();
+    _resOpers: Array<ResOpersModel> = [];
+    nuevoResOpers = function () {
+        this._service.insertReg(this._newResOpers).
+        then(rowsAdded => {
+            if (rowsAdded > 0) {
+                this._resOpers.push(this._newResOpers);
+                this.clearNewResOpers();
+                alert('Successfully added');
+            }
+        }).catch(error => {
+            console.error(error);
+            alert(error.Message);
+        });
+    };
+
+    clearNewResOpers = function () {
+        this._newResOpers = new ResOpersModel();
+    };
+
     constructor(private formBuilder: FormBuilder,
                 public _soapService: SoapService,
                 private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD,
-                public activatedRoute: ActivatedRoute){
+                public activatedRoute: ActivatedRoute,
+                resOpersService: ResOpersService){
                 //public ngProgress: NgProgress) {
+
+        this._resOpersService = resOpersService;
 
         console.log("ResumenOperacionesComponent:: Inicia");
         this.activatedRoute.url.subscribe(url =>{
@@ -1598,6 +1626,12 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         });
 
+        this._newResOpers.Descripcion = "Nuevo registro";
+        this._newResOpers.NumOpers = 34;
+        this._newResOpers.Monto = 1500;
+        this._newResOpers.FchPrimerMto = "2017-12-11-00-03";
+        this._newResOpers.FchUltimoMto = "2017-12-11-23-59";
+        this.nuevoResOpers();
         this.inicializaVariables();
 
     }

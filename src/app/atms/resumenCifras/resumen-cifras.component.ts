@@ -12,7 +12,7 @@ import { Router }                                           from '@angular/route
 import { ActivatedRoute }                                   from '@angular/router';
 import { DesglosaBilletes }                                 from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD }                                from './services/GuardaDepositosBD.service';
-import { ErroresPorBanco }                                  from '../../models/errores-por-banco.model';
+import { ErroresPorBanco }                                  from '../../model/errores-por-banco.model';
 
 export var gNumPaginas                  = 0;
 export var gNumRegistros                = 0;
