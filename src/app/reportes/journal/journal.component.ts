@@ -7,10 +7,8 @@ import { sprintf }                              from "sprintf-js";
 import { DataTable }                            from 'angular-4-data-table-fix';
 import { DataTableTranslations }                from 'angular-4-data-table-fix';
 import { DataTableResource }                    from 'angular-4-data-table-fix';
-import { Angular2Csv }                          from 'angular2-csv/Angular2-csv';
-//import * as XLSX from 'xlsx';
+import { ExportToCSV }                          from '../../services/export-to-csv.service';
 
-//import { ExcelService } from './excel.service';
 
 var ipAnterior:string = null;
 var gFchInicioAnterior = null;
@@ -46,10 +44,7 @@ const nomComponente:string = "JournalComponent";
 })
 export class JournalComponent implements OnInit  {
 
-    //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
-    //public url: string = '/services/dataservices.asmx'; // Prod
-
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
     public itemCount = 0;
@@ -62,6 +57,7 @@ export class JournalComponent implements OnInit  {
     public fechaHoraOperacion: string;
     public ipATMs:any[] = [];
     public regsLimite: number = 15;
+    public nomArchExcel = "Journal_";
 
     columns = [
         { key: 'TimeStamp',         title: 'Fecha/Hora'},
@@ -96,115 +92,17 @@ export class JournalComponent implements OnInit  {
         { key: 'Location',        	title: 'Ubicación'}
     ];
 
-    public paramsServicioNumPaginas: {
-        ip            : any[],
-        timeStampStart: string,
-        timeStampEnd  : string,
-        events        : string,
-        minAmount     : string,
-        maxAmount     : string,
-        authId        : string,
-        cardNumber    : string,
-        accountId     : string
-    } = {
-        ip            : ['11.40.2.2'],
-        timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
-        timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        minAmount     : "-1",
-        maxAmount     : "-1",
-        authId        : "-1",
-        cardNumber    : "-1",
-        accountId     : "-1"
-    };
+    paramsServicioNumPaginas:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"};
+    paramsServicioDatosLog:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1", page: 0};
 
-
-    paramsServicioDatosLog: {
-        ip            : any[],
-        timeStampStart: string,
-        timeStampEnd  : string,
-        events        : string,
-        minAmount     : string,
-        maxAmount     : string,
-        authId        : string,
-        cardNumber    : string,
-        accountId     : string,
-        page          : number
-    } = {
-        ip            : this.paramsServicioNumPaginas.ip,
-        timeStampStart: this.dFchIniProceso + "-" + this.dHraIniProceso,
-        timeStampEnd  : this.dFchFinProceso + "-" + this.dHraFinProceso,
-        events        : "-1",
-        minAmount     : "-1",
-        maxAmount     : "-1",
-        authId        : "-1",
-        cardNumber    : "-1",
-        accountId     : "-1",
-        page          : 0
-    };
-
-
-    constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
-        //this.excelService = excelService;
-
+    constructor(public _soapService: SoapService){
     }
 
     ngOnInit() {
-
-        //this.obtieneIpATMs();
-
-        /*
-        this.fechaHoraOperacion         = this.dFchIniProceso + " " + this.dHraIniProceso.replace("-", ":") + "  /  " +  this.dFchFinProceso + " " + this.dHraFinProceso.replace("-", ":");
-
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dFchIniProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-        this.dFchFinProceso = sprintf("%4d-%02d-%02d", _anioSys, _mesSys, _diaSys);
-
-        this.paramsServicioNumPaginas.timeStampStart = this.dFchIniProceso + "-" + this.dHraIniProceso;
-        this.paramsServicioNumPaginas.timeStampEnd   = this.dFchFinProceso + "-" + this.dHraFinProceso;
-
-        this.ipATM = '11.40.2.2';
-        ipAnterior = this.paramsServicioNumPaginas.ip[0];
-        gFchInicioAnterior = this.paramsServicioNumPaginas.timeStampStart;
-        gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
-        */
-
-        //this.pDatosDelJournal();
     }
 
-    public obtieneIpATMs(){
-        //console.log('obtenIpATMs:: Inicio');
-        ipATMs  = [];
-        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
-        this.ipATMs = ipATMs;
-        this.ipATMs = ipATMs.sort(comparar);
-        //console.log('obtenIpATMs:: Se ejecuto la consulta');
-    }
-
-    public GetEjaFilters(result:any, status){
-
-        var ipATM = '';
-
-        for(let idx = 0; idx < result.length; idx++){
-            for(let idx2 = 0; idx2 < result[idx].length; idx2++){
-                if(idx === 0){
-                    ipATM = result[idx][idx2];
-                    ipATMs[ipATMs.length] = result[idx][idx2];
-                }else{
-                    datosATMs.push(result[idx][idx2] + "    ("+ result[0][idx2] + ")");
-                }
-            }
-        }
-    }
-    public nomServicioPaginas: string   = 'GetEjaLogDataLength';
-    public nomServicioDatosLog: string  = 'GetEjaLogPage';
+    nomServicioPaginas: string   = 'GetEjaLogDataLength';
+    nomServicioDatosLog: string  = 'GetEjaLogPage';
 
     public pActualizaInfo(): void {
 
@@ -231,8 +129,8 @@ export class JournalComponent implements OnInit  {
 
     }
 
+    dUltimaActualizacion: string;
 
-    public dUltimaActualizacion: string;
     public obtenNumeroDePaginasLog(result:object, status){
         console.log("obtenNumeroDePaginasLog:: Inicio");
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
@@ -347,54 +245,21 @@ export class JournalComponent implements OnInit  {
     public datosLog:any[] = [];
 
     public obtenDatosLog(result:object, numPag:number): void {
+        this.datosLog           = JSON.parse(JSON.stringify(result));
+        this.numDatosLog        = this.datosLog.length;
+        this.datosLog.pop();
+        this.itemResource       = new DataTableResource(this.datosLog);
 
-        //this.inicializaVariables();
-
-
-        this.datosLog        = JSON.parse(JSON.stringify(result));
-        var idxReg = 0;
-        var idxRegLog = 0;
-        arrDatosJournal = [];
-        this.numDatosLog = this.datosLog.length;
-
-        /*
-        if(this.numDatosLog > 0) {
-            for (let idx = 0; idx < this.numDatosLog; idx++) {
-                let date = new Date(this.datosLog[idx].TimeStamp);
-                let tmpHoraOperacion = sprintf("%02d:%02d:%02d", date.getHours(), date.getMinutes(), date.getSeconds());
-                let tmpFechaOper = sprintf("%04d-%02d-%02d", date.getFullYear(), date.getMonth() + 1, date.getDate());
-
-                this.datosLog[idx].TimeStamp = sprintf("%10.10s %8.8s", tmpFechaOper, tmpHoraOperacion);
-                //datosLog[idx].Amount = sprintf("$%10.10s", datosLog[idx].Amount);
-            }
-        }else{
-            this.datosLog = [{}];
-        }
-        */
-
-        console.log(JSON.stringify(this.datosLog));
-        this.itemResource = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
+
+        this.exportaJournal2Excel();
     }
 
     public numDatosLog:number = 0;
 
     reloadItems(params) {
-        console.log(nomComponente+".reloadItems::  parms: "+JSON.stringify(params));
-        console.log(nomComponente+".reloadItems::  this: "+JSON.stringify(this.items));
-
         this.itemResource.query(params).then(items => this.items = items);
-
-        if ( $('#btnExpExel').length == 0) {
-            //$('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
-            //$('.data-table-header').append('<button id="btnExpExel" (click)="exportaJournal2Excel($event)">Export</button>');
-
-            //<button (click)="saveFile()">Export</button>
-        } else {
-            //this.exportToExcel();
-        }
-
         console.log(nomComponente+".reloadItems:: "+this.datosLog.length)
     }
 
@@ -410,98 +275,57 @@ export class JournalComponent implements OnInit  {
 
     rowTooltip(item) { return item.jobTitle; }
 
-    exportToExcel(event) {
-/*
-        let ftoJsonJournal = {
-            TimeStamp:          string,
-            AtmName:            string,
-            AtmId:              number,
-            CardNumber:         string,
-            Event:              string,
-            OperationType:      string,
-            SwitchResponseCode: string,
-            Amount:             number,
-            Denomination:       string,
-            Available:          number,
-            Data:               string,
-            Aquirer:            string,
-            HWErrorCode:        string,
-            TransactionCount:   number,
-            FlagCode:           number,
-            Surcharge:          number,
-            AccountId:          number,
-            AccountType:        string,
-            Arqc:               string,
-            Arpc:               string,
-            TerminalCaps:       string,
-            PosMode:            string,
-            SwitchAtmId:        number,
-            Reference1:         string,
-            Reference2:         string,
-            Reference3:         string,
-            SerializedId:       number,
-            Ip:                 string,
-            Id:                 reg.Id,
-            Location:           string
-        }
-        this.excelService.exportAsExcelFile(ftoJsonJournal, 'this.datosLog');
-        */
-    }
+    exportaJournal2Excel(nomArchExcel:string = this.nomArchExcel){  //exportaJournal2Excel(event){
 
-    exportaJournal2Excel(event){
-
-        let arrX:any[] = [];
+        let arr2Excel:any[] = [];
         this.datosLog.forEach((reg)=> {
 
             // Datos para exportar al excel
-            arrX.push(
+            let date = new Date(reg.TimeStamp);
+            let tmpFechaOper = sprintf("%04d-%02d-%02d %02d:%02d:%02d",
+                                                date.getFullYear(), date.getMonth() + 1, date.getDate(),
+                                                date.getHours(), date.getMinutes(), date.getSeconds());
+
+            arr2Excel.push(
                 {
-                    TimeStamp:          reg.TimeStamp,
-                    /*AtmName:            reg.AtmName,*/
-                    AtmId:              reg.AtmId,
-                    CardNumber:         reg.CardNumber,
-                    Event:              reg.Event,
-                    OperationType:      reg.OperationType,
-                    SwitchResponseCode: reg.SwitchResponseCode,
-                    Amount:             reg.Amount,
-                    Denomination:       reg.Denomination,
-                    Available:          reg.Available,
-                    Data:               reg.Data,
-                    Aquirer:            reg.Aquirer,
-                    HWErrorCode:        reg.HWErrorCode,
-                    TransactionCount:   reg.TransactionCount,
-                    FlagCode:           reg.FlagCode,
-                    Surcharge:          reg.Surcharge,
-                    AccountId:          reg.AccountId,
-                    AccountType:        reg.AccountType,
-                    Arqc:               reg.Arqc,
-                    Arpc:               reg.Arpc,
-                    TerminalCaps:       reg.TerminalCaps,
-                    PosMode:            reg.PosMode,
-                    SwitchAtmId:        reg.SwitchAtmId,
-                    Reference1:         reg.Reference1,
-                    Reference2:         reg.Reference2,
-                    Reference3:         reg.Reference3,
+                    "Fecha/Hora":                           tmpFechaOper,
+                    "IP":                                   reg.Ip,
+                    "ATM":                                  reg.AtmName,
+                    "Tarjeta número":                       reg.CardNumber,
+                    "Tipo de Operación":                    reg.OperationType,
+                    "Contador de Transacción":              reg.TransactionCount,
+                    "Monto":                                reg.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"}),
+                    "Código de error de HW":                reg.HWErrorCode,
+                    "Denominación":                         reg.Denomination,
+                    "Emisor":                               reg.Aquirer,
+                    "Evento":                               reg.Event,
+                    "Cuenta Número":                        reg.AccountId,
+                    "Tipo de Cuenta":                       reg.AccountType,
+                    "Ubicación":                            reg.Location,
+                    "ARQC":                                 reg.Arqc,
+                    "ARPC":                                 reg.Arpc,
+                    "Flag Code":                            reg.FlagCode,
+                    "Terminal Capabilities":                reg.TerminalCaps,
+                    "POS Code":                             reg.PosMode,
+                    "Id. Autorización":                     reg.AuthId,
+                    "Código de Autorización del Switch":    reg.SwitchAuthCode,
+                    "Surcharge":                            reg.Surcharge,
+                    "Codigo de Respuesta del Switch":       reg.SwitchResponseCode,
+                    "Datos":                                reg.Data,
+                    "Disponible":                           reg.Available.toLocaleString("es-MX",{style:"currency", currency:"MXN"}),
+                    "Switch ATM Id":                        reg.SwitchAtmId,
+                    "Referencia 1":                         reg.Reference1,
+                    "Referencia 2":                         reg.Reference2,
+                    "Referencia 3":                         reg.Reference3
+                    /*AtmId:              reg.AtmId,
                     SerializedId:       reg.SerializedId,
-                    Ip:                 reg.Ip,
-                    Id:                 reg.Id,
-                    Location:           reg.Location
+                    Id:                 reg.Id,*/
                 }
             )
         });
 
-        new Angular2Csv(arrX, 'Journal', {decimalseparator: '.', showLabels: true, useBom: true});
-
-        /* generate worksheet */
-        //const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(arrX);
-
-        /* generate workbook and add the worksheet */
-        //const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        //XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        /* save to file */
-        //const wbout: string = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-        //saveAs(new Blob([s2ab(wbout)]), 'SheetJS.xlsx');
+        let exporter = new ExportToCSV();
+        exporter.exportAllToCSV(arr2Excel, nomArchExcel);
     }
 
     parametrosConsulta(infoRecibida){
@@ -526,8 +350,13 @@ export class JournalComponent implements OnInit  {
 
         let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
 
+        this.nomArchExcel = "Journal_" + ipParam + "_" + (new Date().toLocaleDateString("es-MX")).replace(/\//g,"-") + ".csv";
+        console.log("nomArchExcel:: "+this.nomArchExcel);
+
         this.pDatosDelJournal(datosParam);
     }
 }
 
-function comparar ( a, b ){ return a - b; }
+function comparar ( a, b ){ return a - b;}
+
+

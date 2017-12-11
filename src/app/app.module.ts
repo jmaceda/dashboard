@@ -34,10 +34,10 @@ import { AclaracionesComponent }            from './reportes/aclaraciones/aclara
 import { NgbdModalContent }                 from './utils/ngbd-modal-content';
 import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
-import { BsModalModule } from 'ng2-bs3-modal';
+import { BsModalModule }                    from 'ng2-bs3-modal';
 
-import { DataBaseService } from './services/data-base.service';
-
+import { DataBaseService }                  from './services/data-base.service';
+import { ExportToCSV }                  from './services/export-to-csv.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +82,8 @@ import { DataBaseService } from './services/data-base.service';
   entryComponents: [],
   exports: [],
   providers: [
-    DataBaseService
+    DataBaseService,
+    ExportToCSV
   ],
   bootstrap: [AppComponent],
 

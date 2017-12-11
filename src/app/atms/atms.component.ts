@@ -76,7 +76,7 @@ export class AtmsComponent implements OnInit {
             zipCode: -1
         };
 
-        this._soapService.post(this.url, "GetAtm", parameters, this.GetAtm);
+        this._soapService.post('', "GetAtm", parameters, this.GetAtm);
     }
 
     // Ip y Clave de ATMs

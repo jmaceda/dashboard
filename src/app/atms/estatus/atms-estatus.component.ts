@@ -1,15 +1,14 @@
 // app/atms/detalle-atms.component.ts
-import { Component, OnInit } from '@angular/core';
-import { DataTable, DataTableTranslations, DataTableResource } from 'angular-4-data-table-fix';
-import { sprintf }                                       from "sprintf-js";
-import { SoapService } from '../../services/soap.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit }                                    from '@angular/core';
+import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
+import { sprintf }                                              from "sprintf-js";
+import { SoapService }                                          from '../../services/soap.service';
+import { Router }                                               from '@angular/router';
+import { ActivatedRoute }                                       from '@angular/router';
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
-
-
+export var gDatosEfectivoAtm:any[];
 
 @Component({
     selector: 'atms-estatus-root',
@@ -19,23 +18,19 @@ export var gDatosAtms:any[];
 })
 export class AtmsEstatusComponent implements OnInit {
 
-    public intervalId = null;
-    public tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
+    public intervalId                   = null;
+    public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
+    public ambiente: string             = "Producción"
 
-    //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
-    //public url: string = '/dataservices.asmx'; //  QA
-    public url: string = '/services/dataservices.asmx'; // Prod
-    public ambiente: string = "Producción"
-
-    public xtIsOnline:string = "";
-    public itemResource = new DataTableResource(arrDatosAtms);
-    public items = [];
-    public itemCount = 0;
-    public Titulo:string;
-    public rutaActual = "";
-    public urlPath = "";
+    public xtIsOnline:string            = "";
+    public itemResource                 = new DataTableResource(arrDatosAtms);
+    public items                        = [];
+    public itemCount                    = 0;
+    public Titulo:string                = "";
+    public rutaActual                   = "";
+    public urlPath                      = "";
     public fchActual:any;
-    public regsLimite:number = 20;
+    public regsLimite:number            = 20;
 
     public horaActual(){
         let fechaSys = new Date();
@@ -47,11 +42,11 @@ export class AtmsEstatusComponent implements OnInit {
                 public activatedRoute: ActivatedRoute) {
                 //private activatedRoute : ActivatedRoute
 
-                    console.log("AtmsEstatusComponent.constructor:: Inicia");
-                    this.activatedRoute.url.subscribe(url => {
-                        this.urlPath = url[0].path;
-                        console.log("AtmsEstatusComponent.constructor:: -->" + this.urlPath + "<--");
-                    });
+        console.log("AtmsEstatusComponent.constructor:: Inicia");
+        this.activatedRoute.url.subscribe(url => {
+            this.urlPath = url[0].path;
+            console.log("AtmsEstatusComponent.constructor:: -->" + this.urlPath + "<--");
+        });
     }
 
     // Actualiza informciòn de la pantalla.
@@ -74,18 +69,26 @@ export class AtmsEstatusComponent implements OnInit {
             return(0);
         }
 
-        console.log("AtmsEstatusComponent.ngOnInit:: Se va a cargar los datos");
+        console.log("AtmsEstatusComponent.ngOnInit:: Se van a cargar los datos");
         this.pActualizaInfo();
     }
 
-    public GetAtm(datosAtms:any, status){
+    GetAtm(datosAtms:any, status){
 
         console.log("GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
 
-    public obtenGetAtm() {
+    nomComponente = "AtmsEstatusComponent";
+
+    GetAtmMoneyStat(datosAtms:any, status){
+        console.log("AtmsEstatusComponent.GetAtm:: Inicio");
+        //gDatosEfectivoAtm.push(datosAtms);
+        gDatosEfectivoAtm = datosAtms;
+    }
+
+    obtenGetAtm() {
 
         console.log("AtmsEstatusComponent.obtenGetAtm -->"+this.urlPath+"<--");
         if (this.urlPath != "atms"){
@@ -98,31 +101,64 @@ export class AtmsEstatusComponent implements OnInit {
         let parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
         // Obtiene los datos de los ATMs
-        this._soapService.post(this.url, "GetAtm", parameters, this.GetAtm);
+        this._soapService.post('', "GetAtm", parameters, this.GetAtm);
 
         let idx = 0;
         arrDatosAtms = [];
 
+        console.log(JSON.stringify(gDatosAtms));
+
         gDatosAtms.forEach((reg)=> {
+            console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
 
+            let parameters = { atmId: reg.Id };
+            this._soapService.post('', "GetAtmMoneyStat", parameters, this.GetAtmMoneyStat);
+
+            console.log(JSON.stringify(gDatosEfectivoAtm));
+
+
             arrDatosAtms[idx++] = {
-                Description: reg.Description,
-                Ip: reg.Ip,
-                DeviceStatus: reg.DeviceStatus,
-                IsOnline: tIsOnline,
-                PaperStatus: reg.PaperStatus,
-                SafeOpen: tSafeOpen,
-                CabinetOpen: tCabinetOpen,
+                Description:    reg.Description,
+                Ip:             reg.Ip,
+                DeviceStatus:   reg.DeviceStatus,
+                IsOnline:       tIsOnline,
+                PaperStatus:    reg.PaperStatus,
+                SafeOpen:       tSafeOpen,
+                CabinetOpen:    tCabinetOpen,
                 CassetteAmount: reg.CassetteAmount,
-                OfflineDevices: tOffDispo
+                OfflineDevices: tOffDispo,
+
+                ServiceDate:                    reg.ServiceDate,
+                CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
+                SafeOpenTs:                     reg.SafeOpenTs,
+                CabinetOpenTs:                  reg.CabinetOpenTs,
+                RetractStatusTimestamp:         reg.RetractStatusTimestamp,
+                RejectStatusTimestamp:          reg.RejectStatusTimestamp,
+                LastIOnlineTimestamp:           reg.LastIOnlineTimestamp,
+
+                cassettero:                     gDatosEfectivoAtm.Device,
+                denominacion:                   gDatosEfectivoAtm.Denomination,
+                numBilletes:                    gDatosEfectivoAtm.Amount,
+                montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
             }
+
+
         });
 
+        /*
+        gDatosEfectivoAtm = [];
+        gDatosAtms.forEach( (reg) => {
+            // Llama al servicio GetAtmMoneyStat con atmId = gDatosAtms.Id
+            let parameters = { atmId: reg.Id };
+            this._soapService.post('', "GetAtmMoneyStat", parameters, this.GetAtmMoneyStat);
+        });
+        console.log(gDatosEfectivoAtm);
+         */
         // Obtiene los datos del log de hardware para detectar problemas con los cassetteros.
 
         this.itemResource = new DataTableResource(arrDatosAtms);

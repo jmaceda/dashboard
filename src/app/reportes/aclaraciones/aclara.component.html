@@ -1,89 +1,5 @@
-<!--
-<div id="container">
-    <div id="left" >
-        <span>{{fchUltimaActualizacion}}</span>
-    </div>
-    <div id="right">
-        <span>Journal</span>
-    </div>
-    <div id="center">
-        <button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button>
-    </div>
-</div>
--->
-<!--
-<button class="btn btn-warning pull-right" (click)="changeVisibility()">
-    Mostrar más <i [ngClass]="status === 'inactive' ? 'glyphicon glyphicon-arrow-down' : 'glyphicon glyphicon-arrow-up'" />
-</button>
-
-<button	class="ngx-icon ngx-icon-menu" 	(click)="this.exportaJournal2Excel()">Exporta Excel</button>
-
-<small>Click <span class="ion-navicon"></span> on the right table side to enable menu</small>
--->
-
-
 
 <div class="container-fluid">
-<!--
-    <div style="margin: 0% 0%; height: 24em; width: 100%;">
-    < ! - - div class="card"   style="padding: 5px; margin-top: 3px;"  - - >
-        <div class="card" style="padding: 3px;">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="col-md-2">
-                        <input [(ngModel)]="dFchIniProceso">
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1">
-                        <input [(ngModel)]="dHraIniProceso">
-                    </div>
-                    <div class="col-md-8"></div>
-                </div>
-
-                <div class="col-md-3">
-                    <div style="text-align: center;">ATM</div>
-                </div>
-                <div class="col-md-2">
-                    <div>Última Actualización</div>
-                </div>
-                < ! - - div class="col-md-1"></div - - >
-                <div class="col-md-1">
-                    <button (click)="pActualizaInfo()">Refresh</button>
-                </div>
-                <div class="button-panel">
-                    <button (click)="pActualizaInfo()" class="btn btn-default btn-sm refresh-button">
-                        <span class="glyphicon glyphicon-refresh" type="button"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="col-md-2">
-                        <input [(ngModel)]="dFchFinProceso">
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1">
-                        <input [(ngModel)]="dHraFinProceso">
-                    </div>
-                    <div class="col-md-8"></div>
-                </div>
-                <div class="col-md-3" style="text-align: center;">
-                    <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActualizaInfo()">
-                        <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <div>{{dUltimaActualizacion}}</div>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </div>
-    </div>
-
-</div>
--->
-
 
     <params
         (parametrosConsulta) = "parametrosConsulta($event)"
@@ -92,7 +8,6 @@
 
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
-        <!-- div class="card"   style="padding: 5px; margin-top: 3px;" -->
         <div class="card" style="padding: 3px;">
 
             <div class="row" style="padding: 5px;">
@@ -126,15 +41,7 @@
                             <td style="width: 10px;">
                                 <span>{{row.TimeStamp}}</span>
                             </td>
-
-                            <!-- td>{{row.AtmName}}</td -->
                             <td>{{row.CardNumber}}</td>
-
-                            <!-- td [ngSwitch]=row.Event>
-                                <span style="color: red" *ngSwitchCase="'INIT'">{{row.Event}}</span>
-                                <span style="color: blue" *ngSwitchCase="'ADMIN'">{{row.Event}}</span>
-                                <span style="color: black" *ngSwitchDefault>{{row.Event}}</span>
-                            </td -->
 
                             <td>{{row.OperationType}}</td>
 

@@ -191,3 +191,9 @@ div.ngx-column.ngx-col-4.ngx-col-mr-auto {
 .ngx-table__header {
     height: 16px;
 }
+
+
+/*  */
+button.btn.btn-default.btn-sm.refresh-button {
+    display: none;
+}

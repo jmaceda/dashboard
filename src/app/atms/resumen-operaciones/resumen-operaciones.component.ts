@@ -88,7 +88,6 @@ declare interface InterRetirosPorHora {
 }
 
 declare interface TblConsRetPorMes {
-    headerRow: any[];
     datos: any[];
 }
 
@@ -1187,14 +1186,14 @@ export class ResumenOperacionesComponent implements OnInit  {
     mRretirosPorHora():void{
 
         // Acumula los movimientos que se realizaron antes de la 7 de la mañana.
-        let tNumRetiros = 0;
-        let tAcumNumRetiros = 0;
-        let tNumConsultas = 0;
-        let tAcumNumConsultas = 0;
-        let tMontoRetiros = 0;
-        let tAcumMontoRetiros = 0;
-        let tNumConsPorHora = 0;
-        let arrRetiros = [];
+        let tNumRetiros         = 0;
+        let tAcumNumRetiros     = 0;
+        let tNumConsultas       = 0;
+        let tAcumNumConsultas   = 0;
+        let tMontoRetiros       = 0;
+        let tAcumMontoRetiros   = 0;
+        let tNumConsPorHora     = 0;
+        let arrRetiros          = [];
 
 
         for(let idx=0; idx < 7; idx++){
@@ -1233,39 +1232,39 @@ export class ResumenOperacionesComponent implements OnInit  {
 
 
         for(let idx=0; idx < 24; idx++){
-            acumCons[idx]   = (idx == 0) ? this.dNumConsPorHora[idx] : this.dNumConsPorHora[idx] + acumCons[idx -1];
-            acumRet[idx]    = (idx == 0) ? this.dNumRetirosPorHora[idx] : this.dNumRetirosPorHora[idx] + acumRet[idx -1];
-            acumMonto[idx]  = (idx == 0) ? this.dMontoRetirosPorHora[idx] : this.dMontoRetirosPorHora[idx] + acumMonto[idx -1];
+            acumCons[idx]   = (idx == 0) ? this.dNumConsPorHora[idx]        : this.dNumConsPorHora[idx]         + acumCons[idx -1];
+            acumRet[idx]    = (idx == 0) ? this.dNumRetirosPorHora[idx]     : this.dNumRetirosPorHora[idx]      + acumRet[idx -1];
+            acumMonto[idx]  = (idx == 0) ? this.dMontoRetirosPorHora[idx]   : this.dMontoRetirosPorHora[idx]    + acumMonto[idx -1];
         }
 
         // Agrega al objeto arrRetiros los movimientos que entraron despues de la 7 de la manañana
         for(let idx=7; idx < this.dAcumNumRetirosPorHora.length; idx++){
             if ( this.dNumConsPorHora[idx] > 0 || this.dNumRetirosPorHora[idx] > 0) {
-                tmpHora = idx.toString();
                 arrRetiros.push(
                 {
-                    hora: sprintf("%02s", idx.toString()),
-                    numConsultasPorHora: (this.dNumConsPorHora[idx] > 0 ? this.dNumConsPorHora[idx] : carVacio),
-                    acumNumConsultasPorHora: acumCons[idx],
-                    numRetirosPorHora: (this.dNumRetirosPorHora[idx] > 0 ? this.dNumRetirosPorHora[idx] : carVacio),
-                    acumNumRetirosPorHora: acumRet[idx],
-                    montoRetirosPorHora: (this.dMontoRetirosPorHora[idx] > 0 ? this.dMontoRetirosPorHora[idx] : carVacio),
-                    acumMontoRetirosPorHora: acumMonto[idx]
+                    hora:                       sprintf("%02s", idx.toString()),
+                    numConsultasPorHora:        (this.dNumConsPorHora[idx] > 0 ? this.dNumConsPorHora[idx] : carVacio),
+                    acumNumConsultasPorHora:    acumCons[idx],
+                    numRetirosPorHora:          (this.dNumRetirosPorHora[idx] > 0 ? this.dNumRetirosPorHora[idx] : carVacio),
+                    acumNumRetirosPorHora:      acumRet[idx],
+                    montoRetirosPorHora:        (this.dMontoRetirosPorHora[idx] > 0 ? this.dMontoRetirosPorHora[idx] : carVacio),
+                    acumMontoRetirosPorHora:    acumMonto[idx]
                 });
             }
         }
 
         this.tblConsRetPorMes = {
-            headerRow: [ {hHora:'Hora', hCons:'Consultas', hAcumCons:'Acumulado', hRet:'Retiros', hMonto: 'Monto', hAcumRet:'Acumulado'} ],
             datos: arrRetiros
         };
     }
 
+    //  Recupera la respueta del servicio xxx con el que se obtiene el número de paginas y registro del Journal
     obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
     }
 
+    //  Recupera la respueta del servicio xxx con el que se obtiene ela información del Journal
     obtenDatosJournal(result:any[], status){
 
         arrDatosServidorInc = null;  // Bloque de paginas con menor a 200 registros.
@@ -1288,23 +1287,18 @@ export class ResumenOperacionesComponent implements OnInit  {
 
     pDenominacionesBilletes(infoBilletes:string){
 
-        var montoTotal = 0;
-        var respBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
-        let posInicial = infoBilletes.indexOf('[');
-        let posFinal = infoBilletes.indexOf(']', posInicial);
-        let billetes1 = infoBilletes.substr(posInicial, (posFinal - posInicial)).replace(/[\[\]]/g,'');
-        let arrBilletes = billetes1.split("|");
+        let montoTotal      = 0;
+        let respBilletes    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, total: 0};
+        let posInicial      = infoBilletes.indexOf('[');
+        let posFinal        = infoBilletes.indexOf(']', posInicial);
+        let billetes1       = infoBilletes.substr(posInicial, (posFinal - posInicial)).replace(/[\[\]]/g,'');
+        let arrBilletes     = billetes1.split("|");
+
         for(let idx=0; idx < arrBilletes.length; idx++){
-            let arrBilletes2 =  arrBilletes[idx].split("x");
-            switch(arrBilletes2[1]){
-                case '20':   { respBilletes.b20   = Number(arrBilletes2[0]); break; }
-                case '50':   { respBilletes.b50   = Number(arrBilletes2[0]); break; }
-                case '100':  { respBilletes.b100  = Number(arrBilletes2[0]); break; }
-                case '200':  { respBilletes.b200  = Number(arrBilletes2[0]); break; }
-                case '500':  { respBilletes.b500  = Number(arrBilletes2[0]); break; }
-                case '1000': { respBilletes.b1000 = Number(arrBilletes2[0]); break; }
-            }
-            respBilletes.total += Number(arrBilletes2[1]) * Number(arrBilletes2[0]);
+            let cantidad     = arrBilletes[idx].split("x")[0];
+            let denomina     = arrBilletes[idx].split("x")[1];
+            respBilletes['b'+denomina] = Number(cantidad);
+            respBilletes.total += Number(denomina) * Number(cantidad);
         }
         return(respBilletes);
     }
