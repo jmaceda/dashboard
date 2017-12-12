@@ -39,7 +39,7 @@
                         <ng-template let-row>
 
                             <td style="width: 10px;">
-                                <span>{{row.TimeStamp}}</span>
+                                <span>{{row.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
                             </td>
                             <td>{{row.CardNumber}}</td>
 
@@ -57,7 +57,7 @@
                             <td>{{row.Aquirer}}</td>
                             <td class="noWrap">{{row.Data}}</td>
                             <td>{{row.SwitchResponseCode}}</td>
-                            <td style="noWrap width: 10px;">
+                            <td class="noWrap" style="width: 10px;">
                                 <span>{{row.HWErrorCode}}</span>
                             </td>
                             <td>{{row.TransactionCount}}</td>

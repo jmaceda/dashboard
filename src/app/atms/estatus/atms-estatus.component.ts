@@ -106,7 +106,7 @@ export class AtmsEstatusComponent implements OnInit {
         let idx = 0;
         arrDatosAtms = [];
 
-        console.log(JSON.stringify(gDatosAtms));
+        //console.log(JSON.stringify(gDatosAtms));
 
         gDatosAtms.forEach((reg)=> {
             console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
@@ -116,22 +116,23 @@ export class AtmsEstatusComponent implements OnInit {
             this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
 
+            // Recupera los datos efectivo del cajero
             let parameters = { atmId: reg.Id };
             this._soapService.post('', "GetAtmMoneyStat", parameters, this.GetAtmMoneyStat);
 
-            console.log(JSON.stringify(gDatosEfectivoAtm));
+            //console.log(JSON.stringify(gDatosEfectivoAtm));
 
 
             arrDatosAtms[idx++] = {
-                Description:    reg.Description,
-                Ip:             reg.Ip,
-                DeviceStatus:   reg.DeviceStatus,
-                IsOnline:       tIsOnline,
-                PaperStatus:    reg.PaperStatus,
-                SafeOpen:       tSafeOpen,
-                CabinetOpen:    tCabinetOpen,
-                CassetteAmount: reg.CassetteAmount,
-                OfflineDevices: tOffDispo,
+                Description:                    reg.Description,
+                Ip:                             reg.Ip,
+                DeviceStatus:                   reg.DeviceStatus,
+                IsOnline:                       tIsOnline,
+                PaperStatus:                    reg.PaperStatus,
+                SafeOpen:                       tSafeOpen,
+                CabinetOpen:                    tCabinetOpen,
+                CassetteAmount:                 reg.CassetteAmount,
+                OfflineDevices:                 tOffDispo,
 
                 ServiceDate:                    reg.ServiceDate,
                 CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
@@ -141,10 +142,12 @@ export class AtmsEstatusComponent implements OnInit {
                 RejectStatusTimestamp:          reg.RejectStatusTimestamp,
                 LastIOnlineTimestamp:           reg.LastIOnlineTimestamp,
 
+                /*
                 cassettero:                     gDatosEfectivoAtm.Device,
                 denominacion:                   gDatosEfectivoAtm.Denomination,
                 numBilletes:                    gDatosEfectivoAtm.Amount,
                 montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
+                */
             }
 
 
