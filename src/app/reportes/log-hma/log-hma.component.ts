@@ -100,6 +100,7 @@ export class LogHmaComponent implements OnInit  {
         { key: 'HmaEventId',        title: 'HmaEventId' }
     ];
 
+    /*
     public paramsServicioNumPaginas: {
         ip            : any[],
         timeStampStart: string,
@@ -113,7 +114,6 @@ export class LogHmaComponent implements OnInit  {
         events        : -1,
         device        : -1
     };
-
 
     paramsServicioDatosLog: {
         ip            : any[],
@@ -130,6 +130,9 @@ export class LogHmaComponent implements OnInit  {
         device        : ["-1"],
         page          : 0
     };
+*/
+    paramsServicioNumPaginas:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: -1, device: -1};
+    paramsServicioDatosLog:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: -1, device: -1, page: 0};
 
     constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
         //this.excelService = excelService;

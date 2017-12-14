@@ -5,19 +5,21 @@ import { CommonModule, }            from '@angular/common';
 import { BrowserModule  }           from '@angular/platform-browser';
 import { Routes, RouterModule }     from '@angular/router';
 
-import { ResumenOperacionesComponent }            from './atms/resumen-operaciones/resumen-operaciones.component';
-import { UserComponent }            from './user/user.component';
-import { TablesComponent }          from './tables/tables.component';
-import { TypographyComponent }      from './typography/typography.component';
-import { IconsComponent }           from './icons/icons.component';
-import { MapsComponent }            from './maps/maps.component';
-import { NotificationsComponent }   from './notifications/notifications.component';
-import { UpgradeComponent }         from './upgrade/upgrade.component';
-import { ReportesComponent }        from './reportes/reportes.component';
-import { AtmsComponent }            from './atms/atms.component';
-import { JournalComponent }         from './reportes/journal/journal.component';
-import { AclaracionesComponent }    from './reportes/aclaraciones/aclara.component';
-import { LogHmaComponent }          from './reportes/log-hma/log-hma.component';
+import { ResumenOperacionesComponent }      from './atms/resumen-operaciones/resumen-operaciones.component';
+import { UserComponent }                    from './user/user.component';
+import { TablesComponent }                  from './tables/tables.component';
+import { TypographyComponent }              from './typography/typography.component';
+import { IconsComponent }                   from './icons/icons.component';
+import { MapsComponent }                    from './maps/maps.component';
+import { NotificationsComponent }           from './notifications/notifications.component';
+import { UpgradeComponent }                 from './upgrade/upgrade.component';
+import { ReportesComponent }                from './reportes/reportes.component';
+import { AtmsComponent }                    from './atms/atms.component';
+import { JournalComponent }                 from './reportes/journal/journal.component';
+import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
+import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
+import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
+
 import { AtmsEstatusComponent }     from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }   from './atms/resumenCifras/resumen-cifras.component';
 
@@ -30,6 +32,7 @@ const routes: Routes =[
     { path: 'journal',        component: JournalComponent },
     { path: 'aclaraciones',   component: AclaracionesComponent },
     { path: 'loghma',         component: LogHmaComponent },
+    { path: 'totaltienda',    component: TotalesPorTiendaComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },

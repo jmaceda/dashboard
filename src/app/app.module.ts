@@ -28,6 +28,8 @@ import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.co
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { JournalComponent }                 from './reportes/journal/journal.component';
 import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
+import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
+
 import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
@@ -57,6 +59,7 @@ import { ExportToCSV }                  from './services/export-to-csv.service';
     LogHmaComponent,
     ParamsComponent,
     AclaracionesComponent,
+    TotalesPorTiendaComponent
 
   ],
 

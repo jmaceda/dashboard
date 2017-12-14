@@ -79,6 +79,13 @@ export class AtmsEstatusComponent implements OnInit {
         gDatosAtms = datosAtms;
     }
 
+    GetStoreTotals(){
+
+    }
+
+    obtenerTotalesPorTienda(){
+
+    }
 
     nomComponente = "AtmsEstatusComponent";
 
