@@ -97,21 +97,33 @@
                 [header]="'Descripción'"
                 [sortable]="true"
                 [resizable]="true"
-                width="15em">
+                width="110px">
         </data-table-column>
         <data-table-column
                 [property]="'Ip'"
                 [header]="'IP'"
                 [sortable]="true"
                 [resizable]="false"
-                width="8em">
+                width="50px">
+        </data-table-column>
+
+        <data-table-column
+                [property]="'OfflineDevices'"
+                [header]="'Disp.Error'"
+                [sortable]="true"
+                [resizable]="false"
+                width="50px">
+                <ng-template #dataTableCell let-item="item">
+                    <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
+                    <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
+                </ng-template>
         </data-table-column>
         <data-table-column
                 [property]="'IsOnline'"
                 [header]="'OnLine'"
                 [sortable]="true"
                 [resizable]="false"
-                width="8em">
+                width="40px">
                 <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
                     <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
                     <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
@@ -122,7 +134,7 @@
                 [header]="'Papel'"
                 [sortable]="true"
                 [resizable]="false"
-                width="5em">
+                width="40px">
         </data-table-column>
         <data-table-column
                 [property]="'SafeOpen'"
@@ -160,16 +172,5 @@
                 </ng-template>
         </data-table-column>
 
-        <data-table-column
-                [property]="'OfflineDevices'"
-                [header]="'Disp.Error'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-                <ng-template #dataTableCell let-item="item">
-                    <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
-                    <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
-                </ng-template>
-        </data-table-column>
     </data-table>
 </div>
