@@ -90,7 +90,7 @@ export class AtmsEstatusComponent implements OnInit {
     nomComponente = "AtmsEstatusComponent";
 
     GetAtmMoneyStat(datosAtms:any, status){
-        //console.log("AtmsEstatusComponent.GetAtm:: Inicio");
+        console.log("AtmsEstatusComponent.GetAtm:: Inicio");
         //gDatosEfectivoAtm.push(datosAtms);
         gDatosEfectivoAtm = datosAtms;
     }
@@ -103,7 +103,7 @@ export class AtmsEstatusComponent implements OnInit {
             return(0);
         }
 
-        //console.log("obtenGetAtm:: Se van a obtener los datos");
+        console.log("obtenGetAtm:: Se van a obtener los datos");
 
         let parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
@@ -116,7 +116,7 @@ export class AtmsEstatusComponent implements OnInit {
         //console.log(JSON.stringify(gDatosAtms));
 
         gDatosAtms.forEach((reg)=> {
-            //console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
+            console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';

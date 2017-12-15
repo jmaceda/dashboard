@@ -41,7 +41,6 @@
                 [rowColors]="rowColors"
                 [expandableRows]="true"
                 [indexColumnHeader]="'ID'"
-                [indexColumn]="false"
                 [rowTooltip]="rowTooltip">
 
                 <ng-template #dataTableExpand  let-item="item">
@@ -108,17 +107,6 @@
                 width="8em">
         </data-table-column>
         <data-table-column
-                [property]="'OfflineDevices'"
-                [header]="'Disp.Error'"
-                [sortable]="true"
-                [resizable]="false"
-                width="7em">
-                <ng-template #dataTableCell let-item="item">
-                    <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
-                    <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
-                </ng-template>
-        </data-table-column>
-        <data-table-column
                 [property]="'IsOnline'"
                 [header]="'OnLine'"
                 [sortable]="true"
@@ -172,5 +160,16 @@
                 </ng-template>
         </data-table-column>
 
+        <data-table-column
+                [property]="'OfflineDevices'"
+                [header]="'Disp.Error'"
+                [sortable]="true"
+                [resizable]="false"
+                width="7em">
+                <ng-template #dataTableCell let-item="item">
+                    <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
+                    <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
+                </ng-template>
+        </data-table-column>
     </data-table>
 </div>

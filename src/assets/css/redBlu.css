@@ -197,10 +197,3 @@ div.ngx-column.ngx-col-4.ngx-col-mr-auto {
 button.btn.btn-default.btn-sm.refresh-button {
     display: none;
 }
-
-/* */
-
-table 
-th.expand-column-header{
-    width: 26px;
-}

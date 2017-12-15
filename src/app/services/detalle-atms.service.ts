@@ -6,8 +6,6 @@ import { OnInit } from '@angular/core';
 import { SoapService }      from './soap.service';
 
 export var gDatosAtms;
-export var gGrupos;
-
 var nomModulo = "DetalleAtmsService";
 
 @Injectable()
@@ -42,41 +40,7 @@ export class DetalleAtmsService implements OnInit {
 
 		return(arrNomAtms.sort(comparar));
 
-    };
-
-
-    GetGroupsWithAtms(datosGroups:any, status){
-        gGrupos = datosGroups;
-    }
-
-    obtenGetGroups(){
-
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
-
-        let arrNomGrupos:any[] = [];
-
-        gGrupos.forEach((reg)=> {
-            arrNomGrupos.push( (reg.Description));
-        });
-        console.log("DetalleAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
-        return(arrNomGrupos.sort(comparar));
-    }
-
-
-    obtenIdGroup(descGpo){
-       let idGpo = 0;
-
-       if (gGrupos != null && gGrupos != ""){
-           gGrupos.forEach( (reg )=> {
-               if (descGpo == reg.Description){
-                   idGpo = reg.Id;
-                   return(idGpo);
-               }
-           });
-       }
-
-       return(null);
-    }
+    };	
 
 	ngOnInit() {
 
