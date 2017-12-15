@@ -35,6 +35,8 @@ var nomModulo = "ParamsComponent";
 export class ParamsComponent implements OnInit {
 
     @Input() dUltimaActualizacion: string;
+    @Input() dListaAtmGpos: any;
+    @Input() dTipoListaParams: any;
     @Output() parametrosConsulta = new EventEmitter();
 
     @ViewChild('myModal')
@@ -56,6 +58,7 @@ export class ParamsComponent implements OnInit {
     public ip;
     public url;
     public paramsConsulta:any = {};
+    public contenidoLista:string = "";
 
     obtenFchSys(){
         console.log(nomModulo+".obtenFchSys:: init");
@@ -72,13 +75,18 @@ export class ParamsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(nomModulo+".ngOnInit:: Inicio");
+        console.log(nomModulo + ".ngOnInit:: Inicio");
 
+        console.log(this.dListaAtmGpos);
         this.obtenFchSys();
 
-        //console.log("Se va a ejecutar el servicio detalleAtmsService...");
-        if (this.ipATMs.length == 0) {
+        if (this.dTipoListaParams == "G") {
+            //this.ipATMs = this.dListaAtmGpos;
+            this.ipATMs = this.detalleAtmsService.obtenGetGroups();
+            this.contenidoLista = "Seleccione Grupo";
+        } else if (this.ipATMs.length == 0) {
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
+            this.contenidoLista = "Seleccione ATM";
         }
 
         console.log(nomModulo+".ngOnInit:: " + this.ipATMs);
@@ -144,17 +152,27 @@ export class ParamsComponent implements OnInit {
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);
         let ipATM       = this.atmSeleccionado;
+        //let descGpo     = this.atmSeleccionado;
+
 
         //console.log("params.component.paramsActuales: fchInicio["+fchInicio+"] fchFin["+fchFin+"]");
-        ipATM = ipATM.substring(ipATM.lastIndexOf("(")+1).replace(")","");
-        this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
+        if (this.dTipoListaParams == "G") {
+            let idGpo           = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
+            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
+        }else {
+            ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
+            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
+        }
+
+
+
+
 
         this.parametrosConsulta.emit(this.paramsConsulta);
     }
 
     public pActualizaParams() {
-        //console.log("pActualizaParams:: Atm seleccionado["+this.atmSeleccionado+"]");
-        //$(".alert").alert();
+
         console.log("ParamsComponent.pActualizaParams:: Se va a abrir la modal");
         this.modal.open();
         console.log("ParamsComponent.pActualizaParams:: Se abrio la modal");
@@ -169,9 +187,7 @@ export class ParamsComponent implements OnInit {
     public atmSeleccionado:string = "";
     public value:number;
     public pAtmSeleccionado(idx){
-        //console.log("pAtmSeleccionado:: Atm seleccionado["+this.atmSeleccionado+"]");
-        //this.paramsActuales(2);
-        //open(this.msgModal);
+
     }
 
     /*
