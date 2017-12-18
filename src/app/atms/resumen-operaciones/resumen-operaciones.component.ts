@@ -143,11 +143,13 @@ var idxErrBanco:number = 0;
       SoapService,
       DesglosaBilletes,
       GuardaDepositosBD,
-      //ResOpersService,
-      //DataBaseService
   ],
 })
 export class ResumenOperacionesComponent implements OnInit  {
+
+    public dListaAtmGpos:any = [];
+    public dTipoListaParams:string = "A";
+    public dUltimaActualizacion: string;
 
     chartOptions = {
         responsive: true
@@ -344,7 +346,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     public listaErrsPorBanco: any[][] = [];
     public cErroresPorBanco: ErroresPorBanco[];
     public lErroresPorBanco: ErroresPorBanco[];
-    public dUltimaActualizacion: string;
+
     public numPaginas = 0;
     public openRequest2;
     public rutaActual = "";

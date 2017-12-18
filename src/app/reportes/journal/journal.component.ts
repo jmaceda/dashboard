@@ -248,8 +248,8 @@ export class JournalComponent implements OnInit  {
         this.datosLog           = JSON.parse(JSON.stringify(result));
         this.numDatosLog        = this.datosLog.length;
         this.datosLog.pop();
-        this.itemResource       = new DataTableResource(this.datosLog);
 
+        this.itemResource       = new DataTableResource(this.datosLog);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 

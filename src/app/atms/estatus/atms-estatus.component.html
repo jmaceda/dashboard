@@ -35,7 +35,9 @@
 
     <params-atms
             (parametrosConsulta) = "parametrosConsulta($event)"
-            [dUltimaActualizacion] = "dUltimaActualizacion">
+            [dUltimaActualizacion] = "dUltimaActualizacion"
+            [dListaAtmGpos] = "dListaAtmGpos"
+            [dTipoListaParams] = "dTipoListaParams">
     </params-atms>
 
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
@@ -106,7 +108,7 @@
                     [header]="'Descripción'"
                     [sortable]="true"
                     [resizable]="true"
-                    [width]="30">
+                    width="30px">
             </data-table-column>
             <data-table-column
                     [property]="'Ip'"
@@ -155,7 +157,7 @@
                     [sortable]="true"
                     [resizable]="false"
                     [width]="12">
-                    <ng-template let-row="row" let-value="value">
+                    <ng-template #dataTableCell let-item="item">
                         <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
                         <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
                     </ng-template>

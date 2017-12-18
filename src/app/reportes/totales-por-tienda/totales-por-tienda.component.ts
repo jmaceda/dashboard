@@ -1,4 +1,4 @@
-// app/reportes/log-hma.component.ts
+// app/reportes/totales-por-tienda/totales-por-tienda.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
 import { OnDestroy }                                    from '@angular/core';
@@ -8,49 +8,53 @@ import { DataTable }                                    from 'angular-4-data-tab
 import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
 import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
-//import { RemoteService } from '../../services/remote.service';
-//import * as XLSX from 'xlsx';
 import { EventEmitter}      from '@angular/core';
 
-//import { ExcelService } from './excel.service';
 
-/*
-var ipAnterior:string = null;
-var gFchInicioAnterior = null;
-var gFchInicioFinAnterior = null;
-var intervalId = null;
-var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
-var arrDatosJournal:any[] = [];
 
-export var arrDatosServidor:any[]     = [];
-export var arrDatosServidorInc:any[]  = [];
-export var arrDatosServidorBack:any[] = [];
-export var datosATMs  = [];
-export var ipATMs  = [];
-export var gNumRegsProcesados          = 0;
-export var gNumPaginas                 = 0;
-export var gNumRegistros               = 0;
-export var aDatosJournal               = [];
-export var gNumPaginasCompletas = 0;
-export var numPagsCompletas:number    = 0;
-export var numPaginaObtenida:number   = 0;
-*/
+export var gGetGroupsWithAtms:any;
+export var gGetGroupsAtmsIps:any;
+export var gGetAtmDetail:any;
+export var gDatosGpoActual:any;
+export var gGrupos:any;
 
-export var gGetGroupsAtmIds:any;
 
-export class GetGroupsAtmIds{
+export class GetAtmDetail{
+    Id: string;
+    Description: string;
+    Ip: string;
+    Name: string;
+    groupId: number;
+
+    constructor(Id: string, Description: string, Ip: string, Name: string, groupId: number){
+        this.Id = Id;
+        this.Description = Description;
+        this.Ip = Ip;
+        this.Name = Name;
+        this.groupId = groupId;
+    }
+}
+
+export class GetGroupsAtmsIps{
+    IdAtms: string;
+
+    constructor(IdAtms: string){
+        this.IdAtms = IdAtms;
+    }
+}
+
+export class GetGroupsWithAtms{
     Id: string;
     Description: string;
     Description2: string;
-    Description3: string;
 
-    constructor(Id: string, Description: string, Description2: string, Description3: string){
+    constructor(Id: string, Description: string, Description2: string){
         this.Id = Id;
         this.Description = Description;
         this.Description2 = Description2;
-        this.Description3 = Description3;
     }
 }
+
 
 
 @Component({
@@ -68,6 +72,10 @@ export class TotalesPorTiendaComponent implements OnInit  {
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
+
+    public dListaAtmGpos:any = [];
+    public dTipoListaParams:string = "G";
+
 
     parametrosConsulta(infoRecibida){
         console.log("Se va mostrar la información enviada desde el componente Params");
@@ -89,17 +97,28 @@ export class TotalesPorTiendaComponent implements OnInit  {
 
         let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
 
-        this.obtenGruposDeATMs();
+        //this.obtenGetGroupsWithAtms();
+        this.obtenTotalesTienda();
+    }
+
+    GetStoreTotals(datosTienda:any, status){
+        console.log(datosTienda);
+    }
+
+    obtenTotalesTienda(){
+        let parametros:any = {startDate: 1507784400000, endDate: 1507870800000, store: 16228090};
+        this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
     }
 
     constructor(public _soapService: SoapService){
 
     }
 
-    gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
+    gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
     ngOnInit() {
-        this.obtenGruposDeATMs();
+        this.obtenGetGroupsWithAtms();
+        this.dListaAtmGpos = gGrupos;
 
     }
 
@@ -120,36 +139,76 @@ export class TotalesPorTiendaComponent implements OnInit  {
 
     rowTooltip(item) { return item.jobTitle; }
 
-    GetGroupsAtmsIps(datosGroups:any, status){
-        console.log("TotalesPorTiendaComponent.GetGroupsAtmsIps:: ["+JSON.stringify(datosGroups)+"]");
+
+
+
+    GetAtmDetail(datosAtm:any, status){
+        //console.log("TotalesPorTiendaComponent.GetAtmDetail:: ATMs["+JSON.stringify(datosAtm)+"]");
+
+        gGetAtmDetail.push({
+            Id: datosAtm.Id,
+            Description: datosAtm.Description,
+            Ip: datosAtm.Ip,
+            Name: datosAtm.Description,
+            groupId: gDatosGpoActual.Id,
+            groupDesc: gDatosGpoActual.Descripcion
+        });
     }
 
-    obtenGetGroupsAtmsIps(){
+    obtenDatosATM(idAtm){
 
-        let parametros:any = {groupsIds: ['-1']};
-        this._soapService.post('', 'GetGroupsAtmsIps', parametros, this.GetGroupsAtmsIps);
+        let parametros:any = {atmId: idAtm};
+        this._soapService.post('', 'GetAtmDetail', parametros, this.GetAtmDetail);
     }
 
-    GetGroupsAtmIds(datosGroups:any, status){
+    GetGroupsAtmsIps(listaAtms:any, status){
+        //console.log("TotalesPorTiendaComponent.GetGroupsAtmIds:: ATMs["+JSON.stringify(listaAtms)+"]");
 
-        //console.log("TotalesPorTiendaComponent.GetGroupsAtmIds:: ["+JSON.stringify(datosGroups)+"]");
-        gGetGroupsAtmIds = [];
-        datosGroups.forEach((reg)=> {
-            gGetGroupsAtmIds.push({
-                Id: reg.Id,
-                Description: reg.Description
-            });
+        gGetGroupsAtmsIps = listaAtms;
+
+    }
+
+    obtenGetGroupsAtmsIps(idGpo){
+
+        //console.log("Grupo: "+idGpo);
+        gGetGroupsAtmsIps = "";
+
+        let parametros:any = {groups: idGpo};
+        this._soapService.post('', 'GetGroupsAtmIds', parametros, this.GetGroupsAtmsIps);
+        //console.log(gGetGroupsAtmsIps);
+        gGetGroupsAtmsIps.split(",").forEach((reg)=> {
+            //console.log(reg);
+            if (reg != null && reg != ""){
+                this.obtenDatosATM(reg);
+            }
         })
 
     }
 
-    obtenGruposDeATMs(){
+    GetGroupsWithAtms(datosGroups:any, status){
 
-        this._soapService.post('', 'GetGroup', '', this.GetGroupsAtmIds);
+        gGetGroupsWithAtms = [];
+        gGrupos = [];
+        datosGroups.forEach((reg)=> {
+            gGetGroupsWithAtms.push({
+                Id: reg.Id,
+                Description: reg.Description
+            });
+            gGrupos.push(reg.Description);
+        })
+    }
 
-        console.log("TotalesPorTiendaComponent.obtenGruposDeATMs:: ["+JSON.stringify(gGetGroupsAtmIds)+"]");
+    obtenGetGroupsWithAtms(){
 
-        this.obtenGetGroupsAtmsIps();
+        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
+
+        //console.log("TotalesPorTiendaComponent.obtenGetGroupsWithAtms:: ["+JSON.stringify(gGetGroupsWithAtms)+"]");
+        gGetAtmDetail = [];
+        gGetGroupsWithAtms.forEach((reg)=> {
+            gDatosGpoActual = {Id: reg.Id, Descripcion: reg.Description};
+            this.obtenGetGroupsAtmsIps(reg.Id);
+        })
+        //console.log(gGetAtmDetail);
     }
 }
 

@@ -1,82 +1,10 @@
 <div class="container-fluid">
-    <!--
-    <div style="margin: .5% 0%; height: 75px; width: 100%;">
-        <div class="card" style="padding: 8px;">
-
-            <div class="row">
-
-                <div class="col-md-1">
-                    <div style="vertical-align: middle;">
-                        <input id="btnParams" type=image src="assets/img/../img/volume-synsizer-settings-icon.png" width="40" height="40" (click)="pActualizaInfo()">
-                    </div>
-                </div>
-
-                <div class="col-md-10">
-
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="col-md-3">
-                                <input [(ngModel)]="dFchIniProceso">
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <input [(ngModel)]="dHraIniProceso">
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div style="text-align: center;">ATM</div>
-                        </div>
-
-                        <div class="col-md-3"></div>
-
-                        <div class="col-md-3">
-                            <div>Última Actualización</div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="col-md-2">
-                                <input [(ngModel)]="dFchFinProceso">
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <input [(ngModel)]="dHraFinProceso">
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-                        <div class="col-md-3" style="text-align: center;">
-                            <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActualizaInfo()">
-                                <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <div>{{dUltimaActualizacion}}</div>
-                        </div>
-
-                        <div class="col-md-1"></div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-1">
-                    <div style="vertical-align: middle;">
-                        <input id="btnRefreshJournal" type=image src="assets/img/../img/refresh--database-icon-40430.png" width="40" height="40" (click)="pActualizaInfo()">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 
     <params
         (parametrosConsulta) = "parametrosConsulta($event)"
-        [dUltimaActualizacion] = "dUltimaActualizacion">
+        [dUltimaActualizacion] = "dUltimaActualizacion"
+        [dListaAtmGpos] = "dListaAtmGpos"
+        [dTipoListaParams] = "dTipoListaParams">
     </params>
 
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
@@ -99,11 +27,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="8em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                            </div>
-                        </ng-template>
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
                 <data-table-column
                         [property]="'Ip'"
@@ -118,11 +46,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="8em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.Device}}</span>
-                            </div>
-                        </ng-template>
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.Device}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
                 <data-table-column
                         [property]="'Events'"
@@ -130,11 +58,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="12em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.Events}}</span>
-                            </div>
-                        </ng-template>
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.Events}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
                 <data-table-column
                         [property]="'Data'"
@@ -142,11 +70,11 @@
                         [sortable]="true"
                         [resizable]="true"
                         width="12em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.Data}}</span>
-                            </div>
-                        </ng-template>
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.Data}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
 
             </data-table>

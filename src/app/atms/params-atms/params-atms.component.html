@@ -42,9 +42,9 @@
                     <div class="col-md-1"></div>
 
                     <div class="col-md-2" style="text-align: center;">
-                        <select type="string" [(ngModel)]="atmSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
-                            <option value="" disabled>Seleccione ATM</option>
-                            <option *ngFor="let atm of ipATMs; let i = index" [ngValue]="atm">{{atm}}</option>
+                        <select type="string" [(ngModel)]="gpoSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
+                            <option value="" disabled>{{contenidoLista}}</option>
+                            <option *ngFor="let gpo of ipATMs" [ngValue]="gpo">{{gpo}}</option>
                         </select>
                     </div>
 

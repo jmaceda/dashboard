@@ -6,12 +6,14 @@ import { OnInit } from '@angular/core';
 import { SoapService }      from './soap.service';
 
 export var gDatosAtms;
+export var gGrupos;
+
 var nomModulo = "DetalleAtmsService";
 
 @Injectable()
 export class DetalleAtmsService implements OnInit {
 
-	constructor(public _soapService: SoapService){
+    constructor(public _soapService: SoapService){
         console.log(nomModulo+".constructor:: init");
     }
 
@@ -32,19 +34,50 @@ export class DetalleAtmsService implements OnInit {
         this._soapService.post('', "GetAtm", parameters, this.GetAtm);
 
         let idx = 0;
-		let arrNomAtms:any[] = [];
-		
+        let arrNomAtms:any[] = [];
+
         gDatosAtms.forEach((reg)=> {
-			arrNomAtms.push( (reg.Description + ' (' + reg.Ip + ')') );
+            arrNomAtms.push( (reg.Description + ' (' + reg.Ip + ')') );
         });
 
-		return(arrNomAtms.sort(comparar));
+        return(arrNomAtms.sort(comparar));
 
-    };	
+    };
 
-	ngOnInit() {
 
-	}
+    GetGroupsWithAtms(datosGroups:any, status){
+        gGrupos = datosGroups;
+    }
+
+    obtenGetGroups(){
+
+        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
+
+        let arrNomGrupos:any[] = [];
+
+        gGrupos.forEach((reg)=> {
+            arrNomGrupos.push( (reg.Description));
+        });
+        console.log("DetalleAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+        return(gGrupos.sort(comparar));
+    }
+
+
+    obtenIdGroup(descGpo){
+        let idGpo = -1;
+
+        if (gGrupos != null && gGrupos != "") {
+            gGrupos.forEach((reg) => {
+                if (idGpo == -1 && descGpo == reg.Description) {
+                    idGpo = reg.Id;
+                }
+            });
+        }
+
+        return(idGpo);
+    }
+
+    ngOnInit(){}
 
 }
 
