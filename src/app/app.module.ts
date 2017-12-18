@@ -23,6 +23,10 @@ import { TableModule }                      from 'ngx-easy-table';
 import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
+
+import { ParamsAtmsComponent }              from './atms/params-atms/params-atms.component';
+//import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';
+
 import { AtmsComponent }                    from './atms/atms.component';
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
@@ -33,8 +37,8 @@ import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/
 import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
-import { NgbdModalContent }                 from './utils/ngbd-modal-content';
-import { DataFilterPipe }                   from './pipes/data-filter.pipe';
+//import { NgbdModalContent }                 from './utils/ngbd-modal-content';
+//import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 import { BsModalModule }                    from 'ng2-bs3-modal';
 
@@ -59,7 +63,8 @@ import { ExportToCSV }                  from './services/export-to-csv.service';
     LogHmaComponent,
     ParamsComponent,
     AclaracionesComponent,
-    TotalesPorTiendaComponent
+    TotalesPorTiendaComponent,
+    ParamsAtmsComponent
 
   ],
 

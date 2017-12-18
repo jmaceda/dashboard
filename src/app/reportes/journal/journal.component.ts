@@ -30,7 +30,7 @@ export var gNumPaginasCompletas = 0;
 export var numPagsCompletas:number    = 0;
 export var numPaginaObtenida:number   = 0;
 
-const nomComponente:string = "JournalComponent";
+export const nomComponente:string = "JournalComponent";
 
 @Component({
     selector   : 'app-journal',

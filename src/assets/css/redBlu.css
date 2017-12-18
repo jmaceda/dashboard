@@ -197,3 +197,19 @@ div.ngx-column.ngx-col-4.ngx-col-mr-auto {
 button.btn.btn-default.btn-sm.refresh-button {
     display: none;
 }
+
+/*  */
+#stat-atms-grid div div table thead tr th.expand-column-header{
+    width: 6px;
+}
+#stat-atms-grid div div table thead tr th.index-column-header{
+    width: 10px;
+}
+
+#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable{
+    width: 56px;
+}
+
+#stat-atms-grid div div table tbody tr td.data-column.column-Ip{
+    width: 26px;
+}

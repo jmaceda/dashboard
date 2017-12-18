@@ -1,14 +1,36 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit }                                    from '@angular/core';
 import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
+//import { DataTableResource }                  from 'angular-4-data-table-bootstrap-4';
 import { sprintf }                                              from "sprintf-js";
 import { SoapService }                                          from '../../services/soap.service';
 import { Router }                                               from '@angular/router';
 import { ActivatedRoute }                                       from '@angular/router';
 
+import { ParamsAtmsComponent }                                  from '../params-atms/params-atms.component';
+
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
 export var gDatosEfectivoAtm:any[];
+
+export const nomComponente:string = "AtmsEstatusComponent";
+
+export var gGetGroupsAtmIds:any;
+
+export class GetGroupsAtmIds{
+    Id: string;
+    Description: string;
+    Description2: string;
+    Description3: string;
+
+    constructor(Id: string, Description: string, Description2: string, Description3: string){
+        this.Id = Id;
+        this.Description = Description;
+        this.Description2 = Description2;
+        this.Description3 = Description3;
+    }
+}
+
 
 @Component({
     selector: 'atms-estatus-root',
@@ -31,6 +53,10 @@ export class AtmsEstatusComponent implements OnInit {
     public urlPath                      = "";
     public fchActual:any;
     public regsLimite:number            = 20;
+    public dUltimaActualizacion         = "";
+
+    gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
+
 
     public horaActual(){
         let fechaSys = new Date();
@@ -68,7 +94,7 @@ export class AtmsEstatusComponent implements OnInit {
             console.log("AtmsEstatusComponent.ngOnInit:: No va a cargar los datos");
             return(0);
         }
-
+        this.obtenGruposDeATMs();
         console.log("AtmsEstatusComponent.ngOnInit:: Se van a cargar los datos");
         this.pActualizaInfo();
     }
@@ -175,8 +201,20 @@ export class AtmsEstatusComponent implements OnInit {
         this.itemResource.count().then(count => this.itemCount = count);
         let ambiente = (window.location.port == '8687') ? "PROD" : "QA";
         this.Titulo="Ambiente: "+ambiente+"      ("+this.horaActual()+")";
-        this.Titulo=sprintf("[%s] %s", this.horaActual(), ambiente);
-        this.Titulo=sprintf("[%s] %s %s", this.horaActual(), "                 ", ambiente);
+        //this.Titulo=sprintf("[%s] %s", this.horaActual(), ambiente);
+        //this.Titulo=sprintf("[%s] %s %s", this.horaActual(), "                 ", ambiente);
+
+        let fchSys   = new Date();
+        let _anioSys = fchSys.getFullYear();
+        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
+        let _diaSys  = fchSys.getDate();
+        let _hraSys  = fchSys.getHours();
+        let _minSys  = fchSys.getMinutes();
+        let _segSys  = fchSys.getSeconds();
+
+        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+
+
     };
 
     reloadItems(params) {
@@ -196,5 +234,66 @@ export class AtmsEstatusComponent implements OnInit {
     }
 
     rowTooltip(item) { return item.jobTitle; }
+
+    parametrosConsulta(infoRecibida){
+       // console.log(nomComponente+".parametrosConsulta:: Se va mostrar la información enviada desde el componente Params");
+       // console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+       // console.log(nomComponente+".parametrosConsulta:: Se mostro la información enviada desde el componente Params");
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        //this.nomArchExcel = "Journal_" + ipParam + "_" + (new Date().toLocaleDateString("es-MX")).replace(/\//g,"-") + ".csv";
+        //console.log("nomArchExcel:: "+this.nomArchExcel);
+
+        //this.pDatosDelJournal(datosParam);
+    }
+
+    GetGroupsAtmsIps(datosGroups:any, status){
+        console.log("TotalesPorTiendaComponent.GetGroupsAtmsIps:: ["+JSON.stringify(datosGroups)+"]");
+    }
+
+    obtenGetGroupsAtmsIps(){
+
+        let parametros:any = {groupsIds: ['-1']};
+        this._soapService.post('', 'GetGroupsAtmsIps', parametros, this.GetGroupsAtmsIps);
+    }
+
+    GetGroupsAtmIds(datosGroups:any, status){
+
+        //console.log("TotalesPorTiendaComponent.GetGroupsAtmIds:: ["+JSON.stringify(datosGroups)+"]");
+        gGetGroupsAtmIds = [];
+        datosGroups.forEach((reg)=> {
+            gGetGroupsAtmIds.push({
+                Id: reg.Id,
+                Description: reg.Description
+            });
+        })
+
+    }
+
+    obtenGruposDeATMs(){
+
+        this._soapService.post('', 'GetGroup', '', this.GetGroupsAtmIds);
+
+        console.log("TotalesPorTiendaComponent.obtenGruposDeATMs:: ["+JSON.stringify(gGetGroupsAtmIds)+"]");
+
+        this.obtenGetGroupsAtmsIps();
+    }
+
 }
 
