@@ -19,6 +19,7 @@ import { ErroresPorBanco }                      from '../../model/errores-por-ba
 //import { ResOpersModel, IResOpersModel }      from '../../model/res-opers.model';
 //import { DataBaseService }                    from '../../services/data-base.service';
 
+import { ParamsAtmsComponent }                           from '../params-atms/params-atms.component';
 
 
 class ResumenOpers {

@@ -10,6 +10,7 @@ import { DataTableResource }                            from 'angular-4-data-tab
 import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
 import { EventEmitter}      from '@angular/core';
 
+//import { ParamsAtmsComponent }                          from '../params-atms/params-atms.component';
 
 
 export var gGetGroupsWithAtms:any;
