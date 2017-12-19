@@ -1,0 +1,3519 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetCmByStore xmlns="http://Pentomino.mx/">
+			<startDate>1513576800000</startDate>
+			<endDate>1513663200000</endDate>
+			<store>16228090</store>
+		</GetCmByStore>
+	</s:Body>
+</s:Envelope>
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetCmByStoreResponse xmlns="http://Pentomino.mx/">
+			<GetCmByStoreResult>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:58:47 p. m.</Time>
+					<TxId>38050185</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>11</Amount500>
+					<Amount200>16</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>8700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:57:57 p. m.</Time>
+					<TxId>38050185</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>18</Amount200>
+					<Amount100>27</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>6300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:50:31 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:55:07 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>23</Amount500>
+					<Amount200>21</Amount200>
+					<Amount100>15</Amount100>
+					<Amount50>12</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>17800</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:38:32 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>29</Amount500>
+					<Amount200>28</Amount200>
+					<Amount100>24</Amount100>
+					<Amount50>7</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>23850</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:39:54 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>25</Amount500>
+					<Amount200>16</Amount200>
+					<Amount100>22</Amount100>
+					<Amount50>16</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>19700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:41:01 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>43</Amount500>
+					<Amount200>35</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>29500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:48:04 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>29</Amount500>
+					<Amount200>23</Amount200>
+					<Amount100>70</Amount100>
+					<Amount50>15</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>26850</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:49:19 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>22</Amount500>
+					<Amount200>23</Amount200>
+					<Amount100>16</Amount100>
+					<Amount50>12</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>17800</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:33:21 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>69</Amount500>
+					<Amount200>32</Amount200>
+					<Amount100>12</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>42100</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:34:26 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>32</Amount500>
+					<Amount200>25</Amount200>
+					<Amount100>26</Amount100>
+					<Amount50>7</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>23950</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:35:47 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>68</Amount500>
+					<Amount200>35</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>42000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:36:53 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>21</Amount500>
+					<Amount200>21</Amount200>
+					<Amount100>10</Amount100>
+					<Amount50>38</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>17600</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:38:17 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>23</Amount500>
+					<Amount200>29</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>17300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:42:01 p. m.</Time>
+					<TxId>032112</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:53:23 p. m.</Time>
+					<TxId>029755</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>6</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>3000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:59:33 p. m.</Time>
+					<TxId>567360</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>10:42:30 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>34</Amount500>
+					<Amount200>23</Amount200>
+					<Amount100>9</Amount100>
+					<Amount50>5</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>23750</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:33:52 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>2</Amount1000>
+					<Amount500>27</Amount500>
+					<Amount200>28</Amount200>
+					<Amount100>29</Amount100>
+					<Amount50>14</Amount50>
+					<Amount20>1</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>24720</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:35:20 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>48</Amount500>
+					<Amount200>25</Amount200>
+					<Amount100>23</Amount100>
+					<Amount50>42</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>33400</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>11:36:41 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>15</Amount200>
+					<Amount100>27</Amount100>
+					<Amount50>10</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>7700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:32:08 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>34</Amount500>
+					<Amount200>27</Amount200>
+					<Amount100>18</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>24250</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:33:47 p. m.</Time>
+					<TxId>821156</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>350</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:36:11 p. m.</Time>
+					<TxId>838669</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>12</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>6000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:37:42 p. m.</Time>
+					<TxId>849149</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:42:53 p. m.</Time>
+					<TxId>009861</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>10</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>5000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:44:03 p. m.</Time>
+					<TxId>027067</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:51:25 p. m.</Time>
+					<TxId>942670</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:52:34 p. m.</Time>
+					<TxId>000207</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>10</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>5000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:54:48 p. m.</Time>
+					<TxId>016404</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:09:20 p. m.</Time>
+					<TxId>018309</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>2</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2400</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:11:26 p. m.</Time>
+					<TxId>071270</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:12:39 p. m.</Time>
+					<TxId>077595</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:14:07 p. m.</Time>
+					<TxId>085731</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>6</Amount200>
+					<Amount100>6</Amount100>
+					<Amount50>7</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2150</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:26:11 p. m.</Time>
+					<TxId>156460</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:26:55 p. m.</Time>
+					<TxId>163517</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:29:11 p. m.</Time>
+					<TxId>176381</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:32:19 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>34</Amount500>
+					<Amount200>18</Amount200>
+					<Amount100>27</Amount100>
+					<Amount50>19</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>24250</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:33:15 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>46</Amount500>
+					<Amount200>15</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>26000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:34:33 p. m.</Time>
+					<TxId>206493</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:36:16 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>26</Amount500>
+					<Amount200>15</Amount200>
+					<Amount100>17</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>18700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>6365213</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:37:14 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>41</Amount500>
+					<Amount200>4</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>22300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:43:04 p. m.</Time>
+					<TxId>252622</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>08:56:40 p. m.</Time>
+					<TxId>094906</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>10</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>5000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:01:36 p. m.</Time>
+					<TxId>344677</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:19:47 p. m.</Time>
+					<TxId>542686</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>2</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>900</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:20:39 p. m.</Time>
+					<TxId>428576</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:27:39 p. m.</Time>
+					<TxId>021189</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:29:25 p. m.</Time>
+					<TxId>021690</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>4</Amount200>
+					<Amount100>2</Amount100>
+					<Amount50>4</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:30:24 p. m.</Time>
+					<TxId>467119</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>09:32:09 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>45</Amount500>
+					<Amount200>32</Amount200>
+					<Amount100>8</Amount100>
+					<Amount50>8</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>30100</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:18:46 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>2</Amount1000>
+					<Amount500>63</Amount500>
+					<Amount200>16</Amount200>
+					<Amount100>10</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>37700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:20:08 p. m.</Time>
+					<TxId>930477</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:31:42 p. m.</Time>
+					<TxId>016239</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:32:49 p. m.</Time>
+					<TxId>016650</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:36:28 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>35</Amount500>
+					<Amount200>31</Amount200>
+					<Amount100>21</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>25800</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:38:35 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>61</Amount500>
+					<Amount200>28</Amount200>
+					<Amount100>10</Amount100>
+					<Amount50>2</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>37200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:40:18 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>24</Amount500>
+					<Amount200>23</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>16600</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:42:02 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>34</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>17200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:48:14 p. m.</Time>
+					<TxId>219205</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>04:48:09 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>85</Amount500>
+					<Amount200>56</Amount200>
+					<Amount100>34</Amount100>
+					<Amount50>13</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>57750</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>04:51:30 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>2</Amount1000>
+					<Amount500>155</Amount500>
+					<Amount200>32</Amount200>
+					<Amount100>7</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>86650</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>04:52:05 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>600</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:35:25 p. m.</Time>
+					<TxId>049737</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:36:41 p. m.</Time>
+					<TxId>002324</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:38:36 p. m.</Time>
+					<TxId>590395</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:41:13 p. m.</Time>
+					<TxId>004529</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:43:07 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>4</Amount1000>
+					<Amount500>31</Amount500>
+					<Amount200>20</Amount200>
+					<Amount100>7</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>24200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:43:47 p. m.</Time>
+					<TxId>022024</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:45:06 p. m.</Time>
+					<TxId>325101</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:48:23 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>43</Amount500>
+					<Amount200>8</Amount200>
+					<Amount100>4</Amount100>
+					<Amount50>6</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>24800</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:51:05 p. m.</Time>
+					<TxId>015256</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:52:29 p. m.</Time>
+					<TxId>327347</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:53:10 p. m.</Time>
+					<TxId>327571</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:55:22 p. m.</Time>
+					<TxId>082956</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>6</Amount500>
+					<Amount200>2</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>3500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:56:51 p. m.</Time>
+					<TxId>012253</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>9</Amount200>
+					<Amount100>2</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>05:57:52 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>1</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>20</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:01:59 p. m.</Time>
+					<TxId>149985</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:03:10 p. m.</Time>
+					<TxId>053599</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>5</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:04:58 p. m.</Time>
+					<TxId>080379</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>7</Amount200>
+					<Amount100>2</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>3600</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:06:11 p. m.</Time>
+					<TxId>443310</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>2</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>400</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:07:01 p. m.</Time>
+					<TxId>186495</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:08:20 p. m.</Time>
+					<TxId>194500</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>10</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>5000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:11:47 p. m.</Time>
+					<TxId>994295</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>750</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:13:04 p. m.</Time>
+					<TxId>020493</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>2</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2450</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:14:23 p. m.</Time>
+					<TxId>569874</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>5</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:16:01 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>29</Amount500>
+					<Amount200>30</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>21500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:17:51 p. m.</Time>
+					<TxId>023075</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:20:31 p. m.</Time>
+					<TxId>024448</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>12</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>6000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:24:19 p. m.</Time>
+					<TxId>001928</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>2</Amount100>
+					<Amount50>1</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1750</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:25:17 p. m.</Time>
+					<TxId>084175</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:26:36 p. m.</Time>
+					<TxId>094536</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:41:03 p. m.</Time>
+					<TxId>008825</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:42:40 p. m.</Time>
+					<TxId>003656</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>6</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>3000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:43:59 p. m.</Time>
+					<TxId>459661</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2100</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:49:06 p. m.</Time>
+					<TxId>499532</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:51:34 p. m.</Time>
+					<TxId>008535</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>12</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>6000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:53:07 p. m.</Time>
+					<TxId>527278</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:56:46 p. m.</Time>
+					<TxId>553781</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>5</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>06:58:49 p. m.</Time>
+					<TxId>570700</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:01:22 p. m.</Time>
+					<TxId>587581</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>5</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:07:01 p. m.</Time>
+					<TxId>630656</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:08:16 p. m.</Time>
+					<TxId>637631</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>4</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:21:20 p. m.</Time>
+					<TxId>025022</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:25:54 p. m.</Time>
+					<TxId>027513</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:28:01 p. m.</Time>
+					<TxId>001687</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>5</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>1</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>2800</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7284623</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>07:30:42 p. m.</Time>
+					<TxId>38050184</TxId>
+					<Amount1000>2</Amount1000>
+					<Amount500>22</Amount500>
+					<Amount200>34</Amount200>
+					<Amount100>17</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>21500</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:21:29 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>6</Amount500>
+					<Amount200>10</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>5000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:25:45 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>1</Amount1000>
+					<Amount500>64</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>33000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:27:07 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>60</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>30000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:31:01 p. m.</Time>
+					<TxId>628319</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:43:59 p. m.</Time>
+					<TxId>000662</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:45:49 p. m.</Time>
+					<TxId>267806</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:46:56 p. m.</Time>
+					<TxId>026336</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:48:15 p. m.</Time>
+					<TxId>026853</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>1</Amount500>
+					<Amount200>4</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1300</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:49:25 p. m.</Time>
+					<TxId>772440</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:50:39 p. m.</Time>
+					<TxId>780592</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:53:39 p. m.</Time>
+					<TxId>029558</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:54:40 p. m.</Time>
+					<TxId>029951</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>200</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Consulta de Saldo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>02:58:51 p. m.</Time>
+					<TxId>032075</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>0</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>0</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:07:22 p. m.</Time>
+					<TxId>003651</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>3</Amount500>
+					<Amount200>1</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1700</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:09:25 p. m.</Time>
+					<TxId>925360</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:13:23 p. m.</Time>
+					<TxId>000877</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>12</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>6000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User />
+					<Atm>CI01GT0003</Atm>
+					<TxType>Retiro de Efectivo</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:14:28 p. m.</Time>
+					<TxId>964176</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>2</Amount500>
+					<Amount200>0</Amount200>
+					<Amount100>0</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>1000</Total>
+				</CmStoreInfo>
+				<CmStoreInfo>
+					<Store>Tienda 3805</Store>
+					<User>7330905</User>
+					<Atm>CI01GT0003</Atm>
+					<TxType>Depósito Walmart</TxType>
+					<Date>18/12/2017</Date>
+					<Time>03:16:13 p. m.</Time>
+					<TxId>38050183</TxId>
+					<Amount1000>0</Amount1000>
+					<Amount500>39</Amount500>
+					<Amount200>29</Amount200>
+					<Amount100>13</Amount100>
+					<Amount50>0</Amount50>
+					<Amount20>0</Amount20>
+					<Dispensed1000>0</Dispensed1000>
+					<Dispensed500>0</Dispensed500>
+					<Dispensed200>0</Dispensed200>
+					<Dispensed100>0</Dispensed100>
+					<Dispensed50>0</Dispensed50>
+					<Dispensed20>0</Dispensed20>
+					<Taken1000>0</Taken1000>
+					<Taken500>0</Taken500>
+					<Taken200>0</Taken200>
+					<Taken100>0</Taken100>
+					<Taken50>0</Taken50>
+					<Taken20>0</Taken20>
+					<Total>26600</Total>
+				</CmStoreInfo>
+			</GetCmByStoreResult>
+		</GetCmByStoreResponse>
+	</soap:Body>
+</soap:Envelope>
