@@ -183,6 +183,7 @@ export class AtmsEstatusComponent implements OnInit {
         let _segSys  = fchSys.getSeconds();
 
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+        $("#idFchHraUltimaActual").val(this.dUltimaActualizacion);
     };
 
     reloadItems(params) {
