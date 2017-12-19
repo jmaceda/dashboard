@@ -213,3 +213,8 @@ button.btn.btn-default.btn-sm.refresh-button {
 #stat-atms-grid div div table tbody tr td.data-column.column-Ip{
     width: 26px;
 }
+
+/*   */
+#loghma div data-table-header div.data-table-header {
+    margin-bottom: 0px;
+}

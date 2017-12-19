@@ -79,29 +79,23 @@ export class ParamsAtmsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(nomModulo + ".ngOnInit:: Inicio");
-        console.log(nomModulo + ".ngOnInit:: dTipoListaParams["+this.dTipoListaParams+"]");
 
-        //console.log(this.dListaAtmGpos);
         this.obtenFchSys();
 
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
             this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
             this.ipATMs = [];
-            this.ipATMs.push("Todos");
+            this.ipATMs.push("-- Todos --");
             this.gListaGpos.forEach((reg)=> {
                 this.ipATMs.push(reg.Description);
             });
-            console.log(this.ipATMs);
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
             this.contenidoLista = "Seleccione ATM";
         }
-
-        console.log(nomModulo+".ngOnInit:: " + this.ipATMs);
     }
 
     constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
@@ -160,22 +154,21 @@ export class ParamsAtmsComponent implements OnInit {
     public paramsActuales(idOrigen:number){
         console.log("ParamsAtmsComponent.paramsActuales:: inicia");
         console.log("ParamsAtmsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
-        //this.arrParams  = this.ipATMs;
+
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);
         let ipGpo       = this.gpoSeleccionado;
         let ipATM;
-        //let descGpo     = this.atmSeleccionado;
 
-        //console.log("params.component.paramsActuales: fchInicio["+fchInicio+"] fchFin["+fchFin+"]");
         let idGpo:any;
         if (this.dTipoListaParams == "G") {
             if (this.gpoSeleccionado != "Todos") {
                 idGpo = this.detalleAtmsService.obtenIdGroup(this.gpoSeleccionado);
             }
-            console.log("idGpo["+typeof(idGpo)+"]");
             idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
-            console.log("paramsActuales:: idGpo["+idGpo+"]");
+            let d = new Date();
+            let tFchFin = d.getTime();
+            console.log("ParamsAtmsComponent.paramsActuales:: fchInicio["+fchInicio+"]");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
         }else {
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");

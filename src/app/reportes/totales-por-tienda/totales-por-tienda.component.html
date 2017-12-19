@@ -1,17 +1,17 @@
 <div class="container-fluid">
 
-    <params-atms
+    <params
             (parametrosConsulta) = "parametrosConsulta($event)"
             [dUltimaActualizacion] = "dUltimaActualizacion"
             [dListaAtmGpos] = "dListaAtmGpos"
             [dTipoListaParams] = "dTipoListaParams">
-    </params-atms>
+    </params>
 
-    <div style="margin: 0% 0%; height: 24em; width: 100%;">
+    <div style="margin: 1% 0%; height: 24em; width: 100%;">
 
         <div class="card" style="padding: 3px;">
             <data-table id="loghma"
-                        [headerTitle]="tituloLogHMA"
+                        headerTitle="Totales por Tienda"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"

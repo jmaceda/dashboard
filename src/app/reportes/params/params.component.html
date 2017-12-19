@@ -1,12 +1,13 @@
 <!-- app/reportes/params/params.component.html -->
-<div style="margin: .5% 0%; height: 75px; width: 100%;">
+<div style="margin: .5% 0%; height: 75px; width: 100%; vertical-align: middle;">
     <div class="card" style="padding: 8px;">
 
         <div class="row">
 
             <div class="col-md-1">
-                <div style="vertical-align: middle;">
-                    <input id="btnParams"
+                <div style="vertical-align: middle; text-align: center;">
+                    <span style="font-weight: bold;">Filtros</span>
+                    <input id="btnParams" style="cursor: pointer;"
                            type=image src="assets/img/../img/volume-synsizer-settings-icon.png"
                            width="40" height="40" (click)="pActualizaParams()">
                 </div>
@@ -16,53 +17,42 @@
 
                 <div class="row">
 
-                    <div class="col-md-3">
-                        <angular2-date-picker [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
-                    </div>
-
                     <div class="col-md-1"></div>
 
-                    <div class="col-md-2">
-                        <div style="text-align: center;"></div>
-                    </div>
-
-                    <div class="col-md-2"></div>
-
                     <div class="col-md-3">
-                        <div>Última Actualización</div>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <angular2-date-picker [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
+                        <div>
+                            <angular2-date-picker [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
+                            <angular2-date-picker [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
+                        </div>
                     </div>
 
                     <div class="col-md-1"></div>
 
                     <div class="col-md-2" style="text-align: center;">
-                        <select type="string" [(ngModel)]="atmSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
+                        <span style="font-weight: bold;">{{contenidoCombo}}</span>
+                        <select type="string" [(ngModel)]="gpoSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
                             <option value="" disabled>{{contenidoLista}}</option>
                             <option *ngFor="let atm of ipATMs; let i = index" [ngValue]="atm">{{atm}}</option>
                         </select>
                     </div>
 
-                    <div class="col-md-2"></div>
+                    <div class="col-md-1"></div>
 
-                    <div class="col-md-3">
-                        <div>{{dUltimaActualizacion}}</div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <div>
+                            <span style="font-weight: bold;">Última Actualización</span>
+                            <input id="idFchHraUltimaActual" type="text" name="dUltimaActualizacion" disabled>
+                        </div>
                     </div>
-
-                    <!-- div class="col-md-1"></div -->
 
                 </div>
 
             </div>
 
             <div class="col-md-1">
-                <div style="vertical-align: middle;">
-                    <input id="btnRefreshJournal"
+                <div style="vertical-align: middle; text-align: center;">
+                    <span style="font-weight: bold;">Actualiza</span>
+                    <input id="btnRefreshJournal" style="cursor: pointer;"
                            type=image src="assets/img/../img/refresh--database-icon-40430.png"
                            width="40" height="40" (click)="pActualizaInfo()">
                 </div>
@@ -84,19 +74,3 @@
         <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
     </bs-modal-footer>
 </bs-modal>
-<!--
-<ng-template #msgModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Modal title</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>One fine body&hellip;</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-    </div>
-</ng-template>
--->

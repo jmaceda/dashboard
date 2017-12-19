@@ -39,12 +39,14 @@ export class ParamsComponent implements OnInit {
     @Input() dTipoListaParams: any;
     @Output() parametrosConsulta = new EventEmitter();
 
+    public contenidoCombo
     @ViewChild('myModal')
     modal: BsModalComponent;
 
     fchInicio: Date;
     fchFin: Date;
     elijaOpcion:string = "Seleccione el ATM";
+    public gListaGpos:any[];
 
     settings = {
         bigBanner: true,
@@ -59,6 +61,7 @@ export class ParamsComponent implements OnInit {
     public url;
     public paramsConsulta:any = {};
     public contenidoLista:string = "";
+    public gpoSeleccionado:string = "";
 
     obtenFchSys(){
         console.log(nomModulo+".obtenFchSys:: init");
@@ -81,10 +84,17 @@ export class ParamsComponent implements OnInit {
         this.obtenFchSys();
 
         if (this.dTipoListaParams == "G") {
-            //this.ipATMs = this.dListaAtmGpos;
-            this.ipATMs = this.detalleAtmsService.obtenGetGroups();
+            this.contenidoCombo = "Grupos";
+            this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
+            this.ipATMs = [];
+            this.ipATMs.push("-- Todos --");
+            this.gListaGpos.forEach((reg)=> {
+                this.ipATMs.push(reg.Description);
+            });
+            console.log(this.ipATMs);
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
+            this.contenidoCombo = "ATMs";
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
             this.contenidoLista = "Seleccione ATM";
         }
@@ -154,8 +164,15 @@ export class ParamsComponent implements OnInit {
         //let descGpo     = this.atmSeleccionado;
 
         //console.log("params.component.paramsActuales: fchInicio["+fchInicio+"] fchFin["+fchFin+"]");
+        let idGpo:any;
         if (this.dTipoListaParams == "G") {
-            let idGpo           = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
+            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
+            if (this.gpoSeleccionado != "Todos") {
+                idGpo = this.detalleAtmsService.obtenIdGroup(this.gpoSeleccionado);
+            }
+            console.log("ParamsComponent.paramsActuales:: idGpo["+typeof(idGpo)+"]");
+            idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
+            console.log("ParamsComponent.paramsActuales:: idGpo["+idGpo+"]");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
         }else {
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
