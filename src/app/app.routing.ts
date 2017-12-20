@@ -19,6 +19,8 @@ import { JournalComponent }                 from './reportes/journal/journal.com
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
 import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
 import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
+import { ResumenDeEfectivo }                from './reportes/resumen-efectivo/resumen-efectivo.component';
+import { DetallePorTienda }                 from './reportes/detalle-por-tienda/detalle-por-tienda.component';
 
 import { AtmsEstatusComponent }     from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }   from './atms/resumenCifras/resumen-cifras.component';
@@ -33,6 +35,8 @@ const routes: Routes =[
     { path: 'aclaraciones',   component: AclaracionesComponent },
     { path: 'loghma',         component: LogHmaComponent },
     { path: 'totaltienda',    component: TotalesPorTiendaComponent },
+    { path: 'resumenefectivo',component: ResumenDeEfectivo },
+    { path: 'detalletienda',  component: DetallePorTienda },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },
@@ -40,7 +44,8 @@ const routes: Routes =[
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
-    { path: '',  redirectTo: 'atms',   pathMatch: 'full' }
+    { path: '',  redirectTo: 'atms',   pathMatch: 'full' },
+    { path: '**',  redirectTo: 'atms',   pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -18,7 +18,7 @@ export var gGetGroupsAtmsIps:any;
 export var gGetAtmDetail:any;
 export var gDatosGpoActual:any;
 export var gGrupos:any;
-export var gDatosTotalPorTienda:any;
+export var gDatosResumenDeEfectivo:any;
 
 
 export class GetAtmDetail{
@@ -60,16 +60,16 @@ export class GetGroupsWithAtms{
 
 
 @Component({
-    selector   : 'total_tienda',
-    templateUrl: './totales-por-tienda.component.html',
-    styleUrls  : ['./totales-por-tienda.component.css'],
+    selector   : 'resumen-efectivo',
+    templateUrl: './resumen-efectivo.component.html',
+    styleUrls  : ['./resumen-efectivo.component.css'],
     styles     : [`
         .even { color: red; }
         .odd { color: green; }
     `],
     providers: [SoapService]
 })
-export class TotalesPorTiendaComponent implements OnInit  {
+export class ResumenDeEfectivo implements OnInit  {
 
     public itemResource = new DataTableResource([]);
     public items = [];
@@ -112,8 +112,13 @@ export class TotalesPorTiendaComponent implements OnInit  {
     }
 
     GetStoreTotals(datosTienda:any, status){
-        gDatosTotalPorTienda = datosTienda;
+        gDatosResumenDeEfectivo = datosTienda;
         console.log(JSON.stringify(datosTienda));
+    }
+
+    GetCmByStore(datosTienda:any, status){
+        gDatosResumenDeEfectivo = datosTienda;
+        console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
     obtenTotalesTienda(datosParam){
@@ -121,7 +126,8 @@ export class TotalesPorTiendaComponent implements OnInit  {
         let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: datosParam.idGpo};
         console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
         //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
-        this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
+        //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
 
         // <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><GetStoreTotals xmlns="http://Pentomino.mx/"><startDate>1513576800000</startDate><endDate>1513663200000</endDate><store>16228090</store></GetStoreTotals></s:Body></s:Envelope>
 
@@ -136,7 +142,32 @@ export class TotalesPorTiendaComponent implements OnInit  {
         */
         let arrDatosAtms:any[] = [];
         let idx:number = 0;
-        gDatosTotalPorTienda.forEach(( reg )=> {
+
+        let acumDepositos:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumRetiros:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        gDatosResumenDeEfectivo.forEach(( reg )=> {
+            if(reg.TxType == "Retiro de Efectivo"){
+                acumRetiros.b20   += Number(reg.Amount20);
+                acumRetiros.b50   += Number(reg.Amount50);
+                acumRetiros.b100  += Number(reg.Amount100);
+                acumRetiros.b200  += Number(reg.Amount200);
+                acumRetiros.b500  += Number(reg.Amount500);
+                acumRetiros.b1000 += Number(reg.Amount1000);
+            }else if (reg.Txtype == "Depósito Walmart"){
+                acumDepositos.b20   += Number(reg.Amount20);
+                acumDepositos.b50   += Number(reg.Amount50);
+                acumDepositos.b100  += Number(reg.Amount100);
+                acumDepositos.b200  += Number(reg.Amount200);
+                acumDepositos.b500  += Number(reg.Amount500);
+                acumDepositos.b1000 += Number(reg.Amount1000);
+            }
+        });
+
+        console.log(JSON.stringify(acumRetiros));
+        console.log(JSON.stringify(acumDepositos));
+
+        /*
+        gDatosResumenDeEfectivo.forEach(( reg )=> {
             arrDatosAtms[idx++] = {
                 Store:      reg.Store,
                 Atm:        reg.Atm,
@@ -164,7 +195,7 @@ export class TotalesPorTiendaComponent implements OnInit  {
                 Taken20:   reg.Taken20,
             }
         });
-
+*/
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});

@@ -60,16 +60,16 @@ export class GetGroupsWithAtms{
 
 
 @Component({
-    selector   : 'total_tienda',
-    templateUrl: './totales-por-tienda.component.html',
-    styleUrls  : ['./totales-por-tienda.component.css'],
+    selector   : 'detalle-tienda',
+    templateUrl: './detalle-por-tienda.component.html',
+    styleUrls  : ['./detalle-por-tienda.component.css'],
     styles     : [`
         .even { color: red; }
         .odd { color: green; }
     `],
     providers: [SoapService]
 })
-export class TotalesPorTiendaComponent implements OnInit  {
+export class DetallePorTienda implements OnInit  {
 
     public itemResource = new DataTableResource([]);
     public items = [];
@@ -116,12 +116,18 @@ export class TotalesPorTiendaComponent implements OnInit  {
         console.log(JSON.stringify(datosTienda));
     }
 
+    GetCmByStore(datosTienda:any, status){
+        gDatosTotalPorTienda = datosTienda;
+        console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
+    }
+
     obtenTotalesTienda(datosParam){
 
         let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: datosParam.idGpo};
         console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
         //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
-        this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
+        //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
 
         // <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><GetStoreTotals xmlns="http://Pentomino.mx/"><startDate>1513576800000</startDate><endDate>1513663200000</endDate><store>16228090</store></GetStoreTotals></s:Body></s:Envelope>
 

@@ -33,6 +33,9 @@ import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-c
 import { JournalComponent }                 from './reportes/journal/journal.component';
 import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
 import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
+import { ResumenDeEfectivo }        from './reportes/resumen-efectivo/resumen-efectivo.component';
+import { DetallePorTienda }                 from './reportes/detalle-por-tienda/detalle-por-tienda.component';
+
 
 import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
@@ -64,7 +67,9 @@ import { ExportToCSV }                  from './services/export-to-csv.service';
     ParamsComponent,
     AclaracionesComponent,
     TotalesPorTiendaComponent,
-    ParamsAtmsComponent
+    ParamsAtmsComponent,
+    ResumenDeEfectivo,
+    DetallePorTienda
 
   ],
 

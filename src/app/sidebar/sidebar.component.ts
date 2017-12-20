@@ -15,6 +15,9 @@ export const ROUTES: RouteInfo[] = [
     { path: 'aclaraciones',     title: 'Aclaraciones',              icon: 'pe-7s-search',       class: '' },
     { path: 'loghma',           title: 'Log HMA',                   icon: 'pe-7s-notebook',     class: '' },
     { path: 'totaltienda',      title: 'Totales por Tienda',        icon: 'pe-7s-notebook',     class: '' },
+    { path: 'resumenefectivo',  title: 'Resumen de Efectivo',        icon: 'pe-7s-notebook',     class: '' },
+    { path: 'detalletienda',  title: 'Detalle por Tienda',          icon: 'pe-7s-notebook',     class: '' },
+
 ];
 
 /*

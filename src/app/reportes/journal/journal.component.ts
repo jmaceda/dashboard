@@ -324,8 +324,10 @@ export class JournalComponent implements OnInit  {
             )
         });
 
-        let exporter = new ExportToCSV();
-        exporter.exportAllToCSV(arr2Excel, nomArchExcel);
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSV();
+            exporter.exportAllToCSV(arr2Excel, nomArchExcel);
+        }
     }
 
     parametrosConsulta(infoRecibida){
