@@ -118,7 +118,7 @@ export class ResumenDeEfectivo implements OnInit  {
 
     GetCmByStore(datosTienda:any, status){
         gDatosResumenDeEfectivo = datosTienda;
-        console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
+        //console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
     obtenTotalesTienda(datosParam){
@@ -146,6 +146,7 @@ export class ResumenDeEfectivo implements OnInit  {
         let acumDepositos:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumRetiros:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         gDatosResumenDeEfectivo.forEach(( reg )=> {
+            //console.log("TxType["+reg.TxType+"]")
             if(reg.TxType == "Retiro de Efectivo"){
                 acumRetiros.b20   += Number(reg.Amount20);
                 acumRetiros.b50   += Number(reg.Amount50);
@@ -153,18 +154,20 @@ export class ResumenDeEfectivo implements OnInit  {
                 acumRetiros.b200  += Number(reg.Amount200);
                 acumRetiros.b500  += Number(reg.Amount500);
                 acumRetiros.b1000 += Number(reg.Amount1000);
-            }else if (reg.Txtype == "Depósito Walmart"){
+                //console.log("Retiros: "+JSON.stringify(acumRetiros));
+            }else if (reg.TxType == "Depósito Walmart"){
                 acumDepositos.b20   += Number(reg.Amount20);
                 acumDepositos.b50   += Number(reg.Amount50);
                 acumDepositos.b100  += Number(reg.Amount100);
                 acumDepositos.b200  += Number(reg.Amount200);
                 acumDepositos.b500  += Number(reg.Amount500);
                 acumDepositos.b1000 += Number(reg.Amount1000);
+                //console.log("Depositos: "+JSON.stringify(acumDepositos));
             }
         });
 
-        console.log(JSON.stringify(acumRetiros));
-        console.log(JSON.stringify(acumDepositos));
+        console.log("Retiros: "+JSON.stringify(acumRetiros));
+        console.log("Depositos: "+JSON.stringify(acumDepositos));
 
         /*
         gDatosResumenDeEfectivo.forEach(( reg )=> {
