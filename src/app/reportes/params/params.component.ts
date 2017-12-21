@@ -154,6 +154,7 @@ export class ParamsComponent implements OnInit {
     }
 
 
+    public gSeleccion:any;
 
     public paramsActuales(idOrigen:number){
         console.log("ParamsComponent.paramsActuales:: inicia");
@@ -161,9 +162,8 @@ export class ParamsComponent implements OnInit {
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);
         let ipATM       = this.atmSeleccionado;
-        //let descGpo     = this.atmSeleccionado;
 
-        //console.log("params.component.paramsActuales: fchInicio["+fchInicio+"] fchFin["+fchFin+"]");
+        console.log("params.component.paramsActuales: fchInicio["+JSON.stringify(fchInicio)+"] fchFin["+JSON.stringify(fchFin)+"]");
         let idGpo:any;
         if (this.dTipoListaParams == "G") {
             console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
@@ -175,6 +175,7 @@ export class ParamsComponent implements OnInit {
             console.log("ParamsComponent.paramsActuales:: idGpo["+idGpo+"]");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
         }else {
+            console.log("ParamsComponent.paramsActuales:: ipATM["+ipATM+"]");
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
         }

@@ -150,7 +150,6 @@ export class ParamsAtmsComponent implements OnInit {
     }
 
 
-
     public paramsActuales(idOrigen:number){
         console.log("ParamsAtmsComponent.paramsActuales:: inicia");
         console.log("ParamsAtmsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
@@ -171,6 +170,7 @@ export class ParamsAtmsComponent implements OnInit {
             console.log("ParamsAtmsComponent.paramsActuales:: fchInicio["+fchInicio+"]");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
         }else {
+            console.log("ParamsAtmsComponent.paramsActuales:: ipATM["+ipATM+"]");
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
         }

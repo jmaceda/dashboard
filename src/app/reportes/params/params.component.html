@@ -17,7 +17,7 @@
 
                 <div class="row">
 
-                    <div class="col-md-1"></div>
+                    <!-- div class="col-md-1"></div -->
 
                     <div class="col-md-3">
                         <div>
@@ -30,13 +30,13 @@
 
                     <div class="col-md-2" style="text-align: center;">
                         <span style="font-weight: bold;">{{contenidoCombo}}</span>
-                        <select type="string" [(ngModel)]="gpoSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
+                        <select type="string" [(ngModel)]="atmSeleccionado" (ngModelChange)="pAtmSeleccionado($event)">
                             <option value="" disabled>{{contenidoLista}}</option>
                             <option *ngFor="let atm of ipATMs; let i = index" [ngValue]="atm">{{atm}}</option>
                         </select>
                     </div>
 
-                    <div class="col-md-1"></div>
+                    <div class="col-md-2"></div>
 
                     <div class="col-md-3" style="text-align: center;">
                         <div>

@@ -535,6 +535,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.paramsServicioDatosLog.ip[0]               = paramsConsulta.ip;
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        console.log("pDatosDelJournal::  this.paramsServicioNumPaginas["+JSON.stringify(this.paramsServicioNumPaginas)+"]");
         this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
 
 
@@ -552,7 +553,7 @@ export class ResumenOperacionesComponent implements OnInit  {
             // ** gNumPaginas = El número máximo de información.
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
-                //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
+                console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
                 this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
             }
 
@@ -1265,6 +1266,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     obtenNumeroDePaginasLog(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
+        //console.log("obtenNumeroDePaginasLog:: "+JSON.stringify(result));
     }
 
     //  Recupera la respueta del servicio xxx con el que se obtiene ela información del Journal
