@@ -37,7 +37,7 @@ export class AcumPorTiendaService implements OnInit {
         let idx = 0;
         let arrNomAtms:any[] = [];
 
-        gDatosAtms.forEach((reg)=> {
+        gDatosAcumTienda.forEach((reg)=> {
             arrNomAtms.push( (reg.Description + ' (' + reg.Ip + ')') );
         });
 
