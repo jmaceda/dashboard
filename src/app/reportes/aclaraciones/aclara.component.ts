@@ -3,12 +3,11 @@ import { Component }                            from '@angular/core';
 import { OnInit }                               from '@angular/core';
 import { OnDestroy }                            from '@angular/core';
 import { SoapService }                          from '../../services/soap.service';
+import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
 import { sprintf }                              from "sprintf-js";
-//import { DataTable }                            from 'angular-4-data-table-fix';
-//import { DataTableTranslations }                from 'angular-4-data-table-fix';
 import { DataTableResource }                    from 'angular-4-data-table-fix';
 import { Angular2Csv }                          from 'angular2-csv/Angular2-csv';
-//import * as XLSX from 'xlsx';
+
 
 import { ConfigService }                        from './configuration.service';
 
@@ -147,7 +146,8 @@ export class AclaracionesComponent implements OnInit  {
     };
 
 
-    constructor(public _soapService: SoapService){//}, private excelService: ExcelService){
+    constructor(public _soapService: SoapService,
+                public filtrosUtilsService: FiltrosUtilsService){//}, private excelService: ExcelService){
         //this.excelService = excelService;
 
     }
@@ -325,16 +325,8 @@ export class AclaracionesComponent implements OnInit  {
         }else{
             this.obtenDatosLog([{}], gNumPaginas);
         }
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
 
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
     public TimeStamp;

@@ -5,6 +5,7 @@ import { sprintf }                                              from "sprintf-js
 import { SoapService }                                          from '../../services/soap.service';
 import { Router }                                               from '@angular/router';
 import { ActivatedRoute }                                       from '@angular/router';
+import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 
 import { ParamsAtmsComponent }                                  from '../params-atms/params-atms.component';
 
@@ -41,6 +42,8 @@ export class AtmsEstatusComponent implements OnInit {
 
     public dListaAtmGpos:any = [];
     public dTipoListaParams:string = "G";
+    public dUltimaActualizacion:string;
+    public regsLimite:number = 15;
 
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
@@ -54,11 +57,9 @@ export class AtmsEstatusComponent implements OnInit {
     public rutaActual                   = "";
     public urlPath                      = "";
     public fchActual:any;
-    public regsLimite:number            = 15;
-    public dUltimaActualizacion         = "";
+
 
     gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
-
 
     public horaActual(){
         let fechaSys = new Date();
@@ -67,8 +68,8 @@ export class AtmsEstatusComponent implements OnInit {
 
     constructor(public _soapService: SoapService,
                 private router: Router,
-                public activatedRoute: ActivatedRoute) {
-                //private activatedRoute : ActivatedRoute
+                public activatedRoute: ActivatedRoute,
+                public filtrosUtilsService: FiltrosUtilsService) {
 
         this.activatedRoute.url.subscribe(url => {
             this.urlPath = url[0].path;
@@ -174,16 +175,8 @@ export class AtmsEstatusComponent implements OnInit {
         this.reloadItems( {limit: this.regsLimite, offset: 0});
         this.Titulo="";
 
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
 
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-        $("#idFchHraUltimaActual").val(this.dUltimaActualizacion);
     };
 
     reloadItems(params) {

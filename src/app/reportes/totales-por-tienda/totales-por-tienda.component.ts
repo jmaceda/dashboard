@@ -3,14 +3,12 @@ import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
 import { OnDestroy }                                    from '@angular/core';
 import { SoapService }                                  from '../../services/soap.service';
+import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { sprintf }                                      from "sprintf-js";
 import { DataTable }                                    from 'angular-4-data-table-fix';
 import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-//import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
 import { EventEmitter}      from '@angular/core';
-
-//import { ParamsAtmsComponent }                          from '../params-atms/params-atms.component';
 
 
 export var gGetGroupsWithAtms:any;
@@ -142,6 +140,7 @@ export class TotalesPorTiendaComponent implements OnInit  {
                 Atm:        reg.Atm,
                 TxType:     reg.TxType,
                 Date:       reg.Date,
+
                 Amount1000: reg.Amount1000,
                 Amount500:  reg.Amount500,
                 Amount200:  reg.Amount200,
@@ -169,19 +168,11 @@ export class TotalesPorTiendaComponent implements OnInit  {
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-        $("#idFchHraUltimaActual").val(this.dUltimaActualizacion);
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
-    constructor(public _soapService: SoapService){}
+    constructor(public _soapService: SoapService,
+                public filtrosUtilsService: FiltrosUtilsService){}
 
     gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 

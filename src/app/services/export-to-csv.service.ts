@@ -1,7 +1,7 @@
 import { Injectable }     from '@angular/core';
 
 @Injectable()
-export class ExportToCSV {
+export class ExportToCSVService {
 
     public delimitador:string = ",";
 
@@ -46,7 +46,7 @@ export class ExportToCSV {
         let csv = arrayToPublish.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replace)).join(this.delimitador));
         csv.unshift(header.join(this.delimitador));
         let data = csv.join('\r\n');
-        ExportToCSV.download(fileName, data);
+        ExportToCSVService.download(fileName, data);
     }
 
     static downloadFile(filename : string, data : string, format : string) {
@@ -64,6 +64,6 @@ export class ExportToCSV {
     }
 
     static download(filename: string, data: any) {
-        ExportToCSV.downloadFile(filename, data, 'text/csv');
+        ExportToCSVService.downloadFile(filename, data, 'text/csv');
     }
 }

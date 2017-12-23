@@ -15,6 +15,7 @@ import { ActivatedRoute }                       from '@angular/router';
 import { DesglosaBilletes }                     from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD }                    from './services/GuardaDepositosBD.service';
 import { ErroresPorBanco }                      from '../../model/errores-por-banco.model';
+import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
 //import { ResOpersService }                    from '../../services/res-opers.service';
 //import { ResOpersModel, IResOpersModel }      from '../../model/res-opers.model';
 //import { DataBaseService }                    from '../../services/data-base.service';
@@ -358,8 +359,8 @@ export class ResumenOperacionesComponent implements OnInit  {
                 public _soapService: SoapService,
                 private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD,
-                public activatedRoute: ActivatedRoute){
-        //resOpersService: ResOpersService){
+                public activatedRoute: ActivatedRoute,
+                public filtrosUtilsService: FiltrosUtilsService){
 
         console.log("ResumenOperacionesComponent:: Inicia");
         this.activatedRoute.url.subscribe(url =>{
@@ -580,15 +581,7 @@ export class ResumenOperacionesComponent implements OnInit  {
             this.cErroresPorBanco = [];
         }
 
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
 

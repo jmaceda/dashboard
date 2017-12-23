@@ -7,10 +7,9 @@ import { sprintf }                                      from "sprintf-js";
 import { DataTable }                                    from 'angular-4-data-table-fix';
 import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-//import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
-import { EventEmitter}      from '@angular/core';
+import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
+import { EventEmitter}                                  from '@angular/core';
 
-//import { ParamsAtmsComponent }                          from '../params-atms/params-atms.component';
 
 
 export var gGetGroupsWithAtms:any;
@@ -143,8 +142,12 @@ export class ResumenDeEfectivo implements OnInit  {
         let arrDatosAtms:any[] = [];
         let idx:number = 0;
 
-        let acumDepositos:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
-        let acumRetiros:any = {'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumDepositos:any   = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumRetiros:any     = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumDisponible:any  = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+
+        console.log("gDatosResumenDeEfectivo: "+JSON.stringify(gDatosResumenDeEfectivo));
+
         gDatosResumenDeEfectivo.forEach(( reg )=> {
             //console.log("TxType["+reg.TxType+"]")
             if(reg.TxType == "Retiro de Efectivo"){
@@ -154,6 +157,10 @@ export class ResumenDeEfectivo implements OnInit  {
                 acumRetiros.b200  += Number(reg.Amount200);
                 acumRetiros.b500  += Number(reg.Amount500);
                 acumRetiros.b1000 += Number(reg.Amount1000);
+                acumRetiros.monto = (acumRetiros.b20 * 20) + (acumRetiros.b50 * 50) + (acumRetiros.b100 * 100)
+                                  + (acumRetiros.b200 * 200) + (acumRetiros.b500 * 500) + (acumRetiros.b1000 * 1000);
+                acumRetiros.opers++;
+
                 //console.log("Retiros: "+JSON.stringify(acumRetiros));
             }else if (reg.TxType == "Depósito Walmart"){
                 acumDepositos.b20   += Number(reg.Amount20);
@@ -162,12 +169,29 @@ export class ResumenDeEfectivo implements OnInit  {
                 acumDepositos.b200  += Number(reg.Amount200);
                 acumDepositos.b500  += Number(reg.Amount500);
                 acumDepositos.b1000 += Number(reg.Amount1000);
-                //console.log("Depositos: "+JSON.stringify(acumDepositos));
+                acumDepositos.monto = (acumDepositos.b20 * 20) + (acumDepositos.b50 * 50) + (acumDepositos.b100 * 100)
+                    + (acumDepositos.b200 * 200) + (acumDepositos.b500 * 500) + (acumDepositos.b1000 * 1000);
+                acumDepositos.opers++;
+                //console.log("Retiros: "+JSON.stringify(acumDepositos));
             }
+
+            acumDisponible.b20   = Number(acumDepositos.b20) - Number(acumRetiros.b20);
+            acumDisponible.b50   = Number(acumDepositos.b50) - Number(acumRetiros.b50);
+            acumDisponible.b100  = Number(acumDepositos.b100) - Number(acumRetiros.b100);
+            acumDisponible.b200  = Number(acumDepositos.b200) - Number(acumRetiros.b200);
+            acumDisponible.b500  = Number(acumDepositos.b500) - Number(acumRetiros.b500);
+            acumDisponible.b1000 = Number(acumDepositos.b1000) - Number(acumRetiros.b1000);
+            acumDisponible.monto = (acumDisponible.b20 * 20) + (acumDisponible.b50 * 50) + (acumDisponible.b100 * 100)
+                + (acumDisponible.b200 * 200) + (acumDisponible.b500 * 500) + (acumDisponible.b1000 * 1000);
+            acumDisponible.opers++;
+            //console.log("Disponible: "+JSON.stringify(acumDisponible));
+
         });
 
-        console.log("Retiros: "+JSON.stringify(acumRetiros));
         console.log("Depositos: "+JSON.stringify(acumDepositos));
+        console.log("Retiros: "+JSON.stringify(acumRetiros));
+        console.log("Disponible: "+JSON.stringify(acumDisponible));
+
 
         /*
         gDatosResumenDeEfectivo.forEach(( reg )=> {
@@ -203,27 +227,15 @@ export class ResumenDeEfectivo implements OnInit  {
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 
-        let fchSys   = new Date();
-        let _anioSys = fchSys.getFullYear();
-        let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
-        let _diaSys  = fchSys.getDate();
-        let _hraSys  = fchSys.getHours();
-        let _minSys  = fchSys.getMinutes();
-        let _segSys  = fchSys.getSeconds();
-
-        this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-        $("#idFchHraUltimaActual").val(this.dUltimaActualizacion);
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
-    constructor(public _soapService: SoapService){}
+    constructor(public _soapService: SoapService,
+                public filtrosUtilsService: FiltrosUtilsService){}
 
     gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
-    ngOnInit() {
-        //this.obtenGetGroupsWithAtms();
-        //this.dListaAtmGpos = gGrupos;
-
-    }
+    ngOnInit() { }
 
     reloadItems(params) {
         console.log("reloadItems::  parms: "+JSON.stringify(params));

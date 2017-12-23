@@ -102,7 +102,8 @@ export class ParamsComponent implements OnInit {
         console.log(nomModulo+".ngOnInit:: " + this.ipATMs);
     }
 
-    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
+    constructor(public _soapService: SoapService,
+                public detalleAtmsService: DetalleAtmsService,
                 private modalService: NgbModal){
     }
 
@@ -166,9 +167,9 @@ export class ParamsComponent implements OnInit {
         console.log("params.component.paramsActuales: fchInicio["+JSON.stringify(fchInicio)+"] fchFin["+JSON.stringify(fchFin)+"]");
         let idGpo:any;
         if (this.dTipoListaParams == "G") {
-            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
-            if (this.gpoSeleccionado != "Todos") {
-                idGpo = this.detalleAtmsService.obtenIdGroup(this.gpoSeleccionado);
+            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.atmSeleccionado+"]");
+            if (this.atmSeleccionado != "Todos") {
+                idGpo = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
             }
             console.log("ParamsComponent.paramsActuales:: idGpo["+typeof(idGpo)+"]");
             idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
@@ -179,10 +180,6 @@ export class ParamsComponent implements OnInit {
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
         }
-
-
-
-
 
         this.parametrosConsulta.emit(this.paramsConsulta);
     }

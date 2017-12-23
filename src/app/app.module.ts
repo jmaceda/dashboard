@@ -33,7 +33,7 @@ import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-c
 import { JournalComponent }                 from './reportes/journal/journal.component';
 import { LogHmaComponent }                  from './reportes/log-hma/log-hma.component';
 import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
-import { ResumenDeEfectivo }        from './reportes/resumen-efectivo/resumen-efectivo.component';
+import { ResumenDeEfectivo }                from './reportes/resumen-efectivo/resumen-efectivo.component';
 import { DetallePorTienda }                 from './reportes/detalle-por-tienda/detalle-por-tienda.component';
 
 
@@ -46,7 +46,9 @@ import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 import { BsModalModule }                    from 'ng2-bs3-modal';
 
 import { DataBaseService }                  from './services/data-base.service';
-import { ExportToCSV }                  from './services/export-to-csv.service';
+import { ExportToCSVService }               from './services/export-to-csv.service';
+import { FiltrosUtilsService }              from './services/filtros-utils.service';
+
 
 @NgModule({
   declarations: [
@@ -96,7 +98,8 @@ import { ExportToCSV }                  from './services/export-to-csv.service';
   exports: [],
   providers: [
     DataBaseService,
-    ExportToCSV
+    ExportToCSVService,
+    FiltrosUtilsService
   ],
   bootstrap: [AppComponent],
 

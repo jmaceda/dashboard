@@ -1337,27 +1337,6 @@ export class ResumenCifrasComponent implements OnInit  {
         return(respBilletes);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Actualiza informciòn de la pantalla.
     public pActualizaInfoXXX(): void {
 

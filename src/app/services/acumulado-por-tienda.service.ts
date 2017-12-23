@@ -7,6 +7,7 @@ import { SoapService }      from './soap.service';
 
 export var gDatosAcumTienda;
 export var gGrupos;
+export var gDatosAtms;
 
 var nomModulo = "AcumPorTiendaService";
 

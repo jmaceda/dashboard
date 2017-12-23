@@ -7,7 +7,8 @@ import { sprintf }                              from "sprintf-js";
 import { DataTable }                            from 'angular-4-data-table-fix';
 import { DataTableTranslations }                from 'angular-4-data-table-fix';
 import { DataTableResource }                    from 'angular-4-data-table-fix';
-import { ExportToCSV }                          from '../../services/export-to-csv.service';
+import { ExportToCSVService }                   from '../../services/export-to-csv.service';
+import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
 
 
 var ipAnterior:string = null;
@@ -44,6 +45,11 @@ export const nomComponente:string = "JournalComponent";
 })
 export class JournalComponent implements OnInit  {
 
+    public dListaAtmGpos:any = [];
+    public dTipoListaParams:string = "A";
+    public dUltimaActualizacion:string;
+    public regsLimite:number = 15;
+
     public url: string = '/dataservices.asmx'; //  QA
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
@@ -56,7 +62,6 @@ export class JournalComponent implements OnInit  {
     public dHraFinProceso: string = '23-59';
     public fechaHoraOperacion: string;
     public ipATMs:any[] = [];
-    public regsLimite: number = 15;
     public nomArchExcel = "Journal_";
 
     columns = [
@@ -95,7 +100,7 @@ export class JournalComponent implements OnInit  {
     paramsServicioNumPaginas:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"};
     paramsServicioDatosLog:any = {ip: [], timeStampStart: '', timeStampEnd: '', events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1", page: 0};
 
-    constructor(public _soapService: SoapService){
+    constructor(public _soapService: SoapService, public filtrosUtilsService: FiltrosUtilsService){
     }
 
     ngOnInit() {
@@ -125,11 +130,10 @@ export class JournalComponent implements OnInit  {
             gNumPaginasCompletas    = 0;
         }
 
-        this.pDatosDelJournal('');
+        //this.pDatosDelJournal('');
 
     }
 
-    dUltimaActualizacion: string;
 
     public obtenNumeroDePaginasLog(result:object, status){
         console.log("obtenNumeroDePaginasLog:: Inicio");
@@ -216,7 +220,7 @@ export class JournalComponent implements OnInit  {
 
             //arrDatosServidor = arrDatosServidorBack;
             //gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
-            this.obtenDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
+            this.despliegaDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
 
             //if (arrDatosServidorInc.length > 0) {
             //    this.numPaginas = gNumPaginas - 1;
@@ -224,9 +228,30 @@ export class JournalComponent implements OnInit  {
 
             //gNumPaginasCompletas = (gNumPaginas - 1);
         }else{
-            this.obtenDatosLog([{}], gNumPaginas);
+            this.despliegaDatosLog([{}], gNumPaginas);
         }
 
+    }
+
+    public TimeStamp;
+    public CardNumber;
+    public Id;
+    public datosLog:any[] = [];
+
+    public despliegaDatosLog(result:object, numPag:number): void {
+        this.datosLog           = JSON.parse(JSON.stringify(result));
+        this.numDatosLog        = this.datosLog.length;
+        this.datosLog.pop();
+
+        this.itemResource       = new DataTableResource(this.datosLog);
+        this.itemResource.count().then(count => this.itemCount = count);
+        this.reloadItems( {limit: this.regsLimite, offset: 0});
+
+        //this.exportaJournal2Excel();
+
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+
+        /*
         let fchSys   = new Date();
         let _anioSys = fchSys.getFullYear();
         let _mesSys  = fchSys.getMonth()+1;   //hoy es 0!
@@ -236,24 +261,9 @@ export class JournalComponent implements OnInit  {
         let _segSys  = fchSys.getSeconds();
 
         this.dUltimaActualizacion = sprintf('%4d-%02d-%02d      %02d:%02d:%02d', _anioSys, _mesSys, _diaSys, _hraSys, _minSys, _segSys);
-
-    }
-
-    public TimeStamp;
-    public CardNumber;
-    public Id;
-    public datosLog:any[] = [];
-
-    public obtenDatosLog(result:object, numPag:number): void {
-        this.datosLog           = JSON.parse(JSON.stringify(result));
-        this.numDatosLog        = this.datosLog.length;
-        this.datosLog.pop();
-
-        this.itemResource       = new DataTableResource(this.datosLog);
-        this.itemResource.count().then(count => this.itemCount = count);
-        this.reloadItems( {limit: this.regsLimite, offset: 0});
-
-        this.exportaJournal2Excel();
+        $("#idFchHraUltimaActual").val(this.dUltimaActualizacion);
+        console.log("JournalComponent.pDatosDelJournal:: dUltimaActualizacion ["+this.dUltimaActualizacion+"]");
+        */
     }
 
     public numDatosLog:number = 0;
@@ -325,7 +335,7 @@ export class JournalComponent implements OnInit  {
         });
 
         if (arr2Excel.length > 0) {
-            let exporter = new ExportToCSV();
+            let exporter = new ExportToCSVService();
             exporter.exportAllToCSV(arr2Excel, nomArchExcel);
         }
     }

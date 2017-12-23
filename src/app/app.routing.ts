@@ -1,9 +1,9 @@
 /*
 */
-import { NgModule }                 from '@angular/core';
-import { CommonModule, }            from '@angular/common';
-import { BrowserModule  }           from '@angular/platform-browser';
-import { Routes, RouterModule }     from '@angular/router';
+import { NgModule }                         from '@angular/core';
+import { CommonModule, }                    from '@angular/common';
+import { BrowserModule  }                   from '@angular/platform-browser';
+import { Routes, RouterModule }             from '@angular/router';
 
 import { ResumenOperacionesComponent }      from './atms/resumen-operaciones/resumen-operaciones.component';
 import { UserComponent }                    from './user/user.component';
@@ -22,8 +22,8 @@ import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/
 import { ResumenDeEfectivo }                from './reportes/resumen-efectivo/resumen-efectivo.component';
 import { DetallePorTienda }                 from './reportes/detalle-por-tienda/detalle-por-tienda.component';
 
-import { AtmsEstatusComponent }     from './atms/estatus/atms-estatus.component';
-import { ResumenCifrasComponent }   from './atms/resumenCifras/resumen-cifras.component';
+import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
+import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 
 
 
