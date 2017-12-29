@@ -218,3 +218,12 @@ button.btn.btn-default.btn-sm.refresh-button {
 #loghma div data-table-header div.data-table-header {
     margin-bottom: 0px;
 }
+
+/*   */
+.campoNumerico {
+    text-align: right;
+}
+
+table.table.table-condensed.table-bordered.data-table thead tr th {
+    text-align: center;
+}

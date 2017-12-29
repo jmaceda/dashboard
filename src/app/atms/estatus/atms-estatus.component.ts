@@ -40,10 +40,12 @@ export class GetGroupsAtmIds{
 })
 export class AtmsEstatusComponent implements OnInit {
 
-    public dListaAtmGpos:any = [];
-    public dTipoListaParams:string = "G";
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "G";
+    public dSolicitaFechasIni           = false;
+    public dSolicitaFechasFin           = false;
     public dUltimaActualizacion:string;
-    public regsLimite:number = 15;
+    public regsLimite:number            = 15;
 
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
@@ -57,28 +59,57 @@ export class AtmsEstatusComponent implements OnInit {
     public rutaActual                   = "";
     public urlPath                      = "";
     public fchActual:any;
+    public pDatosParam:any              = {};
 
-
-    gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
-
-    public horaActual(){
-        let fechaSys = new Date();
-        return(sprintf("%4d:%02d:%02d",fechaSys.getHours(), (fechaSys.getMinutes() + 1), fechaSys.getSeconds()));
-    }
+    //gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
 
     constructor(public _soapService: SoapService,
                 private router: Router,
                 public activatedRoute: ActivatedRoute,
                 public filtrosUtilsService: FiltrosUtilsService) {
 
-        this.activatedRoute.url.subscribe(url => {
-            this.urlPath = url[0].path;
-            console.log("AtmsEstatusComponent.constructor:: -->" + this.urlPath + "<--");
-        });
+        /*
+         this.activatedRoute.url.subscribe(url => {
+         this.urlPath = url[0].path;
+         console.log("AtmsEstatusComponent.constructor:: -->" + this.urlPath + "<--");
+         });
+         */
     }
 
+    public ngOnInit() {
+
+        /*
+         if (this.urlPath != "atms"){
+         return(0);
+         }
+         */
+    }
+
+    public parametrosConsulta(infoRecibida){
+        let parametrosConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let idGpo     = infoRecibida.gpo;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
+
+        this.pActualizaInfo();
+    }
+
+
     // Actualiza informciòn de la pantalla.
-    pActualizaInfo(): void {
+    public pActualizaInfo(): void {
 
         console.log("pActualizaInfo::  Inicio");
         if (this.intervalId != null){
@@ -89,40 +120,18 @@ export class AtmsEstatusComponent implements OnInit {
         this.intervalId = setInterval(() => { this.obtenGetAtm(); }, this.tiempoRefreshDatos);
     }
 
-    ngOnInit() {
 
-        if (this.urlPath != "atms"){
-            return(0);
-        }
-    }
+    public obtenGetAtm() {
 
-    GetAtm(datosAtms:any, status){
-        console.log("GetAtm:: Inicio  ["+new Date()+"]");
-        gDatosAtms = datosAtms;
-    }
-
-    GetStoreTotals(){
-
-    }
-
-    obtenerTotalesPorTienda(){
-
-    }
-
-    nomComponente = "AtmsEstatusComponent";
-
-    GetAtmMoneyStat(datosAtms:any, status){
-        gDatosEfectivoAtm = datosAtms;
-    }
-
-    obtenGetAtm() {
-
+        /*
         if (this.urlPath != "atms"){
             console.log("obtenGetAtm:: No va a cargar los datos");
             return(0);
         }
+        */
 
-        let parameters = { nemonico: -1, groupId: Number(this.pDatosParam.groupId), brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
+        let parameters = {  nemonico: -1, groupId: Number(this.pDatosParam.groupId), brandId: -1,
+                            modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
         this._soapService.post('', "GetAtm", parameters, this.GetAtm);
 
@@ -160,11 +169,11 @@ export class AtmsEstatusComponent implements OnInit {
                 LastIOnlineTimestamp:           reg.LastIOnlineTimestamp,
 
                 /*
-                cassettero:                     gDatosEfectivoAtm.Device,
-                denominacion:                   gDatosEfectivoAtm.Denomination,
-                numBilletes:                    gDatosEfectivoAtm.Amount,
-                montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
-                */
+                 cassettero:                     gDatosEfectivoAtm.Device,
+                 denominacion:                   gDatosEfectivoAtm.Denomination,
+                 numBilletes:                    gDatosEfectivoAtm.Amount,
+                 montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
+                 */
             }
 
 
@@ -177,7 +186,12 @@ export class AtmsEstatusComponent implements OnInit {
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
 
-    };
+    }
+
+    public GetAtm(datosAtms:any, status){
+        console.log("GetAtm:: Inicio  ["+new Date()+"]");
+        gDatosAtms = datosAtms;
+    }
 
     reloadItems(params) {
         console.log("reloadItems::");
@@ -194,26 +208,30 @@ export class AtmsEstatusComponent implements OnInit {
 
     rowTooltip(item) { return item.jobTitle; }
 
-    parametrosConsulta(infoRecibida){
-        let parametrosConsulta:any = {};
 
-        let fIniParam = infoRecibida.fchInicio;
-        let fFinParam = infoRecibida.fchFin;
-        let idGpo     = infoRecibida.gpo;
+    // ---------------------------------------------------------------------
 
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
 
-        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+    /*
+    public horaActual(){
+        let fechaSys = new Date();
+        return(sprintf("%4d:%02d:%02d",fechaSys.getHours(), (fechaSys.getMinutes() + 1), fechaSys.getSeconds()));
+    }
 
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
 
-        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
 
-        this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
+    GetStoreTotals(){
 
-        this.pActualizaInfo();
+    }
+
+    obtenerTotalesPorTienda(){
+
+    }
+
+    nomComponente = "AtmsEstatusComponent";
+
+    GetAtmMoneyStat(datosAtms:any, status){
+        gDatosEfectivoAtm = datosAtms;
     }
 
     public pDatosParam:any = {};
@@ -248,6 +266,7 @@ export class AtmsEstatusComponent implements OnInit {
 
         this.obtenGetGroupsAtmsIps();
     }
+    */
 
 }
 

@@ -139,14 +139,14 @@ export class ResumenDeEfectivo implements OnInit  {
         "Taken1000":22,"Taken500":1435,"Taken200":842,"Taken100":504,"Taken50":228,"Taken20":2,
         "Total":885690}
         */
-        let arrDatosAtms:any[] = [];
+        let datosEfectivo:any[] = [{}];
         let idx:number = 0;
 
-        let acumDepositos:any   = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
-        let acumRetiros:any     = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
-        let acumDisponible:any  = {'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumDepositos:any   = {'tipoOper': 'Depósito Walmart',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumRetiros:any     = {'tipoOper': 'Retiro de Efectivo', 'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
+        let acumDisponible:any  = {'tipoOper': 'Total Disponible',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
 
-        console.log("gDatosResumenDeEfectivo: "+JSON.stringify(gDatosResumenDeEfectivo));
+        //console.log("gDatosResumenDeEfectivo: "+JSON.stringify(gDatosResumenDeEfectivo));
 
         gDatosResumenDeEfectivo.forEach(( reg )=> {
             //console.log("TxType["+reg.TxType+"]")
@@ -157,9 +157,10 @@ export class ResumenDeEfectivo implements OnInit  {
                 acumRetiros.b200  += Number(reg.Amount200);
                 acumRetiros.b500  += Number(reg.Amount500);
                 acumRetiros.b1000 += Number(reg.Amount1000);
-                acumRetiros.monto = (acumRetiros.b20 * 20) + (acumRetiros.b50 * 50) + (acumRetiros.b100 * 100)
-                                  + (acumRetiros.b200 * 200) + (acumRetiros.b500 * 500) + (acumRetiros.b1000 * 1000);
+                acumRetiros.monto = Number((acumRetiros.b20 * 20) + (acumRetiros.b50 * 50) + (acumRetiros.b100 * 100)
+                                  + (acumRetiros.b200 * 200) + (acumRetiros.b500 * 500) + (acumRetiros.b1000 * 1000));
                 acumRetiros.opers++;
+                acumDisponible.opers++;
 
                 //console.log("Retiros: "+JSON.stringify(acumRetiros));
             }else if (reg.TxType == "Depósito Walmart"){
@@ -169,21 +170,21 @@ export class ResumenDeEfectivo implements OnInit  {
                 acumDepositos.b200  += Number(reg.Amount200);
                 acumDepositos.b500  += Number(reg.Amount500);
                 acumDepositos.b1000 += Number(reg.Amount1000);
-                acumDepositos.monto = (acumDepositos.b20 * 20) + (acumDepositos.b50 * 50) + (acumDepositos.b100 * 100)
-                    + (acumDepositos.b200 * 200) + (acumDepositos.b500 * 500) + (acumDepositos.b1000 * 1000);
+                acumDepositos.monto = Number((acumDepositos.b20 * 20) + (acumDepositos.b50 * 50) + (acumDepositos.b100 * 100)
+                    + (acumDepositos.b200 * 200) + (acumDepositos.b500 * 500) + (acumDepositos.b1000 * 1000));
                 acumDepositos.opers++;
+                acumDisponible.opers++;
                 //console.log("Retiros: "+JSON.stringify(acumDepositos));
             }
 
-            acumDisponible.b20   = Number(acumDepositos.b20) - Number(acumRetiros.b20);
-            acumDisponible.b50   = Number(acumDepositos.b50) - Number(acumRetiros.b50);
-            acumDisponible.b100  = Number(acumDepositos.b100) - Number(acumRetiros.b100);
-            acumDisponible.b200  = Number(acumDepositos.b200) - Number(acumRetiros.b200);
-            acumDisponible.b500  = Number(acumDepositos.b500) - Number(acumRetiros.b500);
-            acumDisponible.b1000 = Number(acumDepositos.b1000) - Number(acumRetiros.b1000);
-            acumDisponible.monto = (acumDisponible.b20 * 20) + (acumDisponible.b50 * 50) + (acumDisponible.b100 * 100)
-                + (acumDisponible.b200 * 200) + (acumDisponible.b500 * 500) + (acumDisponible.b1000 * 1000);
-            acumDisponible.opers++;
+            acumDisponible.b20      = Number(acumDepositos.b20) - Number(acumRetiros.b20);
+            acumDisponible.b50      = Number(acumDepositos.b50) - Number(acumRetiros.b50);
+            acumDisponible.b100     = Number(acumDepositos.b100) - Number(acumRetiros.b100);
+            acumDisponible.b200     = Number(acumDepositos.b200) - Number(acumRetiros.b200);
+            acumDisponible.b500     = Number(acumDepositos.b500) - Number(acumRetiros.b500);
+            acumDisponible.b1000    = Number(acumDepositos.b1000) - Number(acumRetiros.b1000);
+            acumDisponible.monto    = Number((acumDisponible.b20 * 20) + (acumDisponible.b50 * 50) + (acumDisponible.b100 * 100)
+                + (acumDisponible.b200 * 200) + (acumDisponible.b500 * 500) + (acumDisponible.b1000 * 1000));
             //console.log("Disponible: "+JSON.stringify(acumDisponible));
 
         });
@@ -192,38 +193,39 @@ export class ResumenDeEfectivo implements OnInit  {
         console.log("Retiros: "+JSON.stringify(acumRetiros));
         console.log("Disponible: "+JSON.stringify(acumDisponible));
 
+        acumDepositos.monto     = acumDepositos.monto.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+        acumDepositos.b20       = acumDepositos.b20.toLocaleString("es-MX");
+        acumDepositos.b50       = acumDepositos.b50.toLocaleString("es-MX");
+        acumDepositos.b100      = acumDepositos.b100.toLocaleString("es-MX");
+        acumDepositos.b200      = acumDepositos.b200.toLocaleString("es-MX");
+        acumDepositos.b500      = acumDepositos.b500.toLocaleString("es-MX");
+        acumDepositos.b1000     = acumDepositos.b1000.toLocaleString("es-MX");
 
-        /*
-        gDatosResumenDeEfectivo.forEach(( reg )=> {
-            arrDatosAtms[idx++] = {
-                Store:      reg.Store,
-                Atm:        reg.Atm,
-                TxType:     reg.TxType,
-                Date:       reg.Date,
-                Amount1000: reg.Amount1000,
-                Amount500:  reg.Amount500,
-                Amount200:  reg.Amount200,
-                Amount100:  reg.Amount100,
-                Amount50:   reg.Amount50,
-                Amount20:   reg.Amount20,
+        acumRetiros.monto       = acumRetiros.monto.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+        acumRetiros.b20         = acumRetiros.b20.toLocaleString("es-MX");
+        acumRetiros.b50         = acumRetiros.b50.toLocaleString("es-MX");
+        acumRetiros.b100        = acumRetiros.b100.toLocaleString("es-MX");
+        acumRetiros.b200        = acumRetiros.b200.toLocaleString("es-MX");
+        acumRetiros.b500        = acumRetiros.b500.toLocaleString("es-MX");
+        acumRetiros.b1000       = acumRetiros.b1000.toLocaleString("es-MX");
 
-                Dispensed1000: reg.Dispensed1000,
-                Dispensed500:  reg.Dispensed500,
-                Dispensed200:  reg.Dispensed200,
-                Dispensed100:  reg.Dispensed100,
-                Dispensed50:   reg.Dispensed50,
-                Dispensed20:   reg.Dispensed20,
+        acumDisponible.monto   = acumDisponible.monto.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+        acumDisponible.b20     = acumDisponible.b20.toLocaleString("es-MX");
+        acumDisponible.b50     = acumDisponible.b50.toLocaleString("es-MX");
+        acumDisponible.b100    = acumDisponible.b100.toLocaleString("es-MX");
+        acumDisponible.b200    = acumDisponible.b200.toLocaleString("es-MX");
+        acumDisponible.b500    = acumDisponible.b500.toLocaleString("es-MX");
+        acumDisponible.b1000   = acumDisponible.b1000.toLocaleString("es-MX");
+        
+        datosEfectivo = [
+            JSON.parse(JSON.stringify(acumDepositos)),
+            JSON.parse(JSON.stringify(acumRetiros)),
+            JSON.parse(JSON.stringify(acumDisponible))
+        ];
 
-                Taken1000: reg.Taken1000,
-                Taken500:  reg.Taken500,
-                Taken200:  reg.Taken200,
-                Taken100:  reg.Taken100,
-                Taken50:   reg.Taken50,
-                Taken20:   reg.Taken20,
-            }
-        });
-*/
-        this.itemResource = new DataTableResource(arrDatosAtms);
+        console.log("ResumenDeEfectivo.obtenTotalesTienda:: datosEfectivo: "+JSON.stringify(datosEfectivo));
+
+        this.itemResource = new DataTableResource(datosEfectivo);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 

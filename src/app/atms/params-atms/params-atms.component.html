@@ -17,6 +17,13 @@
 
                 <div class="row">
 
+                    <div class="col-md-3">
+                        <div>
+                            <angular2-date-picker *ngIf="dSolicitaFechasIni" [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
+                            <angular2-date-picker *ngIf="dSolicitaFechasFin" [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
+                        </div>
+                    </div>
+
                     <div class="col-md-2"></div>
 
                     <div class="col-md-2" style="text-align: center;">

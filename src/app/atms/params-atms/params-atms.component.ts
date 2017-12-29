@@ -37,6 +37,8 @@ export class ParamsAtmsComponent implements OnInit {
     @Input() dUltimaActualizacion: string;
     @Input() dListaAtmGpos: any;
     @Input() dTipoListaParams: any;
+    @Input() dSolicitaFechasIni: any;
+    @Input() dSolicitaFechasFin: any;
     @Output() parametrosConsulta = new EventEmitter();
 
     public gListaGpos:any[];
@@ -78,14 +80,14 @@ export class ParamsAtmsComponent implements OnInit {
         this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
     }
 
-    ngOnInit() {
+    public ngOnInit() {
 
-        this.obtenFchSys();
+        //this.obtenFchSys();
 
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
-            this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
-            this.ipATMs = [];
+            this.gListaGpos     = this.detalleAtmsService.obtenGetGroups();
+            this.ipATMs         = [];
             this.ipATMs.push("-- Todos --");
             this.gListaGpos.forEach((reg)=> {
                 this.ipATMs.push(reg.Description);
@@ -93,12 +95,13 @@ export class ParamsAtmsComponent implements OnInit {
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
-            this.ipATMs = this.detalleAtmsService.obtenGetAtm();
+            this.ipATMs         = this.detalleAtmsService.obtenGetAtm();
             this.contenidoLista = "Seleccione ATM";
         }
     }
 
-    constructor(public _soapService: SoapService, public detalleAtmsService: DetalleAtmsService,
+    constructor(public _soapService: SoapService,
+                public detalleAtmsService: DetalleAtmsService,
                 private modalService: NgbModal){
     }
 
@@ -154,8 +157,8 @@ export class ParamsAtmsComponent implements OnInit {
         console.log("ParamsAtmsComponent.paramsActuales:: inicia");
         console.log("ParamsAtmsComponent.paramsActuales:: gpoSeleccionado["+this.gpoSeleccionado+"]");
 
-        let fchInicio   = this.Date2Json(this.fchInicio);
-        let fchFin      = this.Date2Json(this.fchFin);
+        let fchInicio   = (this.dSolicitaFechasIni) ? this.Date2Json(this.fchInicio) :  this.Date2Json(new Date());
+        let fchFin      = (this.dSolicitaFechasFin) ? this.Date2Json(this.fchFin) :  this.Date2Json(new Date()) ;
         let ipGpo       = this.gpoSeleccionado;
         let ipATM;
 

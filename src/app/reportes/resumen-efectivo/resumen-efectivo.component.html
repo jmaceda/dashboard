@@ -1,3 +1,11 @@
+<style>
+    /* Activa scroll horizontal del journal */
+    .scollsVentana{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+</style>
+
 <div class="container-fluid">
 
     <params
@@ -7,99 +15,126 @@
             [dTipoListaParams] = "dTipoListaParams">
     </params>
 
-    <div style="margin: 1% 0%; height: 24em; width: 100%;">
+    <div class="" style="margin: 1% 0%; height: 37em; width: 100%;">
 
         <div class="card" style="padding: 3px;">
-            <data-table id="loghma"
+            <data-table id="resumen-efectivo"
                         headerTitle="Resumen de Efectivo"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
                         (rowClick)="rowClick($event)"
                         (rowDoubleClick)="rowDoubleClick($event)"
-                        [expandableRows]="true"
+                        [expandableRows]="false"
                         [limit]="regsLimite"
                         [rowColors]="rowColors"
+                        [indexColumnHeader]="'ID'"
                         [rowTooltip]="rowTooltip">
 
-                <ng-template #dataTableExpand  let-item="item">
-                    <div class="row">
-                        <div class="col-md-1" style="text-align: right;">
-                            <span>Denominación</span><br>
-                            <span>$20</span><br>
-                            <span>$50</span><br>
-                            <span>$100</span><br>
-                            <span>$200</span><br>
-                            <span>$500</span><br>
-                            <span>$1000</span><br>
-                        </div>
-                        <div class="col-md-1" style="text-align: right;">
-                            <span>Depositos</span><br>
-                            <span>{{item.Amount20 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Amount50 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Amount100 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Amount200 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Amount500 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Amount1000 | number:'1.0-0'}}</span><br>
-                        </div>
-                        <div class="col-md-1"  style="text-align: right;">
-                            <span>Retiros</span><br>
-                            <span>{{item.Dispensed20 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Dispensed50 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Dispensed100 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Dispensed200 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Dispensed500 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Dispensed1000 | number:'1.0-0'}}</span><br>
-                        </div>
-                        <div class="col-md-1"  style="text-align: right;">
-                            <span>Disponible</span><br>
-                            <span>{{item.Taken20 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Taken50 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Taken100 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Taken200 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Taken500 | number:'1.0-0'}}</span><br>
-                            <span>{{item.Taken1000 | number:'1.0-0'}}</span><br>
-                        </div>
-                    </div>
-                </ng-template>
+                <data-table-column
+                        [property]="'tipoOper'"
+                        [header]="'Tipo Operación'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="10em">
 
-                <data-table-column
-                        [property]="'Store'"
-                        [header]="'Tienda'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8em">
                 </data-table-column>
                 <data-table-column
-                        [property]="'Atm'"
-                        [header]="'ATM'"
+                        [property]="'monto'"
+                        [header]="'Monto'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="8em">
-                </data-table-column>
-                <data-table-column
-                        [property]="'TxType'"
-                        [header]="'Tipo de Operación'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.TxType}}</span>
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.monto}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'Date'"
-                        [header]="'Date'"
+                        [property]="'opers'"
+                        [header]="'Operaciones'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="12em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div  class="noWrap">
-                            <span>{{item.Date}}</span>
-                        </div>
-                    </ng-template>
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.opers}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'b20'"
+                        [header]="'$20'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b20}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'b50'"
+                        [header]="'$50'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b50}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'b100'"
+                        [header]="'$100'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b100}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'b200'"
+                        [header]="'$200'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b200}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'b500'"
+                        [header]="'$500'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b500}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'b1000'"
+                        [header]="'$1000'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.b1000}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
             </data-table>

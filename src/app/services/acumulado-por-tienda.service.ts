@@ -29,7 +29,8 @@ export class AcumPorTiendaService implements OnInit {
 
         console.log(nomModulo+".obtenGetStoreCumulative:: Se van a obtener los datos");
 
-        let parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
+        let parameters = { 	nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
+							osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
         // Obtiene los datos de los ATMs
         this._soapService.post('', "GetStoreCumulative", parameters, this.GetStoreCumulative);
@@ -46,11 +47,11 @@ export class AcumPorTiendaService implements OnInit {
     };
 
 
-    GetGroupsWithAtms(datosGroups:any, status){
+    public GetGroupsWithAtms(datosGroups:any, status){
         gGrupos = datosGroups;
     }
 
-    obtenGetGroups(){
+    public obtenGetGroups(){
 
         this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
 
@@ -64,7 +65,7 @@ export class AcumPorTiendaService implements OnInit {
     }
 
 
-    obtenIdGroup(descGpo){
+    public obtenIdGroup(descGpo){
         let idGpo = -1;
 
         if (gGrupos != null && gGrupos != "") {
@@ -78,7 +79,7 @@ export class AcumPorTiendaService implements OnInit {
         return(idGpo);
     }
 
-    ngOnInit(){}
+    public ngOnInit(){}
 
 }
 
