@@ -24,8 +24,9 @@ import { DetallePorTienda }                 from './reportes/detalle-por-tienda/
 
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
+import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 
-
+import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
 
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
@@ -37,6 +38,11 @@ const routes: Routes =[
     { path: 'totaltienda',    component: TotalesPorTiendaComponent },
     { path: 'resumenefectivo',component: ResumenDeEfectivo },
     { path: 'detalletienda',  component: DetallePorTienda },
+
+    { path: 'retirosetv',     component: RetirosEtvComponent },
+
+    { path: 'HorzVertScrolling',  component: HorzVertScrolling },
+
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },

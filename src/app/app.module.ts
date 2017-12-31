@@ -35,7 +35,7 @@ import { LogHmaComponent }                  from './reportes/log-hma/log-hma.com
 import { TotalesPorTiendaComponent }        from './reportes/totales-por-tienda/totales-por-tienda.component';
 import { ResumenDeEfectivo }                from './reportes/resumen-efectivo/resumen-efectivo.component';
 import { DetallePorTienda }                 from './reportes/detalle-por-tienda/detalle-por-tienda.component';
-
+import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 
 import { ReportesModule }                   from './reportes/reportes.module';
 import { ParamsComponent }                  from './reportes/params/params.component';
@@ -49,6 +49,9 @@ import { DataBaseService }                  from './services/data-base.service';
 import { ExportToCSVService }               from './services/export-to-csv.service';
 import { FiltrosUtilsService }              from './services/filtros-utils.service';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,9 @@ import { FiltrosUtilsService }              from './services/filtros-utils.servi
     TotalesPorTiendaComponent,
     ParamsAtmsComponent,
     ResumenDeEfectivo,
-    DetallePorTienda
+    DetallePorTienda,
+    HorzVertScrolling,
+    RetirosEtvComponent
 
   ],
 
@@ -91,7 +96,8 @@ import { FiltrosUtilsService }              from './services/filtros-utils.servi
     AngularDateTimePickerModule,
     TableModule,
     NgbModule.forRoot(),
-    BsModalModule
+    BsModalModule,
+    NgxDatatableModule
 
   ],
   entryComponents: [],

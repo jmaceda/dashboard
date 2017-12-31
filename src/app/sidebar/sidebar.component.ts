@@ -17,6 +17,10 @@ export const ROUTES: RouteInfo[] = [
     { path: 'totaltienda',      title: 'Totales por Tienda',        icon: 'pe-7s-notebook',     class: '' },
     { path: 'resumenefectivo',  title: 'Resumen de Efectivo',        icon: 'pe-7s-notebook',     class: '' },
     { path: 'detalletienda',  title: 'Detalle por Tienda',          icon: 'pe-7s-notebook',     class: '' },
+    { path: 'retirosetv',       title: 'Retiros ETV',               icon: 'pe-7s-notebook',     class: '' },
+
+
+    { path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
 
 ];
 

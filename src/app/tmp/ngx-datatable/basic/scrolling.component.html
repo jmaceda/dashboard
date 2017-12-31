@@ -1,0 +1,109 @@
+<!--
+<link rel="stylesheet" href="../../../../assets/css/themes/material.scss">
+<link rel="stylesheet" href="../../../../assets/css/themes/dark.scss">
+<link rel="stylesheet" href="../../../../assets/css/themes/bootstrap.scss">
+-->
+
+
+<!--
+<link rel="stylesheet" href="../../../../assets/ngx-datatable/release/index.css">
+<link rel="stylesheet" href="../../../../assets/ngx-datatable/release/themes/material.css">
+<link rel="stylesheet" href="../../../../assets/ngx-datatable/release/assets/icons.css">
+-->
+
+<!--
+<link rel="stylesheet" href="../../../../assets/app.css">
+<link rel="stylesheet" href="../../../../assets/icons.css">
+-->
+
+<!-- link rel="stylesheet" href="./scrolling.component.css" -->
+
+<div class="container-fluid">
+
+    <params-atms
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </params-atms>
+
+    <div style="margin: 0% 0%; height: 24em; width: 100%;">
+
+        <div class="card" style="padding: 5px;">
+
+
+            <div class="row">
+                <div>
+
+                    <ngx-datatable
+                            class="material"
+                            [rows]="arrDatosAtms"
+                            [columnMode]="'force'"
+                            [headerHeight]="30"
+                            [footerHeight]="50"
+                            [rowHeight]="25"
+                            [scrollbarV]="true"
+                            [limit]="5"
+                            [scrollbarH]="true">
+
+                        <ngx-datatable-column
+                                name="Id"
+                                [width]="80">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="Description"
+                                name="Ubicación ATM"
+                                [width]="200">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="Ip"
+                                name="IP"
+                                [width]="90">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="DeviceStatus"
+                                name="DeviceStatus"
+                                [width]="90">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="IsOnline"
+                                name="IsOnline"
+                                [width]="90">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="SafeOpen"
+                                name="Bóveda"
+                                [width]="70">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="CabinetOpen"
+                                name="Gabinete"
+                                [width]="70">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="ServiceDate"
+                                name="ServiceDate"
+                                [width]="110">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="LastIOnlineTimestamp"
+                                name="LastIOnlineTimestamp"
+                                [width]="110">
+                        </ngx-datatable-column>
+
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

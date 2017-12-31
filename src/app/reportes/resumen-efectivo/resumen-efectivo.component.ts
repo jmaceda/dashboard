@@ -2,13 +2,17 @@
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
 import { OnDestroy }                                    from '@angular/core';
-import { SoapService }                                  from '../../services/soap.service';
+import { EventEmitter}                                  from '@angular/core';
+
 import { sprintf }                                      from "sprintf-js";
 import { DataTable }                                    from 'angular-4-data-table-fix';
 import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
+
+import { SoapService }                                  from '../../services/soap.service';
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
-import { EventEmitter}                                  from '@angular/core';
+import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
+
 
 
 
@@ -56,7 +60,7 @@ export class GetGroupsWithAtms{
     }
 }
 
-
+var nomCompoente = "ResumenDeEfectivo";
 
 @Component({
     selector   : 'resumen-efectivo',
@@ -66,7 +70,7 @@ export class GetGroupsWithAtms{
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService]
+    providers: [SoapService, DepositosPorTiendaService]
 })
 export class ResumenDeEfectivo implements OnInit  {
 
@@ -101,12 +105,13 @@ export class ResumenDeEfectivo implements OnInit  {
             fFinParam.hour, fFinParam.min);
 
         let d2= new Date(Number(fFinParam.year), Number(fFinParam.month)-1, Number(fFinParam.day)+1);
-        console.log("fchFinParam["+fchFinParam+"]");
-        console.log("date["+d2+"]  ["+d2.getTime()+"]  ["+new Date(d2)+"]");
+        //console.log("fchFinParam["+fchFinParam+"]");
+        //console.log("date["+d2+"]  ["+d2.getTime()+"]  ["+new Date(d2)+"]");
 
         let datosParam:any = {fchIni: d1.getTime(), fchFin: d2.getTime(), idGpo: Number(idGpo)};
 
         //this.obtenGetGroupsWithAtms();
+
         this.obtenTotalesTienda(datosParam);
     }
 
@@ -120,10 +125,35 @@ export class ResumenDeEfectivo implements OnInit  {
         //console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
-    obtenTotalesTienda(datosParam){
+    public insertaDatosUltimoCorte(datosParam) {
+
+        let filtrosDepPorTienda = {
+            startDate: datosParam.fchIni,
+            endDate: datosParam.fchFin,
+            store: datosParam.idGpo
+        };
+
+        let ultimoCorte = this.depositosPorTiendaService.obtenUltimoCorte(filtrosDepPorTienda);
+
+        console.log(nomCompoente + ".insertaDatosUltimoCorte:: ultimoCorte[" + JSON.stringify(ultimoCorte) + "]");
+
+        let corteAnterior: any = {
+            'tipoOper': 'Depósito Walmart',
+            'monto': 0,
+            'opers': 0,
+            'b20': 0,
+            'b50': 0,
+            'b100': 0,
+            'b200': 0,
+            'b500': 0,
+            'b1000': 0
+        };
+    }
+
+    public obtenTotalesTienda(datosParam){
 
         let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: datosParam.idGpo};
-        console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
+        //console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
         //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
         //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
         this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
@@ -146,7 +176,9 @@ export class ResumenDeEfectivo implements OnInit  {
         let acumRetiros:any     = {'tipoOper': 'Retiro de Efectivo', 'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumDisponible:any  = {'tipoOper': 'Total Disponible',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
 
-        //console.log("gDatosResumenDeEfectivo: "+JSON.stringify(gDatosResumenDeEfectivo));
+
+        //console.log("gDatoResumenDeEfectivo: "+JSON.stringify(gDatosResumenDeEfectivo));
+        this.insertaDatosUltimoCorte(datosParam);
 
         gDatosResumenDeEfectivo.forEach(( reg )=> {
             //console.log("TxType["+reg.TxType+"]")
@@ -189,9 +221,9 @@ export class ResumenDeEfectivo implements OnInit  {
 
         });
 
-        console.log("Depositos: "+JSON.stringify(acumDepositos));
-        console.log("Retiros: "+JSON.stringify(acumRetiros));
-        console.log("Disponible: "+JSON.stringify(acumDisponible));
+        //console.log("Depositos: "+JSON.stringify(acumDepositos));
+        //console.log("Retiros: "+JSON.stringify(acumRetiros));
+        //console.log("Disponible: "+JSON.stringify(acumDisponible));
 
         acumDepositos.monto     = acumDepositos.monto.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
         acumDepositos.b20       = acumDepositos.b20.toLocaleString("es-MX");
@@ -223,7 +255,7 @@ export class ResumenDeEfectivo implements OnInit  {
             JSON.parse(JSON.stringify(acumDisponible))
         ];
 
-        console.log("ResumenDeEfectivo.obtenTotalesTienda:: datosEfectivo: "+JSON.stringify(datosEfectivo));
+        //console.log("ResumenDeEfectivo.obtenTotalesTienda:: datosEfectivo: "+JSON.stringify(datosEfectivo));
 
         this.itemResource = new DataTableResource(datosEfectivo);
         this.itemResource.count().then(count => this.itemCount = count);
@@ -233,14 +265,17 @@ export class ResumenDeEfectivo implements OnInit  {
     }
 
     constructor(public _soapService: SoapService,
-                public filtrosUtilsService: FiltrosUtilsService){}
+                public filtrosUtilsService: FiltrosUtilsService,
+                public depositosPorTiendaService: DepositosPorTiendaService){
+
+    }
 
     gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
     ngOnInit() { }
 
     reloadItems(params) {
-        console.log("reloadItems::  parms: "+JSON.stringify(params));
+        //console.log("reloadItems::  parms: "+JSON.stringify(params));
 
         this.itemResource.query(params).then(items => this.items = items);
 

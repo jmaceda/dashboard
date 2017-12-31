@@ -58,6 +58,9 @@ table.table.table-condensed.table-bordered.data-table thead tr th {
     padding-top: 0px;
     padding-left: 2px;
     padding-right: 2px;
+    background-color: #1A1561;
+    color: #FFFFFF;
+    /*font-weight: bold;*/
 }
 
 
@@ -224,6 +227,9 @@ button.btn.btn-default.btn-sm.refresh-button {
     text-align: right;
 }
 
+.campoCentrado {
+    text-align: center;
+}
 table.table.table-condensed.table-bordered.data-table thead tr th {
     text-align: center;
 }
