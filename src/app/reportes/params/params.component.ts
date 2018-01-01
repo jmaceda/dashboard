@@ -37,6 +37,8 @@ export class ParamsComponent implements OnInit {
     @Input() dUltimaActualizacion: string;
     @Input() dListaAtmGpos: any;
     @Input() dTipoListaParams: any;
+    @Input() dSolicitaFechasIni: any;
+    @Input() dSolicitaFechasFin: any;
     @Output() parametrosConsulta = new EventEmitter();
 
     public contenidoCombo

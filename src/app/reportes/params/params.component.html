@@ -21,8 +21,8 @@
 
                     <div class="col-md-3">
                         <div>
-                            <angular2-date-picker [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
-                            <angular2-date-picker [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
+                            <angular2-date-picker *ngIf="dSolicitaFechasIni" [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
+                            <angular2-date-picker *ngIf="dSolicitaFechasFin" [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@
                     <div class="col-md-3" style="text-align: center;">
                         <div>
                             <span style="font-weight: bold;">Última Actualización</span>
-                            <input id="idFchHraUltimaActual" type="text" name="dUltimaActualizacion">
+                            <input id="idFchHraUltimaActual" type="text" name="dUltimaActualizacion" disabled>
                         </div>
                     </div>
 

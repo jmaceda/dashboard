@@ -82,8 +82,6 @@ export class ParamsAtmsComponent implements OnInit {
 
     public ngOnInit() {
 
-        //this.obtenFchSys();
-
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
             this.gListaGpos     = this.detalleAtmsService.obtenGetGroups();
@@ -122,19 +120,16 @@ export class ParamsAtmsComponent implements OnInit {
     }
 
     public obtieneIpATMs(){
-        //console.log('ParamsAtmsComponent.obtenIpATMs:: Inicio');
         ipATMs  = [];
         this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters);
         this.ipATMs = ipATMs;
         this.ipATMs = ipATMs.sort(comparar);
-        //console.log('ParamsAtmsComponent.obtenIpATMs:: Se ejecuto la consulta');
     }
 
     public Date2Json(fecha:Date):string {
 
         let fchLocal: Date;
         if ( typeof(fecha) == 'string') {
-            //fecha = new Date(this.fchInicio);
             fchLocal = new Date(fecha);
         }else{
             fchLocal = fecha;

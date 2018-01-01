@@ -19,6 +19,7 @@ div#right {
 
 table.table.table-condensed.table-bordered.data-table{
     overflow-x: auto;
+    overflow-y: auto;
 }
 
 table.table{
