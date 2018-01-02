@@ -69,13 +69,18 @@ export class GetGroupsWithAtms{
 })
 export class TotalesPorTiendaComponent implements OnInit  {
 
+    // Parametros para la pantalla de filtros para la consulta
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "G";
+    public dSolicitaFechasIni           = true;
+    public dSolicitaFechasFin           = true;
+    public dUltimaActualizacion:string;
+
+
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
 
-    public dListaAtmGpos:any = [];
-    public dTipoListaParams:string = "G";
-    public dUltimaActualizacion:string;
     public regsLimite:number = 15;
 
 

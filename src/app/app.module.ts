@@ -24,7 +24,8 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 
-import { ParamsAtmsComponent }              from './atms/params-atms/params-atms.component';
+//import { ParamsAtmsComponent }              from './atms/params-atms/params-atms.component';
+import { FiltrosConsultasComponent }        from './shared/filtros-consultas/filtros-consultas.component';
 //import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';
 
 import { AtmsComponent }                    from './atms/atms.component';
@@ -38,7 +39,7 @@ import { DetallePorTienda }                 from './reportes/detalle-por-tienda/
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 
 import { ReportesModule }                   from './reportes/reportes.module';
-import { ParamsComponent }                  from './reportes/params/params.component';
+//import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
 //import { NgbdModalContent }                 from './utils/ngbd-modal-content';
 //import { DataFilterPipe }                   from './pipes/data-filter.pipe';
@@ -69,10 +70,11 @@ import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component
     ResumenCifrasComponent,
     JournalComponent,
     LogHmaComponent,
-    ParamsComponent,
+    //ParamsComponent,
     AclaracionesComponent,
     TotalesPorTiendaComponent,
-    ParamsAtmsComponent,
+    //ParamsAtmsComponent,
+    FiltrosConsultasComponent,
     ResumenDeEfectivo,
     DetallePorTienda,
     HorzVertScrolling,

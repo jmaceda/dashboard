@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from 'ngx-easy-table/app/model/config';
-import { HttpHeaders } from '@angular/common/http';
+//import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ConfigService {
@@ -10,7 +10,7 @@ export class ConfigService {
         orderEnabled: true,
         globalSearchEnabled: false,
         paginationEnabled: true,
-        exportEnabled: true,
+        exportEnabled: false,
         clickEvent: false,
         selectRow: true,
         selectCol: false,

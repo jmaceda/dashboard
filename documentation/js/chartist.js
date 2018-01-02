@@ -2804,7 +2804,7 @@
         }, {}));
       });
 
-    // Preparing a splice call with the elements array as var arg params and insert the parsed elements at the current position
+    // Preparing a splice call with the elements array as var arg filtros-consultas and insert the parsed elements at the current position
     var spliceArgs = [this.pos, 0];
     Array.prototype.push.apply(spliceArgs, elements);
     Array.prototype.splice.apply(this.pathElements, spliceArgs);

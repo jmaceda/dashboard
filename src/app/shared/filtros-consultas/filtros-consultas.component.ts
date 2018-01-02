@@ -27,29 +27,23 @@ var nomModulo = "ParamsComponent";
 
 
 @Component({
-    selector   : 'params',
-    templateUrl: './params.component.html',
-    styleUrls  : ['./params.component.css'],
+    selector   : 'filtros-consultas',
+    templateUrl: './filtros-consultas.component.html',
+    styleUrls  : ['./filtros-consultas.component.css'],
     providers: [SoapService, DetalleAtmsService],
 })
-export class ParamsComponent implements OnInit {
+export class FiltrosConsultasComponent implements OnInit {
 
     @Input() dUltimaActualizacion: string;      // Recibe lf fecha y hora de la ultima actualización para mostrarla en "idFchHraUltimaActual"
     @Input() dListaAtmGpos: any;                // Recibe la lista de ATMs o Grupos para ser mostrados en el combo "idComboAtmGpo".
     @Input() dTipoListaParams: any;             // Recibe si el combo "idComboAtmGpo" debe mostar A=lista de ATMs o G=lista de Grupos
     @Input() dSolicitaFechasIni: any;           // Indica se mostrara el combo para solicitar la fecha inicial o no (true=Si /false=No)
     @Input() dSolicitaFechasFin: any;           // Indica se mostrara el combo para solicitar la fecha final o no (true=Si /false=No)
-    @Output() parametrosConsulta = new EventEmitter(); //
+    @Output() parametrosConsulta = new EventEmitter(); // Función del Componente Padre que será ejecutada al oprimir el bototon "Actualiza".
 
-    public contenidoCombo
+
     @ViewChild('myModal')
     modal: BsModalComponent;
-
-    fchInicio: Date;
-    fchFin: Date;
-    elijaOpcion:string = "Seleccione el ATM";
-    public gListaGpos:any[];
-
     settings = {
         bigBanner: true,
         timePicker: true,
@@ -58,32 +52,30 @@ export class ParamsComponent implements OnInit {
         closeOnSelect: true
     };
 
+    public contenidoCombo;
+    public fchInicio: Date;
+    public fchFin: Date;
+    public elijaOpcion:string = "Seleccione el ATM";
+    public gListaGpos:any[];
     public ipATMs:any[] = [];
     public ip;
     public url;
     public paramsConsulta:any = {};
     public contenidoLista:string = "";
     public gpoSeleccionado:string = "";
+    public atmSeleccionado:string = "";
+    //public value:number;
 
-    obtenFchSys(){
-        console.log(nomModulo+".obtenFchSys:: init");
-        let fchSys      = new Date();
-        let _anioSys    = fchSys.getFullYear();
-        let _mesSys     = fchSys.getMonth();   //hoy es 0!
-        let _diaSys     = fchSys.getDate();
-        let _hraSys     = fchSys.getHours();
-        let _minSys     = fchSys.getMinutes();
-        let _segSys     = fchSys.getSeconds();
-
-        this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
-        this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
+    constructor(public _soapService: SoapService,
+                public detalleAtmsService: DetalleAtmsService,
+                private modalService: NgbModal){
     }
 
-    ngOnInit() {
+
+    public ngOnInit() {
         console.log(nomModulo + ".ngOnInit:: Inicio");
 
-        console.log(this.dListaAtmGpos);
-        this.obtenFchSys();
+        this.inicilizaFechasFiltro();
 
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
@@ -93,7 +85,8 @@ export class ParamsComponent implements OnInit {
             this.gListaGpos.forEach((reg)=> {
                 this.ipATMs.push(reg.Description);
             });
-            console.log(this.ipATMs);
+
+            console.log("--> " + this.ipATMs + "<--");
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
@@ -101,13 +94,74 @@ export class ParamsComponent implements OnInit {
             this.contenidoLista = "Seleccione ATM";
         }
 
-        console.log(nomModulo+".ngOnInit:: " + this.ipATMs);
+        this.ipATMs.sort(function (a, b) {
+            return a.localeCompare(b);
+        });
     }
 
-    constructor(public _soapService: SoapService,
-                public detalleAtmsService: DetalleAtmsService,
-                private modalService: NgbModal){
+    public inicilizaFechasFiltro(){
+        console.log(nomModulo+".obtenFchSys:: init");
+        let fchSys      = new Date();
+        let _anioSys    = fchSys.getFullYear();
+        let _mesSys     = fchSys.getMonth();
+        let _diaSys     = fchSys.getDate();
+        let _hraSys     = fchSys.getHours();
+        let _minSys     = fchSys.getMinutes();
+        let _segSys     = fchSys.getSeconds();
+
+        this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
+        this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
     }
+
+    public pActualizaInfo(){
+        console.log("ParamsComponent.paramsActuales:: inicia");
+
+        let fchInicio   = this.Date2Json(this.fchInicio);
+        let fchFin      = this.Date2Json(this.fchFin);
+        let ipATM       = this.atmSeleccionado;
+
+        console.log("params.component.paramsActuales: fchInicio["+JSON.stringify(fchInicio)+"] fchFin["+JSON.stringify(fchFin)+"]");
+        let idGpo:any;
+        if (this.dTipoListaParams == "G") {
+            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.atmSeleccionado+"]");
+            if (this.atmSeleccionado != "Todos") {
+                idGpo = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
+            }
+            console.log("ParamsComponent.paramsActuales:: idGpo["+typeof(idGpo)+"]");
+            idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
+            console.log("ParamsComponent.paramsActuales:: idGpo["+idGpo+"]");
+            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo};
+        }else {
+            console.log("ParamsComponent.paramsActuales:: ipATM["+ipATM+"]");
+            ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
+            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM};
+        }
+
+        this.parametrosConsulta.emit(this.paramsConsulta);
+    }
+
+
+    public Date2Json(fecha:Date):string {
+
+        let fchLocal: Date = ( typeof(fecha) == 'string') ? new Date(fecha) : fecha;
+        let fchJson:any = {};
+
+        fchJson.year    = fchLocal.getFullYear();
+        fchJson.month   = fchLocal.getMonth() +1;
+        fchJson.day     = fchLocal.getDate();
+        fchJson.hour    = fchLocal.getHours();
+        fchJson.min     = fchLocal.getMinutes();
+        fchJson.sec     = fchLocal.getSeconds();
+        fchJson.milsec  = fchLocal.getTime();
+
+        return(fchJson);
+    }
+
+    public pAtmSeleccionado(idx){}
+
+    /*
+
+    Código pendiente para aplicar cuando se muestren todos los filtros para seleccionarlos desde una pantalla modal.
 
     public GetEjaFilters(result:any, status){
 
@@ -137,27 +191,7 @@ export class ParamsComponent implements OnInit {
         //console.log('ParamsComponent.obtenIpATMs:: Se ejecuto la consulta');
     }
 
-    public Date2Json(fecha:Date):string {
 
-        let fchLocal: Date;
-        if ( typeof(fecha) == 'string') {
-            //fecha = new Date(this.fchInicio);
-            fchLocal = new Date(fecha);
-        }else{
-            fchLocal = fecha;
-        }
-        let fchJson:any = {};
-        fchJson.year    = fchLocal.getFullYear();
-        fchJson.month   = fchLocal.getMonth() +1;
-        fchJson.day     = fchLocal.getDate();
-        fchJson.hour    = fchLocal.getHours();
-        fchJson.min     = fchLocal.getMinutes();
-        fchJson.sec     = fchLocal.getSeconds();
-        fchJson.milsec  = fchLocal.getTime();
-
-        //console.log("Date2Json:: ["+JSON.stringify(fchJson));
-        return(fchJson);
-    }
 
 
     public gSeleccion:any;
@@ -197,38 +231,13 @@ export class ParamsComponent implements OnInit {
         this.paramsActuales(3);
     }
 
-    public pActualizaInfo(){
+    public pActualizaInfoX(){
         //console.log("pActualizaInfo:: Atm seleccionado["+this.atmSeleccionado+"]");
         this.paramsActuales(1);
     }
+   */
 
-    public atmSeleccionado:string = "";
-    public value:number;
-    public pAtmSeleccionado(idx){
 
-    }
 
-    /*
-     closeResult: string;
-     @ViewChild('msgModal')
-     private msgModal:TemplateRef<any>;
-     open(content) {
-     this.modalService.open(content).result.then((result) => {
-     this.closeResult = `Closed with: ${result}`;
-     }, (reason) => {
-     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-     });
-     }
-     private getDismissReason(reason: any): string {
-     if (reason === ModalDismissReasons.ESC) {
-     return 'by pressing ESC';
-     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-     return 'by clicking on a backdrop';
-     } else {
-     return  `with: ${reason}`;
-     }
-     }
-     */
 }
 
-function comparar ( a, b ){ return a - b; }

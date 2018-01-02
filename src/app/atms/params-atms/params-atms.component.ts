@@ -7,17 +7,20 @@ import { EventEmitter}                      from '@angular/core';
 import { ViewChild, ViewChildren}           from '@angular/core';
 import { TemplateRef }                      from '@angular/core';
 
+import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
+import { BsModalComponent } from 'ng2-bs3-modal';
+import * as $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle.js';
+
 
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
 import { DetalleAtmsService }               from '../../services/detalle-atms.service';
-import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
-import { BsModalComponent } from 'ng2-bs3-modal';
-import * as $ from 'jquery';
-import 'bootstrap/dist/js/bootstrap.bundle.js';
+
+
 
 
 export var datosATMs  = [];

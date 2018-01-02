@@ -43,36 +43,21 @@ export var numPaginaObtenida:number   = 0;
 })
 export class LogHmaComponent implements OnInit  {
 
+    // Parametros para la pantalla de filtros para la consulta
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "A";
+    public dSolicitaFechasIni           = true;
+    public dSolicitaFechasFin           = true;
+    public dUltimaActualizacion:string;
 
-    parametrosConsulta(infoRecibida){
-        console.log("Se va mostrar la información enviada desde el componente Params");
-        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        console.log("Se mostro la información enviada desde el componente Params");
-        let parametrossConsulta:any = {};
 
-        let fIniParam = infoRecibida.fchInicio;
-        let fFinParam = infoRecibida.fchFin;
-        let ipParam   = infoRecibida.atm;
-
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
-        console.log(fchIniParam);
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
-
-        console.log(fchFinParam);
-
-        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
-
-        this.pDatosDelJournal(datosParam);
-    }
 
     //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
     public url: string = '/dataservices.asmx'; //  QA
     //public url: string = '/services/dataservices.asmx'; // Prod
 
     public arrParams:any[] = [];
-    public dUltimaActualizacion: string;
+
     public itemResource = new DataTableResource(arrDatosJournal);
     public items = [];
     public itemCount = 0;
@@ -163,6 +148,29 @@ export class LogHmaComponent implements OnInit  {
         gFchInicioFinAnterior = this.paramsServicioNumPaginas.timeStampEnd;
 
         //this.pDatosDelJournal();
+    }
+
+    parametrosConsulta(infoRecibida){
+        console.log("Se va mostrar la información enviada desde el componente Params");
+        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("Se mostro la información enviada desde el componente Params");
+        let parametrossConsulta:any = {};
+
+        let fIniParam = infoRecibida.fchInicio;
+        let fFinParam = infoRecibida.fchFin;
+        let ipParam   = infoRecibida.atm;
+
+        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        console.log(fchIniParam);
+        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+            fFinParam.hour, fFinParam.min);
+
+        console.log(fchFinParam);
+
+        let datosParam:any = {fchIni: fchIniParam, fchFin: fchFinParam, ip: ipParam};
+
+        this.pDatosDelJournal(datosParam);
     }
 
     public obtieneIpATMs(){
@@ -369,7 +377,7 @@ export class LogHmaComponent implements OnInit  {
         //items = consulta(this.nomServicioDatosLog, this.paramsServicioDatosLog, numPag);
         this.itemResource.query(params).then(items => this.items = items);
 /*
-        this.remoteService.query(params).then(result => {
+        this.remoteService.query(filtros-consultas).then(result => {
             this.items = result.items;
             this.itemCount = result.count;
         });

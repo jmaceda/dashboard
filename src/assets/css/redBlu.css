@@ -1,9 +1,12 @@
+/* Scroll para datatable @swimlane/ngx-datatable */
 div.ngx-columns{
     overflow-x: auto;
+    overflow-y: hidden;
 }
 
 th.ngx-table__header-cell{
     background-color: #777777;
+    text-align: center;
 }
 
 div#right {

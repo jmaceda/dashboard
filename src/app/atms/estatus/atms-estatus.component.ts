@@ -7,7 +7,7 @@ import { Router }                                               from '@angular/r
 import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 
-import { ParamsAtmsComponent }                                  from '../params-atms/params-atms.component';
+import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
@@ -40,11 +40,13 @@ export class GetGroupsAtmIds{
 })
 export class AtmsEstatusComponent implements OnInit {
 
+    //
     public dListaAtmGpos:any            = [];
     public dTipoListaParams:string      = "G";
     public dSolicitaFechasIni           = false;
     public dSolicitaFechasFin           = false;
     public dUltimaActualizacion:string;
+
     public regsLimite:number            = 15;
 
     public intervalId                   = null;
@@ -61,67 +63,62 @@ export class AtmsEstatusComponent implements OnInit {
     public fchActual:any;
     public pDatosParam:any              = {};
 
-    //gGetGroupsAtmIds: GetGroupsAtmIds[] = gGetGroupsAtmIds;
+
 
     constructor(public _soapService: SoapService,
-                private router: Router,
-                public activatedRoute: ActivatedRoute,
                 public filtrosUtilsService: FiltrosUtilsService) {
-
-        /*
-         this.activatedRoute.url.subscribe(url => {
-         this.urlPath = url[0].path;
-         console.log("AtmsEstatusComponent.constructor:: -->" + this.urlPath + "<--");
-         });
-         */
     }
 
-    public ngOnInit() {
+    public ngOnInit() {}
 
-        /*
-         if (this.urlPath != "atms"){
-         return(0);
-         }
-         */
-    }
 
-    public parametrosConsulta(infoRecibida){
+    public parametrosConsulta(filtrosConsulta){
+
         let parametrosConsulta:any = {};
 
-        let fIniParam = infoRecibida.fchInicio;
-        let fFinParam = infoRecibida.fchFin;
-        let idGpo     = infoRecibida.gpo;
+        //let fIniParam = filtrosConsulta.fchInicio;
+        //let fFinParam = filtrosConsulta.fchFin;
+        let idGpo     = filtrosConsulta.gpo;
 
-        let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-            fIniParam.hour, fIniParam.min);
+        //let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+        //    fIniParam.hour, fIniParam.min);
 
-        console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+        //console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
 
-        let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-            fFinParam.hour, fFinParam.min);
+        //let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+         //   fFinParam.hour, fFinParam.min);
 
-        console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+        //console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
 
-        this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
+        //this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
+        let filtrosCons = {idGpo: idGpo};
 
-        this.pActualizaInfo();
+        //this.pActualizaInfo(filtrosCons);
+
+        if (this.intervalId != null){
+            clearInterval(this.intervalId);
+        }
+
+        this.obtenGetAtm(filtrosCons);
+        this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
+
     }
 
 
     // Actualiza informciòn de la pantalla.
-    public pActualizaInfo(): void {
+    public pActualizaInfo(filtrosCons): void {
 
         console.log("pActualizaInfo::  Inicio");
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
 
-        this.obtenGetAtm();
-        this.intervalId = setInterval(() => { this.obtenGetAtm(); }, this.tiempoRefreshDatos);
+        this.obtenGetAtm(filtrosCons);
+        this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
     }
 
 
-    public obtenGetAtm() {
+    public obtenGetAtm(filtrosCons) {
 
         /*
         if (this.urlPath != "atms"){
@@ -130,15 +127,16 @@ export class AtmsEstatusComponent implements OnInit {
         }
         */
 
-        let parameters = {  nemonico: -1, groupId: Number(this.pDatosParam.groupId), brandId: -1,
+        let paramsCons = {  nemonico: -1, groupId: Number(filtrosCons.idGpo), brandId: -1,
                             modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
-        this._soapService.post('', "GetAtm", parameters, this.GetAtm);
+        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm);
 
         let idx = 0;
         arrDatosAtms = [];
 
         gDatosAtms.forEach(( reg )=> {
+
             //console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
@@ -207,66 +205,6 @@ export class AtmsEstatusComponent implements OnInit {
     }
 
     rowTooltip(item) { return item.jobTitle; }
-
-
-    // ---------------------------------------------------------------------
-
-
-    /*
-    public horaActual(){
-        let fechaSys = new Date();
-        return(sprintf("%4d:%02d:%02d",fechaSys.getHours(), (fechaSys.getMinutes() + 1), fechaSys.getSeconds()));
-    }
-
-
-
-    GetStoreTotals(){
-
-    }
-
-    obtenerTotalesPorTienda(){
-
-    }
-
-    nomComponente = "AtmsEstatusComponent";
-
-    GetAtmMoneyStat(datosAtms:any, status){
-        gDatosEfectivoAtm = datosAtms;
-    }
-
-    public pDatosParam:any = {};
-
-    GetGroupsAtmsIps(datosGroups:any, status){
-        console.log("TotalesPorTiendaComponent.GetGroupsAtmsIps:: ["+JSON.stringify(datosGroups)+"]");
-    }
-
-    obtenGetGroupsAtmsIps(){
-
-        let parametros:any = {groupsIds: ['-1']};
-        this._soapService.post('', 'GetGroupsAtmsIps', parametros, this.GetGroupsAtmsIps);
-    }
-
-    GetGroupsAtmIds(datosGroups:any, status){
-
-        gGetGroupsAtmIds = [];
-        datosGroups.forEach((reg)=> {
-            gGetGroupsAtmIds.push({
-                Id: reg.Id,
-                Description: reg.Description
-            });
-        })
-
-    }
-
-    obtenGruposDeATMs(){
-
-        this._soapService.post('', 'GetGroup', '', this.GetGroupsAtmIds);
-
-        console.log("TotalesPorTiendaComponent.obtenGruposDeATMs:: ["+JSON.stringify(gGetGroupsAtmIds)+"]");
-
-        this.obtenGetGroupsAtmsIps();
-    }
-    */
 
 }
 

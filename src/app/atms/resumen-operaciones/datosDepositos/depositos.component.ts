@@ -59,6 +59,6 @@ export class DepositosComponent implements OnInit {
         console.log("Se mostro el contenido de infoDepositos");
     }
     onGridReady(params) {
-        //params.api.sizeColumnsToFit();
+        //filtros-consultas.api.sizeColumnsToFit();
     }
 }

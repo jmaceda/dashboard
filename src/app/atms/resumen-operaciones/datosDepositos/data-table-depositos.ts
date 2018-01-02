@@ -20,7 +20,7 @@ export class DataTableDepositos {
     }
 
     reloadItems(params) {
-        //this.itemResource.query(params).then(items => this.items = items);
+        //this.itemResource.query(filtros-consultas).then(items => this.items = items);
     }
 
     // special properties:

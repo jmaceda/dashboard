@@ -1,5 +1,6 @@
+/* https://github.com/ssuperczynski/ngx-easy-table */
 
-#x .ngx-table {
+#app-aclara .ngx-table {
     width: 100%;
     /*height: 110px;*/
     border: thin solid black;
@@ -113,3 +114,7 @@ table.ngx-table.ngx-table-striped.ngx-table-hover{
 <div _ngcontent-c2="" class="ngx-columns">
 <table _ngcontent-c2="" class="ngx-table ngx-table-striped ngx-table-hover">
 */
+
+#btnExpExel {
+    cursor: pointer;
+}

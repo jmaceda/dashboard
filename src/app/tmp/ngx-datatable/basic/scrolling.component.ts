@@ -27,10 +27,11 @@ var arrDatosAtmsX:any[] = [];
 })
 export class HorzVertScrolling {
 
+  // Parametros para la pantalla de filtros para la consulta
   public dListaAtmGpos:any            = [];
   public dTipoListaParams:string      = "G";
-  public dSolicitaFechasIni           = false;
-  public dSolicitaFechasFin           = false;
+  public dSolicitaFechasIni           = true;
+  public dSolicitaFechasFin           = true;
   public dUltimaActualizacion:string;
 
   public intervalId                   = null;

@@ -45,9 +45,14 @@ export const nomComponente:string = "JournalComponent";
 })
 export class JournalComponent implements OnInit  {
 
-    public dListaAtmGpos:any = [];
-    public dTipoListaParams:string = "A";
+    // Parametros para la pantalla de filtros para la consulta
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "A";
+    public dSolicitaFechasIni           = true;
+    public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
+
+
     public regsLimite:number = 15;
 
     public url: string = '/dataservices.asmx'; //  QA

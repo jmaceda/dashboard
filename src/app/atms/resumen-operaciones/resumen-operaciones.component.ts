@@ -149,9 +149,12 @@ var idxErrBanco:number = 0;
 })
 export class ResumenOperacionesComponent implements OnInit  {
 
-    public dListaAtmGpos:any = [];
-    public dTipoListaParams:string = "A";
-    public dUltimaActualizacion: string;
+    // Parametros para la pantalla de filtros para la consulta
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "A";
+    public dSolicitaFechasIni           = true;
+    public dSolicitaFechasFin           = true;
+    public dUltimaActualizacion:string;
 
     chartOptions = {
         responsive: true

@@ -188,10 +188,14 @@
 
 <div class="container-fluid">
 
-    <params
-        (parametrosConsulta) = "parametrosConsulta($event)"
-        [dUltimaActualizacion] = "dUltimaActualizacion">
-    </params>
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
 
     <div class="row"></div>
 

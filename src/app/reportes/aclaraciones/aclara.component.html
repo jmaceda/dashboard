@@ -1,25 +1,39 @@
+<!-- https://github.com/ssuperczynski/ngx-easy-table -->
+
 
 <div class="container-fluid">
 
-    <params
-        (parametrosConsulta) = "parametrosConsulta($event)"
-        [dUltimaActualizacion] = "dUltimaActualizacion">
-    </params>
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
 
-    <div style="margin: 0% 0%; height: 24em; width: 100%;">
+    <div style="margin: 2% 0%; height: 100%; width: 100%;">
 
         <div class="card" style="padding: 3px;">
 
-            <div class="row" style="padding: 5px;">
-                <div class="col-md-4">
-                    <span></span>
+            <div class="row" style="padding: 0px; vertical-align: middle;">
+
+                <div class="col-md-8" style="vertical-align: middle;">
+                    <span style="font-size: 25px;">Aclaraciones</span>
                 </div>
+                <!--
                 <div class="col-md-4" style="text-align: center">
                     <div  id="right" style="text-align: center">Aclaraciones</div>
                     <div style="text-align: center">{{fchUltimaActualizacion}}</div>
                 </div>
-                <div class="col-md-4" style="text-align: right">
-                    <button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button>
+                -->
+                <div class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <!-- button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button -->
+                    <input id="btnExpExel"
+                           style="cursor: pointer;"
+                           title="Exporta archivo CVS"
+                           type=image   src="assets/img/office_excel.png"
+                           width="45" height="40" (click)="exportaJournal2Excel()">
                 </div>
             </div>
 
@@ -28,45 +42,62 @@
 
             <div class="columns">
                 <div class="column col-12">
-                    <ngx-table  id="x"
-                        class='material expandable'
+                    <ngx-table  id="app-aclara"
+                        class='form-control'
                         [configuration]="configuration"
                         [data]="dataJournalRedBlu"
-                        [columns]="columns"
+                        [columns]="columnas"
                         [pagination]="pagination"
+                        [id]="id"
                         style="min-height:400px;">
 
                         <ng-template let-row>
 
-                            <td style="width: 10px;">
-                                <span>{{row.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            <td style="width: 5px;max-width: 5px;">
+                                <span>{{row.TimeStamp | date: 'dd-MM-yyyy  HH:mm:ss'}}</span>
                             </td>
+
+                            <!--
+                            <td style="width: 10px;">
+                                <span>{{row.TimeStamp | date: ' '}}</span>
+                            </td>
+                            -->
+
                             <td>{{row.CardNumber}}</td>
+
+                            <td>{{row.Event}}</td>
 
                             <td>{{row.OperationType}}</td>
 
                             <td style="width: 10px; text-align: right;">
-                                <span style="text-align: right;">{{row.Amount | currency:'USD':'symbol':'1.0-0'}}</span>
+                                <span style="text-align: right;">{{row.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
                             </td>
 
-                            <td style="width:  10px; text-align: right;">
-                                <span style="text-align: right;">{{row.Available | currency:'USD':'symbol':'1.0-0'}}</span>
+                            <td style="width:  10px; max-width: 10px; text-align: right;">
+                                <span style="text-align: right;">{{row.Available | currency:'USD':'symbol':'1.2-2'}}</span>
                             </td>
 
-                            <td>{{row.Surcharge}}</td>
+                            <td style="width:  5px; max-width: 5px; text-align: right;">
+                                <span style="text-align: right;">{{row.Surcharge | number:'1.2-2'}}</span>
+                            </td>
+
                             <td>{{row.Aquirer}}</td>
+
                             <td class="noWrap">{{row.Data}}</td>
+
                             <td>{{row.SwitchResponseCode}}</td>
+
                             <td class="noWrap" style="width: 10px;">
                                 <span>{{row.HWErrorCode}}</span>
                             </td>
+
                             <td>{{row.TransactionCount}}</td>
                             <td>{{row.Denomination}}</td>
                             <td>{{row.AccountId}}</td>
                             <td>{{row.AccountType}}</td>
                             <td>{{row.AtmId}}</td>
                             <td>{{row.FlagCode}}</td>
-                            <
+
                             <td style="width: 10em;">{{row.Arqc}}</td>
                             <td style="width: 10em;">{{row.Arpc}}</td>
 

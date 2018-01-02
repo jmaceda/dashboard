@@ -121,6 +121,13 @@ var idxErrBanco:number      = 0;
 })
 export class ResumenCifrasComponent implements OnInit  {
 
+    // Parametros para la pantalla de filtros para la consulta
+    public dListaAtmGpos:any            = [];
+    public dTipoListaParams:string      = "A";
+    public dSolicitaFechasIni           = true;
+    public dSolicitaFechasFin           = true;
+    public dUltimaActualizacion:string;
+
     chartOptions = {
         responsive: true
     };
@@ -146,7 +153,7 @@ export class ResumenCifrasComponent implements OnInit  {
     public listaErrsPorBanco: any[][] = [];
     public cErroresPorBanco: ErroresPorBanco[];
     public lErroresPorBanco: ErroresPorBanco[];
-    public dUltimaActualizacion: string;
+    //public dUltimaActualizacion: string;
     public numPaginas = 0;
     public activityChartType: ChartType;
     public activityChartData: any;
