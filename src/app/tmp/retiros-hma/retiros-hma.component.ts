@@ -22,6 +22,8 @@ export var gdatosHMA:any;
 
 export var gCatEventos:any;
 export var gCatalogoEventos:any[] = [];
+export var gDevicesAtm:any[] = [];
+
 
 var nomComponente = "RetirosEtvComponent";
 
@@ -141,14 +143,17 @@ export class RetirosHmaComponent implements OnInit  {
                 ){
     }
 
+    public devicesAtm:any[] = [];
+
     public ngOnInit() {
 
-        let url = "assets/devicesAtm.json";
+        let url = "assets/data/devicesAtm.json";
         $.getJSON(url,  function(data)
         {
             //recorre cada elemento
-            $.each(data, function(i,row){
-                console.log(JSON.stringify("("+i+") "+row));
+            $.each(data, function(idx,descripcion){
+                console.log(JSON.stringify("("+idx+") "+descripcion));
+                gDevicesAtm[idx] = descripcion;
             });
         });
         //console.log(nomComponente+".ngOnInit:: ["+window.variable_de_app_component+"]");
@@ -228,6 +233,7 @@ export class RetirosHmaComponent implements OnInit  {
             datosRetirosHMA.forEach( (reg) => {
                 cveCat = "c"+reg.HmaEventId;
                 reg.Events = gCatalogoEventos[cveCat];
+                reg.Data = gDevicesAtm[reg.Device];
             });
             console.log(JSON.stringify(datosRetirosHMA));
         }
