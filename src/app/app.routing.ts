@@ -25,6 +25,7 @@ import { DetallePorTienda }                 from './reportes/detalle-por-tienda/
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
+import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
 
 import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
 
@@ -40,6 +41,7 @@ const routes: Routes =[
     { path: 'detalletienda',  component: DetallePorTienda },
 
     { path: 'retirosetv',     component: RetirosEtvComponent },
+    { path: 'retiroshma',     component: RetirosHmaComponent },
 
     { path: 'HorzVertScrolling',  component: HorzVertScrolling },
 

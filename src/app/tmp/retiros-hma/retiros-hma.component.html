@@ -1,0 +1,295 @@
+<style>
+    /* Activa scroll horizontal del journal */
+    .scollsVentana{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    .letraNegrita{
+        font-weight: bold;
+    }
+    .fondoTituloDetalle{
+        background-color: #423F3F;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        /*
+        -webkit-box-shadow: 2px 2px 15px #999;
+        -moz-box-shadow: 2px 2px 5px #999;
+        filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
+        -webkit-border-radius: 5px 10px;  / * Safari  * /
+        -moz-border-radius: 5px 10px;     / * Firefox * /
+        */
+    }
+
+    .esquinasRedendeadas {
+        border-radius: 20px;
+        border-collapse: collapse;
+        box-shadow: 8px 8px 10px 0;
+        border-radius: 20px 20px 20px 20px;
+        -moz-border-radius: 20px 20px 20px 20px;
+        -webkit-border-radius: 20px 20px 20px 20px;
+        border: 0px solid #000000;
+    }
+
+    #divDetalleRetiroETV {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-left: 200px;"
+        width: 40em;
+        max-width: 40em;
+    }
+    #tablaDetalleRetiroETV {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #tablaDetalleRetiroETV thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #tablaDetalleRetiroETV[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
+        background-color: #5C5757;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    :host /deep/ .data-table-row {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div class="" style="margin: 1% 0%; height: 37em; width: 100%;">
+
+        <div class="card" style="padding: 3px;">
+            <data-table id="retiros-hma"
+                        headerTitle="Retiros HMA"
+                        [items]="items"
+                        [itemCount]="itemCount"
+                        (reload)="reloadItems($event)"
+                        (rowClick)="rowClick($event)"
+                        (rowDoubleClick)="rowDoubleClick($event)"
+                        [expandableRows]="true"
+                        [limit]="regsLimite"
+                        [rowColors]="rowColors"
+                        [indexColumnHeader]="'ID'"
+                        [selectOnRowClick]="true"
+                        [showReloading]="false"
+                        [rowTooltip]="rowTooltip">
+
+                <ng-template #dataTableExpand  let-item="item">
+                    <div id="divDetalleRetiroETV" class="content table-responsive ">
+                        <table id="tablaDetalleRetiroETV" class="table table-hover table-striped sombraObjeto">
+                            <thead>
+                                <tr class="fondoTituloDetalle">
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-1">Monto</th>
+                                    <th class="col-md-1">$20</th>
+                                    <th class="col-md-1">$50</th>
+                                    <th class="col-md-1">$100</th>
+                                    <th class="col-md-1">$200</th>
+                                    <th class="col-md-1">$500</th>
+                                    <th class="col-md-1">$1000</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Cassetteros</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.monto | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b20 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b50 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b100 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b200 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b500 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.b1000 | number:'1.0-0'}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Rechazos</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.monto | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b20 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b50 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b100 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b200 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b500 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.b1000 | number:'1.0-0'}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Total</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.monto | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b20 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b50 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b100 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b200 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b500 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b1000 | number:'1.0-0'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Fecha'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        [visible]="true"
+                        width="6em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Hora'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.TimeStamp | date: 'HH:mm:ss'}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Ip'"
+                        [header]="'Ip'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'AtmName'"
+                        [header]="'Nombre ATM'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="7em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Amount'"
+                        [header]="'Monto'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'billTot.b20'"
+                        [header]="'$20'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b20 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'billTot.b50'"
+                        [header]="'$50'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b50 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'billTot.b100'"
+                        [header]="'$100'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b100 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'billTot.b200'"
+                        [header]="'$200'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b200 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'billTot.b500'"
+                        [header]="'$500'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b500 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'billTot.b1000'"
+                        [header]="'$1000'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                        <ng-template #dataTableCell  let-item="item">
+                            <div  class="campoNumerico">
+                                <span>{{item.billTot.b1000 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+            </data-table>
+        </div>
+    </div>
+</div>

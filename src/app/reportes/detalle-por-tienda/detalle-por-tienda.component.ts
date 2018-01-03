@@ -90,7 +90,7 @@ export class DetallePorTienda implements OnInit  {
 
         let fIniParam = infoRecibida.fchInicio;
         let fFinParam = infoRecibida.fchFin;
-        let idGpo     = infoRecibida.gpo;
+        let idAtm     = infoRecibida.atm;
 
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
@@ -106,7 +106,7 @@ export class DetallePorTienda implements OnInit  {
         console.log("fchFinParam["+fchFinParam+"]");
         console.log("date["+d2+"]  ["+d2.getTime()+"]  ["+new Date(d2)+"]");
 
-        let datosParam:any = {fchIni: d1.getTime(), fchFin: d2.getTime(), idGpo: Number(idGpo)};
+        let datosParam:any = {fchIni: d1.getTime(), fchFin: d2.getTime(), idAtm: idAtm};
 
         //this.obtenGetGroupsWithAtms();
         this.obtenTotalesTienda(datosParam);
@@ -124,7 +124,7 @@ export class DetallePorTienda implements OnInit  {
 
     obtenTotalesTienda(datosParam){
 
-        let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: datosParam.idGpo};
+        let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: 16228090}; //datosParam.idAtm};
         console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
         //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
         //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);

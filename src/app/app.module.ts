@@ -53,6 +53,7 @@ import { FiltrosUtilsService }              from './services/filtros-utils.servi
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
+import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component
     ResumenDeEfectivo,
     DetallePorTienda,
     HorzVertScrolling,
-    RetirosEtvComponent
+    RetirosEtvComponent,
+    RetirosHmaComponent
 
   ],
 

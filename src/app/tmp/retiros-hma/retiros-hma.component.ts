@@ -1,4 +1,4 @@
-// app/reportes/retiro-etv/retiro-etv.component.ts
+// app/tmp/retiros-hma/retiros-hma.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
 import { OnDestroy }                                    from '@angular/core';
@@ -26,15 +26,15 @@ var nomComponente = "RetirosEtvComponent";
 
 @Component({
     selector   : 'resumen-efectivo',
-    templateUrl: './retiros-etv.component.html',
-    styleUrls  : ['./retiros-etv.component.css'],
+    templateUrl: './retiros-hma.component.html',
+    styleUrls  : ['./retiros-hma.component.css'],
     styles     : [`
         .even { color: red; }
         .odd { color: green; }
     `],
     providers: [SoapService, DepositosPorTiendaService, UtilsService]
 })
-export class RetirosEtvComponent implements OnInit  {
+export class RetirosHmaComponent implements OnInit  {
 
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos:any            = [];
