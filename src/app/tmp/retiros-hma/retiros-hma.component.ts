@@ -14,6 +14,7 @@ import { FiltrosUtilsService }                          from '../../services/fil
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 import { UtilsService }                                 from '../../services/utils.service';
 
+
 export var gPaginasJournal:any;
 export var gDatosCortesEtv:any;
 export var gPaginasHMA:any;
@@ -62,10 +63,11 @@ export class RetirosHmaComponent implements OnInit  {
             fFinParam.hour, fFinParam.min);
         let filtrosCons:any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: filtrosConsulta.atm};
 
-        this.obtenDatosDeCortesEtv(filtrosCons);
+        //this.obtenDatosDeCortesEtv(filtrosCons);
         this.obtenDatosLogHMA();
     }
 
+    /*
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
         // TotalItems / TotalPages
@@ -132,13 +134,24 @@ export class RetirosHmaComponent implements OnInit  {
             this.reloadItems({limit: this.regsLimite, offset: 0});
         }
     }
-
+*/
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
-                public utilsService: UtilsService){
+                public utilsService: UtilsService,
+                ){
     }
 
     public ngOnInit() {
+
+        let url = "assets/devicesAtm.json";
+        $.getJSON(url,  function(data)
+        {
+            //recorre cada elemento
+            $.each(data, function(i,row){
+                console.log(JSON.stringify("("+i+") "+row));
+            });
+        });
+        //console.log(nomComponente+".ngOnInit:: ["+window.variable_de_app_component+"]");
     }
 
     reloadItems(params) {
@@ -161,6 +174,7 @@ export class RetirosHmaComponent implements OnInit  {
     GetHmaEvent(catEventos:any, status){
         gCatEventos = catEventos;
     }
+
 
     obtenEventos(){
 

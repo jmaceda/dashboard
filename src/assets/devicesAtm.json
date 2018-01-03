@@ -1,0 +1,14 @@
+{
+  "AFD": "Dispensador de Billetes",
+  "BAR": "Lectora código de barras",
+  "CDM": "Dispensador de Monedas",
+  "CHK": "Lectora de Cheques",
+  "DEP": "Aceptador de Billetes",
+  "DeviceBus": "Bus de Dispositivos",
+  "EPP": "Pin Pad",
+  "ICM": "Lectora de Tarjetas",
+  "PTR": "Impresora",
+  "TIO": "Sensores",
+  "Unknown": "Desconocido",
+  "VDM": "Módulo del Fabricante"
+}
