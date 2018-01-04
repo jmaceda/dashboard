@@ -100,7 +100,7 @@
                         (reload)="reloadItems($event)"
                         (rowClick)="rowClick($event)"
                         (rowDoubleClick)="rowDoubleClick($event)"
-                        [expandableRows]="true"
+                        [expandableRows]="false"
                         [limit]="regsLimite"
                         [rowColors]="rowColors"
                         [indexColumnHeader]="'ID'"
@@ -109,56 +109,16 @@
                         [rowTooltip]="rowTooltip">
 
                 <ng-template #dataTableExpand  let-item="item">
-                    <div id="divDetalleRetiroETV" class="content table-responsive ">
-                        <table id="tablaDetalleRetiroETV" class="table table-hover table-striped sombraObjeto">
-                            <thead>
-                                <tr class="fondoTituloDetalle">
-                                    <th class="col-md-1"></th>
-                                    <th class="col-md-1">Monto</th>
-                                    <th class="col-md-1">$20</th>
-                                    <th class="col-md-1">$50</th>
-                                    <th class="col-md-1">$100</th>
-                                    <th class="col-md-1">$200</th>
-                                    <th class="col-md-1">$500</th>
-                                    <th class="col-md-1">$1000</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="col-md-1 letraNegrita">Cassetteros</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.monto | currency:'USD':'symbol':'1.2-2'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b20 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b50 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b100 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b200 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b500 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billOK.b1000 | number:'1.0-0'}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1 letraNegrita">Rechazos</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.monto | currency:'USD':'symbol':'1.2-2'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b20 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b50 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b100 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b200 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b500 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico">{{item.billRech.b1000 | number:'1.0-0'}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1 letraNegrita">Total</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.monto | currency:'USD':'symbol':'1.2-2'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b20 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b50 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b100 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b200 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b500 | number:'1.0-0'}}</td>
-                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b1000 | number:'1.0-0'}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </ng-template>
 
+
+                <data-table-column
+                        [property]="'Ip'"
+                        [header]="'Ip'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                </data-table-column>
 
                 <data-table-column
                         [property]="'TimeStamp'"
@@ -166,7 +126,7 @@
                         [sortable]="true"
                         [resizable]="false"
                         [visible]="true"
-                        width="6em">
+                        width="7em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.TimeStamp | date: 'dd-MM-yyyy'}}</span>
@@ -188,105 +148,34 @@
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'Ip'"
-                        [header]="'Ip'"
+                        [property]="'Device'"
+                        [header]="'Dispositivo'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="6em">
+                        width="8em">
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'AtmName'"
-                        [header]="'Nombre ATM'"
+                        [property]="'DescDevice'"
+                        [header]="'Mecanismo'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="7em">
+                        width="18em">
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'Amount'"
-                        [header]="'Monto'"
+                        [property]="'Events'"
+                        [header]="'Evento'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="6em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-
-                <data-table-column
-                        [property]="'billTot.b20'"
-                        [header]="'$20'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b20 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
+                        width="12em">
                 </data-table-column>
                 <data-table-column
-                        [property]="'billTot.b50'"
-                        [header]="'$50'"
+                        [property]="'Data'"
+                        [header]="'Parámetros'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b50 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'billTot.b100'"
-                        [header]="'$100'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b100 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'billTot.b200'"
-                        [header]="'$200'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b200 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'billTot.b500'"
-                        [header]="'$500'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b500 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'billTot.b1000'"
-                        [header]="'$1000'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="5em">
-                        <ng-template #dataTableCell  let-item="item">
-                            <div  class="campoNumerico">
-                                <span>{{item.billTot.b1000 | number:'1.0-0'}}</span>
-                            </div>
-                        </ng-template>
+                        width="80em">
                 </data-table-column>
 
             </data-table>

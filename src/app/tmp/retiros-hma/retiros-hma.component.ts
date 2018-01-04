@@ -24,6 +24,8 @@ export var gCatEventos:any;
 export var gCatalogoEventos:any[] = [];
 export var gDevicesAtm:any[] = [];
 
+export var gPaginasJoural:any[] = [];
+export var gDatosJoural:any[] = [];
 
 var nomComponente = "RetirosEtvComponent";
 
@@ -66,7 +68,7 @@ export class RetirosHmaComponent implements OnInit  {
         let filtrosCons:any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: filtrosConsulta.atm};
 
         //this.obtenDatosDeCortesEtv(filtrosCons);
-        this.obtenDatosLogHMA();
+        this.obtenDatosLogHMA(filtrosCons);
     }
 
     /*
@@ -206,12 +208,71 @@ export class RetirosHmaComponent implements OnInit  {
         gPaginasHMA = paginasHMA;
     }
 
-    obtenDatosLogHMA(){
+    obtenDatosLogHMA(filtrosCons){
 
         this.obtenEventos();
 
-        let paramsCons:any = {ip: ["11.40.2.8"], timeStampStart: "2018-01-01-00-00", timeStampEnd: "2018-01-01-23-59", device: ["ICM", "AFD"],
-            events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]};
+        //let paramsCons:any = {ip: ["11.40.2.8"], timeStampStart: "2018-01-01-11-00", timeStampEnd: "2018-01-01-23-03", device: ["ICM", "AFD"],
+        //    events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]};
+
+        let paramsCons: any = {
+            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            device: ["ICM", "AFD"],
+            events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]
+        };
+
+        console.log(new Date());
+        console.log("Params HSM :" +JSON.stringify(paramsCons));
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+
+        console.log("Paginas HSM :" +JSON.stringify(gPaginasHMA));
+
+        this.datosRetirosHMA = [];
+
+        if (gPaginasHMA.TotalPages > 0) {
+            let datosRetirosHMA: any = [];
+            this.arrDatosRetirosHMA = [];
+
+            for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
+                paramsCons.page = idx;
+                console.log("Params HSM :" +JSON.stringify(paramsCons));
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this.datosRetirosHMA = this.datosRetirosHMA.concat(gdatosHMA);
+            }
+            let cveCat;
+            this.datosRetirosHMA.forEach( (reg) => {
+                cveCat = "c"+reg.HmaEventId;
+                reg.Events = gCatalogoEventos[cveCat];
+                reg.DescDevice = gDevicesAtm[reg.Device];
+            });
+            //console.log(JSON.stringify(datosRetirosHMA));
+        }
+        //console.log(new Date());
+
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+        this.itemResource = new DataTableResource(this.datosRetirosHMA);
+        this.itemResource.count().then(count => this.itemCount = count);
+        this.reloadItems({limit: this.regsLimite, offset: 0});
+
+        this.obtenDetalleRetiros(filtrosCons)
+
+    }
+
+    GetEjaLogDataLength(paginasJoural:any, status){
+        gPaginasJoural = paginasJoural;
+    }
+
+    GetEjaLogPage(datosJoural:any, status){
+        gDatosJoural = datosJoural;
+    }
+
+    obtenDetalleRetiros(filtrosCons){
+
+        let paramsCons: any = {
+            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            device: ["AFD"],
+            events: ["DenominateInfo"]
+        };
 
         console.log(new Date());
         console.log("Params HSM :" +JSON.stringify(paramsCons));
@@ -230,13 +291,47 @@ export class RetirosHmaComponent implements OnInit  {
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
             let cveCat;
+            let arrBilletesRetiro:any[] = [];
+
             datosRetirosHMA.forEach( (reg) => {
-                cveCat = "c"+reg.HmaEventId;
-                reg.Events = gCatalogoEventos[cveCat];
-                reg.Data = gDevicesAtm[reg.Device];
+                arrBilletesRetiro.push(reg.Data);
             });
-            console.log(JSON.stringify(datosRetirosHMA));
+            console.log("Retiros: "+JSON.stringify(arrBilletesRetiro));
         }
-        console.log(new Date());
+
+        paramsCons = {
+            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            events: ["CashManagement"], CashManagement: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+        };
+        console.log("Params HSM :" +JSON.stringify(paramsCons));
+
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+
+
+        if (gPaginasHMA.TotalPages > 0) {
+            let datosJournal: any = [];
+            this.arrDatosRetirosHMA = [];
+
+            for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
+                paramsCons.page = idx;
+                console.log("Params HSM :" +JSON.stringify(paramsCons));
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                datosJournal = datosJournal.concat(gDatosJoural);
+
+            }
+            let cveCat;
+            let arrBilletesJournal:any[] = [];
+
+            datosJournal.forEach( (reg) => {
+                let i = reg.Data.indexOf("[");
+                arrBilletesJournal.push(reg.Data.substring(i));
+            });
+            console.log("Depósitos: "+JSON.stringify(arrBilletesJournal));
+        }
+
+
+
     }
+    public datosRetirosHMA:any;
+
 }
