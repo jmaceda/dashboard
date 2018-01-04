@@ -18,6 +18,7 @@ import { NgbdModalContent }                 from '../../utils/ngbd-modal-content
 import { BsModalComponent } from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
+//import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 
 
 export var datosATMs  = [];
