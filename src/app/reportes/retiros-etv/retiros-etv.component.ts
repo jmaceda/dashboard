@@ -13,6 +13,8 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 import { UtilsService }                                 from '../../services/utils.service';
+import { DatosJournalService }                          from '../../services/datos-journal.service';
+
 
 export var gPaginasJournal:any;
 export var gDatosCortesEtv:any;
@@ -32,7 +34,7 @@ var nomComponente = "RetirosEtvComponent";
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, DepositosPorTiendaService, UtilsService]
+    providers: [SoapService, DepositosPorTiendaService, UtilsService, DatosJournalService]
 })
 export class RetirosEtvComponent implements OnInit  {
 
@@ -69,24 +71,27 @@ export class RetirosEtvComponent implements OnInit  {
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
         // TotalItems / TotalPages
-        console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
+        //console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
     }
 
     public GetEjaLogPage(datosCortesEtv:any, status){
         gDatosCortesEtv = datosCortesEtv;
     }
-
-    public obtenDatosDeCortesEtv(filtrosCons) {
+/*
+    public obtenCortesJournal(filtrosCons){
 
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
         };
+        let datosCortesEtv: any = [];
 
+        //console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
+        //console.log("---> Inicio: "+new Date());
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
 
         if (gPaginasJournal.TotalPages > 0) {
-            let datosCortesEtv: any = [];
+
             this.arrDatosCortesEtv = [];
 
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
@@ -94,7 +99,40 @@ export class RetirosEtvComponent implements OnInit  {
                 this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
                 datosCortesEtv = datosCortesEtv.concat(gDatosCortesEtv);
             }
+        }
 
+        return(datosCortesEtv);
+
+    }
+*/
+    public obtenDatosDeCortesEtv(filtrosCons) {
+
+        /*
+        let paramsCons: any = {
+            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+        };
+//console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
+        //console.log("---> Inicio: "+new Date());
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+        */
+
+        //let datosCortesEtv = this.obtenCortesJournal(filtrosCons);
+        let datosCortesEtv = this.datosJournalService.obtenCortesJournal(filtrosCons);
+
+        if (datosCortesEtv.length > 0){
+        //if (gPaginasJournal.TotalPages > 0) {
+            //let datosCortesEtv: any = [];
+            this.arrDatosCortesEtv = [];
+
+            /*
+            for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
+                paramsCons.page = idx;
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                datosCortesEtv = datosCortesEtv.concat(gDatosCortesEtv);
+            }
+            */
+            console.log("---> Fin: "+new Date());
             datosCortesEtv.forEach((reg) => {
                 let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
 
@@ -125,7 +163,7 @@ export class RetirosEtvComponent implements OnInit  {
                     billTot: billTot
                 })
             });
-
+            //console.log("---> Fin: "+new Date());
             this.filtrosUtilsService.fchaHraUltimaActualizacion();
             this.itemResource = new DataTableResource(this.arrDatosCortesEtv);
             this.itemResource.count().then(count => this.itemCount = count);
@@ -135,7 +173,8 @@ export class RetirosEtvComponent implements OnInit  {
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
-                public utilsService: UtilsService){
+                public utilsService: UtilsService,
+                public datosJournalService: DatosJournalService){
     }
 
     public ngOnInit() {
@@ -215,7 +254,7 @@ export class RetirosEtvComponent implements OnInit  {
                 cveCat = "c"+reg.HmaEventId;
                 reg.Events = gCatalogoEventos[cveCat];
             });
-            console.log(JSON.stringify(datosRetirosHMA));
+            //console.log(JSON.stringify(datosRetirosHMA));
         }
         console.log(new Date());
     }

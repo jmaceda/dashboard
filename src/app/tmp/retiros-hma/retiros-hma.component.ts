@@ -13,6 +13,7 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 import { UtilsService }                                 from '../../services/utils.service';
+import { DatosJournalService }                          from '../../services/datos-journal.service';
 
 
 export var gPaginasJournal:any;
@@ -37,7 +38,7 @@ var nomComponente = "RetirosEtvComponent";
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, DepositosPorTiendaService, UtilsService]
+    providers: [SoapService, DepositosPorTiendaService, UtilsService, DatosJournalService]
 })
 export class RetirosHmaComponent implements OnInit  {
 
@@ -142,6 +143,7 @@ export class RetirosHmaComponent implements OnInit  {
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
                 public utilsService: UtilsService,
+                public datosJournalService: DatosJournalService
                 ){
     }
 
@@ -154,7 +156,7 @@ export class RetirosHmaComponent implements OnInit  {
         {
             //recorre cada elemento
             $.each(data, function(idx,descripcion){
-                console.log(JSON.stringify("("+idx+") "+descripcion));
+                //console.log(JSON.stringify("("+idx+") "+descripcion));
                 gDevicesAtm[idx] = descripcion;
             });
         });
@@ -194,7 +196,7 @@ export class RetirosHmaComponent implements OnInit  {
             cveCat = "c"+reg.SerializedId;
             gCatalogoEventos[cveCat] = reg.Name;
         });
-        console.log(Object.keys(gCatalogoEventos).length);
+        //console.log(Object.keys(gCatalogoEventos).length);
     }
 
 
@@ -267,6 +269,12 @@ export class RetirosHmaComponent implements OnInit  {
     }
 
     obtenDetalleRetiros(filtrosCons){
+
+        // Obten fecha del último corte
+        /*
+         depositosPorTiendaServicef
+         */
+         let datosCortesJournal = this.datosJournalService.obtenUltimoCorteJournal(filtrosCons);
 
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,

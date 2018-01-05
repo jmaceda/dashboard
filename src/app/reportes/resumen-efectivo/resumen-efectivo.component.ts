@@ -90,27 +90,23 @@ export class ResumenDeEfectivo implements OnInit  {
 
 
     parametrosConsulta(infoRecibida){
-        console.log("Se va mostrar la información enviada desde el componente Params");
-        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        console.log("Se mostro la información enviada desde el componente Params");
+        //console.log("Se va mostrar la información enviada desde el componente Params");
+        //console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        //console.log("Se mostro la información enviada desde el componente Params");
         let parametrossConsulta:any = {};
 
         let fIniParam = infoRecibida.fchInicio;
         let fFinParam = infoRecibida.fchFin;
         let idGpo     = infoRecibida.gpo;
-
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-
         let d1 = new Date(Number(fIniParam.year), Number(fIniParam.month)-1, Number(fIniParam.day));
-        console.log("fchIniParam["+fchIniParam+"]");
-        console.log("date["+d1+"]  ["+d1.getTime()+"]  ["+new Date(d1)+"]");
-
+        //console.log("fchIniParam["+fchIniParam+"]");
+        //console.log("date["+d1+"]  ["+d1.getTime()+"]  ["+new Date(d1)+"]");
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
-
         let d2= new Date(Number(fFinParam.year), Number(fFinParam.month)-1, Number(fFinParam.day)+1);
-        let datosParam:any = {fchIni: d1.getTime(), fchFin: d2.getTime(), idGpo: Number(idGpo)};
+        let datosParam:any = {startDate: d1.getTime(), endDate: d2.getTime(), idGpo: Number(idGpo)};
 
         this.obtenTotalesTienda(datosParam);
     }
@@ -153,7 +149,7 @@ export class ResumenDeEfectivo implements OnInit  {
 
     public obtenTotalesTienda(datosParam){
 
-        let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: datosParam.idGpo};
+        let parametros:any = {startDate: datosParam.startDate, endDate: datosParam.endDate, store: datosParam.idGpo};
 
         this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
 
