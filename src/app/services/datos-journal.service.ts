@@ -41,8 +41,8 @@ export class DatosJournalService implements OnInit {
         };
         let datosCortesJournal: any = [];
 
-        console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
-        console.log("---> Inicio: "+new Date());
+        //console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
+        //console.log("---> Inicio: "+new Date());
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
 
         if (gPaginasJournal.TotalPages > 0) {
@@ -56,16 +56,22 @@ export class DatosJournalService implements OnInit {
             }
         }
 
-        console.log(nomComponente+".obtenCortesJournal:: "+JSON.stringify(datosCortesJournal));
+        //console.log(nomComponente+".obtenCortesJournal:: "+JSON.stringify(datosCortesJournal));
         return(datosCortesJournal);
 
     }
 
     public obtenUltimoCorteJournal(filtrosCons){
+
+        //{"ip":["11.40.2.8"],"timeStampStart":"2018-01-05-00-00","timeStampEnd":"2018-01-05-23-59","events":["Administrative"],"minAmount":1,"maxAmount":-1,"authId":-1,"cardNumber":-1,"accountId":-1}
+
+        let filtrosConsx ={"ip":[filtrosCons.ipAtm],"timeStampStart":"2018-01-01-00-00","timeStampEnd":"2018-01-05-23-59","events":["Administrative"],"minAmount":1,"maxAmount":-1,"authId":-1,"cardNumber":-1,"accountId":-1};
+        filtrosCons.timeStampStart = "2018-01-01-00-00";
+        console.log(nomComponente+".obtenUltimoCorteJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
 
-        //console.log(nomComponente+".obtenUltimoCorteJournal:: ["+JSON.stringify(cortesJournal)+"]");
+        console.log(nomComponente+".obtenUltimoCorteJournal:: ["+JSON.stringify(cortesJournal)+"]");
 
         cortesJournal.forEach( (row) => {
             ultimoCorte = row;
@@ -73,6 +79,8 @@ export class DatosJournalService implements OnInit {
 
         ultimoCorte.TimeStamp = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'});
         console.log(nomComponente+".obtenUltimoCorteJournal:: ["+JSON.stringify(ultimoCorte)+"]");
+
+        return(ultimoCorte);
     }
 
 }

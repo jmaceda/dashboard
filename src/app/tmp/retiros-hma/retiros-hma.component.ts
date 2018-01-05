@@ -28,7 +28,7 @@ export var gDevicesAtm:any[] = [];
 export var gPaginasJoural:any[] = [];
 export var gDatosJoural:any[] = [];
 
-var nomComponente = "RetirosEtvComponent";
+var nomComponente = "RetirosHmaComponent";
 
 @Component({
     selector   : 'resumen-efectivo',
@@ -272,21 +272,30 @@ export class RetirosHmaComponent implements OnInit  {
 
         // Obten fecha del último corte
         /*
-         depositosPorTiendaServicef
-         */
-         let datosCortesJournal = this.datosJournalService.obtenUltimoCorteJournal(filtrosCons);
+        depositosPorTiendaServicef
+        */
+        let datosCortesJournal = this.datosJournalService.obtenUltimoCorteJournal(filtrosCons);
 
+        // "04/01/2018 9:11:56"    ---   "2018-01-04-23-59"
+
+        //let fecha = datosCortesJournal.TimeStamp.replace( /(\d{2})[-/](\d{2})[-/](\d+) (\d):(\d{2})/, "$3-$2-$1-$04-$5").split(":")[0];
+        let fecha = datosCortesJournal.TimeStamp.replace( /(\d{2})[-/](\d{2})[-/](\d+)/, "$3-$2-$1");
+        fecha="2018-01-04-09-11";
+        fecha = datosCortesJournal.TimeStamp.replace(/[\/:]/g," ").split(" ");
+        fecha = sprintf("%04d-%02d-%02d-%02d-%02d",fecha[2],fecha[1], fecha[0], fecha[3], fecha[4]);
+        //console.log(nomComponente+".obtenDetalleRetiros:: datosCortesJournal >"+JSON.stringify(datosCortesJournal)+"<");
+        console.log(nomComponente+".obtenDetalleRetiros:: datosCortesJournal >"+JSON.stringify(datosCortesJournal.TimeStamp)+"<   >"+fecha+"<");
         let paramsCons: any = {
-            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            ip: [filtrosCons.ipAtm], timeStampStart: fecha, timeStampEnd: filtrosCons.timeStampEnd,
             device: ["AFD"],
             events: ["DenominateInfo"]
         };
 
-        console.log(new Date());
-        console.log("Params HSM :" +JSON.stringify(paramsCons));
+        //console.log(new Date());
+        //console.log("Params HSM :" +JSON.stringify(paramsCons));
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
 
-        console.log("Paginas HSM :" +JSON.stringify(gPaginasHMA));
+        console.log("Paginas HSM : Retiros: " +JSON.stringify(gPaginasHMA));
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosRetirosHMA: any = [];
@@ -294,7 +303,7 @@ export class RetirosHmaComponent implements OnInit  {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                console.log("Params HSM :" +JSON.stringify(paramsCons));
+                //console.log("Params HSM :" +JSON.stringify(paramsCons));
                 this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
@@ -308,13 +317,14 @@ export class RetirosHmaComponent implements OnInit  {
         }
 
         paramsCons = {
-            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+            ip: [filtrosCons.ipAtm], timeStampStart: fecha, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["CashManagement"], CashManagement: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
         };
-        console.log("Params HSM :" +JSON.stringify(paramsCons));
+        //console.log("Params HSM :" +JSON.stringify(paramsCons));
 
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
 
+        console.log("Paginas Joural : Depositos: " +JSON.stringify(gPaginasJoural));
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosJournal: any = [];
@@ -322,7 +332,7 @@ export class RetirosHmaComponent implements OnInit  {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                console.log("Params HSM :" +JSON.stringify(paramsCons));
+                //console.log("Params HSM :" +JSON.stringify(paramsCons));
                 this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
                 datosJournal = datosJournal.concat(gDatosJoural);
 
@@ -336,9 +346,6 @@ export class RetirosHmaComponent implements OnInit  {
             });
             console.log("Depósitos: "+JSON.stringify(arrBilletesJournal));
         }
-
-
-
     }
     public datosRetirosHMA:any;
 
