@@ -103,7 +103,13 @@
                         </div>
                     </ng-template>
                 </data-table-column>
-
+                <data-table-column
+                        [property]="'Time'"
+                        [header]="'Hora'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="12em">
+                </data-table-column>
             </data-table>
         </div>
     </div>

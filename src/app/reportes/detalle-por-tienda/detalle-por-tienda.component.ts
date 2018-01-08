@@ -148,7 +148,7 @@ export class DetallePorTienda implements OnInit  {
                 Store:      reg.Store,
                 Atm:        reg.Atm,
                 TxType:     reg.TxType,
-                Date:       reg.Date,
+                Date:       reg.Date + "   " + reg.Time,
                 Amount1000: reg.Amount1000,
                 Amount500:  reg.Amount500,
                 Amount200:  reg.Amount200,

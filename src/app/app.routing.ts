@@ -26,6 +26,7 @@ import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.co
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
+import { EfectDispCoponent }               from './reportes/efectivo-disponible/efectivo-disponible.component';
 
 import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
 
@@ -42,6 +43,7 @@ const routes: Routes =[
 
     { path: 'retirosetv',     component: RetirosEtvComponent },
     { path: 'retiroshma',     component: RetirosHmaComponent },
+    { path: 'efectdisp',      component: EfectDispCoponent },
 
     { path: 'HorzVertScrolling',  component: HorzVertScrolling },
 

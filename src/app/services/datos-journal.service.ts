@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { OnInit } from '@angular/core';
 
 import { SoapService }      from './soap.service';
+import {camelCase} from "@swimlane/ngx-datatable/release/utils";
 
 export var gPaginasJournal:any;
 export var gDatosCortesJournal:any;
@@ -33,6 +34,12 @@ export class DatosJournalService implements OnInit {
         gDatosCortesJournal = datosCortesJournal;
     }
 
+    /*
+       Params:
+             ipAtm:             Ip del ATM a consultar (xxx.xxx.xxx.xxx)
+             timeStampStart:    Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
+             timeStampEnd:      Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
+     */
     public obtenCortesJournal(filtrosCons){
 
         let paramsCons: any = {
@@ -41,14 +48,9 @@ export class DatosJournalService implements OnInit {
         };
         let datosCortesJournal: any = [];
 
-        //console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
-        //console.log("---> Inicio: "+new Date());
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
 
         if (gPaginasJournal.TotalPages > 0) {
-
-            //this.arrDatosCortesEtv = [];
-
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
@@ -56,31 +58,61 @@ export class DatosJournalService implements OnInit {
             }
         }
 
-        //console.log(nomComponente+".obtenCortesJournal:: "+JSON.stringify(datosCortesJournal));
         return(datosCortesJournal);
-
     }
 
-    public obtenUltimoCorteJournal(filtrosCons){
+    public obtenDatosUltimoCorteJournal(filtrosCons){
+        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
+        let fchTmpI:any;
+        let fchTmpF:any;
+        let fchIniFiltro:any;
+        let fchFinFiltro:any;
+        let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{2})[-/](\d{2})/;
+        let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{2}):(\d{2})/;
+        let opc = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
+        let filtrosConsTmp = filtrosCons;
 
-        //{"ip":["11.40.2.8"],"timeStampStart":"2018-01-05-00-00","timeStampEnd":"2018-01-05-23-59","events":["Administrative"],"minAmount":1,"maxAmount":-1,"authId":-1,"cardNumber":-1,"accountId":-1}
+        if (typeof(filtrosCons.startDate) == "number"){
+            fchIniFiltro    = new Date(filtrosCons.startDate);
+            fchFinFiltro    = new Date(filtrosCons.endDate);
+            filtrosConsTmp  = new Date(filtrosCons.endDate);
+        }else {
+            fchIniFiltro    = (new Date((filtrosCons.startDate).replace(expReg1, "$2/$3/$1 $4:$5")));
+            fchFinFiltro    = (new Date((filtrosCons.endDate).replace(expReg1, "$2/$3/$1 $4:$5")));
+            filtrosConsTmp  = (new Date((filtrosConsTmp.endDate).replace(expReg1, "$2/$3/$1 $4:$5")));
+        }
 
-        let filtrosConsx ={"ip":[filtrosCons.ipAtm],"timeStampStart":"2018-01-01-00-00","timeStampEnd":"2018-01-05-23-59","events":["Administrative"],"minAmount":1,"maxAmount":-1,"authId":-1,"cardNumber":-1,"accountId":-1};
-        filtrosCons.timeStampStart = "2018-01-01-00-00";
-        console.log(nomComponente+".obtenUltimoCorteJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
+        console.log("filtrosCons:: (2) "+ JSON.stringify(filtrosCons));
+
+        fchIniFiltro.setDate(fchIniFiltro.getDate() - 5);  // Resta cinco dias a la fecha inicial del rango.
+        console.log("filtrosCons:: (3) "+ JSON.stringify(filtrosCons));
+        fchTmpI = fchIniFiltro.toLocaleDateString(undefined, opc);
+        console.log("filtrosCons:: (4) "+ JSON.stringify(filtrosCons));
+        fchTmpF = fchFinFiltro.toLocaleDateString(undefined, opc);
+
+        filtrosCons.timeStampStart   = fchTmpI.replace(expReg2 , "$3-$2-$1-$4-$5");
+        console.log("filtrosCons:: (5) "+ JSON.stringify(filtrosCons));
+        filtrosCons.timeStampEnd     = fchTmpF.replace(expReg2 , "$3-$2-$1-$4-$5");
+
+        console.log("filtrosCons:: (6) "+ JSON.stringify(filtrosCons));
+
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
-
-        console.log(nomComponente+".obtenUltimoCorteJournal:: ["+JSON.stringify(cortesJournal)+"]");
 
         cortesJournal.forEach( (row) => {
             ultimoCorte = row;
         });
 
         ultimoCorte.TimeStamp = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'});
-        console.log(nomComponente+".obtenUltimoCorteJournal:: ["+JSON.stringify(ultimoCorte)+"]");
+        //console.log(ultimoCorte);
+        filtrosCons = filtrosConsTmp;
 
+        console.log("filtrosConsTmp:: "+ JSON.stringify(filtrosConsTmp));
         return(ultimoCorte);
     }
 
+    public obtenFechaUltimoCorteJournal(filtrosCons){
+        let datosCorte:any = this.obtenDatosUltimoCorteJournal(filtrosCons);
+        return(datosCorte.TimeStamp);
+    }
 }

@@ -54,6 +54,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
+import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.
     DetallePorTienda,
     HorzVertScrolling,
     RetirosEtvComponent,
-    RetirosHmaComponent
+    RetirosHmaComponent,
+    EfectDispCoponent
 
   ],
 
