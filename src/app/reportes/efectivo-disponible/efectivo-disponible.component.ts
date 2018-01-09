@@ -123,7 +123,8 @@ export class EfectDispCoponent implements OnInit {
         let fchFinParam: string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
         let d2 = new Date(Number(fFinParam.year), Number(fFinParam.month) - 1, Number(fFinParam.day) +1);
-        let datosParam: any = {timeStampStart: d1.getTime(), timeStampEnd: d2.getTime(), ipAtm: ipAtm};
+        //let datosParam: any = {timeStampStart: d1.getTime(), timeStampEnd: d2.getTime(), ipAtm: ipAtm};
+        let datosParam: any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
 
         this.obtenDetalleRetiros(datosParam);
     }
@@ -144,13 +145,20 @@ export class EfectDispCoponent implements OnInit {
         //filtrosCons.timeStampStart  = startDate;
         //filtrosCons.timeStampEnd    = endDate;
 
+        let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{1,2})[-/](\d{2})/;
+        let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{1,2}):(\d{2})/;
+        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
+        let opc2        = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
         let datosCortesJournal:any = this.datosJournalService.obtenCortesJournal(filtrosCons);
-
-        let datosUltimoCorte;
-        let fecha = datosUltimoCorte.TimeStamp;
-        fecha = fecha.replace(/[\/:]/g, " ").split(" ");
-        fecha = sprintf("%04d-%02d-%02d-%02d-%02d", fecha[2], fecha[1], fecha[0], fecha[3], fecha[4]);
-        filtrosCons.timeStampStart = fecha;
+        //let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{1,2})[-/](\d{2})/;
+        let datosUltimoCorte = datosCortesJournal;
+        //let fecha = datosCortesJournal[datosCortesJournal.length -1].TimeStamp;
+        let fecha = (new Date((datosCortesJournal[datosCortesJournal.length -1].TimeStamp).replace(expReg1, "$2/$3/$1 $4:$5")));
+        let fechaS = fecha.toLocaleString(undefined, opc2);
+        let fechaA = fechaS.replace(expReg2 , "$3-$2-$1-$4-$5").split("-");
+        //fecha = fecha.replace(/[\/:]/g, " ").split(" ");
+        fecha = sprintf("%04d-%02d-%02d-%02d-%02d", fechaA[2], fechaA[1], fechaA[0], fechaA[3], fechaA[4]);
+        filtrosCons.timeStampStart = fechaS;
 
         this.billetesRetirados[0]           = this.infoRetirosEnHMA(filtrosCons);
         this.billetesDepositados[0]         = this.infoDepositosEnJournal(filtrosCons);
