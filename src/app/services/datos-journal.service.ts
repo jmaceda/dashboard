@@ -42,6 +42,35 @@ export class DatosJournalService implements OnInit {
      */
     public obtenCortesJournal(filtrosCons){
 
+        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
+        let fchTmpI:any;
+        let fchTmpF:any;
+        let fchIniFiltro:any;
+        let fchFinFiltro:any;
+        let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{2})[-/](\d{2})/;
+        let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{2}):(\d{2})/;
+        let opc = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
+        let filtrosConsTmp = filtrosCons;
+
+        if (typeof(filtrosCons.timeStampStart) == "number"){
+            fchIniFiltro    = new Date(filtrosCons.timeStampStart);
+            fchFinFiltro    = new Date(filtrosCons.timeStampEnd);
+            //filtrosConsTmp  = new Date(filtrosCons.timeStampEnd);
+            fchIniFiltro    = (new Date(filtrosCons.timeStampStart)).toLocaleString(undefined, opc);
+            fchFinFiltro    = (new Date(filtrosCons.timeStampEnd)).toLocaleString(undefined, opc);
+
+            fchIniFiltro    = (new Date((fchIniFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
+            fchFinFiltro    = (new Date((fchFinFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
+            //filtrosConsTmp  = (new Date((fchFinFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
+
+        }
+        else {
+            fchIniFiltro    = (new Date((filtrosCons.timeStampStart).replace(expReg1, "$2/$3/$1 $4:$5")));
+            fchFinFiltro    = (new Date((filtrosCons.timeStampEnd).replace(expReg1, "$2/$3/$1 $4:$5")));
+            //filtrosConsTmp  = (new Date((filtrosConsTmp.timeStampEnd).replace(expReg1, "$2/$3/$1 $4:$5")));
+        }
+
+
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1

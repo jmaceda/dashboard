@@ -42,9 +42,9 @@
     #divDetalleRetiroETV {
         padding-top: 3px;
         padding-bottom: 3px;
-        margin-left: 200px;"
-        width: 40em;
-        max-width: 40em;
+        margin-left: 155px;"
+        width: 55em;
+        max-width: 55em;
     }
     #tablaDetalleRetiroETV {
         width: 100%;
@@ -121,6 +121,7 @@
                                     <th class="col-md-1">$200</th>
                                     <th class="col-md-1">$500</th>
                                     <th class="col-md-1">$1000</th>
+                                    <th class="col-md-1">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,6 +134,7 @@
                                     <td class="col-md-1 campoNumerico">{{item.billOK.b200 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico">{{item.billOK.b500 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico">{{item.billOK.b1000 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billOK.totbill | number:'1.0-0'}}</td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-1 letraNegrita">Rechazos</td>
@@ -143,6 +145,7 @@
                                     <td class="col-md-1 campoNumerico">{{item.billRech.b200 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico">{{item.billRech.b500 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico">{{item.billRech.b1000 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.billRech.totbill | number:'1.0-0'}}</td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-1 letraNegrita">Total</td>
@@ -153,6 +156,7 @@
                                     <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b200 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b500 | number:'1.0-0'}}</td>
                                     <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.b1000 | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico letraNegrita">{{item.billTot.totBill | number:'1.0-0'}}</td>
                                 </tr>
                             </tbody>
                         </table>

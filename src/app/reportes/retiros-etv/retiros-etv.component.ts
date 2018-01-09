@@ -143,15 +143,18 @@ export class RetirosEtvComponent implements OnInit  {
 
                 billOK = this.utilsService.convBillToJson(billOK, "DC");  // "DC" indica formato billetes: <Denominación>x<Contador>
                 billRech = this.utilsService.convBillToJson(billRech, "DC");
+
                 billTot = {
-                    b20: (billOK.b20 + billRech.b20),
-                    b50: (billOK.b50 + billRech.b50),
-                    b100: (billOK.b100 + billRech.b100),
-                    b200: (billOK.b200 + billRech.b200),
-                    b500: (billOK.b500 + billRech.b500),
-                    b1000: (billOK.b1000 + billRech.b1000),
-                    monto: (billOK.monto + billRech.monto)
+                    b20:        (billOK.b20 + billRech.b20),
+                    b50:        (billOK.b50 + billRech.b50),
+                    b100:       (billOK.b100 + billRech.b100),
+                    b200:       (billOK.b200 + billRech.b200),
+                    b500:       (billOK.b500 + billRech.b500),
+                    b1000:      (billOK.b1000 + billRech.b1000),
+                    monto:      (billOK.monto + billRech.monto)
                 };
+
+                billTot.totBill = (billOK.totbill + billRech.totbill);
 
                 this.arrDatosCortesEtv.push({
                     TimeStamp: reg.TimeStamp,

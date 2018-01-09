@@ -16,7 +16,7 @@ export class UtilsService {
 
         //console.log("infoBilletes:: "+infoBilletes);
         let montoTotal      = 0;
-        let respBillJson    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
+        let respBillJson    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, totbill: 0, monto: 0};
         let posInicial      = infoBilletes.indexOf('[');
         let posFinal        = infoBilletes.indexOf(']', posInicial);
 
@@ -41,6 +41,7 @@ export class UtilsService {
                 }
 
                 respBillJson['b' + denomina] = Number(cantidad);
+                respBillJson.totbill += Number(cantidad);
                 respBillJson.monto += Number(denomina) * Number(cantidad);
             }
         }

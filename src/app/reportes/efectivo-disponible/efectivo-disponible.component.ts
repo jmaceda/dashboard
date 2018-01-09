@@ -85,8 +85,8 @@ export class EfectDispCoponent implements OnInit {
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos: any = [];
     public dTipoListaParams: string = "A";
-    public dSolicitaFechasIni = true;
-    public dSolicitaFechasFin = true;
+    public dSolicitaFechasIni = false;
+    public dSolicitaFechasFin = false;
     public dUltimaActualizacion: string;
 
     public itemResource = new DataTableResource([]);
@@ -123,7 +123,7 @@ export class EfectDispCoponent implements OnInit {
         let fchFinParam: string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
         let d2 = new Date(Number(fFinParam.year), Number(fFinParam.month) - 1, Number(fFinParam.day) +1);
-        let datosParam: any = {startDate: d1.getTime(), endDate: d2.getTime(), ipAtm: ipAtm};
+        let datosParam: any = {timeStampStart: d1.getTime(), timeStampEnd: d2.getTime(), ipAtm: ipAtm};
 
         this.obtenDetalleRetiros(datosParam);
     }
@@ -138,9 +138,15 @@ export class EfectDispCoponent implements OnInit {
     }
 
 
-    obtenDetalleRetiros(filtrosCons) {
+    obtenDetalleRetiros(filtrosCons:any) {
 
-        let datosUltimoCorte = this.datosJournalService.obtenDatosUltimoCorteJournal(filtrosCons);
+        //let datosUltimoCorte = this.datosJournalService.obtenDatosUltimoCorteJournal(filtrosCons);
+        //filtrosCons.timeStampStart  = startDate;
+        //filtrosCons.timeStampEnd    = endDate;
+
+        let datosCortesJournal:any = this.datosJournalService.obtenCortesJournal(filtrosCons);
+
+        let datosUltimoCorte;
         let fecha = datosUltimoCorte.TimeStamp;
         fecha = fecha.replace(/[\/:]/g, " ").split(" ");
         fecha = sprintf("%04d-%02d-%02d-%02d-%02d", fecha[2], fecha[1], fecha[0], fecha[3], fecha[4]);
@@ -148,6 +154,7 @@ export class EfectDispCoponent implements OnInit {
 
         this.billetesRetirados[0]           = this.infoRetirosEnHMA(filtrosCons);
         this.billetesDepositados[0]         = this.infoDepositosEnJournal(filtrosCons);
+
 
         this.billetesDisponibles[0].b20     = this.billetesDepositados[0].b20 - this.billetesRetirados[0].b20;
         this.billetesDisponibles[0].b50     = this.billetesDepositados[0].b50 - this.billetesRetirados[0].b50;
