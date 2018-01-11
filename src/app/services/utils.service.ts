@@ -80,7 +80,7 @@ export class UtilsService {
      */
     public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom = "DB") {
 
-        let numBilletes = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
+        let numBilletes = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
         let charDelim   = (delimitador == undefined || delimitador == null || delimitador == "") ? "|" : delimitador;
         let numBill     = 0;
         let denomina    = 0;
@@ -108,6 +108,7 @@ export class UtilsService {
                 numBilletes.b500  += (denomina == 500)  ? numBill : 0;
                 numBilletes.b1000 += (denomina == 1000) ? numBill : 0;
             }
+            numBilletes.opers++;
         }
 
         numBilletes.monto = (numBilletes.b20 * 20) + (numBilletes.b50 * 50) + (numBilletes.b100 * 100) + (numBilletes.b200 * 200)  + (numBilletes.b500 * 500) + (numBilletes.b1000 * 1000);

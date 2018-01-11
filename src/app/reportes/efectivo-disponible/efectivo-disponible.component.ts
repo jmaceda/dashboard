@@ -141,29 +141,22 @@ export class EfectDispCoponent implements OnInit {
 
     obtenDetalleRetiros(filtrosCons:any) {
 
-        //let datosUltimoCorte = this.datosJournalService.obtenDatosUltimoCorteJournal(filtrosCons);
-        //filtrosCons.timeStampStart  = startDate;
-        //filtrosCons.timeStampEnd    = endDate;
+        let filtrosConsMovtos:any           = JSON.stringify(filtrosCons);
+        let opc2                            = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
+        let datosCortesJournal:any          = this.datosJournalService.obtenCortesJournal(filtrosCons);
+        let ultimoCorte                     = datosCortesJournal[datosCortesJournal.length -1];
+        let fchUltimoCorte                  = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
+        let montoUltimoCorte                = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+        let fchUltimoCorte2                 = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
+        fchUltimoCorte2                     = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
 
-        let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{1,2})[-/](\d{2})/;
-        let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{1,2}):(\d{2})/;
-        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
-        let opc2        = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
-        let datosCortesJournal:any = this.datosJournalService.obtenCortesJournal(filtrosCons);
-        //let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{1,2})[-/](\d{2})/;
-        let datosUltimoCorte = datosCortesJournal;
-        //let fecha = datosCortesJournal[datosCortesJournal.length -1].TimeStamp;
-        let fecha = (new Date((datosCortesJournal[datosCortesJournal.length -1].TimeStamp).replace(expReg1, "$2/$3/$1 $4:$5")));
-        let fechaS = fecha.toLocaleString(undefined, opc2);
-        let fechaA = fechaS.replace(expReg2 , "$3-$2-$1-$4-$5").split("-");
-        //fecha = fecha.replace(/[\/:]/g, " ").split(" ");
-        fecha = sprintf("%04d-%02d-%02d-%02d-%02d", fechaA[2], fechaA[1], fechaA[0], fechaA[3], fechaA[4]);
-        filtrosCons.timeStampStart = fechaS;
+        filtrosCons                         = JSON.parse(filtrosConsMovtos);
+        filtrosCons.timeStampStart          = fchUltimoCorte2;
 
         this.billetesRetirados[0]           = this.infoRetirosEnHMA(filtrosCons);
         this.billetesDepositados[0]         = this.infoDepositosEnJournal(filtrosCons);
 
-
+        //this.billetesDisponibles[0].opers   = this.billetesDepositados[0].opers;
         this.billetesDisponibles[0].b20     = this.billetesDepositados[0].b20 - this.billetesRetirados[0].b20;
         this.billetesDisponibles[0].b50     = this.billetesDepositados[0].b50 - this.billetesRetirados[0].b50;
         this.billetesDisponibles[0].b100    = this.billetesDepositados[0].b100 - this.billetesRetirados[0].b100;
@@ -172,7 +165,8 @@ export class EfectDispCoponent implements OnInit {
         this.billetesDisponibles[0].b1000   = this.billetesDepositados[0].b1000 - this.billetesRetirados[0].b1000;
         this.billetesDisponibles[0].monto   = this.billetesDepositados[0].monto - this.billetesRetirados[0].monto;
 
-        this.datosUltimoCorte = sprintf("Ultimo Corte: %s %s", datosUltimoCorte.TimeStamp, (datosUltimoCorte.Amount).toLocaleString("es-MX",{style:"currency", currency:"MXN"}));
+
+        this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
@@ -215,6 +209,7 @@ export class EfectDispCoponent implements OnInit {
             });
 
             let numBilletes:any = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
+        //numBilletes.opers =
             return(numBilletes);
         }
     }

@@ -13,6 +13,7 @@ export var gPaginasJournal:any;
 export var gDatosCortesJournal:any;
 
 var nomComponente = "DatosJournalService";
+var diasIniRango:number = 5;
 
 @Injectable()
 export class DatosJournalService implements OnInit {
@@ -40,45 +41,16 @@ export class DatosJournalService implements OnInit {
              ipAtm:             Ip del ATM a consultar (xxx.xxx.xxx.xxx)
              timeStampStart:    Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
              timeStampEnd:      Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
+
+       Notas: La fecha de los datos de los cortes esta en formato TimeStamp.
      */
     public obtenCortesJournal(filtrosCons){
 
+
         console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
 
-        let fchTmpI:any;
-        let fchTmpF:any;
-        let fchIniFiltro:any;
-        let fchFinFiltro:any;
-        let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{1,2})[-/](\d{2})/;
-        let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{1,2}):(\d{2})/;
-        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
-        let opc2        = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
-        let filtrosConsTmp = filtrosCons;
+        filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart);
 
-        if (typeof(filtrosCons.timeStampStart) == "number"){
-            fchIniFiltro    = new Date(filtrosCons.timeStampStart);
-            fchFinFiltro    = new Date(filtrosCons.timeStampEnd);
-            //filtrosConsTmp  = new Date(filtrosCons.timeStampEnd);
-            fchIniFiltro    = (new Date(filtrosCons.timeStampStart)).toLocaleString(undefined, opc);
-            fchFinFiltro    = (new Date(filtrosCons.timeStampEnd)).toLocaleString(undefined, opc);
-
-            fchIniFiltro    = (new Date((fchIniFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
-            fchFinFiltro    = (new Date((fchFinFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
-            //filtrosConsTmp  = (new Date((fchFinFiltro).replace(expReg1, "$2/$3/$1 $4:$5")));
-
-        } else {
-            fchIniFiltro    = (new Date((filtrosCons.timeStampStart).replace(expReg1, "$2/$3/$1 $4:$5"))); // Formato americano (mm/dd/yyyy HH:MM)
-            fchFinFiltro    = (new Date((filtrosCons.timeStampEnd).replace(expReg1, "$2/$3/$1 $4:$5")));  // Formato americano (mm/dd/yyyy HH:MM)
-            //filtrosConsTmp  = (new Date((filtrosConsTmp.timeStampEnd).replace(expReg1, "$2/$3/$1 $4:$5")));
-        }
-
-        fchIniFiltro.setDate(fchIniFiltro.getDate() - 5);  // Resta cinco dias a la fecha inicial del rango.
-
-        let fchIniFiltroS = fchIniFiltro.toLocaleString(undefined, opc2);
-        let fchIniFiltroA=fchIniFiltroS.replace(expReg2 , "$3-$2-$1-$4-$5").split("-");
-        //fecha = sprintf("%04d-%02d-%02d-%02d-%02d", fchIniFiltroA[0], fchIniFiltroA[1], fchIniFiltroA[2], fchIniFiltroA[3], fchIniFiltroA[4]);
-        filtrosCons.timeStampStart = sprintf("%04d-%02d-%02d-%02d-%02d", fchIniFiltroA[0], fchIniFiltroA[1], fchIniFiltroA[2], fchIniFiltroA[3], fchIniFiltroA[4]);
-        //console.log(y);
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
@@ -98,41 +70,43 @@ export class DatosJournalService implements OnInit {
         return(datosCortesJournal);
     }
 
-    public obtenDatosUltimoCorteJournal(filtrosCons){
-        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
-        let fchTmpI:any;
-        let fchTmpF:any;
-        let fchIniFiltro:any;
-        let fchFinFiltro:any;
+
+    public restaDiasFecha(prmFecha){
+
         let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{2})[-/](\d{2})/;
         let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{2}):(\d{2})/;
-        //let opc = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
-        let opc = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
-        let filtrosConsTmp = filtrosCons;
+        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'};
 
-        if (typeof(filtrosCons.startDate) == "number"){
-            fchIniFiltro    = new Date(filtrosCons.startDate);
-            fchFinFiltro    = new Date(filtrosCons.endDate);
-            filtrosConsTmp  = new Date(filtrosCons.endDate);
-        }else {
-            fchIniFiltro    = (new Date((filtrosCons.startDate).replace(expReg1, "$2/$3/$1 $4:$5")));
-            fchFinFiltro    = (new Date((filtrosCons.endDate).replace(expReg1, "$2/$3/$1 $4:$5")));
-            filtrosConsTmp  = (new Date((filtrosConsTmp.endDate).replace(expReg1, "$2/$3/$1 $4:$5")));
+        let ldFecha1:any;
+        let ldFecha2:any;
+        let ldFecha3:any;
+        let ldFecha4:any;
+
+        if (typeof(prmFecha) == "number"){
+            ldFecha1 = new Date(prmFecha).toLocaleDateString(undefined, opc);
+            ldFecha1 = (new Date((ldFecha1).replace(expReg2, "$3/$2/$1 $4:$5")));
+        }else{
+            ldFecha1 = (new Date((prmFecha).replace(expReg1, "$2/$3/$1 $4:$5")));
         }
 
-        console.log("filtrosCons:: (2) "+ JSON.stringify(filtrosCons));
+        ldFecha2 = new Date(ldFecha1.setDate(ldFecha1.getDate() - diasIniRango));  // Resta cinco dias a la fecha inicial del rango.
 
-        fchIniFiltro.setDate(fchIniFiltro.getDate() - 5);  // Resta cinco dias a la fecha inicial del rango.
-        console.log("filtrosCons:: (3) "+ JSON.stringify(filtrosCons));
-        fchTmpI = fchIniFiltro.toLocaleDateString(undefined, opc);
-        console.log("filtrosCons:: (4) "+ JSON.stringify(filtrosCons));
-        fchTmpF = fchFinFiltro.toLocaleDateString(undefined, opc);
+        console.log(nomComponente+".restaDiasFecha:: ldFecha2["+ldFecha2+"]");
 
-        filtrosCons.timeStampStart   = fchTmpI.replace(expReg2 , "$3-$2-$1-$4-$5");
-        console.log("filtrosCons:: (5) "+ JSON.stringify(filtrosCons));
-        filtrosCons.timeStampEnd     = fchTmpF.replace(expReg2 , "$3-$2-$1-$4-$5");
+        if (typeof(prmFecha) == "number"){
+            ldFecha3 = ldFecha2.getTime();
+        }else{
+            ldFecha4 = ldFecha2.toLocaleDateString(undefined, opc);
+            ldFecha3 = ldFecha4.replace(expReg2 , "$3-$2-$1-$4-$5");
+        }
 
-        console.log("filtrosCons:: (6) "+ JSON.stringify(filtrosCons));
+        return(ldFecha3);
+    }
+
+    public obtenDatosUltimoCorteJournal(filtrosCons){
+        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
+
+        let fchaX = this.restaDiasFecha(filtrosCons.timeStampStart);
 
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
@@ -142,10 +116,7 @@ export class DatosJournalService implements OnInit {
         });
 
         ultimoCorte.TimeStamp = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'});
-        //console.log(ultimoCorte);
-        filtrosCons = filtrosConsTmp;
 
-        console.log("filtrosConsTmp:: "+ JSON.stringify(filtrosConsTmp));
         return(ultimoCorte);
     }
 

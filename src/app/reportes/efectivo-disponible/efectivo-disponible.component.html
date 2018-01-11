@@ -72,6 +72,7 @@
                                     <thead>
                                         <tr id="EncabEfectivoDepositos">
                                             <th style="width: 5px">Tipo Operación</th>
+                                            <!-- th class="colNum">Opers</th -->
                                             <th class="colNum">$20</th>
                                             <th class="colNum">$50</th>
                                             <th class="colNum">$100</th>
@@ -85,6 +86,7 @@
                                     <tbody>
                                         <tr id="efectivoDepositos" *ngFor="let row of billetesDepositados">
                                             <td style="width: 5%;">Depósitos</td>
+                                            <!-- td class="colNum">{{row.opers | number:'1.0-0'}}</td -->
                                             <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
                                             <td class="colNum">{{row.b50 | number:'1.0-0'}}</td>
                                             <td class="colNum">{{row.b100 | number:'1.0-0'}}</td>
@@ -95,6 +97,7 @@
                                         </tr>
                                         <tr id="efectivoRetiros" *ngFor="let row of billetesRetirados">
                                             <td style="width: 5%;">Retiros</td>
+                                            <!-- td class="colNum">{{row.opers | number:'1.0-0'}}</td -->
                                             <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
                                             <td class="colNum">{{row.b50 | number:'1.0-0'}}</td>
                                             <td class="colNum">{{row.b100 | number:'1.0-0'}}</td>
