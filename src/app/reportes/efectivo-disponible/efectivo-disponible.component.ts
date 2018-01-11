@@ -156,12 +156,12 @@ export class EfectDispCoponent implements OnInit {
         this.billetesRetirados[0]           = this.infoRetirosEnHMA(filtrosCons);
         this.billetesDepositados[0]         = this.infoDepositosEnJournal(filtrosCons);
 
-        //this.billetesDisponibles[0].opers   = this.billetesDepositados[0].opers;
-        this.billetesDisponibles[0].b20     = this.billetesDepositados[0].b20 - this.billetesRetirados[0].b20;
-        this.billetesDisponibles[0].b50     = this.billetesDepositados[0].b50 - this.billetesRetirados[0].b50;
-        this.billetesDisponibles[0].b100    = this.billetesDepositados[0].b100 - this.billetesRetirados[0].b100;
-        this.billetesDisponibles[0].b200    = this.billetesDepositados[0].b200 - this.billetesRetirados[0].b200;
-        this.billetesDisponibles[0].b500    = this.billetesDepositados[0].b500 - this.billetesRetirados[0].b500;
+        this.billetesDisponibles[0].opers   = this.billetesDepositados[0].opers + this.billetesRetirados[0].opers;
+        this.billetesDisponibles[0].b20     = this.billetesDepositados[0].b20   - this.billetesRetirados[0].b20;
+        this.billetesDisponibles[0].b50     = this.billetesDepositados[0].b50   - this.billetesRetirados[0].b50;
+        this.billetesDisponibles[0].b100    = this.billetesDepositados[0].b100  - this.billetesRetirados[0].b100;
+        this.billetesDisponibles[0].b200    = this.billetesDepositados[0].b200  - this.billetesRetirados[0].b200;
+        this.billetesDisponibles[0].b500    = this.billetesDepositados[0].b500  - this.billetesRetirados[0].b500;
         this.billetesDisponibles[0].b1000   = this.billetesDepositados[0].b1000 - this.billetesRetirados[0].b1000;
         this.billetesDisponibles[0].monto   = this.billetesDepositados[0].monto - this.billetesRetirados[0].monto;
 
@@ -183,6 +183,7 @@ export class EfectDispCoponent implements OnInit {
 
     public infoRetirosEnHMA(filtrosCons) {
 
+        let numRetiros:number = 0;
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             device: ["AFD"],
@@ -206,16 +207,18 @@ export class EfectDispCoponent implements OnInit {
 
             datosRetirosHMA.forEach((reg) => {
                 arrBilletesRetiro.push(reg.Data + ";");
+                numRetiros++;
             });
 
             let numBilletes:any = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
-        //numBilletes.opers =
+            numBilletes.opers = numRetiros;
             return(numBilletes);
         }
     }
 
     public infoDepositosEnJournal(filtrosCons) {
 
+        let numDepositos:number = 0;
         let paramsCons:any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["CashManagement"], CashManagement: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
@@ -239,10 +242,11 @@ export class EfectDispCoponent implements OnInit {
             datosJournal.forEach((reg) => {
                 let i = reg.Data.indexOf("[");
                 arrBilletesJournal.push(reg.Data.substring(i));
+                numDepositos++;
             });
 
             let numBilletes:any = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesJournal, "|", "BD");
-
+            numBilletes.opers = numDepositos;
             return(numBilletes);
         }
     }
