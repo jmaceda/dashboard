@@ -56,6 +56,9 @@ import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
+import { BlockUIModule } from 'ng-block-ui';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,7 +106,8 @@ import { EfectDispCoponent }                from './reportes/efectivo-disponible
     TableModule,
     NgbModule.forRoot(),
     BsModalModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    BlockUIModule
 
   ],
   entryComponents: [],

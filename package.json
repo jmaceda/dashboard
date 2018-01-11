@@ -48,6 +48,7 @@
         "googleapis": "19.0.0",
         "jquery": "^3.2.1",
         "jsstore": "^1.3.1",
+        "ng-block-ui": "^1.0.0-beta.16",
         "ng2-bs3-modal": "^0.13.0",
         "ngbootbox": "^0.2.0",
         "ngx-easy-table": "^2.0.0",

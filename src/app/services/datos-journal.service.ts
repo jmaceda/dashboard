@@ -96,8 +96,8 @@ export class DatosJournalService implements OnInit {
         if (typeof(prmFecha) == "number"){
             ldFecha3 = ldFecha2.getTime();
         }else{
-            ldFecha4 = ldFecha2.toLocaleDateString(undefined, opc);
-            ldFecha3 = ldFecha4.replace(expReg2 , "$3-$2-$1-$4-$5");
+            ldFecha4 = (ldFecha2.toLocaleDateString(undefined, opc)).replace(/[\/ :]/g, "-").split("-");
+            ldFecha3 = sprintf("%04d-%02d-%02d-%02d-%02d", ldFecha4[2], ldFecha4[1], ldFecha4[0], ldFecha4[3], ldFecha4[4]);
         }
 
         return(ldFecha3);
