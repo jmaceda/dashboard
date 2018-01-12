@@ -119,11 +119,8 @@ export class EfectDispCoponent implements OnInit {
         let ipAtm       = infoRecibida.atm;
         let fchIniParam: string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-        //let d1 = new Date(Number(fIniParam.year), Number(fIniParam.month) - 1, Number(fIniParam.day));
         let fchFinParam: string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
-        //let d2 = new Date(Number(fFinParam.year), Number(fFinParam.month) - 1, Number(fFinParam.day) +1);
-        //let datosParam: any = {timeStampStart: d1.getTime(), timeStampEnd: d2.getTime(), ipAtm: ipAtm};
         let datosParam: any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
 
         this.obtenDetalleRetiros(datosParam);
