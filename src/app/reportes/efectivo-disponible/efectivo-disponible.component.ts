@@ -126,6 +126,26 @@ export class EfectDispCoponent implements OnInit {
         this.obtenDetalleRetiros(datosParam);
     }
 
+    public infoCortesETV:any[] = [];
+
+    public datosCortesETV(datosCortesJournal){
+        this.infoCortesETV = [];
+
+        datosCortesJournal.forEach( (reg) => {
+
+            this.infoCortesETV.push({
+                TimeStamp: reg.TimeStamp, AtmName: reg.AtmName, Ip: reg.Ip, Amount: reg.Amount
+            })
+        })
+
+        // Sort by price high to low
+        this.infoCortesETV.sort(sort_by('TimeStamp', true, parseInt));
+
+        // Sort by city, case-insensitive, A-Z
+        //this.infoCortesETV.sort(sort_by('city', false, function(a){return a.toUpperCase()}));
+
+
+    }
 
     GetEjaLogDataLength(paginasJoural: any, status) {
         gPaginasJoural = paginasJoural;
@@ -161,6 +181,9 @@ export class EfectDispCoponent implements OnInit {
         this.billetesDisponibles[0].b500    = this.billetesDepositados[0].b500  - this.billetesRetirados[0].b500;
         this.billetesDisponibles[0].b1000   = this.billetesDepositados[0].b1000 - this.billetesRetirados[0].b1000;
         this.billetesDisponibles[0].monto   = this.billetesDepositados[0].monto - this.billetesRetirados[0].monto;
+
+
+        this.datosCortesETV(datosCortesJournal);
 
 
         this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
@@ -250,3 +273,16 @@ export class EfectDispCoponent implements OnInit {
 }
 
 function comparar ( a, b ){ return a - b; }
+
+var sort_by = function(field, reverse, primer){
+
+    let key:any = primer ?
+        function(x) {return primer(x[field])} :
+        function(x) {return x[field]};
+
+    reverse = !reverse ? 1 : -1;
+
+    return function (a:any, b:any) {
+        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
+};
