@@ -110,7 +110,7 @@ module.exports = function() {
 		}
 
 		// Backward compatibility: until v3, we still need to support boundary values set on
-		// the model (scaleTop, scaleBottom and scaleZero) because some external plugins and
+		// the models (scaleTop, scaleBottom and scaleZero) because some external plugins and
 		// controllers might still use it (e.g. the Smith chart).
 
 		if (fill === 'start') {

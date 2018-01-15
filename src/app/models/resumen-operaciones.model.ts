@@ -3,23 +3,23 @@
 
 export class ResumenOperacionesModel {
 
-    public numeroOperaciones: number;
-    public montoOperaciones: number;
-    public hraPrimeaOperacion: string;
-    public hraUltimaOperacion: string;
+    public numOpers: number;
+    public montoOpers: number;
+    public hraPrimOper: string;
+    public hraUltOper: string;
 
     constructor(){
-        this.numeroOperaciones = 0;
-        this.montoOperaciones = 0;
-        this.hraPrimeaOperacion = "";
-        this.hraUltimaOperacion = "";
+        this.numOpers = 0;
+        this.montoOpers = 0;
+        this.hraPrimOper = "";
+        this.hraUltOper = "";
     }
 
-    public incrementaOper(incremento:number = 1):number {
-        numeroOperaciones += incremento;
+    public incrementaOper(incremento:number = 1):void {
+        this.numOpers += incremento;
     }
 
-    public incrementaMonto(incremento:number = 0):number {
-        montoOperaciones += incremento;
+    public incrementaMonto(incremento:number = 0):void {
+        this.montoOpers += incremento;
     }
 }

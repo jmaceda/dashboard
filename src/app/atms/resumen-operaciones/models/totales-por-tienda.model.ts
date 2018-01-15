@@ -1,5 +1,5 @@
 // Path: app/home/models
-// Arrchivo: totales-por-tienda.model.ts
+// Arrchivo: totales-por-tienda.models.ts
 
 export class TotalesPorTienda {
     public Store: string;

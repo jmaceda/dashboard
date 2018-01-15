@@ -16,7 +16,7 @@ export class FiltrosUtilsService implements OnInit {
 
     ngOnInit(){}
 
-    fchaHraUltimaActualizacion(){
+    public fchaHraUltimaActualizacion(){
 
         let fchSys              = new Date();
         let _anioSys            = fchSys.getFullYear();

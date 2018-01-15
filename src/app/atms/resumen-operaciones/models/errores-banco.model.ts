@@ -1,5 +1,5 @@
 // Path: app/home/models
-// Arrchivo: errores-banco.model.ts
+// Arrchivo: errores-banco.models.ts
 
 export class ErroresBanco {
     public id: number;

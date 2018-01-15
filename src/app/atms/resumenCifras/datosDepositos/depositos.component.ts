@@ -39,14 +39,14 @@ export class DepositosComponent implements OnInit {
         /*
         this.columnDefs = [
             {headerName: "Make", field: "make", width: 300},
-            {headerName: "Model", field: "model", width: 300},
+            {headerName: "Model", field: "models", width: 300},
             {headerName: "Price", field: "price", width: 300}
         ];
 
         this.rowData = [
-            {make: "Toyota", model: "Celica", price: 35000},
-            {make: "Ford", model: "Mondeo", price: 32000},
-            {make: "Porsche", model: "Boxter", price: 72000}
+            {make: "Toyota", models: "Celica", price: 35000},
+            {make: "Ford", models: "Mondeo", price: 32000},
+            {make: "Porsche", models: "Boxter", price: 72000}
         ]
         */
     }

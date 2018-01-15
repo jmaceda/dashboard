@@ -78,6 +78,10 @@
         border: 0px solid #000000;
     }
 
+    div#idCardTablaEfectivoDisponible {
+        margin-bottom: 2px;
+    }
+
 </style>
 
 <block-ui>
@@ -92,6 +96,7 @@
             [dTipoListaParams]      = "dTipoListaParams">
     </filtros-consultas>
 
+
     <div style="margin: 1% 0%; max-height: 37em; height: 37em;">
 
         <div class="card" style="margin: 1% 0%; padding: 20px; max-height: 100%; height: 100%;">
@@ -103,14 +108,12 @@
                             <h5 class="title" style="text-align: center; font-weight: bold;">Efectivo Disponible</h5>
                         </div>
 
-                        <div class="card">
-
-                            <!-- div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;" -->
+                        <div id="idCardTablaEfectivoDisponible" class="card">
 
                             <table class="table table-hover table-striped" style="width: 100%; max-width: 100%;">
 
                                 <thead>
-                                    <tr id="EncabEfectivoDepositos">
+                                    <tr id="idEncabEfectivoDisponible">
                                         <th style="width: 5px">Tipo Operación</th>
                                         <th class="colNum">Opers</th>
                                         <th class="colNum">$20</th>
@@ -124,29 +127,29 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr id="efectivoDepositos" *ngFor="let row of billetesDepositados">
+                                    <tr id="efectivoDepositos">
                                         <td style="width: 5%;">Depósitos</td>
-                                        <td class="colNum">{{row.opers | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b50 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b100 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b200 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b500 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b1000 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesDepositados.monto | currency:'USD':'symbol':'1.0-0'}}</td>
                                     </tr>
-                                    <tr id="efectivoRetiros" *ngFor="let row of billetesRetirados">
+                                    <tr id="efectivoRetiros">
                                         <td style="width: 5%;">Retiros</td>
-                                        <td class="colNum">{{row.opers | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b50 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b100 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b200 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b500 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.b1000 | number:'1.0-0'}}</td>
-                                        <td class="colNum">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.monto | currency:'USD':'symbol':'1.0-0'}}</td>
                                     </tr>
-                                    <tr id="efectivoDisponible" *ngFor="let row of billetesDisponibles">
+                                    <tr id="efectivoDisponible" *ngFor="let row of arrBilletesDisponibles">
                                         <td style="width: 5%;">Disponible</td>
                                         <td class="colNum">{{row.opers | number:'1.0-0'}}</td>
                                         <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
@@ -159,13 +162,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- /div -->
+                        </div>
+                        <div id="idPeriodoInfo" *ngIf="fchUltimaActualizacion">
+                            <span>Información reportada a partir del último corte: {{datosUltimoCorte}} - {{fchUltimaActualizacion}}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="row"></div>
 
+                <!--
                 <div class="row">
                     <div class="col-md-10" style="margin-left: 8.5%">
                         <div class="header" style="padding: 2px;">
@@ -201,6 +207,7 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </div>

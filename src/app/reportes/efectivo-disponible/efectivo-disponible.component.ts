@@ -15,6 +15,8 @@ import { DepositosPorTiendaService }                    from '../../services/acu
 import { DatosJournalService }                          from '../../services/datos-journal.service';
 import { UtilsService }                                 from '../../services/utils.service';
 
+import { AcumulaBilletesModel }                         from '../../models/acumula-billetes.model';
+
 
 
 
@@ -89,15 +91,20 @@ export class EfectDispCoponent implements OnInit {
     public dSolicitaFechasFin = false;
     public dUltimaActualizacion: string;
 
+    public fchUltimaActualizacion:any = null;
+
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
 
-    public billetesDepositados:any  = [{b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0}];
-    public billetesRetirados:any    = [{b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0}];
-    public billetesDisponibles:any  = [{b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0}];
+    //public denominaBilletes             = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
     public arrDatosRetirosHMA:any;
     public datosUltimoCorte:any;
+
+    public billetesDepositados : AcumulaBilletesModel    = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
+    public billetesRetirados : AcumulaBilletesModel      = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
+    public arrBilletesDisponibles : AcumulaBilletesModel[] = [];
+
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
@@ -107,11 +114,13 @@ export class EfectDispCoponent implements OnInit {
     }
 
     ngOnInit() {
+        this.arrBilletesDisponibles.push(new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0));
     }
 
 
     parametrosConsulta(infoRecibida) {
 
+        this.fchUltimaActualizacion = null;
         let parametrossConsulta: any = {};
 
         let fIniParam   = infoRecibida.fchInicio;
@@ -132,19 +141,13 @@ export class EfectDispCoponent implements OnInit {
         this.infoCortesETV = [];
 
         datosCortesJournal.forEach( (reg) => {
-
             this.infoCortesETV.push({
                 TimeStamp: reg.TimeStamp, AtmName: reg.AtmName, Ip: reg.Ip, Amount: reg.Amount
             })
         })
 
         // Sort by price high to low
-        this.infoCortesETV.sort(sort_by('TimeStamp', true, parseInt));
-
-        // Sort by city, case-insensitive, A-Z
-        //this.infoCortesETV.sort(sort_by('city', false, function(a){return a.toUpperCase()}));
-
-
+        this.infoCortesETV.sort(this.utilsService.sort_by('TimeStamp', true, parseInt));
     }
 
     GetEjaLogDataLength(paginasJoural: any, status) {
@@ -155,8 +158,7 @@ export class EfectDispCoponent implements OnInit {
         gDatosJoural = datosJoural;
     }
 
-
-    obtenDetalleRetiros(filtrosCons:any) {
+    public obtenDetalleRetiros(filtrosCons:any) {
 
         let filtrosConsMovtos:any           = JSON.stringify(filtrosCons);
         let opc2                            = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
@@ -167,26 +169,36 @@ export class EfectDispCoponent implements OnInit {
         let fchUltimoCorte2                 = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
         fchUltimoCorte2                     = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
 
-        filtrosCons                         = JSON.parse(filtrosConsMovtos);
-        filtrosCons.timeStampStart          = fchUltimoCorte2;
+        let billetesDisponibles: AcumulaBilletesModel    = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
 
-        this.billetesRetirados[0]           = this.infoRetirosEnHMA(filtrosCons);
-        this.billetesDepositados[0]         = this.infoDepositosEnJournal(filtrosCons);
 
-        this.billetesDisponibles[0].opers   = this.billetesDepositados[0].opers + this.billetesRetirados[0].opers;
-        this.billetesDisponibles[0].b20     = this.billetesDepositados[0].b20   - this.billetesRetirados[0].b20;
-        this.billetesDisponibles[0].b50     = this.billetesDepositados[0].b50   - this.billetesRetirados[0].b50;
-        this.billetesDisponibles[0].b100    = this.billetesDepositados[0].b100  - this.billetesRetirados[0].b100;
-        this.billetesDisponibles[0].b200    = this.billetesDepositados[0].b200  - this.billetesRetirados[0].b200;
-        this.billetesDisponibles[0].b500    = this.billetesDepositados[0].b500  - this.billetesRetirados[0].b500;
-        this.billetesDisponibles[0].b1000   = this.billetesDepositados[0].b1000 - this.billetesRetirados[0].b1000;
-        this.billetesDisponibles[0].monto   = this.billetesDepositados[0].monto - this.billetesRetirados[0].monto;
+
+        filtrosCons                 = JSON.parse(filtrosConsMovtos);
+        filtrosCons.timeStampStart  = fchUltimoCorte2;
+
+        this.billetesRetirados      = (this.infoRetirosEnHMA(filtrosCons));
+        this.billetesDepositados    = (this.infoDepositosEnJournal(filtrosCons));
+
+        billetesDisponibles.opers   = this.billetesDepositados.opers + this.billetesRetirados.opers;
+        billetesDisponibles.b20     = this.billetesDepositados.b20   - this.billetesRetirados.b20;
+        billetesDisponibles.b50     = this.billetesDepositados.b50   - this.billetesRetirados.b50;
+        billetesDisponibles.b100    = this.billetesDepositados.b100  - this.billetesRetirados.b100;
+        billetesDisponibles.b200    = this.billetesDepositados.b200  - this.billetesRetirados.b200;
+        billetesDisponibles.b500    = this.billetesDepositados.b500  - this.billetesRetirados.b500;
+        billetesDisponibles.b1000   = this.billetesDepositados.b1000 - this.billetesRetirados.b1000;
+        billetesDisponibles.monto   = this.billetesDepositados.monto - this.billetesRetirados.monto;
+
+        this.arrBilletesDisponibles[0] = billetesDisponibles;
 
 
         this.datosCortesETV(datosCortesJournal);
 
 
         this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
+        this.datosUltimoCorte = fchUltimoCorte;
+
+        this.fchUltimaActualizacion = (new Date()).toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'});
+
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
@@ -203,13 +215,14 @@ export class EfectDispCoponent implements OnInit {
 
     public infoRetirosEnHMA(filtrosCons) {
 
-        let numRetiros:number = 0;
+        let numBilletes:AcumulaBilletesModel;
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             device: ["AFD"],
             events: ["DenominateInfo"]
         };
 
+        console.log(nomComponente + ".infoRetirosEnHMA:: -->"+JSON.stringify(paramsCons)+"<--");
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
 
         if (gPaginasHMA.TotalPages > 0) {
@@ -222,23 +235,20 @@ export class EfectDispCoponent implements OnInit {
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
 
-            let cveCat;
             let arrBilletesRetiro: any[] = [];
 
             datosRetirosHMA.forEach((reg) => {
                 arrBilletesRetiro.push(reg.Data + ";");
-                numRetiros++;
             });
 
-            let numBilletes:any = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
-            numBilletes.opers = numRetiros;
-            return(numBilletes);
+            numBilletes = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
         }
+        return(numBilletes);
     }
 
     public infoDepositosEnJournal(filtrosCons) {
 
-        let numDepositos:number = 0;
+        let numBilletes:AcumulaBilletesModel;
         let paramsCons:any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: ["CashManagement"], CashManagement: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
@@ -256,33 +266,15 @@ export class EfectDispCoponent implements OnInit {
                 datosJournal = datosJournal.concat(gDatosJoural);
             }
 
-            let cveCat;
             let arrBilletesJournal: any[] = [];
 
             datosJournal.forEach((reg) => {
                 let i = reg.Data.indexOf("[");
                 arrBilletesJournal.push(reg.Data.substring(i));
-                numDepositos++;
             });
 
-            let numBilletes:any = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesJournal, "|", "BD");
-            numBilletes.opers = numDepositos;
-            return(numBilletes);
+            numBilletes = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesJournal, "|", "BD");
         }
+        return(numBilletes);
     }
 }
-
-function comparar ( a, b ){ return a - b; }
-
-var sort_by = function(field, reverse, primer){
-
-    let key:any = primer ?
-        function(x) {return primer(x[field])} :
-        function(x) {return x[field]};
-
-    reverse = !reverse ? 1 : -1;
-
-    return function (a:any, b:any) {
-        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-    }
-};

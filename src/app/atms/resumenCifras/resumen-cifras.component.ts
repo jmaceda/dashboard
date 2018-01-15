@@ -12,7 +12,7 @@ import { Router }                                           from '@angular/route
 import { ActivatedRoute }                                   from '@angular/router';
 import { DesglosaBilletes }                                 from './services/DesglosaBilletes.service';
 import { GuardaDepositosBD }                                from './services/GuardaDepositosBD.service';
-import { ErroresPorBanco }                                  from '../../model/errores-por-banco.model';
+import { ErroresPorBanco }                                  from '../../models/errores-por-banco.model';
 
 export var gNumPaginas                  = 0;
 export var gNumRegistros                = 0;
@@ -210,7 +210,7 @@ export class ResumenCifrasComponent implements OnInit  {
     private selector: number = 0;
 */
     // Initialized to specific date (09.10.2018).
-   // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
+   // private models: Object = { date: { year: 2018, month: 10, day: 9 } };
 
 
     //public tblDomResOperacion: TblDomResOperacion;

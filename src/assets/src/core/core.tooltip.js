@@ -120,7 +120,7 @@ module.exports = function(Chart) {
 		return base;
 	}
 
-	// Private helper to create a tooltip item model
+	// Private helper to create a tooltip item models
 	// @param element : the chart element (point, arc, bar) to create the tooltip item for
 	// @return : new tooltip item
 	function createTooltipItem(element) {
@@ -140,7 +140,7 @@ module.exports = function(Chart) {
 	}
 
 	/**
-	 * Helper to get the reset model for the tooltip
+	 * Helper to get the reset models for the tooltip
 	 * @param tooltipOpts {Object} the tooltip options
 	 */
 	function getBaseModel(tooltipOpts) {
@@ -461,8 +461,8 @@ module.exports = function(Chart) {
 			var me = this;
 			var opts = me._options;
 
-			// Need to regenerate the model because its faster than using extend and it is necessary due to the optimization in Chart.Element.transition
-			// that does _view = _model if ease === 1. This causes the 2nd tooltip update to set properties in both the view and model at the same time
+			// Need to regenerate the models because its faster than using extend and it is necessary due to the optimization in Chart.Element.transition
+			// that does _view = _model if ease === 1. This causes the 2nd tooltip update to set properties in both the view and models at the same time
 			// which breaks any animations.
 			var existingModel = me._model;
 			var model = me._model = getBaseModel(opts);

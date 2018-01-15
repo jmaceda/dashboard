@@ -4,6 +4,7 @@
 
 import { Injectable } from '@angular/core';
 
+import { AcumulaBilletesModel } from '../models/acumula-billetes.model';
 
 @Injectable()
 export class UtilsService {
@@ -84,6 +85,7 @@ export class UtilsService {
         let charDelim   = (delimitador == undefined || delimitador == null || delimitador == "") ? "|" : delimitador;
         let numBill     = 0;
         let denomina    = 0;
+        let denominaBilletes: AcumulaBilletesModel = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
 
         for ( let reg of arrCantidadBilletes ) {
 
@@ -91,9 +93,13 @@ export class UtilsService {
 
             // Lee cada grupo de billetes con denominaciones.
             for(let elem of reg.split(charDelim)){
-                elem = elem.split("x");
 
-                if(posDenom == "BD"){
+                if (elem == undefined || elem == null || elem == ""){
+                    continue;
+                }
+
+                if(posDenom == "BD"){    elem = elem.split("x");
+
                     numBill  = Number(elem[0]);
                     denomina = elem[1];
                 }else{
@@ -101,18 +107,73 @@ export class UtilsService {
                     numBill   = Number(elem[1]);
                 }
 
-                numBilletes.b20   += (denomina == 20)   ? numBill : 0;
-                numBilletes.b50   += (denomina == 50)   ? numBill : 0;
-                numBilletes.b100  += (denomina == 100)  ? numBill : 0;
-                numBilletes.b200  += (denomina == 200)  ? numBill : 0;
-                numBilletes.b500  += (denomina == 500)  ? numBill : 0;
-                numBilletes.b1000 += (denomina == 1000) ? numBill : 0;
+                let cveDenomina = "b"+denomina;
+
+                denominaBilletes[cveDenomina] += numBill;
+                denominaBilletes.monto += (denomina * numBill);
             }
-            numBilletes.opers++;
+            denominaBilletes.opers++;
         }
 
-        numBilletes.monto = (numBilletes.b20 * 20) + (numBilletes.b50 * 50) + (numBilletes.b100 * 100) + (numBilletes.b200 * 200)  + (numBilletes.b500 * 500) + (numBilletes.b1000 * 1000);
-        return(numBilletes);
+        return(denominaBilletes);
     }
+
+    /*
+        sort_by
+        Ordena un objeto JSON por un simple campo
+
+        Ref: https://gist.github.com/mbeaty/1218651
+     */
+    public sort_by(field, reverse, primer){
+
+        reverse = (reverse) ? -1 : 1;
+
+        return function(a,b){
+
+            a = a[field];
+            b = b[field];
+
+            if (typeof(primer) != 'undefined'){
+                a = primer(a);
+                b = primer(b);
+            }
+
+            if (a<b) return reverse * -1;
+            if (a>b) return reverse * 1;
+            return 0;
+
+        }
+    }
+
+
+    public order_by(path, reverse, primer, then) {
+        let get = function (obj, path) {
+                if (path) {
+                    let len = 0;
+                    path = path.split('.');
+                    for (let i = 0, len = path.length - 1; i < len; i++) {
+                        obj = obj[path[i]];
+                    }
+                    return obj[path[len]];
+                }
+                return obj;
+        };
+        let prime = function (obj) {
+            return primer ? primer(get(obj, path)) : get(obj, path);
+        };
+
+        return function (a, b) {
+            let A = prime(a),
+                B = prime(b);
+
+            return (
+                    (A < B) ? -1 :
+                        (A > B) ?  1 :
+                            (typeof then === 'function') ? then(a, b) : 0
+                ) * [1,-1][+!!reverse];
+        };
+    };
+
 }
+
 
