@@ -90,17 +90,12 @@ export class EfectDispCoponent implements OnInit {
     public dSolicitaFechasIni = false;
     public dSolicitaFechasFin = false;
     public dUltimaActualizacion: string;
-
     public fchUltimaActualizacion:any = null;
-
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
-
-    //public denominaBilletes             = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
     public arrDatosRetirosHMA:any;
     public datosUltimoCorte:any;
-
     public billetesDepositados : AcumulaBilletesModel    = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
     public billetesRetirados : AcumulaBilletesModel      = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
     public arrBilletesDisponibles : AcumulaBilletesModel[] = [];
@@ -121,7 +116,7 @@ export class EfectDispCoponent implements OnInit {
     parametrosConsulta(infoRecibida) {
 
         this.fchUltimaActualizacion = null;
-        let parametrossConsulta: any = {};
+        //let parametrossConsulta: any = {};
 
         let fIniParam   = infoRecibida.fchInicio;
         let fFinParam   = infoRecibida.fchFin;
