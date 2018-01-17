@@ -22,6 +22,7 @@ import { FiltrosUtilsService }                  from '../../services/filtros-uti
 
 import { ParamsAtmsComponent }                           from '../params-atms/params-atms.component';
 import { ResumenOperacionesModel }              from '../../models/resumen-operaciones.model';
+import { ResumenOperacionesService }            from '../../services/resumen-operaciones.service';
 
 class ResumenOpers {
     desc: string;
@@ -149,6 +150,7 @@ export var nomCompoente = "ResumenOperacionesComponent";
       SoapService,
       DesglosaBilletes,
       GuardaDepositosBD,
+      ResumenOperacionesService
   ],
 })
 export class ResumenOperacionesComponent implements OnInit  {
@@ -169,47 +171,6 @@ export class ResumenOperacionesComponent implements OnInit  {
         { data: [120, 455, 100, 340], label: 'Account B' },
         { data: [45, 67, 800, 500], label: 'Account C' }
     ];
-
-    //chartLabels = ['January', 'February', 'Mars', 'April'];
-
-    /*
-    onChartClick(event) {
-        console.log(event);
-    }
-*/
-    /*
-    newDataPoint(dataArr = [100, 100, 100], label) {
-
-        this.chartData.forEach((dataset, index) => {
-            this.chartData[index] = Object.assign({}, this.chartData[index], {
-                data: [...this.chartData[index].data, dataArr[index]]
-            });
-        });
-
-        this.chartLabels = [...this.chartLabels, label];
-
-    }
-    */
-
-
-    //Level = Level;
-
-
-
-    /*
-    private myDatePickerOptions: IMyDpOptions = {
-        dateFormat: 'dd.mm.yyyy',
-        height    : '34px',
-        width     : '210px',
-        inline    : false
-    };
-
-    private myForm  : FormGroup;
-    private selector: number = 0;
-*/
-    // Initialized to specific date (09.10.2018).
-   // private models: Object = { date: { year: 2018, month: 10, day: 9 } };
-
     public resumenOpers: ResumenOpers[];
     public tblResumenPorBanco: TblResumenPorBanco;
     public tblResDep: TblResDep;
@@ -224,36 +185,9 @@ export class ResumenOperacionesComponent implements OnInit  {
     public hoursChartResponsive : any[];
     public hoursChartLegendItems: LegendItem[];
 
-    //public tipoGraficaRetirosPorHora      : ChartType;
-    //public datosGraficaRetirosPorHora     : any;
-    //public opcionesGraficaRetirosPorHora  : any;
-    //public responsiveGraficaRetirosPorHora: any[];
-    //public elementosGraficaRetirosPorHora : LegendItem[];
-
-    /*
-    public activityChartType       : ChartType;
-    public activityChartData       : any;
-    public activityChartOptions    : any;
-    public activityChartResponsive : any[];
-    public activityChartLegendItems: LegendItem[];
-*/
-    //public bsValue     : any ;
-    //public bsRangeValue: any = [new Date(2017, 7, 4), new Date(2017, 7, 20)];
-
-    //selectedItem: any;
-    //icons       : string[];
-    //public items       : Array<{title: string, note: string, icon: string}>;
-
-    //public url: string = '/dataservices.asmx'; //  QA
     public TotalItems:number            = 0;
     public TotalPages:number            = 0;
-    //public tmpTotalItems:number         = 0;
-    //public tmpTotalPages:number         = 0;
-
-    //public numRetiros:number      = 0;
-    //public numConsultas:number    = 0;
-    //public tmpNumRetiros:number   = 0;
-    //public tmpNumConsultas:number = 0;
+ 
     public dFchFinProceso: string = '2017-09-10';
     public dHraFinProceso: string = '23-59';
 
@@ -344,7 +278,6 @@ export class ResumenOperacionesComponent implements OnInit  {
     public lErroresPorBanco: ErroresPorBanco[];
 
     public numPaginas = 0;
-    //public rutaActual = "";
     public urlPath = "";
 
     public resDep:ResumenOperacionesModel;
@@ -361,16 +294,10 @@ export class ResumenOperacionesComponent implements OnInit  {
                 private _desglosaBilletes: DesglosaBilletes,
                 public _guardaDepositosBD: GuardaDepositosBD,
                 public activatedRoute: ActivatedRoute,
-                public filtrosUtilsService: FiltrosUtilsService){
+                public filtrosUtilsService: FiltrosUtilsService,
+                public resumenOperacionesService: ResumenOperacionesService){
 
         console.log("ResumenOperacionesComponent:: Inicia");
-        /*
-        this.activatedRoute.url.subscribe(url =>{
-            this.urlPath = url[0].path;
-            console.log("constructor:: -->"+this.urlPath+"<--");
-
-        });
-        */
 
         this.inicializaVariables();
     }
@@ -379,14 +306,6 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         this.TotalItems    = 0;
         this.TotalPages    = 0;
-        //this.tmpTotalItems = 0;
-        //this.tmpTotalPages = 0;
-
-        //this.numRetiros      = 0;
-        //this.numConsultas    = 0;
-        //this.tmpNumRetiros   = 0;
-        //this.tmpNumConsultas = 0;
-
         this.dNumDepositos      = 0;
         this.dMontoDepositos    = 0;
         this.dPrimerDeposito    = "";
@@ -458,7 +377,7 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         this.resumenOpers = [
             new ResumenOpers("Depósitos Exitosos", 0, 0, '', '')
-        ]
+        ];
 
         this.resDep                 = new ResumenOperacionesModel();
         this.resRet                 = new ResumenOperacionesModel();
@@ -472,13 +391,6 @@ export class ResumenOperacionesComponent implements OnInit  {
 
 
     ngOnInit() {
-/*
-        this.activatedRoute.url.subscribe(url =>{
-            this.urlPath = url[0].path;
-            console.log("ngOnInit -->"+this.urlPath+"<--");
-
-        });
-*/
         // Pinta las areas de la pantalla.
         this.resumenInicialOperaciones();
     }
@@ -669,57 +581,6 @@ export class ResumenOperacionesComponent implements OnInit  {
     };
 
     public inforMovtosPorHora:any = new Array();
-    public inforMovtosPorHora1:any[] = [{}];
-
-    public movtosPorHora(horaMovto, tipoMovto, montoMovto){
-        console.log(nomComponente+".movtosPorHora:: Inicio");
-        console.log(nomComponente+".movtosPorHora:: horaMovto["+horaMovto+"]   tipoMovto["+tipoMovto+"]   montoMovto["+montoMovto+"]");
-        let detalleMovtosPorHora:any = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0};
-        let cveReg = "R"+horaMovto;
-        let datosMovto:any = detalleMovtosPorHora;
-        let infoMovtosTmp:any = this.inforMovtosPorHora[cveReg];
-        console.log("1) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--");
-
-        infoMovtosTmp = (infoMovtosTmp == undefined) ? detalleMovtosPorHora : infoMovtosTmp;
-        console.log("2) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--");
-        /*
-        if (infoMovtosTmp == undefined){
-            infoMovtosTmp = {hora: horaMovto, }
-        }else{
-            infoMovtosTmp = infoMovtosTmp;
-        }
-        */
-            switch(tipoMovto){
-                case "ROK": {
-                    infoMovtosTmp.numRetiro++;
-                    infoMovtosTmp.acumNumRetiro += infoMovtosTmp.numRetiro;
-                    infoMovtosTmp.montoRetiro += montoMovto;
-                    break;
-                }
-
-                case "COK": {
-                    infoMovtosTmp.numCons++;
-                    infoMovtosTmp.acumNumCons += infoMovtosTmp.numCons;
-                    infoMovtosTmp.montoCons += montoMovto;
-                    break;
-                }
-
-            }
-            infoMovtosTmp.hora = horaMovto;
-            infoMovtosTmp.montoTotal += montoMovto;
-        //}
-
-        this.inforMovtosPorHora[cveReg] = infoMovtosTmp;
-        console.log("3) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--  -->"+this.inforMovtosPorHora.length+"<--");
-
-
-
-
-
-        //detalleMovtosPorHora =
-
-        //this.inforMovtosPorHora[horaMovto] = this.detalleMovtosPorHora;
-    }
 
     public procesaDatosLog(result:object, numPag:number): void {
 
@@ -760,34 +621,16 @@ export class ResumenOperacionesComponent implements OnInit  {
         let fchTerminaDota:any;
         let fchIniciaDepDota:any;
         let opcionesFchHra:any = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
-
-        //this.inforMovtosPorHora[7] = {hora: 7, numCons: 1, acumNumCons: 1, montoCons: 1500, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 1500};
-        //this.inforMovtosPorHora[8] = {hora: 8, numCons: 0, acumNumCons: 1, montoCons: 0, numRetiro: 3, acumNumRetiro: 3, montoRetiro: 1450, montoTotal: 2950};
-
-        let ejemploPropiedades:any = new Array();
+        let detalleMovtosPorHora:any;
+        let cveReg:any;
 
         for(let idx=0;idx < 24; idx++){
-        let detalleMovtosPorHora:any = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0};
-
-
-            let cveReg = "R"+idx;
+            detalleMovtosPorHora = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0, comisCons: 0, comisRet: 0, comisTotal: 0, comisAcum: 0};
+            cveReg = "R"+idx;
 
             this.inforMovtosPorHora[cveReg] = detalleMovtosPorHora;
             this.inforMovtosPorHora[cveReg].hora = idx;
-
-            //this.inforMovtosPorHora1.push({cveReg: cveReg, datos: {hora: idx}});
-
-            //this.inforMovtosPorHora[cveReg] = this.detalleMovtosPorHora;
-            //this.inforMovtosPorHora[cveReg].hora = idx;
         }
-
-        for (let i in this.inforMovtosPorHora)
-        {
-            console.log("0) inforMovtosPorHora -->"+JSON.stringify(this.inforMovtosPorHora[i])+"<--");
-        }
-
-
-
 
         datosLog.forEach((reg) => {
 
@@ -824,16 +667,9 @@ export class ResumenOperacionesComponent implements OnInit  {
 
                             this.resRet.incrementaOper();
                             this.resRet.incrementaMonto(reg.Amount);
-
                             this.resRet.hraPrimOper = (this.resRet.hraPrimOper == "") ? tmpHoraOperacion : this.resRet.hraPrimOper;
-                            /*
-                            if(this.resRet.hraPrimOper == ""){
-                                this.resRet.hraPrimOper = tmpHoraOperacion;
-                            }
-*/
                             this.resRet.hraUltOper = tmpHoraOperacion;
-
-                            this.movtosPorHora(_hora, "ROK", reg.Amount);
+                            this.inforMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.inforMovtosPorHora, _hora, "ROK", reg.Amount);
 
                             if (_hora < 7){
                                 this.dNumRetirosPorHora[6]++;
@@ -889,11 +725,6 @@ export class ResumenOperacionesComponent implements OnInit  {
                         case "Withdrawal DispenseFail": {
                             this.resRetNoExist.incrementaMonto(reg.Amount);
                             this.resRetNoExist.hraPrimOper = (this.resRetNoExist.hraPrimOper == "") ? tmpHoraOperacion : this.resRetNoExist.hraPrimOper;
-                            /*
-                            if(this.resRetNoExist.hraPrimOper == ""){
-                                this.resRetNoExist.hraPrimOper = tmpHoraOperacion;
-                            }
-                            */
                             this.resRetNoExist.hraPrimOper = tmpHoraOperacion;
                             break;
                         }
@@ -927,7 +758,6 @@ export class ResumenOperacionesComponent implements OnInit  {
                         } else {
                             this.retiroNoOk[reg.HWErrorCode] = 1;
                         }
-                        //if(reg.SwitchResponseCode == 54 || reg.SwitchResponseCode == 12 || reg.SwitchResponseCode == 1003 || reg.SwitchResponseCode == 62  || reg.SwitchResponseCode == 55  || reg.SwitchResponseCode == 38  || reg.SwitchResponseCode == 51){
                         if ( expRegCodErrRetiro.test(reg.SwitchResponseCode) == true){
                             tmpAquirer = reg.Aquirer;
                         }
@@ -947,17 +777,9 @@ export class ResumenOperacionesComponent implements OnInit  {
 
                         this.resCons.incrementaOper();
                         this.resCons.incrementaMonto(reg.Amount);
-
                         this.resCons.hraPrimOper = (this.resCons.hraPrimOper == "") ? tmpHoraOperacion : tmpHoraOperacion;
-
-                        /*if (this.resCons.hraPrimOper == "") {
-                            //this.dHraPrimeraConsulta = tmpHoraOperacion;
-                            this.resCons.hraPrimOper = tmpHoraOperacion;
-                        }
-                        */
                         this.resCons.hraUltOper = tmpHoraOperacion;
-
-                        this.movtosPorHora(_hora, "COK", reg.Amount);
+                        this.inforMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.inforMovtosPorHora, _hora, "COK", reg.Amount);
 
                         if (_hora < 7) {
                             this.dNumConsPorHora[6]++;
@@ -1129,11 +951,26 @@ export class ResumenOperacionesComponent implements OnInit  {
         console.log("resCambiaNIP ["+JSON.stringify(this.resCambiaNip)+"]");
         console.log("resCambiaNipErr ["+JSON.stringify(this.resCambiaNipErr)+"]");
 
+        this.inforMovtosPorHora = this.resumenOperacionesService.acumulaMovtosPorHora(this.inforMovtosPorHora);
+
+        /*
+         hora: 0,
+         numCons: 0,
+         acumNumCons: 0,
+         montoCons: 0,
+         numRetiro: 0,
+         acumNumRetiro: 0,
+         montoRetiro: 0,
+         acumMontoRetiro: 0,
+         montoTotal: 0
+         */
+
         let horaSys = (new Date()).getHours();
-        for (let i in this.inforMovtosPorHora)
-        {
-            if (this.inforMovtosPorHora[i].hora <= horaSys)
-                console.log("2) inforMovtosPorHora -->"+JSON.stringify(this.inforMovtosPorHora[i])+"<--");
+        for (let i in this.inforMovtosPorHora) {
+            let info = this.inforMovtosPorHora[i];
+
+            if (info.hora <= horaSys)
+                console.log(sprintf("%02d  %4d  %4d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
         }
 
         this.mResumenOperaciones();
