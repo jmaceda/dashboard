@@ -657,6 +657,70 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.listaBancos[nomBanco] = this.opersBanco;
     }
 
+    public detalleMovtosPorHora = {
+        hora: 0,
+        numCons: 0,
+        acumNumCons: 0,
+        montoCons: 0,
+        numRetiro: 0,
+        acumNumRetiro: 0,
+        montoRetiro: 0,
+        montoTotal: 0
+    };
+
+    public inforMovtosPorHora:any = new Array();
+    public inforMovtosPorHora1:any[] = [{}];
+
+    public movtosPorHora(horaMovto, tipoMovto, montoMovto){
+        console.log(nomComponente+".movtosPorHora:: Inicio");
+        console.log(nomComponente+".movtosPorHora:: horaMovto["+horaMovto+"]   tipoMovto["+tipoMovto+"]   montoMovto["+montoMovto+"]");
+        let detalleMovtosPorHora:any = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0};
+        let cveReg = "R"+horaMovto;
+        let datosMovto:any = detalleMovtosPorHora;
+        let infoMovtosTmp:any = this.inforMovtosPorHora[cveReg];
+        console.log("1) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--");
+
+        infoMovtosTmp = (infoMovtosTmp == undefined) ? detalleMovtosPorHora : infoMovtosTmp;
+        console.log("2) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--");
+        /*
+        if (infoMovtosTmp == undefined){
+            infoMovtosTmp = {hora: horaMovto, }
+        }else{
+            infoMovtosTmp = infoMovtosTmp;
+        }
+        */
+            switch(tipoMovto){
+                case "ROK": {
+                    infoMovtosTmp.numRetiro++;
+                    infoMovtosTmp.acumNumRetiro += infoMovtosTmp.numRetiro;
+                    infoMovtosTmp.montoRetiro += montoMovto;
+                    break;
+                }
+
+                case "COK": {
+                    infoMovtosTmp.numCons++;
+                    infoMovtosTmp.acumNumCons += infoMovtosTmp.numCons;
+                    infoMovtosTmp.montoCons += montoMovto;
+                    break;
+                }
+
+            }
+            infoMovtosTmp.hora = horaMovto;
+            infoMovtosTmp.montoTotal += montoMovto;
+        //}
+
+        this.inforMovtosPorHora[cveReg] = infoMovtosTmp;
+        console.log("3) infoMovtosTmp:: -->"+JSON.stringify(infoMovtosTmp)+"<--  -->"+this.inforMovtosPorHora.length+"<--");
+
+
+
+
+
+        //detalleMovtosPorHora =
+
+        //this.inforMovtosPorHora[horaMovto] = this.detalleMovtosPorHora;
+    }
+
     public procesaDatosLog(result:object, numPag:number): void {
 
         this.inicializaVariables();
@@ -687,15 +751,43 @@ export class ResumenOperacionesComponent implements OnInit  {
         let expRegCodErrRetiro      = /54|12|1003|62|5538|51/;
         this.resumenPorBanco        = [0, 0, 0, 0, 0, 0, 0];
 
-        var idxReg = 0;
+        let idxReg = 0;
         //var idxRegLog = 0;
-        var iniciaDota = 0;
+        let iniciaDota = 0;
         this.veficaHoraUlimaOperacion(datosLog);
         this.dotacion.estado = "Pendiente";
         this.deposito.tiempoDowntime = "Pendiente";
-        var fchTerminaDota:any;
-        var fchIniciaDepDota:any;
+        let fchTerminaDota:any;
+        let fchIniciaDepDota:any;
         let opcionesFchHra:any = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+        //this.inforMovtosPorHora[7] = {hora: 7, numCons: 1, acumNumCons: 1, montoCons: 1500, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 1500};
+        //this.inforMovtosPorHora[8] = {hora: 8, numCons: 0, acumNumCons: 1, montoCons: 0, numRetiro: 3, acumNumRetiro: 3, montoRetiro: 1450, montoTotal: 2950};
+
+        let ejemploPropiedades:any = new Array();
+
+        for(let idx=0;idx < 24; idx++){
+        let detalleMovtosPorHora:any = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0};
+
+
+            let cveReg = "R"+idx;
+
+            this.inforMovtosPorHora[cveReg] = detalleMovtosPorHora;
+            this.inforMovtosPorHora[cveReg].hora = idx;
+
+            //this.inforMovtosPorHora1.push({cveReg: cveReg, datos: {hora: idx}});
+
+            //this.inforMovtosPorHora[cveReg] = this.detalleMovtosPorHora;
+            //this.inforMovtosPorHora[cveReg].hora = idx;
+        }
+
+        for (let i in this.inforMovtosPorHora)
+        {
+            console.log("0) inforMovtosPorHora -->"+JSON.stringify(this.inforMovtosPorHora[i])+"<--");
+        }
+
+
+
 
         datosLog.forEach((reg) => {
 
@@ -733,11 +825,15 @@ export class ResumenOperacionesComponent implements OnInit  {
                             this.resRet.incrementaOper();
                             this.resRet.incrementaMonto(reg.Amount);
 
+                            this.resRet.hraPrimOper = (this.resRet.hraPrimOper == "") ? tmpHoraOperacion : this.resRet.hraPrimOper;
+                            /*
                             if(this.resRet.hraPrimOper == ""){
                                 this.resRet.hraPrimOper = tmpHoraOperacion;
                             }
-
+*/
                             this.resRet.hraUltOper = tmpHoraOperacion;
+
+                            this.movtosPorHora(_hora, "ROK", reg.Amount);
 
                             if (_hora < 7){
                                 this.dNumRetirosPorHora[6]++;
@@ -792,9 +888,12 @@ export class ResumenOperacionesComponent implements OnInit  {
 
                         case "Withdrawal DispenseFail": {
                             this.resRetNoExist.incrementaMonto(reg.Amount);
+                            this.resRetNoExist.hraPrimOper = (this.resRetNoExist.hraPrimOper == "") ? tmpHoraOperacion : this.resRetNoExist.hraPrimOper;
+                            /*
                             if(this.resRetNoExist.hraPrimOper == ""){
                                 this.resRetNoExist.hraPrimOper = tmpHoraOperacion;
                             }
+                            */
                             this.resRetNoExist.hraPrimOper = tmpHoraOperacion;
                             break;
                         }
@@ -849,11 +948,16 @@ export class ResumenOperacionesComponent implements OnInit  {
                         this.resCons.incrementaOper();
                         this.resCons.incrementaMonto(reg.Amount);
 
-                        if (this.resCons.hraPrimOper == "") {
+                        this.resCons.hraPrimOper = (this.resCons.hraPrimOper == "") ? tmpHoraOperacion : tmpHoraOperacion;
+
+                        /*if (this.resCons.hraPrimOper == "") {
                             //this.dHraPrimeraConsulta = tmpHoraOperacion;
                             this.resCons.hraPrimOper = tmpHoraOperacion;
                         }
+                        */
                         this.resCons.hraUltOper = tmpHoraOperacion;
+
+                        this.movtosPorHora(_hora, "COK", reg.Amount);
 
                         if (_hora < 7) {
                             this.dNumConsPorHora[6]++;
@@ -1024,6 +1128,13 @@ export class ResumenOperacionesComponent implements OnInit  {
         console.log("resRev ["+JSON.stringify(this.resRev)+"]");
         console.log("resCambiaNIP ["+JSON.stringify(this.resCambiaNip)+"]");
         console.log("resCambiaNipErr ["+JSON.stringify(this.resCambiaNipErr)+"]");
+
+        let horaSys = (new Date()).getHours();
+        for (let i in this.inforMovtosPorHora)
+        {
+            if (this.inforMovtosPorHora[i].hora <= horaSys)
+                console.log("2) inforMovtosPorHora -->"+JSON.stringify(this.inforMovtosPorHora[i])+"<--");
+        }
 
         this.mResumenOperaciones();
         this.mRretirosPorHora();
