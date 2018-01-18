@@ -23,6 +23,7 @@ import { FiltrosUtilsService }                  from '../../services/filtros-uti
 import { ParamsAtmsComponent }                           from '../params-atms/params-atms.component';
 import { ResumenOperacionesModel }              from '../../models/resumen-operaciones.model';
 import { ResumenOperacionesService }            from '../../services/resumen-operaciones.service';
+import * as moment from 'moment';
 
 class ResumenOpers {
     desc: string;

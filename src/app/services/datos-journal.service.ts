@@ -4,7 +4,9 @@
 
 import { Injectable } from '@angular/core';
 import { OnInit } from '@angular/core';
+
 import { sprintf }  from "sprintf-js";
+import * as moment from 'moment';
 
 import { SoapService }      from './soap.service';
 import {camelCase} from "@swimlane/ngx-datatable/release/utils";
@@ -13,7 +15,7 @@ export var gPaginasJournal:any;
 export var gDatosCortesJournal:any;
 
 var nomComponente = "DatosJournalService";
-var diasIniRango:number = 5;
+var diasIniRango:number = 30;
 
 @Injectable()
 export class DatosJournalService implements OnInit {
