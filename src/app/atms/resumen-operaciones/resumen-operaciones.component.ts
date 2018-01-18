@@ -580,7 +580,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         montoTotal: 0
     };
 
-    public inforMovtosPorHora:any = new Array();
+    public infoMovtosPorHora:any = new Array();
 
     public procesaDatosLog(result:object, numPag:number): void {
 
@@ -628,8 +628,8 @@ export class ResumenOperacionesComponent implements OnInit  {
             detalleMovtosPorHora = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0, comisCons: 0, comisRet: 0, comisTotal: 0, comisAcum: 0};
             cveReg = "R"+idx;
 
-            this.inforMovtosPorHora[cveReg] = detalleMovtosPorHora;
-            this.inforMovtosPorHora[cveReg].hora = idx;
+            this.infoMovtosPorHora[cveReg] = detalleMovtosPorHora;
+            this.infoMovtosPorHora[cveReg].hora = idx;
         }
 
         datosLog.forEach((reg) => {
@@ -669,7 +669,7 @@ export class ResumenOperacionesComponent implements OnInit  {
                             this.resRet.incrementaMonto(reg.Amount);
                             this.resRet.hraPrimOper = (this.resRet.hraPrimOper == "") ? tmpHoraOperacion : this.resRet.hraPrimOper;
                             this.resRet.hraUltOper = tmpHoraOperacion;
-                            this.inforMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.inforMovtosPorHora, _hora, "ROK", reg.Amount);
+                            this.infoMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.infoMovtosPorHora, _hora, "ROK", reg.Amount);
 
                             if (_hora < 7){
                                 this.dNumRetirosPorHora[6]++;
@@ -779,7 +779,7 @@ export class ResumenOperacionesComponent implements OnInit  {
                         this.resCons.incrementaMonto(reg.Amount);
                         this.resCons.hraPrimOper = (this.resCons.hraPrimOper == "") ? tmpHoraOperacion : tmpHoraOperacion;
                         this.resCons.hraUltOper = tmpHoraOperacion;
-                        this.inforMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.inforMovtosPorHora, _hora, "COK", reg.Amount);
+                        this.infoMovtosPorHora = this.resumenOperacionesService.registraMovtosPorHora(this.infoMovtosPorHora, _hora, "COK", reg.Amount);
 
                         if (_hora < 7) {
                             this.dNumConsPorHora[6]++;
@@ -951,26 +951,18 @@ export class ResumenOperacionesComponent implements OnInit  {
         console.log("resCambiaNIP ["+JSON.stringify(this.resCambiaNip)+"]");
         console.log("resCambiaNipErr ["+JSON.stringify(this.resCambiaNipErr)+"]");
 
-        this.inforMovtosPorHora = this.resumenOperacionesService.acumulaMovtosPorHora(this.inforMovtosPorHora);
+        console.log("088) "+nomComponente+".verificaMovtosPorHora:: -->"+this.infoMovtosPorHora+"<--");
 
-        /*
-         hora: 0,
-         numCons: 0,
-         acumNumCons: 0,
-         montoCons: 0,
-         numRetiro: 0,
-         acumNumRetiro: 0,
-         montoRetiro: 0,
-         acumMontoRetiro: 0,
-         montoTotal: 0
-         */
+        this.infoMovtosPorHora = this.resumenOperacionesService.acumulaMovtosPorHora(this.infoMovtosPorHora);
+
+        this.resumenOperacionesService.verificaMovtosPorHora(this.infoMovtosPorHora);
 
         let horaSys = (new Date()).getHours();
-        for (let i in this.inforMovtosPorHora) {
-            let info = this.inforMovtosPorHora[i];
+        for (let i in this.infoMovtosPorHora) {
+            let info = this.infoMovtosPorHora[i];
 
             if (info.hora <= horaSys)
-                console.log(sprintf("%02d  %4d  %4d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
+                console.log(sprintf("%02d  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
         }
 
         this.mResumenOperaciones();
