@@ -2,6 +2,7 @@
  * Created by jmaceda on 16/01/2018.
  */
 import { Injectable }     from '@angular/core';
+import { sprintf }        from "sprintf-js";
 
 let nomComponente = "ResumenOperacionesService";
 
@@ -91,10 +92,32 @@ export class ResumenOperacionesService {
             x.montoRetiro   += infoMovtosPorHora[cveRx].montoRetiro;
             x.montoTotal    += infoMovtosPorHora[cveRx].montoTotal;
         }
+
+        let respInfoMovtosPorHora:any = new Array();
+        let horaSys:number = (new Date()).getHours();
+        respInfoMovtosPorHora['R6'] = x;
+
+
+        for(let elem in infoMovtosPorHora){
+            if (infoMovtosPorHora[elem].hora > 7){
+                respInfoMovtosPorHora[elem] = infoMovtosPorHora[elem];
+            }
+            if (infoMovtosPorHora[elem].hora == horaSys){
+                break;
+            }
+        }
+
+        for (let i in respInfoMovtosPorHora) {
+            let info = respInfoMovtosPorHora[i];
+
+            if (info.hora <= horaSys)
+                console.log(sprintf("%02d  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
+        }
+
         //console.log("2) "+nomComponente+".verificaMovtosPorHora:: "+infoMovtosPorHora);
         //let y:any = infoMovtosPorHora.shift();
         //infoMovtosPorHora.splice(0,6);
         console.log("2) "+nomComponente+".verificaMovtosPorHora:: -->"+JSON.stringify(x)+"<--");
-        console.log("3) "+nomComponente+".verificaMovtosPorHora:: "+JSON.stringify(infoMovtosPorHora));
+        console.log("3) "+nomComponente+".verificaMovtosPorHora:: "+JSON.stringify(respInfoMovtosPorHora));
     }
 }
