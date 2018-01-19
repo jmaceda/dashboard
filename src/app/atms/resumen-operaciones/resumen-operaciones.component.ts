@@ -626,7 +626,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         let cveReg:any;
 
         for(let idx=0;idx < 24; idx++){
-            detalleMovtosPorHora = {hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0, comisCons: 0, comisRet: 0, comisTotal: 0, comisAcum: 0};
+            detalleMovtosPorHora = {hora: '0', numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, acumMontoRetiro: 0, montoTotal: 0, comisCons: 0, comisRet: 0, comisTotal: 0, comisAcum: 0};
             cveReg = "R"+idx;
 
             this.infoMovtosPorHora[cveReg] = detalleMovtosPorHora;
