@@ -18,6 +18,129 @@
 
 <!-- link rel="stylesheet" href="./scrolling.component.css" -->
 
+<style>
+
+    ngx-datatable.bootstrap.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        width: 100%;
+        max-width: 100%
+    }
+
+    ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    element.style {
+        height: 30px;
+        width: 1066px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz[_ngcontent-c2] {
+        padding-top: 5px;
+        width: 99%;
+        max-width: 99%;
+    }
+
+    .ngx-datatable[_ngcontent-c2], .info[_ngcontent-c2] {
+        text-align: left;
+        /*width: 75%;*/
+        margin: 0 auto;
+        width: 59%;
+        max-width: 59%;
+    }
+
+    .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+        display: block;
+        overflow: hidden;
+        text-align: center;
+        background-color: #5cc8ff;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz[_ngcontent-c2][_ngcontent-c2].datatable-header.datatable-header{
+        display: block;
+        overflow: hidden;
+        text-align: center;
+        background-color: #5cc8ff;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+    /*
+    datatable-header.datatable-header,
+    div.datatable-header-inner {
+        padding: 5px;
+    }
+    */
+
+    /*ngx-datatable div.visible datatable-header.datatable-header div.datatable-header-inner{ */
+    /*
+    div.datatable-header-inner{
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        border-bottom-width: 1px;
+    }
+
+    ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz,
+    .clsXx {
+        margin-left: 0%;
+        margin-right: 0%;
+        margin-top: .5%;
+        margin-bottom: .5%;
+        width: 99%;
+        max-width: 99%;
+        padding: 1%;
+    }
+
+    ngx-datatable.material.striped.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        margin-left: .5%;
+        margin-top: .5%;
+        margin-bottom: .5%;
+        width: 100%;
+        max-width: 99%;
+    }
+
+    ngx-datatable.material {
+        padding: 1%;
+        margin-left: 5px;
+    }
+
+    .clsX {
+        margin-left: 35px;
+        margin-right: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    ngx-datatable.material.striped.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz[_ngcontent-c2] {
+        margin-left: .5%;
+        margin-top: .5%;
+        margin-bottom: .5%;
+        width: 99%;
+        max-width: 99%;
+    }
+
+    .ngx-datatable .datatable-header element.style{
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    ngx-datatable {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .datatable-header {
+        width: 100%;
+        max-width: 100%;
+    }
+    */
+</style>
 <div class="container-fluid">
 
     <filtros-consultas
@@ -31,14 +154,16 @@
 
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
-        <div class="card" style="padding: 5px;">
+        <div class="card" style="padding: 5px; margin-top: 1%; margin-bottom: 0px; width: 100%; max-width: 100%;">
 
 
-            <div class="row">
-                <div>
+            <!-- div class="row" style="padding: 5px;" -->
+                <!-- div -->
 
-                    <ngx-datatable
-                            class="material"
+                    <ngx-datatable style="margin-left: 5px; margin-right: 5px; padding-right: 10px; padding-left: 10px;"
+                           #mydatatable
+                           class="material striped"
+                            [loadingIndicator]="loadingIndicator"
                             [rows]="arrDatosAtms"
                             [columnMode]="'force'"
                             [headerHeight]="30"
@@ -49,8 +174,11 @@
                             [scrollbarH]="true">
 
                         <ngx-datatable-column
-                                name="Id"
-                                [width]="80">
+                                name="Index"
+                                [width]="80">}
+                                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                    <strong>{{rowIndex+1}}</strong>
+                                </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
@@ -102,8 +230,8 @@
                         </ngx-datatable-column>
 
                     </ngx-datatable>
-                </div>
-            </div>
+                <!-- /div -->
+            <!-- /div -->
         </div>
     </div>
 </div>

@@ -29,6 +29,7 @@ import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.
 import { EfectDispCoponent }               from './reportes/efectivo-disponible/efectivo-disponible.component';
 
 import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
+import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
 
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
@@ -46,6 +47,7 @@ const routes: Routes =[
     { path: 'efectdisp',      component: EfectDispCoponent },
 
     { path: 'HorzVertScrolling',  component: HorzVertScrolling },
+    { path: 'SmartTable',  component: SmartTableComponent },
 
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },

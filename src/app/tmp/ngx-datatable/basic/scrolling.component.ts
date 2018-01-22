@@ -19,13 +19,18 @@ var arrDatosAtmsX:any[] = [];
       "../../../../assets/icons.css",
       "../../../../assets/app.css",
       "../../../../assets/ngx-datatable/release/index.css",
-      //"../../../../assets/ngx-datatable/release/themes/material.css",
-      "../../../../assets/ngx-datatable/release/assets/icons.css"
+      "../../../../assets/css/themes/material.css",
+      "../../../../assets/ngx-datatable/release/assets/icons.css",
+  '../../../../assets/css/themes/material.css',
+  '../../../../assets/css/themes/dark.css',
+  '../../../../assets/css/themes/bootstrap.css'
   ],
   templateUrl: 'scrolling.component.html',
   providers: [SoapService]
 })
 export class HorzVertScrolling {
+
+  loadingIndicator: boolean = true;
 
   // Parametros para la pantalla de filtros para la consulta
   public dListaAtmGpos:any            = [];

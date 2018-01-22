@@ -58,6 +58,13 @@ import { EfectDispCoponent }                from './reportes/efectivo-disponible
 
 import { BlockUIModule } from 'ng-block-ui';
 
+import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
+import { SmartTableService } from './tmp/ng2-smart-table/smart-table.service';
+
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NbThemeModule } from '@nebular/theme';
+import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +92,9 @@ import { BlockUIModule } from 'ng-block-ui';
     HorzVertScrolling,
     RetirosEtvComponent,
     RetirosHmaComponent,
-    EfectDispCoponent
+    EfectDispCoponent,
+
+    SmartTableComponent
 
   ],
 
@@ -107,7 +116,12 @@ import { BlockUIModule } from 'ng-block-ui';
     NgbModule.forRoot(),
     BsModalModule,
     NgxDatatableModule,
-    BlockUIModule
+    BlockUIModule,
+
+    Ng2SmartTableModule,
+    NbLayoutModule,
+    NbSidebarModule,
+    NbThemeModule.forRoot({ name: 'default' }), // this will enable the default theme, you can change this to `cosmic` to enable the dark theme
 
   ],
   entryComponents: [],
@@ -115,7 +129,9 @@ import { BlockUIModule } from 'ng-block-ui';
   providers: [
     DataBaseService,
     ExportToCSVService,
-    FiltrosUtilsService
+    FiltrosUtilsService,
+    SmartTableService,
+    NbSidebarService
   ],
   bootstrap: [AppComponent],
 
