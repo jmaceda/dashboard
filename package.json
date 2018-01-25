@@ -26,7 +26,6 @@
         "@angular/platform-server": "^4.4.6",
         "@angular/router": "^4.4.6",
         "@molteni/export-csv": "0.0.2",
-        "@nebular/theme": "^2.0.0-rc.4",
         "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.6",
         "@swimlane/ngx-datatable": "^11.1.7",
         "@types/jquery": "^3.2.12",

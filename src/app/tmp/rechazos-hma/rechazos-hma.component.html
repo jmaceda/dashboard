@@ -1,0 +1,184 @@
+<style>
+    /* Activa scroll horizontal del journal */
+    .scollsVentana{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    .letraNegrita{
+        font-weight: bold;
+    }
+    .fondoTituloDetalle{
+        background-color: #423F3F;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        /*
+        -webkit-box-shadow: 2px 2px 15px #999;
+        -moz-box-shadow: 2px 2px 5px #999;
+        filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
+        -webkit-border-radius: 5px 10px;  / * Safari  * /
+        -moz-border-radius: 5px 10px;     / * Firefox * /
+        */
+    }
+
+    .esquinasRedendeadas {
+        border-radius: 20px;
+        border-collapse: collapse;
+        box-shadow: 8px 8px 10px 0;
+        border-radius: 20px 20px 20px 20px;
+        -moz-border-radius: 20px 20px 20px 20px;
+        -webkit-border-radius: 20px 20px 20px 20px;
+        border: 0px solid #000000;
+    }
+
+    #divDetalleRetiroETV {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-left: 200px;"
+        width: 40em;
+        max-width: 40em;
+    }
+    #tablaDetalleRetiroETV {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #tablaDetalleRetiroETV thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #tablaDetalleRetiroETV[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
+        background-color: #5C5757;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    :host /deep/ .data-table-row {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div class="" style="margin: 1% 0%; height: 37em; width: 100%;">
+
+        <div class="card" style="padding: 3px;">
+            <data-table id="retiros-hma"
+                        headerTitle="Retiros HMA"
+                        [items]="items"
+                        [itemCount]="itemCount"
+                        (reload)="reloadItems($event)"
+                        (rowClick)="rowClick($event)"
+                        (rowDoubleClick)="rowDoubleClick($event)"
+                        [expandableRows]="false"
+                        [limit]="regsLimite"
+                        [rowColors]="rowColors"
+                        [indexColumnHeader]="'ID'"
+                        [selectOnRowClick]="true"
+                        [showReloading]="false"
+                        [rowTooltip]="rowTooltip">
+
+                <ng-template #dataTableExpand  let-item="item">
+                </ng-template>
+
+
+                <data-table-column
+                        [property]="'Ip'"
+                        [header]="'Ip'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Fecha'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        [visible]="true"
+                        width="7em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Hora'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="6em">
+                    <ng-template #dataTableCell let-item="item">
+                        <div  class="noWrap">
+                            <span>{{item.TimeStamp | date: 'HH:mm:ss'}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Device'"
+                        [header]="'Dispositivo'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="8em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'DescDevice'"
+                        [header]="'Mecanismo'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="18em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Events'"
+                        [header]="'Evento'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="12em">
+                </data-table-column>
+                <data-table-column
+                        [property]="'Data'"
+                        [header]="'Parámetros'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="80em">
+                </data-table-column>
+
+            </data-table>
+        </div>
+    </div>
+</div>

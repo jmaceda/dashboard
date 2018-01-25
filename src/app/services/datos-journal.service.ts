@@ -15,7 +15,7 @@ export var gPaginasJournal:any;
 export var gDatosCortesJournal:any;
 
 var nomComponente = "DatosJournalService";
-var diasIniRango:number = 30;
+var diasIniRango:number = 10;
 
 @Injectable()
 export class DatosJournalService implements OnInit {

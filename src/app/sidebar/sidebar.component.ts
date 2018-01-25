@@ -21,6 +21,7 @@ export const ROUTES: RouteInfo[] = [
 
     { path: 'retiroshma',       title: 'Retiros HMA',               icon: 'pe-7s-cash',     class: '' },
     { path: 'efectdisp',       title: 'Efectivo Disponible',               icon: 'pe-7s-cash',     class: '' },
+    { path: 'rechazoshma',       title: 'Rechazos',                icon: 'pe-7s-cash',     class: '' },
     //{ path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
     //{ path: 'SmartTable',  title: 'SmartTableComponent',          icon: 'pe-7s-notebook',     class: '' },
     ];

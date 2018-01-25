@@ -1,0 +1,693 @@
+<!-- =========================================================================== -->
+<!-- Solicita número de paginas del log de hardware para los billetes rechazados -->
+<!-- =========================================================================== -->
+
+<!-- Requerimiento --> 
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetHmaLogDataLengthResponse xmlns="http://Pentomino.mx/">
+			<GetHmaLogDataLengthResult>
+				<TotalItems>51</TotalItems>
+				<TotalPages>1</TotalPages>
+			</GetHmaLogDataLengthResult>
+		</GetHmaLogDataLengthResponse>
+	</soap:Body>
+</soap:Envelope>
+
+
+<!-- Respuesta -->
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetHmaLogDataLength xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.40.2.11</string>
+			</ip>
+			<timeStampStart>2018-01-23-14-32</timeStampStart>
+			<timeStampEnd>2018-01-23-20-30</timeStampEnd>
+			<device>
+				<string>DEP</string>
+				<string>AFD</string>
+			</device>
+			<events>
+				<string>CashInEndOk</string>
+				<string>CashInStartOk</string>
+				<string>NotesValidated</string>
+				<string>FullStatus</string>
+			</events>
+		</GetHmaLogDataLength>
+	</s:Body>
+</s:Envelope>
+
+
+<!-- =============================================================== -->
+<!-- Solicita datos del log de hardware para los billetes rechazados -->
+<!-- =============================================================== -->
+
+<!-- Requerimiento -->
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetHmaLogPage xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.40.2.11</string>
+			</ip>
+			<timeStampStart>2018-01-23-14-32</timeStampStart>
+			<timeStampEnd>2018-01-23-20-30</timeStampEnd>
+			<device>
+				<string>DEP</string>
+				<string>AFD</string>
+			</device>
+			<events>
+				<string>CashInEndOk</string>
+				<string>CashInStartOk</string>
+				<string>NotesValidated</string>
+				<string>FullStatus</string>
+			</events>
+			<page>0</page>
+		</GetHmaLogPage>
+	</s:Body>
+</s:Envelope>
+
+
+<!-- Respuesta -->
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetHmaLogPageResponse xmlns="http://Pentomino.mx/">
+			<GetHmaLogPageResult>
+				<HmaLog>
+					<Id>34896481</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34896481</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739621984</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-0-0%Cassette2-MXN-0-0%Cassette3-MXN-0-0%Cassette4-MXN-0-0</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34896909</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34896909</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739744008</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-0-0%Cassette2-MXN-0-0%Cassette3-MXN-0-0%Cassette4-MXN-0-0</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34897388</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34897388</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739873823</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34897436</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34897436</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739886913</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>2x20;2x200;2x100;2x50;2x500</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34897497</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34897497</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739921798</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>2x20;2x200;2x100;2x50;2x500</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34897499</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34897499</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739922048</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>1740</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34897823</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34897823</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516739986048</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-2-2%Cassette2-MXN-2-2%Cassette3-MXN-2-2%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898208</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898208</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740080907</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898222</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898222</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740094572</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898244</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898244</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740111072</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x200</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898289</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898289</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740144247</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x200</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898291</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898291</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740144502</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>200</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898320</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898320</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740150502</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898352</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898352</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740164902</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x100;1x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898593</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898593</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740230512</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898627</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898627</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740245087</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898655</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898655</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740254972</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898682</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898682</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740273597</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x100;2x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898684</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898684</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740273847</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>200</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34898986</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34898986</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740347831</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-4-4%Cassette2-MXN-3-3%Cassette3-MXN-3-3%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34899750</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34899750</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740566051</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34899798</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34899798</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740579166</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>10x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34899843</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34899843</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740611231</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>10x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34899845</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34899845</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740611481</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>500</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34900209</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34900209</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740709771</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-14-14%Cassette2-MXN-3-3%Cassette3-MXN-3-3%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34900404</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34900404</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740787849</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34900618</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34900618</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740810394</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>75x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34900655</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34900655</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740837674</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>75x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34900657</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34900657</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740837924</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>3750</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901042</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901042</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516740951788</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-89-89%Cassette2-MXN-3-3%Cassette3-MXN-3-3%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901233</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901233</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741025745</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901484</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901484</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741051160</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>87x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901476</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901476</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741071955</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>3x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901525</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901525</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741106565</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>90x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901527</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901527</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741106815</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>4500</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34901878</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34901878</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741193781</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-178-178%Cassette2-MXN-3-3%Cassette3-MXN-3-3%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34902276</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34902276</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741315811</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-178-178%Cassette2-MXN-3-3%Cassette3-MXN-3-3%Cassette4-MXN-2-2</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34902775</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34902775</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741411754</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34902835</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34902835</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741436359</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>21x50;10x200;2x500;22x100;26x20</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34902908</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34902908</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741456874</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34902979</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34902979</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741476529</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903034</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903034</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741487684</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903111</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903111</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741517259</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>21x50;10x200;2x500;22x100;26x20</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903125</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903125</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741517509</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>6770</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903726</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903726</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741677852</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-199-199%Cassette2-MXN-25-25%Cassette3-MXN-13-13%Cassette4-MXN-4-4</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903926</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903926</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741748359</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInStartOk</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8196</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34903940</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34903940</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741755359</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data />
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34904161</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34904161</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741781214</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34904188</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34904188</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741795299</TimeStamp>
+					<Device>DEP</Device>
+					<Events>NotesValidated</Events>
+					<Data>1x50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8215</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34904190</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34904190</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741795549</TimeStamp>
+					<Device>DEP</Device>
+					<Events>CashInEndOk</Events>
+					<Data>50</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>8200</HmaEventId>
+				</HmaLog>
+				<HmaLog>
+					<Id>34904207</Id>
+					<Ip>11.40.2.11</Ip>
+					<SerializedId>34904207</SerializedId>
+					<HmaCriticalEvents />
+					<TimeStamp>1516741799839</TimeStamp>
+					<Device>AFD</Device>
+					<Events>FullStatus</Events>
+					<Data>Cassette1-MXN-199-199%Cassette2-MXN-25-25%Cassette3-MXN-13-13%Cassette4-MXN-4-4</Data>
+					<AtmId>25159987</AtmId>
+					<HmaEventId>2092</HmaEventId>
+				</HmaLog>
+			</GetHmaLogPageResult>
+		</GetHmaLogPageResponse>
+	</soap:Body>
+</soap:Envelope>

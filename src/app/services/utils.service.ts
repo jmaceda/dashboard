@@ -92,14 +92,16 @@ export class UtilsService {
             reg = reg.replace(/\[(.*)\]/, "$1"); // Elimina corchetes cuadrados.
 
             // Lee cada grupo de billetes con denominaciones.
+            //console.log("reg["+reg+"]");
             for(let elem of reg.split(charDelim)){
 
                 if (elem == undefined || elem == null || elem == ""){
                     continue;
                 }
 
-                if(posDenom == "BD"){    elem = elem.split("x");
+                elem = elem.split("x");
 
+                if(posDenom == "BD"){
                     numBill  = Number(elem[0]);
                     denomina = elem[1];
                 }else{
@@ -110,7 +112,9 @@ export class UtilsService {
                 let cveDenomina = "b"+denomina;
 
                 denominaBilletes[cveDenomina] += numBill;
+
                 denominaBilletes.monto += (denomina * numBill);
+                //console.log("denomina["+denomina+"]   numBill["+numBill+"]  monto["+denominaBilletes.monto+"]");
             }
             denominaBilletes.opers++;
         }

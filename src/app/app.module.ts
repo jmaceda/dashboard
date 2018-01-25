@@ -58,12 +58,14 @@ import { EfectDispCoponent }                from './reportes/efectivo-disponible
 
 import { BlockUIModule } from 'ng-block-ui';
 
-import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
-import { SmartTableService } from './tmp/ng2-smart-table/smart-table.service';
+//import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
+//import { SmartTableService } from './tmp/ng2-smart-table/smart-table.service';
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NbThemeModule } from '@nebular/theme';
-import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
+//import { Ng2SmartTableModule } from 'ng2-smart-table';
+//import { NbThemeModule } from '@nebular/theme';
+//import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
+
+import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 
 
 @NgModule({
@@ -94,7 +96,8 @@ import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/them
     RetirosHmaComponent,
     EfectDispCoponent,
 
-    SmartTableComponent
+    //SmartTableComponent
+    RechazosHmaComponent
 
   ],
 
@@ -118,10 +121,10 @@ import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/them
     NgxDatatableModule,
     BlockUIModule,
 
-    Ng2SmartTableModule,
-    NbLayoutModule,
-    NbSidebarModule,
-    NbThemeModule.forRoot({ name: 'default' }), // this will enable the default theme, you can change this to `cosmic` to enable the dark theme
+    //Ng2SmartTableModule,
+    //NbLayoutModule,
+    //NbSidebarModule,
+    //NbThemeModule.forRoot({ name: 'default' }), // this will enable the default theme, you can change this to `cosmic` to enable the dark theme
 
   ],
   entryComponents: [],
@@ -130,8 +133,8 @@ import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/them
     DataBaseService,
     ExportToCSVService,
     FiltrosUtilsService,
-    SmartTableService,
-    NbSidebarService
+    //SmartTableService,
+    //NbSidebarService
   ],
   bootstrap: [AppComponent],
 

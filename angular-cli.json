@@ -18,10 +18,7 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "assets/sass/light-bootstrap-dashboard.scss",
-        "../node_modules/ngx-easy-table/spectre.css",
-        "../node_modules/ngx-easy-table/spectre-icons.css",
-        "../node_modules/@nebular/theme/styles/prebuilt/default.css", // or cosmic.css
+        "assets/sass/light-bootstrap-dashboard.scss"
       ],
       "scripts": [
           "../node_modules/popper.js/dist/umd/popper.min.js",
