@@ -148,20 +148,21 @@ export class RechazosHmaComponent implements OnInit  {
         this.obtenEventos();
 
         /* == Obtener fecha y hora del último corte == */
-        let datosCortesJournal = this.datosJournalService.obtenDatosUltimoCorteJournal(filtrosCons);
+        //let datosCortesJournal = this.datosJournalService.obtenDatosUltimoCorteJournal(filtrosCons);
 
-
+        let datosCortesJournal:any;
         let opc2               = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
         let opc3               = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', seconds: '2-digit'};
-        let ultimoCorte        = datosCortesJournal[datosCortesJournal.length -1];
+        //let ultimoCorte        = datosCortesJournal[datosCortesJournal.length -1];
         let expFtoFchCorte     = /(\d{2})[/-](\d{2})[/-](\d{4}) (\d{2}):(\d{2}):(\d{2})/;
         //let fchUltimoCorte   = (new Date(datosCortesJournal.TimeStamp)).toLocaleString(undefined, opc3);
-        let fchUltimoCorte     = new Date((datosCortesJournal.TimeStamp).replace( expFtoFchCorte, "$2/$1/$3 $4:$5:$6") );
+        //let fchUltimoCorte     = new Date((datosCortesJournal.TimeStamp).replace( expFtoFchCorte, "$2/$1/$3 $4:$5:$6") );
         //let fchUltimoCorte2    = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
-        let fchUltimoCorte2    = fchUltimoCorte.toLocaleString(undefined, opc3).replace(/[\/ :]/g,"-").split("-");
-        fchUltimoCorte2        = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
+        //let fchUltimoCorte2    = fchUltimoCorte.toLocaleString(undefined, opc3).replace(/[\/ :]/g,"-").split("-");
+        //fchUltimoCorte2        = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
 
-
+        let fchUltimoCorte2 = sprintf("2018-01-01-12-47");
+        filtrosCons.timeStampEnd = "2018-01-25-17-31";
 
         let paramsCons: any = {
             ip: [filtrosCons.ipAtm], timeStampStart: fchUltimoCorte2,
@@ -193,8 +194,13 @@ export class RechazosHmaComponent implements OnInit  {
             let cveCat;
             let tmpBilletesDep:string = "";
             let tmpBilletesRet:string = "";
+            let tmpFullStatus:string = "";
+            let numRetiros:number = 0;
+            let numDepositos:number = 0;
+            let numRechazos:number = 0;
             let arrBilletesDep: any[] = [];
             let arrBilletesRet: any[] = [];
+            let arrBilletesRec: any[] = [];
 
             this.datosRetirosHMA.forEach( (reg) => {
                 cveCat = "c"+reg.HmaEventId;
@@ -206,27 +212,50 @@ export class RechazosHmaComponent implements OnInit  {
                 }
 
                 if (reg.Events == "CashInEndOk" && (tmpBilletesDep != null && tmpBilletesDep.length > 0)){
-                    //console.log("tmpBilletesDep["+tmpBilletesDep+"]");
                     arrBilletesDep.push(tmpBilletesDep + ";");
                 }
 
                 if (reg.Events == "DenominateInfo"){
                     tmpBilletesRet = reg.Data;
+                    numDepositos++;
                 }
 
                 if (reg.Events == "DispenseOk" && (tmpBilletesRet != null && tmpBilletesRet.length > 0)){
-                    //console.log("tmpBilletesRet["+tmpBilletesRet+"]");
                     arrBilletesRet.push(tmpBilletesRet + ";");
+                    numRetiros++;
                 }
+
+
+                if (reg.Events == "FullStatus"){
+                    tmpFullStatus = reg.Data;
+                    numRechazos = 1;
+                }
+
             });
 
-            let numBilletesDep:AcumulaBilletesModel;
-            numBilletesDep = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesDep, ";", "BD");
-            console.log("Depósitos:: numBilletesDep["+JSON.stringify(numBilletesDep)+"]");
 
-            let numBilletesRet:AcumulaBilletesModel;
-            numBilletesRet = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRet, ";", "BD");
-            console.log("Depósitos:: numBilletesRet["+JSON.stringify(numBilletesRet)+"]");
+            this.numBilletesDep = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesDep, ";", "BD");
+            //this.numBilletesDep.opers = numDepositos;
+            console.log("Depósitos:: numBilletesDep["+JSON.stringify(this.numBilletesDep)+"]");
+
+
+            this.numBilletesRet = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRet, ";", "BD");
+            //this.numBilletesRet.opers = numRetiros;
+            console.log("Depósitos:: numBilletesRet["+JSON.stringify(this.numBilletesRet)+"]");
+
+            console.log("tmpFullStatus["+tmpFullStatus+"]");
+
+            let arrFullStatus = tmpFullStatus.split("%");
+            for(let idx=0; idx < arrFullStatus.length; idx++){
+                let x = arrFullStatus[idx].split("-");
+                arrFullStatus[idx] = "50x"+x[3]+";";
+            }
+
+            arrBilletesRec.push(arrFullStatus[0]+arrFullStatus[1]+arrFullStatus[2]+arrFullStatus[3]);
+            this.numBilletesRec = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRec, ";", "BD");
+            //this.numBilletesRec.opers = numRechazos;
+            console.log("arrFullStatus-->"+arrBilletesRec+"<--");
+
             //console.log(JSON.stringify(datosRetirosHMA));
         }
         //console.log(new Date());
@@ -240,6 +269,10 @@ export class RechazosHmaComponent implements OnInit  {
         //this.obtenDetalleRetiros(filtrosCons)
 
     }
+
+    public numBilletesDep:AcumulaBilletesModel;
+    public numBilletesRet:AcumulaBilletesModel;
+    public numBilletesRec:AcumulaBilletesModel;
 
     GetEjaLogDataLength(paginasJoural:any, status){
         gPaginasJoural = paginasJoural;

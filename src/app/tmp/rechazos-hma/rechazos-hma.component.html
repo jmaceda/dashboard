@@ -4,16 +4,60 @@
         overflow-x: hidden;
         overflow-y: hidden;
     }
-    table, th, td {
-        border: 1px solid black;
+
+    .colNum {
+        width: 5%;
+        max-width: 5%;
+        text-align: right;
     }
-    .letraNegrita{
-        font-weight: bold;
+
+    .col1 {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
     }
-    .fondoTituloDetalle{
+
+    .colAlfa {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
+    }
+
+    #EncabEfectivoDepositos th {
         background-color: #423F3F;
         color: #FFFFFF;
         font-weight: bold;
+    }
+
+    #efectivoDisponible td {
+        font-weight: bold;
+    }
+
+    .encabDatosCorte {
+        text-align: center;
+    }
+
+    .col2DatosCorte {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+    }
+
+    .col2DatosCorteNum {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+        text-align: right;
+    }
+
+    .col1DatosCorte {
+        width: 150px;
+        max-width: 150px;
+        padding: 2px;
+    }
+
+    table#tblCortesETV thead tr th {
+        text-align: center;
     }
 
     .sombraObjeto {
@@ -21,64 +65,26 @@
         -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
         box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
         /*
-        -webkit-box-shadow: 2px 2px 15px #999;
-        -moz-box-shadow: 2px 2px 5px #999;
-        filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
-        -webkit-border-radius: 5px 10px;  / * Safari  * /
-        -moz-border-radius: 5px 10px;     / * Firefox * /
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
         */
     }
 
-    .esquinasRedendeadas {
-        border-radius: 20px;
-        border-collapse: collapse;
-        box-shadow: 8px 8px 10px 0;
-        border-radius: 20px 20px 20px 20px;
-        -moz-border-radius: 20px 20px 20px 20px;
-        -webkit-border-radius: 20px 20px 20px 20px;
+    .esquinasRedondas {
+        border-radius: 10px 10px 10px 10px;
+        -moz-border-radius: 10px 10px 10px 10px;
+        -webkit-border-radius: 10px 10px 10px 10px;
         border: 0px solid #000000;
     }
 
-    #divDetalleRetiroETV {
-        padding-top: 3px;
-        padding-bottom: 3px;
-        margin-left: 200px;"
-        width: 40em;
-        max-width: 40em;
-    }
-    #tablaDetalleRetiroETV {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    #tablaDetalleRetiroETV thead tr th {
-        background-color: #1A1561;
-        color: #FFFFFF;
-        /*font-weight: bold;*/
-    }
-
-    #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
-        background-color: #1A1561;
-        color: #FFFFFF;
-        font-weight: bold;
-    }
-
-    #tablaDetalleRetiroETV[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
-        background-color: #5C5757;
-        color: #FFFFFF;
-        /*font-weight: bold;*/
-    }
-
-    :host /deep/ .data-table-row {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+    div#idCardTablaEfectivoDisponible {
+        margin-bottom: 2px;
     }
 
 </style>
 
+<block-ui>
 <div class="container-fluid">
 
     <filtros-consultas
@@ -90,95 +96,135 @@
             [dTipoListaParams]      = "dTipoListaParams">
     </filtros-consultas>
 
-    <div class="" style="margin: 1% 0%; height: 37em; width: 100%;">
 
-        <div class="card" style="padding: 3px;">
-            <data-table id="retiros-hma"
-                        headerTitle="Retiros HMA"
-                        [items]="items"
-                        [itemCount]="itemCount"
-                        (reload)="reloadItems($event)"
-                        (rowClick)="rowClick($event)"
-                        (rowDoubleClick)="rowDoubleClick($event)"
-                        [expandableRows]="false"
-                        [limit]="regsLimite"
-                        [rowColors]="rowColors"
-                        [indexColumnHeader]="'ID'"
-                        [selectOnRowClick]="true"
-                        [showReloading]="false"
-                        [rowTooltip]="rowTooltip">
+    <div style="margin: 1% 0%; max-height: 37em; height: 37em;">
 
-                <ng-template #dataTableExpand  let-item="item">
-                </ng-template>
+        <div class="card" style="margin: 1% 0%; padding: 20px; max-height: 100%; height: 100%;">
 
-
-                <data-table-column
-                        [property]="'Ip'"
-                        [header]="'Ip'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="6em">
-                </data-table-column>
-
-                <data-table-column
-                        [property]="'TimeStamp'"
-                        [header]="'Fecha'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        [visible]="true"
-                        width="7em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-
-                <data-table-column
-                        [property]="'TimeStamp'"
-                        [header]="'Hora'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="6em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div  class="noWrap">
-                            <span>{{item.TimeStamp | date: 'HH:mm:ss'}}</span>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10" style="margin-left: 7.5%">
+                        <div class="header" style="padding: 2px;">
+                            <h5 class="title" style="text-align: center; font-weight: bold;">Efectivo Disponible</h5>
                         </div>
-                    </ng-template>
-                </data-table-column>
 
-                <data-table-column
-                        [property]="'Device'"
-                        [header]="'Dispositivo'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8em">
-                </data-table-column>
+                        <!--
+                        <div id="idCardTablaEfectivoDisponible" class="card">
 
-                <data-table-column
-                        [property]="'DescDevice'"
-                        [header]="'Mecanismo'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="18em">
-                </data-table-column>
+                            <table class="table table-hover table-striped" style="width: 100%; max-width: 100%;">
 
-                <data-table-column
-                        [property]="'Events'"
-                        [header]="'Evento'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="12em">
-                </data-table-column>
-                <data-table-column
-                        [property]="'Data'"
-                        [header]="'Parámetros'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="80em">
-                </data-table-column>
+                                <thead>
+                                    <tr id="idEncabEfectivoDisponible">
+                                        <th style="width: 5px">Tipo Operación</th>
+                                        <th class="colNum">Opers</th>
+                                        <th class="colNum">$20</th>
+                                        <th class="colNum">$50</th>
+                                        <th class="colNum">$100</th>
+                                        <th class="colNum">$200</th>
+                                        <th class="colNum">$500</th>
+                                        <th class="colNum">$1000</th>
+                                        <th class="colNum">Monto</th>
+                                    </tr>
+                                </thead>
 
-            </data-table>
+                                <tbody>
+                                    <tr id="efectivoDepositos">
+                                        <td style="width: 5%;">Depósitos</td>
+                                        < ! - - td class="colNum">{{numBilletesDep.opers | number:'1.0-0'}}</td - - >
+                                        <td class="colNum">{{numBilletesDep.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesDep.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="efectivoRetiros">
+                                        <td style="width: 5%;">Retiros</td>
+                                        < ! - - td class="colNum">{{numBilletesRet.opers | number:'1.0-0'}}</td - -  >
+                                        <td class="colNum">{{numBilletesRet.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{numBilletesRet.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="efectivoRechazos">
+                                        <td style="width: 5%;">Rechazos</td>
+                                        < ! - - td class="colNum">{{billetesRetirados.opers | number:'1.0-0'}}</td - - >
+                                        <td class="colNum">{{billetesRetirados.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{billetesRetirados.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="efectivoDisponible" *ngFor="let row of arrBilletesDisponibles">
+                                        <td style="width: 5%;">Disponible</td>
+                                        <td class="colNum">{{row.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        -->
+                        <div id="idPeriodoInfo" *ngIf="fchUltimaActualizacion">
+                            <span>Información reportada a partir del último corte: {{datosUltimoCorte}} - {{fchUltimaActualizacion}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"></div>
+
+                <!--
+                <div class="row">
+                    <div class="col-md-10" style="margin-left: 8.5%">
+                        <div class="header" style="padding: 2px;">
+                            <h5 class="title" style="text-align: center; font-weight: bold;">Cortes</h5>
+                        </div>
+                        <div class="card">
+
+                            <table id="tblCortesETV" class="table table-hover table-striped" style="width: 100%; max-width: 100%;">
+
+                                <thead>
+                                    <tr id="EncabCortesETV">
+                                        <th class="col1DatosCorte">Fecha</th>
+                                        <th class="col2DatosCorte">IP</th>
+                                        <th class="col2DatosCorte">ATM</th>
+                                        <th class="col2DatosCorte">Monto</th>
+                                        <th class="col2DatosCorte">$200</th>
+                                        <th class="col2DatosCorte">$500</th>
+                                        <th class="col2DatosCorte">$1000</th>
+                                        <th class="col2DatosCorte">Monto</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr id="efectivoDepositos2" *ngFor="let row of infoCortesETV">
+                                        <td class="col1DatosCorte">{{row.TimeStamp | date: 'dd-MM-yyyy  HH:hh:ss'}}</td>
+                                        <td class="col2DatosCorte">{{row.Ip}}</td>
+                                        <td class="col2DatosCorte">{{row.AtmName}}</td>
+                                        <td class="col2DatosCorteNum">{{row.Amount | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
         </div>
     </div>
 </div>
+
+
+</block-ui>
