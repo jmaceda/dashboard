@@ -98,6 +98,14 @@
                         [rowTooltip]="rowTooltip">
 
                 <data-table-column
+                        [property]="'Ip'"
+                        [header]="'IP'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="8em">
+                </data-table-column>
+
+                <data-table-column
                         [property]="'TimeStamp'"
                         [header]="'Fecha/Hora'"
                         [sortable]="true"
@@ -109,13 +117,7 @@
                             </div>
                         </ng-template>
                 </data-table-column>
-                <data-table-column
-                        [property]="'Ip'"
-                        [header]="'IP'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8em">
-                </data-table-column>
+
                 <data-table-column
                         [property]="'Device'"
                         [header]="'Dispositivo'"
@@ -128,6 +130,15 @@
                             </div>
                         </ng-template>
                 </data-table-column>
+
+                <data-table-column
+                        [property]="'DescDevice'"
+                        [header]="'Mecanismo'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="18em">
+                </data-table-column>
+
                 <data-table-column
                         [property]="'Events'"
                         [header]="'Evento'"
@@ -141,7 +152,7 @@
                         </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'Data'"
+                        [property]="'Parámetros'"
                         [header]="'Datos'"
                         [sortable]="true"
                         [resizable]="true"

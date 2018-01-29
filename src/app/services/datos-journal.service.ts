@@ -1,15 +1,11 @@
-/**
- * Created by jmacruz on 04/01/2018.
- */
+import { Injectable }               from '@angular/core';
+import { OnInit }                   from '@angular/core';
 
-import { Injectable } from '@angular/core';
-import { OnInit } from '@angular/core';
-
-import { sprintf }  from "sprintf-js";
-import * as moment from 'moment';
-
-import { SoapService }      from './soap.service';
-import {camelCase} from "@swimlane/ngx-datatable/release/utils";
+import { sprintf }                  from "sprintf-js";
+import * as moment                  from 'moment';
+import { ExportToCSVService }       from './export-to-csv.service';
+import { SoapService }              from './soap.service';
+import {camelCase}                  from "@swimlane/ngx-datatable/release/utils";
 
 export var gPaginasJournal:any;
 export var gDatosCortesJournal:any;
@@ -125,5 +121,102 @@ export class DatosJournalService implements OnInit {
     public obtenFechaUltimoCorteJournal(filtrosCons){
         let datosCorte:any = this.obtenDatosUltimoCorteJournal(filtrosCons);
         return(datosCorte.TimeStamp);
+    }
+
+    public obtenColumnasVista(){
+        let columnas = [
+                { key: 'TimeStamp',         title: 'Fecha/Hora'},
+                { key: 'Ip',        		title: 'IP' },
+                { key: 'AtmName',        	title: 'ATM' },
+                { key: 'CardNumber',        title: 'Tarjeta número' },
+                { key: 'OperationType',     title: 'Tipo de Operación' },
+                { key: 'TransactionCount',  title: 'Contador Transacción' },
+                { key: 'Amount',            title: 'Monto' },
+                { key: 'HWErrorCode',       title: 'Código de Error de HW' },
+                { key: 'Denomination',      title: 'Denominación' },
+                { key: 'Aquirer',           title: 'Emisor' },
+                { key: 'Event',             title: 'Evento', filtering: {filterString: '', placeholder: 'Evento'}},
+                { key: 'AccountId',        	title: 'Cuenta Número'},
+                { key: 'AccountType',       title: 'Tipo de Cuenta'},
+                { key: 'Location',        	title: 'Ubicación'},
+                { key: 'Arqc',        		title: 'Arqc' },
+                { key: 'Arpc',        		title: 'Arpc' },
+                { key: 'FlagCode',        	title: 'Flag Code' },
+                { key: 'TerminalCaps',      title: 'Cap. Terminal' },
+                { key: 'PosMode',        	title: 'POS Code' },
+                { key: 'AuthId',        	title: 'Id. Autorización' },
+                { key: 'SwitchAuthCode',    title: 'Código de Autorización del Switch' },
+                { key: 'Surcharge',        	title: 'Surcharge' },
+                { key: 'SwitchResponseCode',title: 'Código de Respuesta del Switch' },
+                { key: 'Data',              title: 'Datos' },
+                { key: 'Available',         title: 'Disponible' },
+                { key: 'SwitchAtmId',       title: 'Switch ATM Id' },
+                { key: 'Reference1',        title: 'Referencia 1' },
+                { key: 'Reference2',        title: 'Referencia 2' },
+                { key: 'Reference3',        title: 'Referencia 3' },
+                /*
+                 { key: 'AtmId',        		title: 'Id Atm', },
+                 { key: 'SerializedId',      title: 'Id Serial' },
+                 { key: 'Id',        		title: 'Id' },
+                 */
+            ];
+
+        return(columnas);
+    }
+
+    public exportaJournal2Excel(dataJournalRedBlu){
+
+        let arr2Excel:any[] = [];
+        let tmpFchHora:any;
+        let tmpMonto:any;
+        let tmpMontoDisponible:any;
+        let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+        dataJournalRedBlu.forEach((reg)=> {
+            tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
+            tmpMonto            = reg.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpMontoDisponible  = reg.Available.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+
+            arr2Excel.push(
+                {
+                    "Fecha/Hora":           	            tmpFchHora,
+                    "IP":                   	            reg.Ip,
+                    "ATM":                  	            reg.AtmName,
+                    "Atm Id":             	                reg.AtmId,
+                    "Tarjeta número":       	            reg.CardNumber,
+                    "Tipo de Operación":    	            reg.OperationType,
+                    "Contador de Transacción":              reg.TransactionCount,
+                    "Monto":                                tmpMonto,
+                    "Código de error de HW":                reg.HWErrorCode,
+                    "Denominación":       		            reg.Denomination,
+                    "Emisor":            		            reg.Aquirer,
+                    "Evento":              		            reg.Event,
+                    "Cuenta Número":          	            reg.AccountId,
+                    "Tipo de Cuenta":        	            reg.AccountType,
+                    "Ubicacion":				            reg.Location,
+                    "ARQC":               		            reg.Arqc,
+                    "ARPC":               		            reg.Arpc,
+                    "Flag Code":           		            reg.FlagCode,
+                    "Terminal Capabilities":                reg.TerminalCaps,
+                    "POS Code":            		            reg.PosMode,
+                    "Código de Autorización del Switch":	reg.SwitchAuthCode,
+                    "Surcharge":          					reg.Surcharge.toLocaleString("es-MX"),
+                    "Código de Respuesta del Switch": 		reg.SwitchResponseCode,
+                    "Datos":               					reg.Data,
+                    "Disponible":          					tmpMontoDisponible,
+                    "Switch ATM Id":        				reg.SwitchAtmId,
+                    "Referencia 1":         				reg.Reference1,
+                    "Referencia 2":         				reg.Reference2,
+                    "Referencia 3":         				reg.Reference3,
+                     //SerializedId:       reg.SerializedId,
+                     //Id:                 reg.Id
+                }
+            )
+        });
+
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSVService();
+            exporter.exportAllToCSV(arr2Excel, 'Journal.csv');
+        }
     }
 }

@@ -14,7 +14,7 @@ import { FiltrosUtilsService }                          from '../../services/fil
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 import { UtilsService }                                 from '../../services/utils.service';
 import { DatosJournalService }                          from '../../services/datos-journal.service';
-
+import { LogHmaService }                                from '../../services/log-hma.service';
 
 export var gPaginasJournal:any;
 export var gDatosCortesEtv:any;
@@ -38,7 +38,7 @@ var nomComponente = "RetirosHmaComponent";
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, DepositosPorTiendaService, UtilsService, DatosJournalService]
+    providers: [SoapService, DepositosPorTiendaService, UtilsService, DatosJournalService, LogHmaService]
 })
 export class RetirosHmaComponent implements OnInit  {
 
@@ -75,7 +75,8 @@ export class RetirosHmaComponent implements OnInit  {
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
                 public utilsService: UtilsService,
-                public datosJournalService: DatosJournalService
+                public datosJournalService: DatosJournalService,
+                public logHmaService: LogHmaService
                 ){
     }
 
@@ -83,6 +84,7 @@ export class RetirosHmaComponent implements OnInit  {
 
     public ngOnInit() {
 
+        /*
         let url = "assets/data/devicesAtm.json";
         $.getJSON(url,  function(data)
         {
@@ -92,6 +94,10 @@ export class RetirosHmaComponent implements OnInit  {
                 gDevicesAtm[idx] = descripcion;
             });
         });
+        */
+
+        gDevicesAtm         = this.logHmaService.GetHmaDevices();
+        gCatalogoEventos    = this.logHmaService.obtenEventos();
         //console.log(nomComponente+".ngOnInit:: ["+window.variable_de_app_component+"]");
     }
 
@@ -117,6 +123,7 @@ export class RetirosHmaComponent implements OnInit  {
     }
 
 
+    /*
     obtenEventos(){
 
         this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent);
@@ -130,6 +137,7 @@ export class RetirosHmaComponent implements OnInit  {
         });
         //console.log(Object.keys(gCatalogoEventos).length);
     }
+    */
 
 
     GetHmaLogPage(datosHMA:any, status){
@@ -144,7 +152,7 @@ export class RetirosHmaComponent implements OnInit  {
 
     obtenDatosLogHMA(filtrosCons){
 
-        this.obtenEventos();
+        //this.obtenEventos();
 
         //let paramsCons:any = {ip: ["11.40.2.8"], timeStampStart: "2018-01-01-11-00", timeStampEnd: "2018-01-01-23-03", device: ["ICM", "AFD"],
         //    events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]};

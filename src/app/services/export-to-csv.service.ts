@@ -6,33 +6,32 @@ export class ExportToCSVService {
     public delimitador:string = ",";
 
     constructor() {
-
     }
 
-    exportAllToCSV(JSONListItemsToPublish : any[], fileName : string) {
+    exportAllToCSV(JSONListItemsToPublish:any[], fileName:string) {
         return this.exportColumnsToCSV(JSONListItemsToPublish, fileName, null);
     }
 
-    exportColumnsToCSV(JSONListItemsToPublish : any[], fileName : string, columns : string[]) {
+    exportColumnsToCSV(JSONListItemsToPublish:any[], fileName:string, columns:string[]) {
         //let self = this;
-
+console.log("--------- JMC -------");
         const items = JSONListItemsToPublish;
 
-        // store the data in an array
+        // Guarda los datos en el arreglo "arrayToPublish".
         let arrayToPublish = [];
 
-        // for each item in the list
-        for (let i = 0; i < items.length; i++) {
+        // Por cada elemento en la lista "items"
+        for (let idx = 0; idx < items.length; idx++) {
 
-            let keys = Object.keys(items[i]);
+            let keys = Object.keys(items[idx]);
             let csvRow = [];
 
             for ( let keyId = 0; keyId < keys.length; keyId++) {
 
                 if (!columns) {
-                    csvRow[keys[keyId]] = items[i][keys[keyId]];
+                    csvRow[keys[keyId]] = items[idx][keys[keyId]];
                 } else if (columns.indexOf(keys[keyId]) > -1) {
-                    csvRow[keys[keyId]] = items[i][keys[keyId]];
+                    csvRow[keys[keyId]] = items[idx][keys[keyId]];
                 }
 
             }
