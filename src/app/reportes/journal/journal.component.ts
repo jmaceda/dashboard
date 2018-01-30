@@ -86,8 +86,6 @@ export class JournalComponent implements OnInit  {
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength);
 
-        //arrDatosServidor = [];
-
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {

@@ -39,6 +39,15 @@
     #idDivCardGrid {
         padding: 3px;
     }
+
+    table tbody tr td.row-odd,
+    table tbody tr td.row-even,
+    table thead tr th.index-column-header,
+    table thead tr th.expand-column-header {
+        width: 2px;
+        max-width: 2px;
+    }
+
 </style>
 
 <div class="container-fluid">
@@ -130,7 +139,7 @@
                         [header]="'IP'"
                         [sortable]="true"
                         [resizable]="true"
-                        [width]="12">
+                        width="10px">
                 </data-table-column>
 
                 <data-table-column
@@ -195,7 +204,17 @@
                         [header]="'Papel'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="8px">
+                </data-table-column>
+                <data-table-column
+                        [property]="'LastIOnlineTimestamp'"
+                        [header]="'Último Estatus'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="18px">
+                        <ng-template #dataTableCell let-item="item">
+                            <span>{{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                        </ng-template>
                 </data-table-column>
 
             </data-table>

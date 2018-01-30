@@ -3,8 +3,6 @@ import { OnInit }                               from '@angular/core';
 import { OnDestroy }                            from '@angular/core';
 
 import { sprintf }                              from "sprintf-js";
-//import { DataTableResource }                    from 'angular-4-data-table-fix';
-
 import { ConfigService }                        from './configuration.service';
 import { SoapService }                          from '../../services/soap.service';
 import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
