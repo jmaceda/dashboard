@@ -12,31 +12,14 @@ import { LogHmaService }                                from '../../services/log
 import { EventEmitter}      from '@angular/core';
 
 
-var ipAnterior:string = null;
-var gFchInicioAnterior = null;
-var gFchInicioFinAnterior = null;
-var intervalId = null;
-var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
-var arrDatosJournal:any[] = [];
-var nomComponente:string = "LogHmaComponent";
+var arrDatosJournal:any[]               = [];
+var nomComponente:string                = "LogHmaComponent";
 
-export var gCatEventos:any[] = [];
-export var gCatalogoEventos:any[] = [];
-export var gDevicesAtm:any[] = [];
-
-export var arrDatosServidor:any[]     = [];
-export var arrDatosServidorInc:any[]  = [];
-export var arrDatosServidorBack:any[] = [];
-export var datosATMs  = [];
-export var ipATMs  = [];
-export var gNumRegsProcesados          = 0;
-export var gNumPagsLogHma                 = 0;
+export var gCatalogoEventos:any[]       = [];
+export var gDevicesAtm:any[]            = [];
+export var arrDatosServidor:any[]       = [];
+export var gNumPagsLogHma               = 0;
 export var gNumRegsLogHma               = 0;
-export var aDatosJournal               = [];
-export var gNumPaginasCompletas = 0;
-export var numPagsCompletas:number    = 0;
-export var numPaginaObtenida:number   = 0;
-
 export var gRespDatosLogHma:any;
 
 @Component({
@@ -58,31 +41,15 @@ export class LogHmaComponent implements OnInit  {
     public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
-
-
-    //public url: string                  = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';
-    public url: string = '/dataservices.asmx'; //  QA
-    //public url: string = '/services/dataservices.asmx'; // Prod
-
-    public arrParams:any[] = [];
-
-    public itemResource = new DataTableResource(arrDatosJournal);
-    public items = [];
-    public itemCount = 0;
-    public tituloLogHMA:string = "Log HMA";
-
+    public itemResource             = new DataTableResource(arrDatosJournal);
+    public items                    = [];
+    public itemCount                = 0;
+    public tituloLogHMA:string      = "Log HMA";
     public ipATM: string;
-    //public dFchIniProceso: string = '2017-09-10';
-    //public dFchFinProceso: string = '2017-09-10';
-    //public dHraIniProceso: string = '00-00';
-   // public dHraFinProceso: string = '23-59';
-    //public fechaHoraOperacion: string;
-    public ipATMs:any[] = [];
-    public regsLimite: number = 200;
+    public regsLimite: number       = 200;
+    private datosRespLogHma:any[]   = [];
 
-    private datosRespLogHma:any[] = [];
-
-    columns = [
+    public columns = [
         { key: 'Ip',                title: 'IP'},
         { key: 'TimeStamp',         title: 'Fecha/Hora'},
         { key: 'Device',            title: 'Dispositivo' },
@@ -102,36 +69,25 @@ export class LogHmaComponent implements OnInit  {
         gCatalogoEventos    = this.logHmaService.obtenEventos();
     }
 
-    public parametrosConsulta(infoRecibida){
-        console.log("Se va mostrar la información enviada desde el componente Params");
-        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        console.log("Se mostro la información enviada desde el componente Params");
-        let parametrossConsulta:any = {};
+    public parametrosConsulta(filtrosConsulta){
 
-        let fIniParam   = infoRecibida.fchInicio;
-        let fFinParam   = infoRecibida.fchFin;
-        let ipAtm       = infoRecibida.atm;
-
+        let fIniParam = filtrosConsulta.fchInicio;
+        let fFinParam = filtrosConsulta.fchFin;
+        let ipAtm     = filtrosConsulta.atm;
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-        console.log(fchIniParam);
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
+        let filtrosCons:any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
 
-        console.log(nomComponente+".parametrosConsulta::  fchIniParam["+fchIniParam+"]    chFinParam["+fchFinParam+"]");
-
-        let datosParam:any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
-
-        this.obtenDatosDelJournal(datosParam);
+        this.obtenDatosLogHMA(filtrosCons);
     }
 
-
-    public obtenDatosDelJournal(params){
+    public obtenDatosLogHMA(params){
 
         let paramsCons: any = {
             ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd, events: -1, device: -1
         };
-
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
@@ -139,8 +95,9 @@ export class LogHmaComponent implements OnInit  {
         this.datosRespLogHma = [];
 
         if (gNumPagsLogHma > 0) {
-            for (let idx = gNumPaginasCompletas; idx < gNumPagsLogHma; idx++) {
+            for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
+                //console.log(nomComponente+".obtenDatosDelJournal:: Pagina["+idx+"]");
                 this._soapService.post(this.url, 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
                 this.datosRespLogHma = this.datosRespLogHma.concat(gRespDatosLogHma);
             }
@@ -167,18 +124,16 @@ export class LogHmaComponent implements OnInit  {
     public GetHmaLogDataLength(respNumPaginasLogHma:object, status){
         gNumPagsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalPages;
         gNumRegsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalItems;
-        console.log("obtenNumeroDePaginasLog:: gNumPagsLogHma["+gNumPagsLogHma+"]  gNumRegsLogHma["+gNumRegsLogHma+"]");
+        console.log(nomComponente+".obtenNumeroDePaginasLog:: gNumPagsLogHma["+gNumPagsLogHma+"]  gNumRegsLogHma["+gNumRegsLogHma+"]");
     }
 
     public GetHmaLogPage(respDatosLogHma:any[], status){
          gRespDatosLogHma = respDatosLogHma;
     }
 
-
     public reloadItems(params) {
         this.itemResource.query(params).then(items => this.items = items);
     }
-
 
     // special properties:
     rowClick(rowEvent) {
@@ -194,5 +149,4 @@ export class LogHmaComponent implements OnInit  {
     private MsgConsola(msg:any){
         console.log(nomComponente+".");
     }
-
 }

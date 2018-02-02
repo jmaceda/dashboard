@@ -49,16 +49,12 @@ export class AtmsEstatusComponent implements OnInit {
     public regsLimite:number            = 15;
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
-    //public ambiente: string             = "Producción"
     public xtIsOnline:string            = "";
     public itemResource                 = new DataTableResource(arrDatosAtms);
     public items                        = [];
     public itemCount                    = 0;
     public Titulo:string                = "";
-    //public rutaActual                   = "";
-    //public urlPath                      = "";
-    //public fchActual:any;
-    //public pDatosParam:any              = {};
+
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService) {
