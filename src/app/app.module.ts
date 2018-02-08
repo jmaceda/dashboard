@@ -67,6 +67,9 @@ import { BlockUIModule } from 'ng-block-ui';
 
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 
+import { PruebasModule }              from './tmp/pruebas/pruebas.module';
+
+
 
 @NgModule({
   declarations: [
@@ -120,6 +123,8 @@ import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-h
     BsModalModule,
     NgxDatatableModule,
     BlockUIModule,
+    PruebasModule,
+
 
     //Ng2SmartTableModule,
     //NbLayoutModule,

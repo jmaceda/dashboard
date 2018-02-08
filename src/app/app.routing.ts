@@ -32,6 +32,9 @@ import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component
 //import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 
+import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
+//import { AgGridApp }              from './tmp/pruebas/ag-grid/ag-grid-app.component';
+
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
     { path: 'resumen',        component: ResumenCifrasComponent },
@@ -50,6 +53,10 @@ const routes: Routes =[
     { path: 'rechazoshma',     component: RechazosHmaComponent },
 
     { path: 'HorzVertScrolling',  component: HorzVertScrolling },
+
+    { path: 'DemoComponent',      component: DemoComponent },
+    //{ path: 'DemoComponent',      component: AgGridApp },
+
     //{ path: 'SmartTable',  component: SmartTableComponent },
 
     { path: 'user',           component: UserComponent },

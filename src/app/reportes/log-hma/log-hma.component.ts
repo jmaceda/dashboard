@@ -98,7 +98,7 @@ export class LogHmaComponent implements OnInit  {
             for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
                 //console.log(nomComponente+".obtenDatosDelJournal:: Pagina["+idx+"]");
-                this._soapService.post(this.url, 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
                 this.datosRespLogHma = this.datosRespLogHma.concat(gRespDatosLogHma);
             }
 
