@@ -113,7 +113,7 @@ export class EfectDispCoponent implements OnInit {
     }
 
 
-    parametrosConsulta(infoRecibida) {
+    public parametrosConsulta(infoRecibida) {
 
         this.fchUltimaActualizacion = null;
         //let parametrossConsulta: any = {};
@@ -130,43 +130,23 @@ export class EfectDispCoponent implements OnInit {
         this.obtenDetalleRetiros(datosParam);
     }
 
-    public infoCortesETV:any[] = [];
-
-    public datosCortesETV(datosCortesJournal){
-        this.infoCortesETV = [];
-
-        datosCortesJournal.forEach( (reg) => {
-            this.infoCortesETV.push({
-                TimeStamp: reg.TimeStamp, AtmName: reg.AtmName, Ip: reg.Ip, Amount: reg.Amount
-            })
-        })
-
-        // Sort by price high to low
-        this.infoCortesETV.sort(this.utilsService.sort_by('TimeStamp', true, parseInt));
-    }
-
-    GetEjaLogDataLength(paginasJoural: any, status) {
-        gPaginasJoural = paginasJoural;
-    }
-
-    GetEjaLogPage(datosJoural: any, status) {
-        gDatosJoural = datosJoural;
-    }
-
     public obtenDetalleRetiros(filtrosCons:any) {
 
         let filtrosConsMovtos:any           = JSON.stringify(filtrosCons);
         let opc2                            = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
-        let datosCortesJournal:any          = this.datosJournalService.obtenCortesJournal(filtrosCons);
-        let ultimoCorte                     = datosCortesJournal[datosCortesJournal.length -1];
-        let fchUltimoCorte                  = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
-        let montoUltimoCorte                = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
-        let fchUltimoCorte2                 = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
-        fchUltimoCorte2                     = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
-
+        let datosCortesJournal:any          = [];
         let billetesDisponibles: AcumulaBilletesModel    = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
+        let ultimoCorte:any                 = [];
+        let fchUltimoCorte:any              = Date();
+        let montoUltimoCorte:any            = "";
+        let fchUltimoCorte2:any             = "";
 
-
+        datosCortesJournal                  = this.datosJournalService.obtenCortesJournal(filtrosCons);
+        ultimoCorte                         = datosCortesJournal[datosCortesJournal.length -1];
+        fchUltimoCorte                      = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
+        montoUltimoCorte                    = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+        fchUltimoCorte2                     = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
+        fchUltimoCorte2                     = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
 
         filtrosCons                 = JSON.parse(filtrosConsMovtos);
         filtrosCons.timeStampStart  = fchUltimoCorte2;
@@ -196,6 +176,31 @@ export class EfectDispCoponent implements OnInit {
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
+
+    public infoCortesETV:any[] = [];
+
+    public datosCortesETV(datosCortesJournal){
+        this.infoCortesETV = [];
+
+        datosCortesJournal.forEach( (reg) => {
+            this.infoCortesETV.push({
+                TimeStamp: reg.TimeStamp, AtmName: reg.AtmName, Ip: reg.Ip, Amount: reg.Amount
+            })
+        })
+
+        // Sort by price high to low
+        this.infoCortesETV.sort(this.utilsService.sort_by('TimeStamp', true, parseInt));
+    }
+
+    GetEjaLogDataLength(paginasJoural: any, status) {
+        gPaginasJoural = paginasJoural;
+    }
+
+    GetEjaLogPage(datosJoural: any, status) {
+        gDatosJoural = datosJoural;
+    }
+
+
 
 
     GetHmaLogPage(datosHMA:any, status){

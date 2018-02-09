@@ -46,16 +46,33 @@ export class DatosJournalService implements OnInit {
 
 
         console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
+        let paramsCons: any = {};
 
-        filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart);
+        for (let idx=1; idx < 4; idx++) {
+            filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart, (idx*10));
 
-        let paramsCons: any = {
-            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
-            events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
-        };
+            paramsCons = {
+                ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+                events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+            };
+
+            this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+            if (gPaginasJournal.TotalPages > 0){
+                break;
+            }
+        }
+
+        if (gPaginasJournal.TotalPages == 0){
+            //filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart, 0);
+            paramsCons.timeStampStart = "2018-01-01-00-00";
+        }
+        /*else {
+            if (){
+
+            }
+        }*/
+
         let datosCortesJournal: any = [];
-
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
 
         if (gPaginasJournal.TotalPages > 0) {
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
@@ -69,7 +86,7 @@ export class DatosJournalService implements OnInit {
     }
 
 
-    public restaDiasFecha(prmFecha){
+    public restaDiasFecha(prmFecha, numDiasResta){
 
         let expReg1:any = /(\d+)[-/](\d{2})[-/](\d{2})[-/](\d{2})[-/](\d{2})/;
         let expReg2:any = /(\d{2})[-/](\d{2})[-/](\d{4}) (\d{2}):(\d{2})/;
@@ -85,6 +102,10 @@ export class DatosJournalService implements OnInit {
             ldFecha1 = (new Date((ldFecha1).replace(expReg2, "$3/$2/$1 $4:$5")));
         }else{
             ldFecha1 = (new Date((prmFecha).replace(expReg1, "$2/$3/$1 $4:$5")));
+        }
+
+        if (numDiasResta > 0){
+            diasIniRango = numDiasResta;
         }
 
         ldFecha2 = new Date(ldFecha1.setDate(ldFecha1.getDate() - diasIniRango));  // Resta cinco dias a la fecha inicial del rango.
@@ -104,7 +125,7 @@ export class DatosJournalService implements OnInit {
     public obtenDatosUltimoCorteJournal(filtrosCons){
         console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
 
-        let fchaX = this.restaDiasFecha(filtrosCons.timeStampStart);
+        let fchaX = this.restaDiasFecha(filtrosCons.timeStampStart, 0);
 
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
