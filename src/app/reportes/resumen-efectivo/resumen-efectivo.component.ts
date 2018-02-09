@@ -13,9 +13,6 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 
-
-
-
 export var gGetGroupsWithAtms:any;
 export var gGetGroupsAtmsIps:any;
 export var gGetAtmDetail:any;
@@ -90,9 +87,7 @@ export class ResumenDeEfectivo implements OnInit  {
 
 
     parametrosConsulta(infoRecibida){
-        //console.log("Se va mostrar la información enviada desde el componente Params");
-        //console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        //console.log("Se mostro la información enviada desde el componente Params");
+
         let parametrossConsulta:any = {};
 
         let fIniParam = infoRecibida.fchInicio;
@@ -101,8 +96,6 @@ export class ResumenDeEfectivo implements OnInit  {
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
         let d1 = new Date(Number(fIniParam.year), Number(fIniParam.month)-1, Number(fIniParam.day));
-        //console.log("fchIniParam["+fchIniParam+"]");
-        //console.log("date["+d1+"]  ["+d1.getTime()+"]  ["+new Date(d1)+"]");
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
         let d2= new Date(Number(fFinParam.year), Number(fFinParam.month)-1, Number(fFinParam.day)+1);
