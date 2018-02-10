@@ -63,14 +63,8 @@ export class DatosJournalService implements OnInit {
         }
 
         if (gPaginasJournal.TotalPages == 0){
-            //filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart, 0);
             paramsCons.timeStampStart = "2018-01-01-00-00";
         }
-        /*else {
-            if (){
-
-            }
-        }*/
 
         let datosCortesJournal: any = [];
 
