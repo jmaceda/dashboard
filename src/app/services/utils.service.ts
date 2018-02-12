@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 
 import { AcumulaBilletesModel } from '../models/acumula-billetes.model';
 
+var nomComponente:string = "utils.service";
+
 @Injectable()
 export class UtilsService {
 
@@ -93,30 +95,32 @@ export class UtilsService {
 
             // Lee cada grupo de billetes con denominaciones.
             //console.log("reg["+reg+"]");
-            for(let elem of reg.split(charDelim)){
+            if (reg != ("null"+charDelim)) {
+                for (let elem of reg.split(charDelim)) {
 
-                if (elem == undefined || elem == null || elem == ""){
-                    continue;
+                    if (elem == undefined || elem == null || elem == "") {
+                        continue;
+                    }
+
+                    elem = elem.split("x");
+
+                    if (posDenom == "BD") {
+                        numBill = Number(elem[0]);
+                        denomina = elem[1];
+                    } else {
+                        denomina = elem[0];
+                        numBill = Number(elem[1]);
+                    }
+
+                    let cveDenomina = "b" + denomina;
+
+                    denominaBilletes[cveDenomina] += numBill;
+                    //console.log(nomComponente + ".:: denomina-->" + denomina + "*" + numBill + "<--");
+                    denominaBilletes.monto += (denomina * numBill);
+                    //console.log("denomina["+denomina+"]   numBill["+numBill+"]  monto["+denominaBilletes.monto+"]");
                 }
-
-                elem = elem.split("x");
-
-                if(posDenom == "BD"){
-                    numBill  = Number(elem[0]);
-                    denomina = elem[1];
-                }else{
-                    denomina  = elem[0];
-                    numBill   = Number(elem[1]);
-                }
-
-                let cveDenomina = "b"+denomina;
-
-                denominaBilletes[cveDenomina] += numBill;
-
-                denominaBilletes.monto += (denomina * numBill);
-                //console.log("denomina["+denomina+"]   numBill["+numBill+"]  monto["+denominaBilletes.monto+"]");
+                denominaBilletes.opers++;
             }
-            denominaBilletes.opers++;
         }
 
         return(denominaBilletes);

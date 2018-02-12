@@ -195,7 +195,7 @@ export class EfectDispCoponent implements OnInit {
             events: ["DenominateInfo", "DispenseOk", "NotesValidated", "CashInEndOk"]
         };
 
-        console.log(nomComponente + ".infoLogHMA:: -->"+JSON.stringify(paramsCons)+"<--");
+        console.log(nomComponente + ".infoLogHMA:: paramsCons -->"+JSON.stringify(paramsCons)+"<--");
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
 
         if (gPaginasHMA.TotalPages > 0) {
@@ -219,7 +219,6 @@ export class EfectDispCoponent implements OnInit {
                 reg.Events = gCatalogoEventos[cveCat];
                 reg.DescDevice = gDevicesAtm[reg.Device];
 
-                //arrBilletesRetiro.push(reg.Data + ";");
                 switch (reg.Events){
                     case "DenominateInfo":
                         billetesRetiro = reg.Data;
@@ -238,9 +237,15 @@ export class EfectDispCoponent implements OnInit {
                 }
             });
 
+            //console.log(nomComponente+".infoLogHMA:: billetesRetirados");
             this.billetesRetirados   = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
+
+            //console.log(nomComponente+".infoLogHMA:: billetesDepositados");
             this.billetesDepositados = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesDeposito, ";", "BD");
             //numBilletes = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
+
+            //console.log(nomComponente+".infoLogHMA:: billetesRetirados("+JSON.stringify(this.billetesRetirados)+")");
+            //console.log(nomComponente+".infoLogHMA:: billetesDepositados("+JSON.stringify(this.billetesDepositados)+")");
         }
         return(numBilletes);
     }

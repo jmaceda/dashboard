@@ -19,7 +19,6 @@ export class DepositosPorTiendaService implements OnInit {
     }
 
     public GetDepositCumulative(datosAtms:any, status){
-
         console.log(nomModulo+".GetDepositCumulative:: Inicio  ["+new Date()+"]");
         gDatosAcumDepositos = datosAtms;
     }
@@ -27,10 +26,8 @@ export class DepositosPorTiendaService implements OnInit {
 
     public obtenGetDepositCumulative(filtrosConsulta:any) {
 
-        //console.log(nomModulo+".obtenGetDepositCumulative:: Se van a obtener los datos");
         console.log(nomModulo+".obtenGetDepositCumulative:: Parametros["+JSON.stringify(filtrosConsulta)+"]");
 
-        //let parameters = { startDate: 1514181600000, endDate: 1514700000000, store: 16228090};
         let parameters = { startDate: filtrosConsulta.startDate, endDate: filtrosConsulta.endDate, store: filtrosConsulta.store};
 
         // Obtiene los datos de los Depositos de la tienda.
@@ -38,10 +35,6 @@ export class DepositosPorTiendaService implements OnInit {
 
         let idx = 0;
         let arrDepositos:any[] = [];
-
-        //gDatosAcumDepositos.forEach((reg)=> {
-        //    arrDepositos.push( (reg.Description + ' (' + reg.Ip + ')') );
-        //});
 
         return(gDatosAcumDepositos);
 
@@ -51,19 +44,11 @@ export class DepositosPorTiendaService implements OnInit {
 
         console.log(nomModulo+".obtenUltimoCorte:: Parametros["+JSON.stringify(filtrosConsulta)+"]");
 
-        //console.log(nomModulo+".obtenUltimoCorte:: fchInicial5DiasAntes["+new Date(filtrosConsulta.startDate)+"]");
-
         let fchInicioCons = new Date(filtrosConsulta.startDate);
         fchInicioCons.setDate(fchInicioCons.getDate() - 5);
-        //console.log(nomModulo+".obtenUltimoCorte:: fchInicioCons["+fchInicioCons+"]");
         filtrosConsulta.startDate = fchInicioCons.getTime();
-        //console.log(nomModulo+".obtenUltimoCorte:: Parametros["+JSON.stringify(filtrosConsulta)+"]");
-        let resDepositos:any = this.obtenGetDepositCumulative(filtrosConsulta);
 
-        //console.log(nomModulo+".obtenUltimoCorte:: Se van a obtener los datos de los depósitos");
-
-        //console.log(nomModulo+".obtenUltimoCorte:: resDepositos["+JSON.stringify(resDepositos)+"]");
-
+        let resDepositos:any    = this.obtenGetDepositCumulative(filtrosConsulta);
         let fchAnterior:any     = null;
         let fchActual:any       = null;
         let fchReciente:any     = null;
@@ -71,7 +56,6 @@ export class DepositosPorTiendaService implements OnInit {
 
         resDepositos.forEach( (reg) => {
            if( (reg.Date).substring(0,13) != "Pendiente ATM"){
-               //console.log(nomModulo+".obtenUltimoCorte:: Date["+new Date(reg.Date)+"]");
                let fch      = ((reg.Date).split(" ")[0]).split("/");
                let hra      = (reg.Date).split(" ")[1];
                fch          = fch[2]+"-"+fch[1]+"-"+fch[0];

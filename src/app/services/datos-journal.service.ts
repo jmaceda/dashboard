@@ -22,28 +22,15 @@ export class DatosJournalService implements OnInit {
 
     ngOnInit(){}
 
-
-
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
-        // TotalItems / TotalPages
-        console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
     }
 
     public GetEjaLogPage(datosCortesJournal:any, status){
         gDatosCortesJournal = datosCortesJournal;
     }
 
-    /*
-       Params:
-             ipAtm:             Ip del ATM a consultar (xxx.xxx.xxx.xxx)
-             timeStampStart:    Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
-             timeStampEnd:      Fecha y hora de inicio de la consulta (yyyy-mm-aa hh:mm)
-
-       Notas: La fecha de los datos de los cortes esta en formato TimeStamp.
-     */
     public obtenCortesJournal(filtrosCons){
-
 
         console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
         let paramsCons: any = {};
@@ -118,8 +105,6 @@ export class DatosJournalService implements OnInit {
 
     public obtenDatosUltimoCorteJournal(filtrosCons){
         console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
-
-        let fchaX = this.restaDiasFecha(filtrosCons.timeStampStart, 0);
 
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
