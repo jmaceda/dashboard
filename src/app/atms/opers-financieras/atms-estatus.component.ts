@@ -32,9 +32,9 @@ export class GetGroupsAtmIds{
 }
 
 @Component({
-    selector: 'atms-estatus-root',
-    templateUrl: './atms-estatus.component.html',
-    styleUrls: ['./atms-estatus.component.css'],
+    selector: 'opers-financieras',
+    templateUrl: './opers-financieras.component.html',
+    styleUrls: ['./opers-financieras.component.css'],
     providers: [SoapService]
 })
 export class AtmsEstatusComponent implements OnInit, OnDestroy {
@@ -64,7 +64,6 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         if (this.intervalId != null){
-            console.log(nomComponente+".ngOnDestroy:: ngOnDesroy()");
             clearInterval(this.intervalId);
         }
     }
