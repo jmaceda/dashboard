@@ -3,9 +3,8 @@ import { Component, OnInit, OnDestroy }                                    from 
 import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
 import { sprintf }                                              from "sprintf-js";
 import { SoapService }                                          from '../../services/soap.service';
-//import { Router }                                               from '@angular/router';
-//import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
+import { InfoAtmsService }                                      from '../../services/info-atms.service';
 
 //import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
@@ -13,7 +12,7 @@ var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
 export var gDatosEfectivoAtm:any[];
 
-export const nomComponente:string = "AtmsEstatusComponent";
+export const nomComponente:string = "OpersFinancierasComponent";
 
 export var gGetGroupsAtmIds:any;
 
@@ -35,9 +34,9 @@ export class GetGroupsAtmIds{
     selector: 'opers-financieras',
     templateUrl: './opers-financieras.component.html',
     styleUrls: ['./opers-financieras.component.css'],
-    providers: [SoapService]
+    providers: [SoapService, InfoAtmsService]
 })
-export class AtmsEstatusComponent implements OnInit, OnDestroy {
+export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
     // Filtros
     public dListaAtmGpos:any            = [];
@@ -55,12 +54,26 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
     public itemCount                    = 0;
     public Titulo:string                = "";
 
+    public infoDatosAtms:any[] = [];
 
     constructor(public _soapService: SoapService,
-                public filtrosUtilsService: FiltrosUtilsService) {
+                public filtrosUtilsService: FiltrosUtilsService,
+                public infoAtmsService: InfoAtmsService) {
+
+        console.log(nomComponente+".constructor:: Inicia");
+
     }
 
-    public ngOnInit() {}
+    public ngOnInit() {
+        // Leer todos los cajeros.
+        let parametros = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+
+        this.infoDatosAtms = this.infoAtmsService.obtenGetAtm(parametros);
+
+        console.log(nomComponente+".:: infoDatosAtms-->"+JSON.stringify(this.infoDatosAtms)+"<--")
+        // Pasar a un arreglo los datos de los ATMs que han trabajo en el día.
+        // Por cada cajero obtener los retiros y depósitos de log de hardware.
+    }
 
     public ngOnDestroy() {
         if (this.intervalId != null){

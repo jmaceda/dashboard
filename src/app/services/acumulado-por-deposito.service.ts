@@ -87,7 +87,7 @@ export class DepositosPorTiendaService implements OnInit {
         gGrupos.forEach((reg)=> {
             arrNomGrupos.push( (reg.Description));
         });
-        console.log("DetalleAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+        console.log("InfoAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
         return(gGrupos.sort(comparar));
     }
 

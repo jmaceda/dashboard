@@ -26,9 +26,10 @@ import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.co
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
-import { EfectDispCoponent }               from './reportes/efectivo-disponible/efectivo-disponible.component';
+import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
-import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
+import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
+import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
 //import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 
@@ -54,9 +55,10 @@ const routes: Routes =[
 
     { path: 'HorzVertScrolling',  component: HorzVertScrolling },
 
-    { path: 'DemoComponent',      component: DemoComponent },
-    //{ path: 'DemoComponent',      component: AgGridApp },
 
+    //{ path: 'DemoComponent',      component: AgGridApp },
+    { path: 'DemoComponent',      component: DemoComponent },
+    { path: 'opersfinan',      component: OpersFinancierasComponent },
     //{ path: 'SmartTable',  component: SmartTableComponent },
 
     { path: 'user',           component: UserComponent },

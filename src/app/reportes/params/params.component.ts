@@ -11,7 +11,7 @@ import { TemplateRef }                      from '@angular/core';
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
-import { DetalleAtmsService }               from '../../services/detalle-atms.service';
+import { InfoAtmsService }               from '../../services/info-atms.service';
 import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
@@ -30,7 +30,7 @@ var nomModulo = "ParamsComponent";
     selector   : 'params',
     templateUrl: './params.component.html',
     styleUrls  : ['./params.component.css'],
-    providers: [SoapService, DetalleAtmsService],
+    providers: [SoapService, InfoAtmsService],
 })
 export class ParamsComponent implements OnInit {
 
@@ -105,7 +105,7 @@ export class ParamsComponent implements OnInit {
     }
 
     constructor(public _soapService: SoapService,
-                public detalleAtmsService: DetalleAtmsService,
+                public detalleAtmsService: InfoAtmsService,
                 private modalService: NgbModal){
     }
 

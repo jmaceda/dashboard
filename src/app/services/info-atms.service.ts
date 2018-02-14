@@ -8,27 +8,30 @@ import { SoapService }      from './soap.service';
 export var gDatosAtms;
 export var gGrupos;
 
-var nomModulo = "DetalleAtmsService";
+var nomServicio = "InfoAtmsService";
 
 @Injectable()
-export class DetalleAtmsService implements OnInit {
+export class InfoAtmsService implements OnInit {
 
     constructor(public _soapService: SoapService){
-        console.log(nomModulo+".constructor:: init");
+        console.log(nomServicio+".constructor:: init");
     }
 
     public GetAtm(datosAtms:any, status){
 
-        console.log(nomModulo+".GetAtm:: Inicio  ["+new Date()+"]");
+        console.log(nomServicio+".GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
 
-    public obtenGetAtm() {
+    public obtenGetAtm(parametros?:any) {
 
-        console.log(nomModulo+".obtenGetAtm:: Se van a obtener los datos");
+        console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");
+        let parameters:any = parametros;
 
-        let parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
+        if (parametros == null || parametros == undefined) {
+            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+        }
 
         // Obtiene los datos de los ATMs
         this._soapService.post('', "GetAtm", parameters, this.GetAtm);
@@ -58,7 +61,7 @@ export class DetalleAtmsService implements OnInit {
         gGrupos.forEach((reg)=> {
             arrNomGrupos.push( (reg.Description));
         });
-        console.log("DetalleAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+        console.log("InfoAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
         return(gGrupos.sort(comparar));
     }
 

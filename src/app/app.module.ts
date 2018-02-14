@@ -11,7 +11,7 @@ import { FooterModule }                     from './shared/footer/footer.module'
 import { SidebarModule }                    from './sidebar/sidebar.module';
 import { LbdModule }                        from './lbd/lbd.module';
 import { AppComponent }                     from './app.component';
-import { ResumenOperacionesComponent }                    from './atms/resumen-operaciones/resumen-operaciones.component';
+import { ResumenOperacionesComponent }      from './atms/resumen-operaciones/resumen-operaciones.component';
 import { UserComponent }                    from './user/user.component';
 import { TablesComponent }                  from './tables/tables.component';
 import { TypographyComponent }              from './typography/typography.component';
@@ -26,6 +26,7 @@ import { DataTableModule }                  from 'angular-4-data-table-fix';
 
 //import { ParamsAtmsComponent }              from './atms/params-atms/params-atms.component';
 import { FiltrosConsultasComponent }        from './shared/filtros-consultas/filtros-consultas.component';
+import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
 //import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';
 
 import { AtmsComponent }                    from './atms/atms.component';
@@ -98,7 +99,7 @@ import { PruebasModule }              from './tmp/pruebas/pruebas.module';
     RetirosEtvComponent,
     RetirosHmaComponent,
     EfectDispCoponent,
-
+    OpersFinancierasComponent,
     //SmartTableComponent
     RechazosHmaComponent
 

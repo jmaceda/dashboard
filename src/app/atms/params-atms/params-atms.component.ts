@@ -16,7 +16,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
-import { DetalleAtmsService }               from '../../services/detalle-atms.service';
+import { InfoAtmsService }               from '../../services/info-atms.service';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 
@@ -33,7 +33,7 @@ var nomModulo = "ParamsComponent";
     selector   : 'params-atms',
     templateUrl: './params-atms.component.html',
     styleUrls  : ['./params-atms.component.css'],
-    providers: [SoapService, DetalleAtmsService],
+    providers: [SoapService, InfoAtmsService],
 })
 export class ParamsAtmsComponent implements OnInit {
 
@@ -102,7 +102,7 @@ export class ParamsAtmsComponent implements OnInit {
     }
 
     constructor(public _soapService: SoapService,
-                public detalleAtmsService: DetalleAtmsService,
+                public detalleAtmsService: InfoAtmsService,
                 private modalService: NgbModal){
     }
 

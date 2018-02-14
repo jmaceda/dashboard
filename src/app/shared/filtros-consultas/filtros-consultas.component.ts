@@ -11,7 +11,7 @@ import { TemplateRef }                      from '@angular/core';
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
-import { DetalleAtmsService }               from '../../services/detalle-atms.service';
+import { InfoAtmsService }               from '../../services/info-atms.service';
 import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
@@ -31,7 +31,7 @@ var nomModulo = "ParamsComponent";
     selector   : 'filtros-consultas',
     templateUrl: './filtros-consultas.component.html',
     styleUrls  : ['./filtros-consultas.component.css'],
-    providers: [SoapService, DetalleAtmsService],
+    providers: [SoapService, InfoAtmsService],
 })
 export class FiltrosConsultasComponent implements OnInit {
 
@@ -68,7 +68,7 @@ export class FiltrosConsultasComponent implements OnInit {
     //public value:number;
 
     constructor(public _soapService: SoapService,
-                public detalleAtmsService: DetalleAtmsService,
+                public detalleAtmsService: InfoAtmsService,
                 private modalService: NgbModal){
     }
 
