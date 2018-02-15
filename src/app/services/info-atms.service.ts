@@ -24,6 +24,32 @@ export class InfoAtmsService implements OnInit {
     }
 
 
+    public obtenDetalleAtms(parametros?:any) {
+
+        console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");
+        let parameters:any = parametros;
+
+        if (parametros == null || parametros == undefined) {
+            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+        }
+
+        // Obtiene los datos de los ATMs
+        this._soapService.post('', "GetAtm", parameters, this.GetAtm);
+
+        return(gDatosAtms);
+        /*
+        let idx = 0;
+        let arrNomAtms:any[] = [];
+
+        gDatosAtms.forEach((reg)=> {
+            arrNomAtms.push( (reg.Description + ' (' + reg.Ip + ')') );
+        });
+
+        return(arrNomAtms.sort(comparar));
+        */
+
+    };
+
     public obtenGetAtm(parametros?:any) {
 
         console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");

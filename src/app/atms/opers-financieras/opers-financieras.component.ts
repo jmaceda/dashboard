@@ -64,13 +64,29 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
     }
 
+    public atmsActivos:any [] = [];
+
     public ngOnInit() {
         // Leer todos los cajeros.
         let parametros = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+        let fchOper:any;
+        let ipAtm:string;
 
-        this.infoDatosAtms = this.infoAtmsService.obtenGetAtm(parametros);
+        this.infoDatosAtms = this.infoAtmsService.obtenDetalleAtms(parametros);
 
-        console.log(nomComponente+".:: infoDatosAtms-->"+JSON.stringify(this.infoDatosAtms)+"<--")
+        //console.log(nomComponente+".:: infoDatosAtms-->"+JSON.stringify(this.infoDatosAtms)+"<--");
+
+        if(this.infoDatosAtms.length > 0){
+            this.infoDatosAtms.forEach( (reg) => {
+               fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+               replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+               //console.log( reg.Description+"  -  "+ fchOper);
+               //ipAtm = (reg.ip).replace(/\./g, "-");
+               this.atmsActivos[reg.Name] = fchOper;
+            });
+
+            console.log(this.atmsActivos);
+        }
         // Pasar a un arreglo los datos de los ATMs que han trabajo en el día.
         // Por cada cajero obtener los retiros y depósitos de log de hardware.
     }
