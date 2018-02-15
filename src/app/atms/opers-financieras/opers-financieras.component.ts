@@ -71,9 +71,12 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let parametros = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
         let fchOper:any;
         let ipAtm:string;
+        let fchSys:any = new Date().toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+        replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
         this.infoDatosAtms = this.infoAtmsService.obtenDetalleAtms(parametros);
 
+        console.log("fchSys: "+fchSys);
         //console.log(nomComponente+".:: infoDatosAtms-->"+JSON.stringify(this.infoDatosAtms)+"<--");
 
         if(this.infoDatosAtms.length > 0){
@@ -82,7 +85,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
                //console.log( reg.Description+"  -  "+ fchOper);
                //ipAtm = (reg.ip).replace(/\./g, "-");
-               this.atmsActivos[reg.Name] = fchOper;
+               if ( fchOper == fchSys) {
+                   this.atmsActivos[reg.Name] = fchOper;
+               }
             });
 
             console.log(this.atmsActivos);
