@@ -104,7 +104,7 @@ export class HorzVertScrolling {
     let parameters = {  nemonico: -1, groupId: Number(this.pDatosParam.groupId), brandId: -1,
       modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
-    this._soapService.post('', "GetAtm", parameters, this.GetAtm);
+    this._soapService.post('', "GetAtm", parameters, this.GetAtm, false);
 
     let idx = 0;
     this.arrDatosAtms = [];

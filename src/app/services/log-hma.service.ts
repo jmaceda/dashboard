@@ -42,7 +42,7 @@ export class LogHmaService implements OnInit {
 
     public obtenEventos(){
 
-        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent);
+        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent, false);
 
         let cveCat;
         gCatEventos.forEach( (reg) => {

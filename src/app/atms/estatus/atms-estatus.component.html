@@ -30,6 +30,16 @@
     }
     */
 
+    #idDivAreaGrid #idDivCardGrid #stat-atms-grid > div > div > table > tbody > tr td.index-column,
+    #stat-atms-grid > div > div > table > thead > tr th.index-column-header {
+        width: 5px;
+        max-width: 5px;
+    }
+
+    th.index-column-header[_ngcontent-c4] {
+        width: 10px;
+    }
+
     #idDivAreaGrid {
         margin-top: 1.5%;
         height: 100%;
@@ -132,14 +142,19 @@
                         [header]="'Descripción'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="30px">
+                        width="12em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div nowrap style="width: 10em;">
+                                <span nowrap>{{item.Description}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
                 <data-table-column
                         [property]="'Ip'"
                         [header]="'IP'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="10px">
+                        width="4em">
                 </data-table-column>
 
                 <data-table-column
@@ -147,7 +162,7 @@
                         [header]="'Dispositivo'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="4em">
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
                             <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
@@ -158,7 +173,7 @@
                         [header]="'OnLine'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="4em">
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
                             <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
                             <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
@@ -169,7 +184,7 @@
                         [header]="'Bóveda'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="3em">
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.SafeOpen == 'Abierta'">Abierta</span>
                             <span style="color: black" *ngIf="item.SafeOpen == 'Cerrada'">Cerrada</span>
@@ -180,7 +195,7 @@
                         [header]="'Gabinete'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="4em">
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
                             <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
@@ -192,7 +207,7 @@
                         [header]="'Efectivo'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width="4em">
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
                             <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
@@ -204,14 +219,14 @@
                         [header]="'Papel'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="8px">
+                        width="4em">
                 </data-table-column>
                 <data-table-column
                         [property]="'LastIOnlineTimestamp'"
                         [header]="'Último Estatus'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="18px">
+                        width="7em">
                         <ng-template #dataTableCell let-item="item">
                             <span>{{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
                         </ng-template>

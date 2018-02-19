@@ -435,7 +435,7 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         console.log(nomComponente + ".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
 
         // Verifica si la consulta del servicio anterior indica que se tienen más de ceros paginas continua con el proceso.
@@ -453,7 +453,7 @@ export class ResumenOperacionesComponent implements OnInit  {
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 paramsCons.page = idx;
                 console.log(nomComponente+".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
             }
 
             // Respalda el arreglo con las paginas completas (200 registros).
@@ -492,7 +492,7 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         console.log(nomComponente + ".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
 
         // Verifica si la consulta del servicio anterior indica que se tienen más de ceros paginas continua con el proceso.
@@ -502,7 +502,7 @@ export class ResumenOperacionesComponent implements OnInit  {
             for (let idx = 0; idx < gNumPaginas; idx++) {
                 paramsCons.page = idx;
                 console.log(nomComponente+".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
                 arrDatosServidor = arrDatosServidor.concat(gDatosJournal);
             }
 
@@ -962,8 +962,8 @@ export class ResumenOperacionesComponent implements OnInit  {
         for (let i in this.infoMovtosPorHora) {
             let info = this.infoMovtosPorHora[i];
 
-            if (info.hora <= horaSys)
-                console.log(sprintf("%02d  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
+            //if (info.hora <= horaSys)
+            //    console.log(sprintf("%02d  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
         }
 
         this.mResumenOperaciones();

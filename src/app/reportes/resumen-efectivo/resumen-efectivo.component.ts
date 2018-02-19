@@ -144,7 +144,7 @@ export class ResumenDeEfectivo implements OnInit  {
 
         let parametros:any = {startDate: datosParam.startDate, endDate: datosParam.endDate, store: datosParam.idGpo};
 
-        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore, false);
 
         let datosEfectivo:any[] = [{}];
         let idx:number = 0;

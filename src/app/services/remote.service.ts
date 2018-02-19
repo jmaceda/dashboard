@@ -60,7 +60,7 @@ export class RemoteService {
         // https://www.concretepage.com/angular-2/angular-2-http-post-example#promise
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._soapService.post('', nomServicioDatosLog, paramsServicioDatosLog, '')
+        return this._soapService.post('', nomServicioDatosLog, paramsServicioDatosLog, '', false)
             .then((resp: Response) => ({
                 items: resp.json(),
                 count: Number(resp.headers.get('X-Total-Count'))

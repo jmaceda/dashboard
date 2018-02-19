@@ -127,7 +127,7 @@ SOAPClient.password = null;
 
 SOAPClient.invoke = function(url, method, parameters, async, callback) {
     //console.log("async: [" + async + "]");
-    async = false;
+    //async = false;
     if (async)
         SOAPClient._loadWsdl(url, method, parameters, async, callback);
     else

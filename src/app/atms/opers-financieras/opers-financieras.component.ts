@@ -5,12 +5,11 @@ import { sprintf }                                              from "sprintf-js
 import { SoapService }                                          from '../../services/soap.service';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 import { InfoAtmsService }                                      from '../../services/info-atms.service';
+import { DatosJournalService }                                  from '../../services/datos-journal.service';
 
-//import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
+import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
-export var gDatosAtms:any[];
-export var gDatosEfectivoAtm:any[];
 
 export const nomComponente:string = "OpersFinancierasComponent";
 
@@ -34,7 +33,7 @@ export class GetGroupsAtmIds{
     selector: 'opers-financieras',
     templateUrl: './opers-financieras.component.html',
     styleUrls: ['./opers-financieras.component.css'],
-    providers: [SoapService, InfoAtmsService]
+    providers: [SoapService, InfoAtmsService, DatosJournalService]
 })
 export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
@@ -45,55 +44,35 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public dSolicitaFechasFin           = false;
     public dUltimaActualizacion:string;
 
-    public regsLimite:number            = 15;
-    public intervalId                   = null;
-    public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
-    public xtIsOnline:string            = "";
-    public itemResource                 = new DataTableResource(arrDatosAtms);
+    public itemResource                 = new DataTableResource([]);
     public items                        = [];
     public itemCount                    = 0;
-    public Titulo:string                = "";
 
-    public infoDatosAtms:any[] = [];
+    public regsLimite:number            = 15;
+    public intervalId                   = null;
+    public tiempoRefreshDatos:number    = (1000 * 60 * 1); // Actualiza la información cada minuto.
+    public xtIsOnline:string            = "";
+    public Titulo:string                = "";
+    public opersFinancieras:any[]       = [];
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
-                public infoAtmsService: InfoAtmsService) {
+                public infoAtmsService: InfoAtmsService,
+                public datosJournalService: DatosJournalService) {
 
         console.log(nomComponente+".constructor:: Inicia");
-
     }
 
     public atmsActivos:any [] = [];
 
     public ngOnInit() {
-        // Leer todos los cajeros.
-        let parametros = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
-        let fchOper:any;
-        let ipAtm:string;
-        let fchSys:any = new Date().toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-        replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-
-        this.infoDatosAtms = this.infoAtmsService.obtenDetalleAtms(parametros);
-
-        console.log("fchSys: "+fchSys);
-        //console.log(nomComponente+".:: infoDatosAtms-->"+JSON.stringify(this.infoDatosAtms)+"<--");
-
-        if(this.infoDatosAtms.length > 0){
-            this.infoDatosAtms.forEach( (reg) => {
-               fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-               replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-               //console.log( reg.Description+"  -  "+ fchOper);
-               //ipAtm = (reg.ip).replace(/\./g, "-");
-               if ( fchOper == fchSys) {
-                   this.atmsActivos[reg.Name] = fchOper;
-               }
-            });
-
-            console.log(this.atmsActivos);
+        //this.datosDeOperacion();
+        if (this.intervalId != null){
+            clearInterval(this.intervalId);
         }
-        // Pasar a un arreglo los datos de los ATMs que han trabajo en el día.
-        // Por cada cajero obtener los retiros y depósitos de log de hardware.
+
+        this.datosDeOperacion();
+        this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
     }
 
     public ngOnDestroy() {
@@ -102,6 +81,44 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         }
     }
 
+    public infoIdAtms:any = [];
+    public obtenOpersAtms(ipAtm){
+
+    }
+
+    public datosDeOperacion(){
+
+        let datosAtm:any;
+        let idAtms:any[]        = this.infoAtmsService.obtenIdAtmsOnLine();
+        this.opersFinancieras   = [];
+        if(idAtms != null){
+            idAtms.forEach( (reg) => {
+                datosAtm = this.datosJournalService.obtenComisionesPorAtm({'descAtm': reg.Name, 'Ip': reg.Ip});
+                //this.infoIdAtms = this.obtenOpersAtms({'descAtm': reg.Name, 'Ip': reg.Ip});
+                if (datosAtm.numConsultas > 0 || datosAtm.numRetiros > 0 || datosAtm.numDepositos > 0) {
+                    this.opersFinancieras.push(datosAtm);
+                }
+            });
+            //console.log("infoIdAtms -->" +JSON.stringify(this.opersFinancieras)+ "<--");
+        }
+
+        this.itemResource = new DataTableResource(this.opersFinancieras);
+        this.itemResource.count().then(count => this.itemCount = count);
+        this.reloadItems({limit: this.regsLimite, offset: 0});
+
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+    }
+
+    public parametrosConsulta(filtrosConsulta){
+        if (this.intervalId != null){
+            clearInterval(this.intervalId);
+        }
+
+        this.datosDeOperacion();
+        this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
+    }
+
+    /*
     public parametrosConsulta(filtrosConsulta){
 
         let parametrosConsulta:any = {};
@@ -115,83 +132,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         this.obtenGetAtm(filtrosCons);
         this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
     }
-
-    // Atualiza informciòn de la pantalla.
-    public pActualizaInfo(filtrosCons): void {
-
-        console.log("pActualizaInfo::  Inicio");
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }
-
-        this.obtenGetAtm(filtrosCons);
-        this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
-    }
-
-
-    public obtenGetAtm(filtrosCons) {
-
-        let paramsCons = {  nemonico: -1, groupId: Number(filtrosCons.idGpo), brandId: -1,
-                            modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
-
-        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm);
-
-        let idx = 0;
-        arrDatosAtms = [];
-
-        gDatosAtms.forEach(( reg )=> {
-            let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
-            let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
-            let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-            this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-            let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
-
-            // Recupera los datos efectivo del cajero
-            let parameters = { atmId: reg.Id };
-
-            arrDatosAtms[idx++] = {
-                Description:                    reg.Description,
-                Ip:                             reg.Ip,
-                DeviceStatus:                   reg.DeviceStatus,
-                IsOnline:                       tIsOnline,
-                PaperStatus:                    reg.PaperStatus,
-                SafeOpen:                       tSafeOpen,
-                CabinetOpen:                    tCabinetOpen,
-                CassetteAmount:                 reg.CassetteAmount,
-                OfflineDevices:                 tOffDispo,
-
-                ServiceDate:                    reg.ServiceDate,
-                CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
-                SafeOpenTs:                     reg.SafeOpenTs,
-                CabinetOpenTs:                  reg.CabinetOpenTs,
-                RetractStatusTimestamp:         reg.RetractStatusTimestamp,
-                RejectStatusTimestamp:          reg.RejectStatusTimestamp,
-                LastIOnlineTimestamp:           reg.LastIOnlineTimestamp,
-
-                /*
-                 cassettero:                     gDatosEfectivoAtm.Device,
-                 denominacion:                   gDatosEfectivoAtm.Denomination,
-                 numBilletes:                    gDatosEfectivoAtm.Amount,
-                 montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
-                 */
-            }
-
-
-        });
-
-        this.itemResource = new DataTableResource(arrDatosAtms);
-        this.itemResource.count().then(count => this.itemCount = count);
-        this.reloadItems( {limit: this.regsLimite, offset: 0});
-        this.Titulo="";
-
-        this.filtrosUtilsService.fchaHraUltimaActualizacion();
-
-    }
-
-    public GetAtm(datosAtms:any, status){
-        console.log("GetAtm:: Inicio  ["+new Date()+"]");
-        gDatosAtms = datosAtms;
-    }
+    */
 
     reloadItems(params) {
         console.log("reloadItems::");
@@ -209,4 +150,3 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     rowTooltip(item) { return item.jobTitle; }
 
 }
-

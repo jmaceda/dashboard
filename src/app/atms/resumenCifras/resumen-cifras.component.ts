@@ -569,7 +569,7 @@ export class ResumenCifrasComponent implements OnInit  {
         //console.log("Consulta Journal ["+new Date()+"]");
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog);
+        this._soapService.post(this.url, this.nomServicioPaginas, this.paramsServicioNumPaginas, this.obtenNumeroDePaginasLog, false);
 
         if (gNumPaginas > 0) {
             numPaginaObtenida = 0;
@@ -584,7 +584,7 @@ export class ResumenCifrasComponent implements OnInit  {
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 this.paramsServicioDatosLog.page = idx;
                 //console.log("pDatosDelJournal::  this.paramsServicioDatosLog["+JSON.stringify(this.paramsServicioDatosLog)+"]");
-                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal)
+                this._soapService.post(this.url, this.nomServicioDatosLog, this.paramsServicioDatosLog, this.obtenDatosJournal, false)
             }
 
 

@@ -128,7 +128,7 @@ export class DetallePorTienda implements OnInit  {
         console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
         //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
         //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
-        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore, false);
 
         // <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><GetStoreTotals xmlns="http://Pentomino.mx/"><startDate>1513576800000</startDate><endDate>1513663200000</endDate><store>16228090</store></GetStoreTotals></s:Body></s:Envelope>
 

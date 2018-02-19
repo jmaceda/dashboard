@@ -124,7 +124,7 @@ export class ParamsAtmsComponent implements OnInit {
 
     public obtieneIpATMs(){
         ipATMs  = [];
-        this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters);
+        this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters, false);
         this.ipATMs = ipATMs;
         this.ipATMs = ipATMs.sort(comparar);
     }

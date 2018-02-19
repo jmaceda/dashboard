@@ -36,7 +36,7 @@ export class AtmsComponent implements OnInit {
             atmId: 16281584
         };
 
-        this._soapService.post(this.url, "GetAtmMoneyStat", parameters, this.GetAtmMoneyStat);
+        this._soapService.post(this.url, "GetAtmMoneyStat", parameters, this.GetAtmMoneyStat, false);
     }
 
 
@@ -52,7 +52,7 @@ export class AtmsComponent implements OnInit {
             atmId: 16281584
         };
 
-        this._soapService.post(this.url, "GetAtmDetail", parameters, this.GetAtmDetail);
+        this._soapService.post(this.url, "GetAtmDetail", parameters, this.GetAtmDetail, false);
     }
 
 
@@ -76,7 +76,7 @@ export class AtmsComponent implements OnInit {
             zipCode: -1
         };
 
-        this._soapService.post('', "GetAtm", parameters, this.GetAtm);
+        this._soapService.post('', "GetAtm", parameters, this.GetAtm, false);
     }
 
     // Ip y Clave de ATMs
@@ -102,7 +102,7 @@ export class AtmsComponent implements OnInit {
     public obtieneIpATMs(){
         //console.log('obtenIpATMs:: Inicio');
         //this.ipATMs  = [];
-        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters);
+        this._soapService.post(this.url, 'GetEjaFilters', '', this.GetEjaFilters, false);
         //this.ipATMs = ipATMs;
         //this.ipATMs = ipATMs.sort(comparar);
         //console.log('obtenIpATMs:: Se ejecuto la consulta');

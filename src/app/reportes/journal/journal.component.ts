@@ -84,13 +84,13 @@ export class JournalComponent implements OnInit  {
         this.dataJournalRedBlu = [];
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage);
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
                 datosJournal = datosJournal.concat(gDatosJournal);
             }
             this.dataJournalRedBlu = datosJournal;

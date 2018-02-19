@@ -8,10 +8,12 @@ import { SoapService }              from './soap.service';
 import {camelCase}                  from "@swimlane/ngx-datatable/release/utils";
 
 export var gPaginasJournal:any;
-export var gDatosCortesJournal:any;
+export var gDatosJournal:any;
 
 var nomComponente = "DatosJournalService";
 var diasIniRango:number = 10;
+var iva:number = 16;
+
 
 @Injectable()
 export class DatosJournalService implements OnInit {
@@ -27,7 +29,7 @@ export class DatosJournalService implements OnInit {
     }
 
     public GetEjaLogPage(datosCortesJournal:any, status){
-        gDatosCortesJournal = datosCortesJournal;
+        gDatosJournal = datosCortesJournal;
     }
 
     public obtenCortesJournal(filtrosCons){
@@ -43,7 +45,7 @@ export class DatosJournalService implements OnInit {
                 events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
             };
 
-            this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+            this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
             if (gPaginasJournal.TotalPages > 0){
                 break;
             }
@@ -58,8 +60,8 @@ export class DatosJournalService implements OnInit {
         if (gPaginasJournal.TotalPages > 0) {
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
-                datosCortesJournal = datosCortesJournal.concat(gDatosCortesJournal);
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
+                datosCortesJournal = datosCortesJournal.concat(gDatosJournal);
             }
         }
 
@@ -219,4 +221,92 @@ export class DatosJournalService implements OnInit {
             exporter.exportAllToCSV(arr2Excel, 'Journal.csv');
         }
     }
+
+    // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
+    public obtenComisionesPorAtm(infoAtm){
+
+        let ftoFchSys:any           = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let ftoHora:any             = {hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let expFchSys:any           = /(\d+)\/(\d+)\/(\d+)/;
+        let expHora:any             = /(\d+):(\d+):(\d+)/;
+        let fchSys:any              = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
+        let timeStampStart:string   = fchSys + "-00-00";
+        let timeStampEnd:string     = fchSys + "-23-59";
+        let comisonesAtm:any        = {
+            "numRetiros": 0,"comisionesRetiros": 0,"montoRetiros": 0,"hraPrimerRetiro": "","hraUtimoRetiro": "",
+            "numConsultas": 0,"comisionesConsultas": 0,"hraPrimeraConsulta": "","hraUtimaConsulta": "", 'totalComisiones': 0,
+            'numDepositos': 0, 'montoDepositos': 0,"hraPrimerDeposito": "","hraUtimoDeposito": ""
+        };
+        let fchMovto:string         = "";
+
+        // Obten número de paginas de Journal de un ATM
+        let paramsCons: any = {
+            ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
+            events: ["Withdrawal", "BalanceCheck", "CashManagement"], minAmount: 1, maxAmount: -1,
+            authId: -1, cardNumber: -1, accountId: -1
+        };
+        console.log(JSON.stringify(paramsCons));
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
+
+        // Obten datos del Journal de un ATM
+        if (gPaginasJournal.TotalPages > 0) {
+            let datosJournal: any = [];
+            for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
+                paramsCons.page = idx;
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+                console.log("Se van a calcular las comisiones");
+                //console.log(JSON.stringify(gDatosJournal));
+                /*
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false)
+                .then(result => {
+                    console.log(result);
+                */
+
+
+                    gDatosJournal.forEach( (reg) => {
+
+                        comisonesAtm.idAtm = reg.AtmName;
+                        comisonesAtm.ipAtm = reg.Ip;
+
+                        fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
+                        switch(reg.OperationType){
+                            case 'BalanceCheck': {
+                                comisonesAtm.numConsultas++;
+                                comisonesAtm.comisionesConsultas += (reg.Surcharge / ((iva / 100)+1));
+                                comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
+                                comisonesAtm.hraUtimaConsulta = fchMovto;
+                                comisonesAtm.totalComisiones  += (reg.Surcharge / ((iva / 100)+1));
+                                break;
+                            }
+                            case 'Withdrawal': {
+                                comisonesAtm.numRetiros++;
+                                comisonesAtm.comisionesRetiros += (reg.Surcharge / ((iva / 100)+1));
+                                comisonesAtm.montoRetiros += reg.Amount;
+                                comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
+                                comisonesAtm.hraUtimoRetiro = fchMovto;
+                                comisonesAtm.totalComisiones  += (reg.Surcharge / ((iva / 100)+1));
+                                break;
+                            }
+                            case 'CashManagement': {
+                                comisonesAtm.numDepositos++;
+                                comisonesAtm.montoDepositos += reg.Amount;
+                                comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
+                                comisonesAtm.hraUtimoDeposito = fchMovto;
+                                break;
+                            }
+                        }
+                    });
+                /*
+                }).catch(error => {
+                    console.log(error);
+                });
+                */
+            }
+            //console.log("comisionesAtm -->"+JSON.stringify(comisonesAtm)+"<--");
+            //this.dataJournalRedBlu = datosJournal;
+        }
+        return(comisonesAtm);
+    }
 }
+// {infoAtm.Desc, NumRetiros, ComisRetiros, hraPrimerRet, hrasUltRet, NumCons, ComisCons,, hraPrimerCons, hrasUltCons, TotComis, NumDepos, MontoDepos)

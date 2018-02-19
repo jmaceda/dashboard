@@ -87,7 +87,7 @@ export class AclaracionesComponent implements OnInit  {
         console.log(nomComponente+".pDatosDelJournal:: paramsCons["+JSON.stringify(paramsCons)+"]");
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
         console.log(nomComponente+".pDatosDelJournal:: gPaginasJournal["+JSON.stringify(gPaginasJournal)+"]");
 
@@ -95,7 +95,7 @@ export class AclaracionesComponent implements OnInit  {
             let datosAclara: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage);
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
                 datosAclara = datosAclara.concat(gDatosAclaracion);
             }
             this.dataJournalRedBlu = datosAclara;

@@ -48,6 +48,20 @@
         max-width: 2px;
     }
 
+
+    :host /deep/ .index-column,
+    :host /deep/ .index-column-header {
+        text-align: right;
+    }
+    :host /deep/ .data-table .data-table-row.selected {
+        background-color: #E4EDF9;
+    }
+
+    /* Activa scroll horizontal del journal */
+    div.data-table-box{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
 </style>
 
 <div class="container-fluid">
@@ -61,11 +75,11 @@
         [dTipoListaParams]      = "dTipoListaParams">
     </filtros-consultas>
 
-    <div id="idDivAreaGrid">
+    <div id="idDivAreaGrid" style="margin: 1% 0%; height: 99%; width: 100%;">
 
         <div id="idDivCardGrid" class="card">
 
-            <data-table id="stat-atms-grid"
+            <data-table id="stat-atms-grid"  style="overflow-x: hidden;"
                         [headerTitle]="Titulo"
                         [items]="items"
                         [itemCount]="itemCount"
@@ -128,93 +142,151 @@
                         </ng-template>
 
                 <data-table-column
-                        [property]="'Description'"
-                        [header]="'Descripción'"
+                        [property]="'idAtm'"
+                        [header]="'ATM'"
                         [sortable]="true"
-                        [resizable]="true"
-                        width="30px">
+                        [resizable]="false"
+                        width="3%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                            <div>
+                                <span>{{item.idAtm}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'Ip'"
+                        [property]="'ipAtm'"
                         [header]="'IP'"
                         [sortable]="true"
-                        [resizable]="true"
-                        width="10px">
-                </data-table-column>
-
-                <data-table-column
-                        [property]="'OfflineDevices'"
-                        [header]="'Dispositivo'"
-                        [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
-                        <ng-template #dataTableCell let-item="item">
-                            <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
-                            <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'IsOnline'"
-                        [header]="'OnLine'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        [width]="12">
+                        width="2.5%">
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                            <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
-                            <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
+                            <div>
+                                <span>{{item.ipAtm}}</span>
+                            </div>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'SafeOpen'"
-                        [header]="'Bóveda'"
+                        [property]="'numRetiros'"
+                        [header]="'Retiros'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
-                        <ng-template #dataTableCell let-item="item">
-                            <span style="color: red" *ngIf="item.SafeOpen == 'Abierta'">Abierta</span>
-                            <span style="color: black" *ngIf="item.SafeOpen == 'Cerrada'">Cerrada</span>
+                        width="2%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.numRetiros | number:'1.0-2'}}</span>
+                            </div>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'CabinetOpen'"
-                        [header]="'Gabinete'"
+                        [property]="'comisionesRetiros'"
+                        [header]="'Monto Surcharge'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
-                        <ng-template #dataTableCell let-item="item">
-                            <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
-                            <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
+                        width="2.2%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.comisionesRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+                            </div>
                         </ng-template>
+                </data-table-column>
+                <data-table-column
+                    [property]="'montoRetiros'"
+                    header="Monto Retiros"
+                    [sortable]="true"
+                    [resizable]="false"
+                    width="2.3%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: right;">
+                            <span>{{item.montoRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+                <data-table-column
+                    [property]="'hraPrimerRetiro'"
+                    [header]="'Primer Retiro'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraPrimerRetiro}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+                <data-table-column
+                    [property]="'hraUtimoRetiro'"
+                    [header]="'Último Retiro'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraUtimoRetiro}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+
+
+                <data-table-column
+                        [property]="'numConsultas'"
+                        [header]="'Consultas'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.numConsultas | number:'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'comisionesConsultas'"
+                        [header]="'Monto Surcharge'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2.5%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'hraPrimeraConsulta'"
+                        [header]="'Primera Consulta'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraPrimeraConsulta}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'hraUtimaConsulta'"
+                        [header]="'Última Consulta'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraUtimaConsulta}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'CassetteAmount'"
-                        [header]="'Efectivo'"
+                        [property]="'totalComisiones'"
+                        [header]="'Total Surcharge'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
-                        <ng-template #dataTableCell let-item="item">
-                            <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
-                            <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
-                            <span style="color: black" *ngIf="item.CassetteAmount == 'FULL'">FULL</span>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'PaperStatus'"
-                        [header]="'Papel'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8px">
-                </data-table-column>
-                <data-table-column
-                        [property]="'LastIOnlineTimestamp'"
-                        [header]="'Último Estatus'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="18px">
-                        <ng-template #dataTableCell let-item="item">
-                            <span>{{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                        </ng-template>
+                        width="2.5%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                        <div style="text-align: right;">
+                            <span>{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
                 </data-table-column>
 
             </data-table>

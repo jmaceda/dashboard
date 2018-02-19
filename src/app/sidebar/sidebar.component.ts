@@ -23,10 +23,11 @@ export const ROUTES: RouteInfo[] = [
     { path: 'efectdisp',       title: 'Efectivo Disponible',               icon: 'pe-7s-cash',     class: '' },
     { path: 'opersfinan',       title: 'Opers. Financieras',               icon: 'pe-7s-cash',     class: '' },
 
-    /*
+/*
     { path: 'rechazoshma',       title: 'Rechazos',                icon: 'pe-7s-cash',     class: '' },
     { path: 'DemoComponent',       title: 'Super Table',                icon: 'pe-7s-cash',     class: '' },
     */
+
 
 
 
@@ -48,6 +49,9 @@ export const ROUTES: RouteInfo[] = [
     { path: 'upgrade', title: 'Upgrade to PRO',  icon:'pe-7s-rocket', class: 'active-pro' },
 ];
 */
+
+var nomComponente:string = "SidebarComponent";
+
 @Component({
   selector   : 'app-sidebar',
   templateUrl: './sidebar.component.html'
@@ -55,10 +59,13 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
+  public ambiente:string = "QA";
+
   constructor() { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    console.log(nomComponente+".ngOnInit:: Inicio puerto["+window.location.port+"]");
   }
   isMobileMenu() {
       if ($(window).width() > 991) {

@@ -33,7 +33,7 @@ export class AcumPorTiendaService implements OnInit {
 							osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
         // Obtiene los datos de los ATMs
-        this._soapService.post('', "GetStoreCumulative", parameters, this.GetStoreCumulative);
+        this._soapService.post('', "GetStoreCumulative", parameters, this.GetStoreCumulative, false);
 
         let idx = 0;
         let arrNomAtms:any[] = [];
@@ -53,7 +53,7 @@ export class AcumPorTiendaService implements OnInit {
 
     public obtenGetGroups(){
 
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
+        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
 
         let arrNomGrupos:any[] = [];
 

@@ -101,7 +101,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         let paramsCons = {  nemonico: -1, groupId: Number(filtrosCons.idGpo), brandId: -1,
                             modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
-        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm);
+        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm, false);
 
         let idx = 0;
         arrDatosAtms = [];

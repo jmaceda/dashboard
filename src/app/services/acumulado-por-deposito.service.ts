@@ -31,7 +31,7 @@ export class DepositosPorTiendaService implements OnInit {
         let parameters = { startDate: filtrosConsulta.startDate, endDate: filtrosConsulta.endDate, store: filtrosConsulta.store};
 
         // Obtiene los datos de los Depositos de la tienda.
-        this._soapService.post('', "GetDepositCumulative", parameters, this.GetDepositCumulative);
+        this._soapService.post('', "GetDepositCumulative", parameters, this.GetDepositCumulative, false);
 
         let idx = 0;
         let arrDepositos:any[] = [];
@@ -80,7 +80,7 @@ export class DepositosPorTiendaService implements OnInit {
 
     public obtenGetGroups(){
 
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
+        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
 
         let arrNomGrupos:any[] = [];
 

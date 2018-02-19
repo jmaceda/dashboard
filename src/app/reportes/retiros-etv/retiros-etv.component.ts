@@ -206,7 +206,7 @@ export class RetirosEtvComponent implements OnInit  {
 
     obtenEventos(){
 
-        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent);
+        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent, false);
 
         //gCatalogoEventos:any;
 
@@ -238,7 +238,7 @@ export class RetirosEtvComponent implements OnInit  {
 
         console.log(new Date());
         console.log("Params HSM :" +JSON.stringify(paramsCons));
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         console.log("Paginas HSM :" +JSON.stringify(gPaginasHMA));
 
@@ -249,7 +249,7 @@ export class RetirosEtvComponent implements OnInit  {
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
                 console.log("Params HSM :" +JSON.stringify(paramsCons));
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
             let cveCat;

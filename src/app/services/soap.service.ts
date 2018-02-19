@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-
-
-import { SOAPClient } from './soapclient.js';
+import { Injectable }           from '@angular/core';
+import { DOCUMENT }             from '@angular/common';
+import { SOAPClient }           from './soapclient.js';
 import { SOAPClientParameters } from './soapclient.js';
 
 // Import BlockUI decorator & optional NgBlockUI type
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { BlockUI, NgBlockUI }   from 'ng-block-ui';
 
 
 @Injectable()
@@ -22,13 +20,16 @@ export class SoapService {
     constructor() {
 
 
-        //console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]");
+
 
         if (window.location.port == '8687' || window.location.port == '3000'){
             this.url = '/services/dataservices.asmx'; // Prod
         }else{
-            this.url = '/dataservices.asmx'; //  QA
+            // this.url = '/dataservices.asmx'; //  QA
+            this.url = '/dataservices.asmx'; // Prod
         }
+
+        console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]   url["+this.url+"]");
 
         setTimeout(() => {
             this.blockUI.stop(); // Stop blocking
@@ -37,13 +38,14 @@ export class SoapService {
     }
 
 
-   post(url, action, params, fncCallBack){
+   post(url, action, params, fncCallBack, async){
 
 
-
+       this.blockUI.start('Loading...'); // Start blocking
         //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
         this.soapParams = new SOAPClientParameters;
         this.soapClient = SOAPClient;
+
 
          return new Promise((resolve, reject) => {
 
@@ -66,8 +68,8 @@ export class SoapService {
                     soapCallback = fncCallBack;
                 }
 
-             this.blockUI.start('Loading...'); // Start blocking
-                this.soapClient.invoke(this.url, action, this.soapParams, false, soapCallback);
+
+                this.soapClient.invoke(this.url, action, this.soapParams, async, soapCallback);
              this.blockUI.stop(); // Stop blocking
             });
     }

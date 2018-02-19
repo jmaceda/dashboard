@@ -32,7 +32,7 @@ export var gRespDatosLogHma:any;
     `],
     providers: [SoapService, LogHmaService]
 })
-export class LogHmaComponent implements OnInit  {
+export class LogHmaComponent implements OnInit, OnDestroy  {
 
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos:any            = [];
@@ -69,6 +69,12 @@ export class LogHmaComponent implements OnInit  {
         gCatalogoEventos    = this.logHmaService.obtenEventos();
     }
 
+    public ngOnDestroy() {
+       if (gNumPagsLogHma > 0){
+           gNumPagsLogHma = 0;
+        }
+    }
+
     public parametrosConsulta(filtrosConsulta){
 
         let fIniParam = filtrosConsulta.fchInicio;
@@ -90,15 +96,14 @@ export class LogHmaComponent implements OnInit  {
         };
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         this.datosRespLogHma = [];
 
         if (gNumPagsLogHma > 0) {
             for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
-                //console.log(nomComponente+".obtenDatosDelJournal:: Pagina["+idx+"]");
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 this.datosRespLogHma = this.datosRespLogHma.concat(gRespDatosLogHma);
             }
 

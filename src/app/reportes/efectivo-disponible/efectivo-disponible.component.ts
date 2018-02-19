@@ -196,7 +196,7 @@ export class EfectDispCoponent implements OnInit {
         };
 
         console.log(nomComponente + ".infoLogHMA:: paramsCons -->"+JSON.stringify(paramsCons)+"<--");
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosRetirosHMA: any = [];
@@ -204,7 +204,7 @@ export class EfectDispCoponent implements OnInit {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
 
@@ -343,7 +343,7 @@ export class EfectDispCoponent implements OnInit {
         };
 
         console.log(nomComponente + ".infoRetirosEnHMA:: -->"+JSON.stringify(paramsCons)+"<--");
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosRetirosHMA: any = [];
@@ -351,7 +351,7 @@ export class EfectDispCoponent implements OnInit {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
 
@@ -374,7 +374,7 @@ export class EfectDispCoponent implements OnInit {
             events: ["CashManagement"], CashManagement: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
         };
 
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosJournal: any = [];
@@ -382,7 +382,7 @@ export class EfectDispCoponent implements OnInit {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
                 datosJournal = datosJournal.concat(gDatosJoural);
             }
 
