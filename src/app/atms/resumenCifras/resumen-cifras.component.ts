@@ -463,6 +463,8 @@ export class ResumenCifrasComponent implements OnInit  {
         this.listaErroresOper = [];
         this.lErroresPorBanco = [];
         idxErrBanco=0;
+
+        this.opersRetiros = {dNumRetiros: 0, dMontoRetiros: 0, dHraPrimerRetiro: "", dHraUltimoRetiro: "", numRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], montoRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
     };
 
 
@@ -577,6 +579,14 @@ export class ResumenCifrasComponent implements OnInit  {
 
     public datosRetirosPorHora(reg) {
 
+
+        let date                 = new Date(reg.TimeStamp);
+        let _hora                = date.getHours();
+
+        this.opersRetiros.numRetiros[_hora]++;
+        this.opersRetiros.montoRetiros[_hora] += reg.Amount;
+
+        /*
         //retirosPorHora.dNumRetirosPorHora
         if (_hora < 7) {
             this.dNumRetirosPorHora[6]++;
@@ -589,6 +599,7 @@ export class ResumenCifrasComponent implements OnInit  {
             this.dMontoRetirosPorHora     [_hora] += reg.Amount;
             this.dAcumMontoRetirosPorHora[_hora] += reg.Amount;
         }
+        */
     }
 
 
@@ -667,12 +678,12 @@ export class ResumenCifrasComponent implements OnInit  {
                     switch(reg.Data){
 
                         // *** Retiros
-                        case "Withdrawal DispenseOk": { 
+                        case "Withdrawal DispenseOk": {
 
-                            opersRetiros.dNumRetiros++;
-                            opersRetiros.dMontoRetiros += reg.Amount;
-                            opersRetiros.dHraPrimerRetiro = (opersRetiros.dHraPrimerRetiro == "") ? tmpHoraOperacion : opersRetiros.dHraPrimerRetiro;
-                            opersRetiros.dHraUltimoRetiro = tmpHoraOperacion;
+                            this.opersRetiros.dNumRetiros++;
+                            this.opersRetiros.dMontoRetiros += reg.Amount;
+                            this.opersRetiros.dHraPrimerRetiro = (this.opersRetiros.dHraPrimerRetiro == "") ? tmpHoraOperacion : this.opersRetiros.dHraPrimerRetiro;
+                            this.opersRetiros.dHraUltimoRetiro = tmpHoraOperacion;
                             this.datosRetirosPorHora(reg);
 
                             this.dNumRetiros++;
@@ -958,6 +969,9 @@ export class ResumenCifrasComponent implements OnInit  {
             idxReg++;
 
         });
+
+
+        console.log("this.opersRetiros --> "+JSON.stringify(this.opersRetiros)+" <--");
 
         this.mResumenOperaciones();
         this.mRretirosPorHora();
