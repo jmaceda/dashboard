@@ -242,7 +242,7 @@ export class DatosJournalService implements OnInit {
         // Obten número de paginas de Journal de un ATM
         let paramsCons: any = {
             ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
-            events: ["Withdrawal", "BalanceCheck", "CashManagement"], minAmount: 1, maxAmount: -1,
+            events: ["Withdrawal", "BalanceCheck", "CashManagement"], minAmount: -1, maxAmount: -1,
             authId: -1, cardNumber: -1, accountId: -1
         };
         console.log(JSON.stringify(paramsCons));
@@ -269,31 +269,33 @@ export class DatosJournalService implements OnInit {
                         comisonesAtm.idAtm = reg.AtmName;
                         comisonesAtm.ipAtm = reg.Ip;
 
-                        fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
-                        switch(reg.OperationType){
-                            case 'BalanceCheck': {
-                                comisonesAtm.numConsultas++;
-                                comisonesAtm.comisionesConsultas += (reg.Surcharge / ((iva / 100)+1));
-                                comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
-                                comisonesAtm.hraUtimaConsulta = fchMovto;
-                                comisonesAtm.totalComisiones  += (reg.Surcharge / ((iva / 100)+1));
-                                break;
-                            }
-                            case 'Withdrawal': {
-                                comisonesAtm.numRetiros++;
-                                comisonesAtm.comisionesRetiros += (reg.Surcharge / ((iva / 100)+1));
-                                comisonesAtm.montoRetiros += reg.Amount;
-                                comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
-                                comisonesAtm.hraUtimoRetiro = fchMovto;
-                                comisonesAtm.totalComisiones  += (reg.Surcharge / ((iva / 100)+1));
-                                break;
-                            }
-                            case 'CashManagement': {
-                                comisonesAtm.numDepositos++;
-                                comisonesAtm.montoDepositos += reg.Amount;
-                                comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
-                                comisonesAtm.hraUtimoDeposito = fchMovto;
-                                break;
+                        if (reg.SwitchResponseCode == 0) {
+                            fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
+                            switch (reg.OperationType) {
+                                case 'BalanceCheck': {
+                                    comisonesAtm.numConsultas++;
+                                    comisonesAtm.comisionesConsultas += (reg.Surcharge / ((iva / 100) + 1));
+                                    comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
+                                    comisonesAtm.hraUtimaConsulta = fchMovto;
+                                    comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                                    break;
+                                }
+                                case 'Withdrawal': {
+                                    comisonesAtm.numRetiros++;
+                                    comisonesAtm.comisionesRetiros += (reg.Surcharge / ((iva / 100) + 1));
+                                    comisonesAtm.montoRetiros += reg.Amount;
+                                    comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
+                                    comisonesAtm.hraUtimoRetiro = fchMovto;
+                                    comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                                    break;
+                                }
+                                case 'CashManagement': {
+                                    comisonesAtm.numDepositos++;
+                                    comisonesAtm.montoDepositos += reg.Amount;
+                                    comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
+                                    comisonesAtm.hraUtimoDeposito = fchMovto;
+                                    break;
+                                }
                             }
                         }
                     });
