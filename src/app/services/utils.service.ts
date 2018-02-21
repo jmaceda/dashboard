@@ -17,7 +17,11 @@ export class UtilsService {
 
     public convBillToJson (infoBilletes:string, denominaContador:string = "DC") { // DC = <denominación>x<cantidad billetes>
 
-        //console.log("infoBilletes:: "+infoBilletes);
+        console.log("infoBilletes:: -->"+infoBilletes+"<--");
+        if(infoBilletes == "" || infoBilletes == null || infoBilletes == undefined){
+            return("");
+        }
+
         let montoTotal      = 0;
         let respBillJson    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, totbill: 0, monto: 0};
         let posInicial      = infoBilletes.indexOf('[');

@@ -107,31 +107,10 @@ export class RetirosEtvComponent implements OnInit  {
 */
     public obtenDatosDeCortesEtv(filtrosCons) {
 
-        /*
-        let paramsCons: any = {
-            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
-            events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
-        };
-//console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
-        //console.log("---> Inicio: "+new Date());
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
-        */
-
-        //let datosCortesEtv = this.obtenCortesJournal(filtrosCons);
         let datosCortesEtv = this.datosJournalService.obtenCortesJournal(filtrosCons);
 
         if (datosCortesEtv.length > 0){
-        //if (gPaginasJournal.TotalPages > 0) {
-            //let datosCortesEtv: any = [];
             this.arrDatosCortesEtv = [];
-
-            /*
-            for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
-                paramsCons.page = idx;
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
-                datosCortesEtv = datosCortesEtv.concat(gDatosCortesEtv);
-            }
-            */
             console.log("---> Fin: "+new Date());
             datosCortesEtv.forEach((reg) => {
                 let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
@@ -207,8 +186,6 @@ export class RetirosEtvComponent implements OnInit  {
     obtenEventos(){
 
         this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent, false);
-
-        //gCatalogoEventos:any;
 
         let cveCat;
         gCatEventos.forEach( (reg) => {

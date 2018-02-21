@@ -152,7 +152,7 @@ export class InfoAtmsService implements OnInit {
                 fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
 
                 if (fchOper == fchSys) {
-                    idAtms.push({'Name': reg.Name, 'Id': reg.Id, 'Ip': reg.Ip});
+                    idAtms.push({'Description': reg.Description, 'Name': reg.Name, 'Id': reg.Id, 'Ip': reg.Ip});
                 }
             });
         }

@@ -92,67 +92,33 @@
                         [indexColumnHeader]="'ID'"
                         [rowTooltip]="rowTooltip">
 
-                        <ng-template #dataTableExpand  let-item="item">
-                            <div  class="noWrap">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <span>ServiceDate: {{item.ServiceDate | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cassettero: {{item.cassettero}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CassettesStatusTimestamp: {{item.CassettesStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Denominación: {{item.denominacion}}</span>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>SafeOpenTs: {{item.SafeOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cantidad: {{item.numBilletes}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CabinetOpenTs: {{item.CabinetOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Monto Total: {{item.montoTotal}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <span>RetractStatusTimestamp: {{item.RetractStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>RejectStatusTimestamp: {{item.RejectStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>LastIOnlineTimestamp: {{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                </table>
+                <data-table-column
+                        [property]="'Description'"
+                        [header]="'Ubicación'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="4%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                            <div>
+                                <span>{{item.Description}}</span>
                             </div>
                         </ng-template>
+                </data-table-column>
 
                 <data-table-column
                         [property]="'idAtm'"
                         [header]="'ATM'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="3%">
+                        width="2.4%">
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
                             <div>
                                 <span>{{item.idAtm}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
+
+                <!--
                 <data-table-column
                         [property]="'ipAtm'"
                         [header]="'IP'"
@@ -165,12 +131,13 @@
                             </div>
                         </ng-template>
                 </data-table-column>
+                -->
                 <data-table-column
                         [property]="'numRetiros'"
                         [header]="'Retiros'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="2%">
+                        width="1.8%">
                         <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
                             <div style="text-align: right;">
                                 <span>{{item.numRetiros | number:'1.0-2'}}</span>

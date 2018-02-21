@@ -390,7 +390,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.resCambiaNipErr        = new ResumenOperacionesModel();
 
         this.opersRetiros = {dNums: 0, dMontoRetiros: 0, dHraPrimerRetiro: "", dHraUltimoRetiro: ""}; //, numRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], montoRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
-        this.opersRetiros.numRetiros = ARetirorray(24).fill(0);
+        this.opersRetiros.numRetiros = Array(24).fill(0);
         this.opersRetiros.montoRetiros = Array(24).fill(0);
         console.log("this.opersRetiros --> "+JSON.stringify(this.opersRetiros)+" <--");
     };

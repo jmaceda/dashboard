@@ -91,15 +91,14 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let datosAtm:any;
         let idAtms:any[]        = this.infoAtmsService.obtenIdAtmsOnLine();
         this.opersFinancieras   = [];
+        console.log("-->"+JSON.stringify(idAtms)+"<--");
         if(idAtms != null){
             idAtms.forEach( (reg) => {
-                datosAtm = this.datosJournalService.obtenComisionesPorAtm({'descAtm': reg.Name, 'Ip': reg.Ip});
-                //this.infoIdAtms = this.obtenOpersAtms({'descAtm': reg.Name, 'Ip': reg.Ip});
+                datosAtm = this.datosJournalService.obtenComisionesPorAtm({'Description': reg.Description,'descAtm': reg.Name, 'Ip': reg.Ip});
                 if (datosAtm.numConsultas > 0 || datosAtm.numRetiros > 0 || datosAtm.numDepositos > 0) {
                     this.opersFinancieras.push(datosAtm);
                 }
             });
-            //console.log("infoIdAtms -->" +JSON.stringify(this.opersFinancieras)+ "<--");
         }
 
         this.itemResource = new DataTableResource(this.opersFinancieras);

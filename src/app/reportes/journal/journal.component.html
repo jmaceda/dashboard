@@ -106,10 +106,10 @@
                         [header]="'Código de error de HW'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="20em">
+                        width="25em">
                         <ng-template #dataTableCell let-item="item">
-                            <div nowrap>
-                                <span nowrap>{{item.HWErrorCode}}</span>
+                            <div class="noWrap">
+                                <span>{{item.HWErrorCode}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -159,7 +159,12 @@
                         [header]="'Ubicación'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="15em">
+                        width="25em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="noWrap">
+                                <span>{{item.Location}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
                 <data-table-column

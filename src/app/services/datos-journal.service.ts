@@ -266,8 +266,9 @@ export class DatosJournalService implements OnInit {
 
                     gDatosJournal.forEach( (reg) => {
 
-                        comisonesAtm.idAtm = reg.AtmName;
-                        comisonesAtm.ipAtm = reg.Ip;
+                        comisonesAtm.Description = infoAtm.Description;
+                        comisonesAtm.idAtm       = reg.AtmName;
+                        //comisonesAtm.ipAtm = reg.Ip;
 
                         if (reg.SwitchResponseCode == 0) {
                             fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
