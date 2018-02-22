@@ -109,41 +109,44 @@ export class RetirosEtvComponent implements OnInit  {
 
         let datosCortesEtv = this.datosJournalService.obtenCortesJournal(filtrosCons);
 
+        console.log("-->"+JSON.stringify(datosCortesEtv)+"<--");
         if (datosCortesEtv.length > 0){
             this.arrDatosCortesEtv = [];
             console.log("---> Fin: "+new Date());
             datosCortesEtv.forEach((reg) => {
-                let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
+                if (reg.Data.substring(0,40) == "DOTAR CAPTURA CONTADORES - ANTES DE CERO") {
+                    let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
 
-                let billOK = data.split(" ")[0];
-                let billRech = data.split(" ")[1];
-                let totalRetiro = data.split(" ")[2];
-                let billTot: any = {};
+                    let billOK          = data.split(" ")[0];
+                    let billRech        = data.split(" ")[1];
+                    let totalRetiro     = data.split(" ")[2];
+                    let billTot: any    = {};
 
-                billOK = this.utilsService.convBillToJson(billOK, "DC");  // "DC" indica formato billetes: <Denominación>x<Contador>
-                billRech = this.utilsService.convBillToJson(billRech, "DC");
+                    billOK              = this.utilsService.convBillToJson(billOK, "DC");  // "DC" indica formato billetes: <Denominación>x<Contador>
+                    billRech            = this.utilsService.convBillToJson(billRech, "DC");
 
-                billTot = {
-                    b20:        (billOK.b20 + billRech.b20),
-                    b50:        (billOK.b50 + billRech.b50),
-                    b100:       (billOK.b100 + billRech.b100),
-                    b200:       (billOK.b200 + billRech.b200),
-                    b500:       (billOK.b500 + billRech.b500),
-                    b1000:      (billOK.b1000 + billRech.b1000),
-                    monto:      (billOK.monto + billRech.monto)
-                };
+                    billTot = {
+                        b20: (billOK.b20 + billRech.b20),
+                        b50: (billOK.b50 + billRech.b50),
+                        b100: (billOK.b100 + billRech.b100),
+                        b200: (billOK.b200 + billRech.b200),
+                        b500: (billOK.b500 + billRech.b500),
+                        b1000: (billOK.b1000 + billRech.b1000),
+                        monto: (billOK.monto + billRech.monto)
+                    };
 
-                billTot.totBill = (billOK.totbill + billRech.totbill);
+                    billTot.totBill = (billOK.totbill + billRech.totbill);
 
-                this.arrDatosCortesEtv.push({
-                    TimeStamp: reg.TimeStamp,
-                    Ip: reg.Ip,
-                    AtmName: reg.AtmName,
-                    Amount: reg.Amount,
-                    billOK: billOK,
-                    billRech: billRech,
-                    billTot: billTot
-                })
+                    this.arrDatosCortesEtv.push({
+                        TimeStamp: reg.TimeStamp,
+                        Ip: reg.Ip,
+                        AtmName: reg.AtmName,
+                        Amount: reg.Amount,
+                        billOK: billOK,
+                        billRech: billRech,
+                        billTot: billTot
+                    })
+                }
             });
             //console.log("---> Fin: "+new Date());
             this.filtrosUtilsService.fchaHraUltimaActualizacion();
