@@ -23,10 +23,10 @@ export const ROUTES: RouteInfo[] = [
     { path: 'efectdisp',       title: 'Efectivo Disponible',               icon: 'pe-7s-cash',     class: '' },
     { path: 'opersfinan',       title: 'Opers. Financieras',               icon: 'pe-7s-cash',     class: '' },
 
-/*
+
     { path: 'rechazoshma',       title: 'Rechazos',                icon: 'pe-7s-cash',     class: '' },
     { path: 'DemoComponent',       title: 'Super Table',                icon: 'pe-7s-cash',     class: '' },
-    */
+
 
 
 

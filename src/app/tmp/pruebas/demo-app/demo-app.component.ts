@@ -63,7 +63,7 @@ export class DemoComponent implements OnInit, AfterContentInit {
     // properties
     isReady = false;
     hasError = false;
-private rowHeight = 25;
+public rowHeight = 25;
 
     columns: ISuperTableColumn[] = [
         {
