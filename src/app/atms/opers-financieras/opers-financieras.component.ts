@@ -95,6 +95,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         if(idAtms != null){
             idAtms.forEach( (reg) => {
                 datosAtm = this.datosJournalService.obtenComisionesPorAtm({'Description': reg.Description,'descAtm': reg.Name, 'Ip': reg.Ip});
+                console.log("-->"+JSON.stringify(datosAtm)+"<--");
                 if (datosAtm.numConsultas > 0 || datosAtm.numRetiros > 0 || datosAtm.numDepositos > 0) {
                     this.opersFinancieras.push(datosAtm);
                 }
