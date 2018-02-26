@@ -28,7 +28,7 @@
         "@angular/router": "^4.4.6",
         "@molteni/export-csv": "0.0.2",
         "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.6",
-        "@swimlane/ngx-datatable": "^11.1.7",
+        "@swimlane/ngx-datatable": "^10.4.0",
         "@types/jquery": "^3.2.12",
         "@types/sprintf": "^0.1.0",
         "ag-grid": "^16.0.1",

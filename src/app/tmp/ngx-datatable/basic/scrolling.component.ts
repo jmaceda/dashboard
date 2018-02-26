@@ -15,15 +15,15 @@ var arrDatosAtmsX:any[] = [];
 @Component({
   selector: 'horz-vert-scrolling-demo',
   styleUrls: [
-      './scrolling.component.css',
-      "../../../../assets/icons.css",
-      "../../../../assets/app.css",
-      "../../../../assets/ngx-datatable/release/index.css",
-      "../../../../assets/css/themes/material.css",
-      "../../../../assets/ngx-datatable/release/assets/icons.css",
-  '../../../../assets/css/themes/material.css',
-  '../../../../assets/css/themes/dark.css',
-  '../../../../assets/css/themes/bootstrap.css'
+    './scrolling.component.css',
+    "../../../../assets/icons.css",
+    "../../../../assets/app.css",
+    "../../../../assets/ngx-datatable/release/index.css",
+    "../../../../assets/css/themes/material.css",
+    "../../../../assets/ngx-datatable/release/assets/icons.css",
+    '../../../../assets/css/themes/material.css',
+    '../../../../assets/css/themes/dark.css',
+    '../../../../assets/css/themes/bootstrap.css'
   ],
   templateUrl: 'scrolling.component.html',
   providers: [SoapService]
@@ -137,7 +137,7 @@ export class HorzVertScrolling {
         CabinetOpenTs:                  reg.CabinetOpenTs,
         RetractStatusTimestamp:         reg.RetractStatusTimestamp,
         RejectStatusTimestamp:          reg.RejectStatusTimestamp,
-        LastIOnlineTimestamp:           reg.LastIOnlineTimestamp,
+        LastIOnlineTimestamp:           reg.LastIOnlineTimestamp
 
         /*
          cassettero:                     gDatosEfectivoAtm.Device,

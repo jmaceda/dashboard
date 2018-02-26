@@ -109,10 +109,10 @@ export class RetirosEtvComponent implements OnInit  {
 
         let datosCortesEtv = this.datosJournalService.obtenCortesJournal(filtrosCons);
 
-        console.log("-->"+JSON.stringify(datosCortesEtv)+"<--");
+        //console.log("1) -->"+JSON.stringify(datosCortesEtv)+"<--");
         if (datosCortesEtv.length > 0){
             this.arrDatosCortesEtv = [];
-            console.log("---> Fin: "+new Date());
+            //console.log("---> Fin: "+new Date());
             datosCortesEtv.forEach((reg) => {
                 if (reg.Data.substring(0,40) == "DOTAR CAPTURA CONTADORES - ANTES DE CERO") {
                     let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
@@ -121,6 +121,8 @@ export class RetirosEtvComponent implements OnInit  {
                     let billRech        = data.split(" ")[1];
                     let totalRetiro     = data.split(" ")[2];
                     let billTot: any    = {};
+
+                    //console.log("2) -->"+JSON.stringify(data)+"<--");
 
                     billOK              = this.utilsService.convBillToJson(billOK, "DC");  // "DC" indica formato billetes: <Denominación>x<Contador>
                     billRech            = this.utilsService.convBillToJson(billRech, "DC");

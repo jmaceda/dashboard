@@ -301,3 +301,28 @@ select {
 	font-weight: bold;
 	background-color: #ffeb3b;
 }
+
+
+/* ======================================================================== */
+
+
+datatable-header-cell.datatable-header-cell {
+  background-color: #070E69;   /* Color del fondo de los encabezados */
+}
+
+/* Atributos de las etiquetas del header */
+datatable-header-cell.datatable-header-cell .datatable-header-cell-template-wrap label,
+datatable-header-cell.datatable-header-cell .datatable-header-cell-template-wrap span,
+datatable-header-cell.datatable-header-cell label,
+datatable-header-cell.datatable-header-cell span {
+  color: #FFF;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Centra las etiquetas de header */
+div span.datatable-header-cell-wrapper span.datatable-header-cell-label {
+  text-align: center;
+}
+

@@ -140,6 +140,10 @@
         max-width: 100%;
     }
     */
+
+
+
+
 </style>
 <div class="container-fluid">
 
@@ -161,21 +165,21 @@
                 <!-- div -->
 
                     <ngx-datatable style="margin-left: 5px; margin-right: 5px; padding-right: 10px; padding-left: 10px;"
-                           #mydatatable
-                           class="material striped"
-                            [loadingIndicator]="loadingIndicator"
-                            [rows]="arrDatosAtms"
-                            [columnMode]="'force'"
-                            [headerHeight]="30"
-                            [footerHeight]="50"
-                            [rowHeight]="25"
-                            [scrollbarV]="true"
-                            [limit]="5"
-                            [scrollbarH]="true">
+                        #mydatatable
+                        class="material striped"
+                        [loadingIndicator]="loadingIndicator"
+                        [rows]="arrDatosAtms"
+                        [columnMode]="'force'"
+                        [headerHeight]="30"
+                        [footerHeight]="0"
+                        [rowHeight]="30"
+                        [scrollbarV]="true"
+                        [limit]="5"
+                        [scrollbarH]="true">
 
                         <ngx-datatable-column
-                                name="Index"
-                                [width]="80">}
+                                name="#"
+                                [width]="60">}
                                 <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
                                     <strong>{{rowIndex+1}}</strong>
                                 </ng-template>

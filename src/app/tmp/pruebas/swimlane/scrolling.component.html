@@ -1,0 +1,56 @@
+<div>
+  <h3>
+	Horizontal and Vertical Scrolling
+	<small>
+	  <a href="https://github.com/swimlane/ngx-datatable/blob/master/demo/basic/scrolling.component.ts" target="_blank">
+		Source
+	  </a>
+	</small>
+  </h3>
+
+  <ngx-datatable
+	class="material striped"
+	[rows]="rows"
+	columnMode="standard"
+	[headerHeight]="30"
+	[footerHeight]="80"
+	[loadingIndicator]="loadingIndicator"
+	[rowHeight]="30"
+	[scrollbarV]="true"
+	[selected]="selected"
+	[selectionType]="'single'"
+	[scrollbarH]="true">
+	
+	
+	<ngx-datatable-column name="#" [width]="60">
+		<ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+			<div style="text-align: right;">
+				<strong>{{rowIndex+1}}</strong>
+			</div>
+		</ng-template>
+	</ngx-datatable-column>
+	
+	
+	<!--
+	<ngx-datatable-column prop="Name" name="Name" [width]="300">
+		<ng-template let-column="column" height="200" ngx-datatable-header-template >
+			<label style="height:10px;cursor:pointer">Name</label><br/>
+			<input
+				type='text'
+				id="Name"
+				style='width:100%;height:50px;border:1px;'
+				placeholder='Filter..'
+				(keyup)='filterData($event)'
+			/>
+		</ng-template>
+	</ngx-datatable-column>
+	-->
+	<ngx-datatable-column name="Name"></ngx-datatable-column>
+	<ngx-datatable-column name="Gender"></ngx-datatable-column>
+	<ngx-datatable-column name="Age" [width]="40" ></ngx-datatable-column>
+	<ngx-datatable-column name="City" [width]="300" prop="address.city"></ngx-datatable-column>
+	<ngx-datatable-column name="State" [width]="300" prop="address.state"></ngx-datatable-column>
+  </ngx-datatable>
+  
+	
+</div>

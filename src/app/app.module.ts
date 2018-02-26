@@ -5,6 +5,12 @@ import { RouterModule }                     from '@angular/router';
 import { FormsModule }                      from '@angular/forms';
 import { ReactiveFormsModule }              from '@angular/forms';
 
+import { CommonModule } from '@angular/common';
+import 'rxjs/add/observable/fromEvent';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
+
+
 import { AppRoutingModule }                 from './app.routing';
 import { NavbarModule }                     from './shared/navbar/navbar.module';
 import { FooterModule }                     from './shared/footer/footer.module';
@@ -51,9 +57,9 @@ import { DataBaseService }                  from './services/data-base.service';
 import { ExportToCSVService }               from './services/export-to-csv.service';
 import { FiltrosUtilsService }              from './services/filtros-utils.service';
 
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule }               from '@swimlane/ngx-datatable';
 
-import { HorzVertScrolling } from './tmp/ngx-datatable/basic/scrolling.component';
+import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 

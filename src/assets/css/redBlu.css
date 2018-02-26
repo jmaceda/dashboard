@@ -237,3 +237,11 @@ button.btn.btn-default.btn-sm.refresh-button {
 table.table.table-condensed.table-bordered.data-table thead tr th {
     text-align: center;
 }
+
+
+ngx-datatable {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
+}

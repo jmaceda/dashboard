@@ -33,6 +33,7 @@ import { OpersFinancierasComponent }        from './atms/opers-financieras/opers
 //import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 
+//import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
 import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
 //import { AgGridApp }              from './tmp/pruebas/ag-grid/ag-grid-app.component';
 
