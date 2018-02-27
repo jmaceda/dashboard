@@ -1,12 +1,9 @@
-/* Scroll para datatable @swimlane/ngx-datatable */
 div.ngx-columns{
     overflow-x: auto;
-    overflow-y: hidden;
 }
 
 th.ngx-table__header-cell{
     background-color: #777777;
-    text-align: center;
 }
 
 div#right {
@@ -22,7 +19,6 @@ div#right {
 
 table.table.table-condensed.table-bordered.data-table{
     overflow-x: auto;
-    overflow-y: auto;
 }
 
 table.table{
@@ -62,9 +58,6 @@ table.table.table-condensed.table-bordered.data-table thead tr th {
     padding-top: 0px;
     padding-left: 2px;
     padding-right: 2px;
-    background-color: #1A1561;
-    color: #FFFFFF;
-    /*font-weight: bold;*/
 }
 
 
@@ -231,17 +224,6 @@ button.btn.btn-default.btn-sm.refresh-button {
     text-align: right;
 }
 
-.campoCentrado {
-    text-align: center;
-}
 table.table.table-condensed.table-bordered.data-table thead tr th {
     text-align: center;
-}
-
-
-ngx-datatable {
-    margin-left: 5px;
-    margin-right: 5px;
-    padding-right: 0px;
-    padding-left: 0px;
 }

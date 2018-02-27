@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component }                            from '@angular/core';
 
-import { sprintf } from "sprintf-js";
+import { sprintf }                              from "sprintf-js";
 
-import { SoapService } from '../../../services/soap.service';
-import { FiltrosUtilsService } from '../../../services/filtros-utils.service';
-import { CargaDatosLocalesService } from '../../../services/carga-datos-locales.service';
+import { SoapService }                          from '../../../services/soap.service';
+import { FiltrosUtilsService }                  from '../../../services/filtros-utils.service';
+import { DatosJournalService }                  from '../../../services/datos-journal.service';
+
+
+var arrDatosJournal:any[] = [];
+
+export var datosATMs  = [];
+export var gPaginasJournal:any;
+export var gDatosJournal:any;
+
 
 export const nomComponente:string = "HorzVertScrolling";
 export var gDatosAtms:any[];
@@ -16,169 +24,154 @@ var arrDatosAtmsX:any[] = [];
   selector: 'horz-vert-scrolling-demo',
   styleUrls: [
     './scrolling.component.css',
+    '../../../../assets/ngx-datatable/themes/dark.scss',
+    '../../../../assets/ngx-datatable/themes/material.scss',
+    '../../../../assets/ngx-datatable/themes/bootstrap.scss'
+    /*
+    '../../../../assets/app.css'
+
     "../../../../assets/icons.css",
-    "../../../../assets/app.css",
     "../../../../assets/ngx-datatable/release/index.css",
-    "../../../../assets/css/themes/material.css",
+    '../../../../assets/css/themes/bootstrap.css',
     "../../../../assets/ngx-datatable/release/assets/icons.css",
     '../../../../assets/css/themes/material.css',
     '../../../../assets/css/themes/dark.css',
-    '../../../../assets/css/themes/bootstrap.css'
+    */
+      /*
+       "../../../../assets/app.css",
+       "../../../../assets/css/themes/material.css",
+    */
   ],
   templateUrl: 'scrolling.component.html',
-  providers: [SoapService]
+  providers: [SoapService, DatosJournalService]
 })
 export class HorzVertScrolling {
 
-  loadingIndicator: boolean = true;
-
   // Parametros para la pantalla de filtros para la consulta
   public dListaAtmGpos:any            = [];
-  public dTipoListaParams:string      = "G";
+  public dTipoListaParams:string      = "A";
   public dSolicitaFechasIni           = true;
   public dSolicitaFechasFin           = true;
   public dUltimaActualizacion:string;
 
-  public intervalId                   = null;
-  public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
-  public pDatosParam:any              = {};
-  public xtIsOnline:string            = "";
-  public Titulo:string                = "";
+  public regsLimite:number            = 15;
+  //public itemResource                 = new DataTableResource(arrDatosJournal);
+  public items                        = [];
+  public itemCount                    = 0;
+  public nomArchExcel                 = "Journal_";
+  public columnas:any;
+  public dataJournalRedBlu            = [];
+  private isDatosJournal:boolean      = false;
 
-  public arrDatosAtms = [];
-
-  emptyMessage:string = "No existe información";
-  rows = [];
-  config:any;
+  selected = [];
 
   constructor(public _soapService: SoapService,
-              public filtrosUtilsService: FiltrosUtilsService) {
-
-    //this.config = this.cargaDatosLocalesService.leeArchivoLocal("assets/data/config.txt");
-
+              public filtrosUtilsService: FiltrosUtilsService,
+              public datosJournalService: DatosJournalService){
   }
 
-  public parametrosConsulta(infoRecibida){
-    let parametrosConsulta:any = {};
-
-    let fIniParam = infoRecibida.fchInicio;
-    let fFinParam = infoRecibida.fchFin;
-    let idGpo     = infoRecibida.gpo;
-
-    let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
-        fIniParam.hour, fIniParam.min);
-
-    console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
-
-    let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
-        fFinParam.hour, fFinParam.min);
-
-    console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
-
-    this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
-
-    this.pActualizaInfo();
-  }
-
-  // Actualiza informciòn de la pantalla.
-  public pActualizaInfo(): void {
-
-    console.log("pActualizaInfo::  Inicio");
-    if (this.intervalId != null){
-      clearInterval(this.intervalId);
+  ngOnInit() {
+    if ( $('#btnExpExel').length == 0) {
+      $('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
     }
 
-    this.obtenGetAtm();
-    this.intervalId = setInterval(() => { this.obtenGetAtm(); }, this.tiempoRefreshDatos);
+    $('#btnExpExel').css('cursor', 'not-allowed');
+    this.isDatosJournal = true;
+    this.columnas = this.datosJournalService.obtenColumnasVista();
   }
 
-  public obtenGetAtm() {
+  public parametrosConsulta(filtrosConsulta){
 
-    /*
-     if (this.urlPath != "atms"){
-     console.log("obtenGetAtm:: No va a cargar los datos");
-     return(0);
-     }
-     */
+    let parametrosConsulta:any  = {};
+    let fIniParam               = filtrosConsulta.fchInicio;
+    let fFinParam               = filtrosConsulta.fchFin;
+    let fchIniParam:string      = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+        fIniParam.hour, fIniParam.min);
+    let fchFinParam:string      = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+        fFinParam.hour, fFinParam.min);
+    let filtrosCons:any         = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: filtrosConsulta.atm};
 
-    let parameters = {  nemonico: -1, groupId: Number(this.pDatosParam.groupId), brandId: -1,
-      modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
+    this.pDatosDelJournal(filtrosCons);
+  }
 
-    this._soapService.post('', "GetAtm", parameters, this.GetAtm, false);
+  public pDatosDelJournal(filtrosCons){
 
-    let idx = 0;
-    this.arrDatosAtms = [];
+    let paramsCons: any = {
+      ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+      events: -1, minAmount: -1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+    };
 
-    gDatosAtms.forEach(( reg )=> {
-      //console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
-      let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
-      let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
-      let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-      this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-      let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
+    this.dataJournalRedBlu = [];
 
-      // Recupera los datos efectivo del cajero
-      let parameters = { atmId: reg.Id };
+    // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+    this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
-      this.arrDatosAtms[idx++] = {
-        Description:                    reg.Description,
-        Ip:                             reg.Ip,
-        DeviceStatus:                   reg.DeviceStatus,
-        IsOnline:                       tIsOnline,
-        PaperStatus:                    reg.PaperStatus,
-        SafeOpen:                       tSafeOpen,
-        CabinetOpen:                    tCabinetOpen,
-        CassetteAmount:                 reg.CassetteAmount,
-        OfflineDevices:                 tOffDispo,
+    if (gPaginasJournal.TotalPages > 0) {
+      let datosJournal: any = [];
+      for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
+        paramsCons.page = idx;
+        this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+        this.dataJournalRedBlu = this.dataJournalRedBlu.concat(gDatosJournal);
 
-        ServiceDate:                    reg.ServiceDate,
-        CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
-        SafeOpenTs:                     reg.SafeOpenTs,
-        CabinetOpenTs:                  reg.CabinetOpenTs,
-        RetractStatusTimestamp:         reg.RetractStatusTimestamp,
-        RejectStatusTimestamp:          reg.RejectStatusTimestamp,
-        LastIOnlineTimestamp:           reg.LastIOnlineTimestamp
-
-        /*
-         cassettero:                     gDatosEfectivoAtm.Device,
-         denominacion:                   gDatosEfectivoAtm.Denomination,
-         numBilletes:                    gDatosEfectivoAtm.Amount,
-         montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
-         */
+        this.dataJournalRedBlu.forEach( (reg) => {
+          this.selected = [reg[2]];
+        })
       }
+      //this.dataJournalRedBlu = datosJournal;
+    }
 
+    if (this.dataJournalRedBlu.length > 0) {
+      $('#btnExpExel').css('cursor', 'pointer');
+      this.isDatosJournal = false;
+    }else{
+      $('#btnExpExel').css('cursor', 'not-allowed');
+      this.isDatosJournal = true;
+    }
 
-    });
-
-    console.log(this.arrDatosAtms);
-
-    //this.itemResource = new DataTableResource(arrDatosAtms);
+    //this.itemResource = new DataTableResource(this.dataJournalRedBlu);
     //this.itemResource.count().then(count => this.itemCount = count);
     //this.reloadItems( {limit: this.regsLimite, offset: 0});
-    this.Titulo="";
 
     this.filtrosUtilsService.fchaHraUltimaActualizacion();
-
   }
 
-  public GetAtm(datosAtms:any, status){
-    console.log("GetAtm:: Inicio  ["+new Date()+"]");
-    gDatosAtms = datosAtms;
+  public GetEjaLogDataLength(paginasJournal:any, status){
+    gPaginasJournal = paginasJournal;
+    console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
   }
 
-  /*
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-
-// filter our data
-    const temp = this.tasks.filter(function(d) {
-      console.log(d.what_task.toLowerCase().indexOf(val) !== -1 || !val)
-      return d.what_task.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-// update the rows
-    this.tableData= temp;
-
+  public GetEjaLogPage(datosJournal:any, status){
+    gDatosJournal = datosJournal;
   }
-  */
+
+  reloadItems(params) {
+    //this.itemResource.query(params).then(items => this.items = items);
+  }
+
+  // special properties:
+  rowClick(rowEvent) {
+    console.log('Clicked: ' + rowEvent.row.item.name);
+  }
+
+  rowDoubleClick(rowEvent) {
+    alert('Double clicked: ' + rowEvent.row.item.name);
+  }
+
+  rowTooltip(item) { return item.jobTitle; }
+
+  public exportaJournal2Excel(event){
+    console.log(nomComponente+".exportaJournal2Excel:: Inicio");
+    this.datosJournalService.exportaJournal2Excel(this.dataJournalRedBlu);
+  }
+
+
+  onSelect({ selected }) {
+    console.log('Select Event', selected, this.selected);
+  }
+
+  onActivate(event) {
+    console.log('Activate Event', event);
+  }
+
+
 }

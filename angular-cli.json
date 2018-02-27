@@ -19,7 +19,8 @@
       "prefix": "app",
       "styles": [
         "./assets/sass/light-bootstrap-dashboard.scss",
-        "./assets/sass/material.scss"
+        "./assets/ngx-datatable/themes/dark.scss",
+        "./assets/ngx-datatable/themes/material.scss"
       ],
       "scripts": [
           "../node_modules/popper.js/dist/umd/popper.min.js",

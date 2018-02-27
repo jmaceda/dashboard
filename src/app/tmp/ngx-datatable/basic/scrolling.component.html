@@ -168,15 +168,37 @@
                         #mydatatable
                         class="material striped"
                         [loadingIndicator]="loadingIndicator"
-                        [rows]="arrDatosAtms"
+                        [rows]="dataJournalRedBlu"
                         [columnMode]="'force'"
                         [headerHeight]="30"
-                        [footerHeight]="0"
+                        [footerHeight]="50"
                         [rowHeight]="30"
                         [scrollbarV]="true"
                         [limit]="5"
+                        [selected]="selected"
+                        [selectionType]="'single'"
                         [scrollbarH]="true">
 
+                        <ngx-datatable-column
+                            name="#"
+                            [width]="10">}
+                            <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                <strong>{{rowIndex+1}}</strong>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="TimeStamp"
+                                name="'Fecha/Hora'"
+                                [width]="15">
+                                <ng-template let-column="item">
+                                    <div  class="noWrap">
+                                        <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                    </div>
+                                </ng-template>
+                        </ngx-datatable-column>
+
+                        <!--
                         <ngx-datatable-column
                                 name="#"
                                 [width]="60">}
@@ -232,7 +254,7 @@
                                 name="LastIOnlineTimestamp"
                                 [width]="110">
                         </ngx-datatable-column>
-
+                        -->
                     </ngx-datatable>
                 <!-- /div -->
             <!-- /div -->
