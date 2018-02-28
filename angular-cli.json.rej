@@ -1,0 +1,9 @@
+diff a/angular-cli.json b/angular-cli.json	(rejected hunks)
+@@ -18,7 +18,6 @@
+       "tsconfig": "tsconfig.json",
+       "prefix": "app",
+       "styles": [
+-        "./assets/ngx-datatable/themes/material.scss"
+         "./assets/sass/light-bootstrap-dashboard.scss"
+       ],
+       "scripts": [
