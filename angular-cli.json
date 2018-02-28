@@ -18,7 +18,9 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "./assets/sass/light-bootstrap-dashboard.scss"
+        "./assets/sass/light-bootstrap-dashboard.scss",
+        "./assets/ngx-datatable/themes/material.scss",
+        "./assets/ngx-datatable/themes/dark.scss"
       ],
       "scripts": [
           "../node_modules/popper.js/dist/umd/popper.min.js",
