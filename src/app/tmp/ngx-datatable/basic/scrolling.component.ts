@@ -24,16 +24,24 @@ var arrDatosAtmsX:any[] = [];
   selector: 'horz-vert-scrolling-demo',
   styleUrls: [
     './scrolling.component.css',
-    /*
+    "../../../../assets/ngx-datatable/release/assets/icons.css",
+    "../../../../assets/css/themes/bootstrap.scss",
+    "../../../../assets/icons.css",
+    '../../../../assets/css/themes/material.scss',
+/*
     '../../../../assets/ngx-datatable/themes/dark.scss',
-    '../../../../assets/ngx-datatable/themes/material.scss',
-    '../../../../assets/ngx-datatable/themes/bootstrap.scss'
 
+    '../../../../assets/ngx-datatable/themes/material.scss',
+
+    '../../../../assets/ngx-datatable/themes/bootstrap.scss'
+    */
+    /*
     '../../../../assets/app.css'
 
     "../../../../assets/icons.css",
     "../../../../assets/ngx-datatable/release/index.css",
-    '../../../../assets/css/themes/bootstrap.css',
+     ../../../../assets/css/themes/bootstrap.css',
+     '../../../../assets/css/themes/bootstrap.css',
     "../../../../assets/ngx-datatable/release/assets/icons.css",
     '../../../../assets/css/themes/material.css',
     '../../../../assets/css/themes/dark.css',

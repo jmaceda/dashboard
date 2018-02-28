@@ -156,32 +156,32 @@
             [dTipoListaParams]      = "dTipoListaParams">
     </filtros-consultas>
 
-    <div style="margin: 0% 0%; height: 24em; width: 100%;">
+    <div style="margin: 0% 0%; height: 34em; width: 100%;">
 
-        <div class="card" style="padding: 5px; margin-top: 1%; margin-bottom: 0px; width: 100%; max-width: 100%;">
+        <div class="card" style="padding: 3px;">
 
 
             <!-- div class="row" style="padding: 5px;" -->
                 <!-- div -->
 
-                    <ngx-datatable style="margin-left: 5px; margin-right: 5px; padding-right: 10px; padding-left: 10px;"
+                    <ngx-datatable
                         #mydatatable
                         class="material striped"
                         [loadingIndicator]="loadingIndicator"
                         [rows]="dataJournalRedBlu"
-                        [columnMode]="'force'"
+                        [columnMode]="'standard'"
                         [headerHeight]="30"
                         [footerHeight]="50"
                         [rowHeight]="30"
                         [scrollbarV]="true"
-                        [limit]="5"
+                        [limit]="200"
                         [selected]="selected"
                         [selectionType]="'single'"
                         [scrollbarH]="true">
 
                         <ngx-datatable-column
                             name="#"
-                            [width]="10">}
+                            [width]="30">}
                             <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
                                 <strong>{{rowIndex+1}}</strong>
                             </ng-template>
@@ -189,14 +189,38 @@
 
                         <ngx-datatable-column
                                 prop="TimeStamp"
-                                name="'Fecha/Hora'"
-                                [width]="15">
-                                <ng-template let-column="item">
+                                name="Fecha/Hora"
+                                [width]="35">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
                                     <div  class="noWrap">
-                                        <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                        <span>{{row.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
                                     </div>
                                 </ng-template>
                         </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="Ip"
+                                name="IP"
+                                [width]="15">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                                prop="AtmName"
+                                name="ATM"
+                                [width]="15">
+                        </ngx-datatable-column>
+
+                        <data-table-column
+                                prop="CardNumber"
+                                name="Tarjeta número"
+                                [width]="12">
+                        </data-table-column>
+
+                        <data-table-column
+                                prop="'OperationType'"
+                                name="'Tipo de Operación'"
+                                [width]="12">
+                        </data-table-column>
 
                         <!--
                         <ngx-datatable-column
