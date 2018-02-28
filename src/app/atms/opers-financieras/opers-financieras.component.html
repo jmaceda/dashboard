@@ -99,12 +99,13 @@
                         [resizable]="false"
                         width="4%">
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                            <div>
+                            <div class="noWrap">
                                 <span>{{item.Description}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
 
+                <!--
                 <data-table-column
                         [property]="'idAtm'"
                         [header]="'ATM'"
@@ -117,7 +118,7 @@
                             </div>
                         </ng-template>
                 </data-table-column>
-
+                -->
                 <!--
                 <data-table-column
                         [property]="'ipAtm'"
@@ -249,9 +250,59 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2.5%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
-                        <div style="text-align: right;">
-                            <span>{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'numDepositos'"
+                        [header]="'Depósitos'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.numDepositos | number:'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'montoDepositos'"
+                        [header]="'Monto Depósitos'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2.2%">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.montoDepositos | currency:'USD':'symbol':'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'hraPrimerDeposito'"
+                        [header]="'Primera Depósito'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraPrimerDeposito}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'hraUtimoDeposito'"
+                        [header]="'Última Depósito'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;">
+                            <span>{{item.hraUtimoDeposito}}</span>
                         </div>
                     </ng-template>
                 </data-table-column>

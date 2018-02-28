@@ -6,13 +6,13 @@ import { SoapService }                                          from '../../serv
 //import { Router }                                               from '@angular/router';
 //import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
-
+import { LogHmaService }                                from '../../services/log-hma.service';
 //import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
 export var gDatosEfectivoAtm:any[];
-
+export var gDevicesAtm:any[]            = [];
 export const nomComponente:string = "AtmsEstatusComponent";
 
 export var gGetGroupsAtmIds:any;
@@ -35,7 +35,7 @@ export class GetGroupsAtmIds{
     selector: 'atms-estatus-root',
     templateUrl: './atms-estatus.component.html',
     styleUrls: ['./atms-estatus.component.css'],
-    providers: [SoapService]
+    providers: [SoapService, LogHmaService]
 })
 export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
@@ -57,10 +57,13 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
 
     constructor(public _soapService: SoapService,
-                public filtrosUtilsService: FiltrosUtilsService) {
+                public filtrosUtilsService: FiltrosUtilsService,
+                public logHmaService: LogHmaService) {
     }
 
-    public ngOnInit() {}
+    public ngOnInit() {
+        gDevicesAtm         = this.logHmaService.GetHmaDevices();
+    }
 
     public ngOnDestroy() {
         if (this.intervalId != null){
@@ -105,7 +108,9 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
         let idx = 0;
         arrDatosAtms = [];
+        let arrDevicesOffline = [];
 
+        //console.log(JSON.stringify(gDatosAtms));
         gDatosAtms.forEach(( reg )=> {
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
@@ -115,6 +120,12 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
             // Recupera los datos efectivo del cajero
             let parameters = { atmId: reg.Id };
+
+            if ( reg.OnlineDevices.length > 0 ){
+                for(let cve in reg.OnlineDevices) {
+                    arrDevicesOffline.push(gDevicesAtm[reg.OnlineDevices[cve]]);
+                }
+            }
 
             arrDatosAtms[idx++] = {
                 Description:                    reg.Description,
@@ -141,7 +152,11 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                  numBilletes:                    gDatosEfectivoAtm.Amount,
                  montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
                  */
-            }
+                dispositios: arrDevicesOffline
+            };
+
+            arrDevicesOffline = [];
+
 
 
         });
@@ -173,7 +188,9 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         alert('Double clicked: ' + rowEvent.row.item.name);
     }
 
-    rowTooltip(item) { return item.jobTitle; }
+    rowTooltip(item, x?, y?) {
+        return item.jobTitle;
+    }
 
 }
 

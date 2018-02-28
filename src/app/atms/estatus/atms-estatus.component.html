@@ -86,11 +86,44 @@
                         [rowColors]="rowColors"
                         [expandableRows]="true"
                         [indexColumnHeader]="'ID'"
-                        [rowTooltip]="rowTooltip">
+                        >
 
                         <ng-template #dataTableExpand  let-item="item">
                             <div  class="noWrap">
                                 <table>
+                                    <tr>
+                                        <td>
+                                            <tr>
+                                                <td>
+                                                    <span>Cassettes</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{item.CassettesStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Bóveda</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{item.SafeOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Gabinete</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{item.CabinetOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                    <!--
                                     <tr>
                                         <td>
                                             <span>ServiceDate: {{item.ServiceDate | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
@@ -133,6 +166,7 @@
                                     <tr>
                                         <span>LastIOnlineTimestamp: {{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
                                     </tr>
+                                    -->
                                 </table>
                             </div>
                         </ng-template>
@@ -142,7 +176,7 @@
                         [header]="'Descripción'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="12em">
+                        width="10em">
                         <ng-template #dataTableCell let-item="item">
                             <div nowrap style="width: 10em;">
                                 <span nowrap>{{item.Description}}</span>

@@ -8,6 +8,8 @@ import { InfoAtmsService }                                      from '../../serv
 import { DatosJournalService }                                  from '../../services/datos-journal.service';
 
 import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
+import { UtilsService }                                 from '../../services/utils.service';
+
 
 var arrDatosAtms:any[] = [];
 
@@ -33,7 +35,7 @@ export class GetGroupsAtmIds{
     selector: 'opers-financieras',
     templateUrl: './opers-financieras.component.html',
     styleUrls: ['./opers-financieras.component.css'],
-    providers: [SoapService, InfoAtmsService, DatosJournalService]
+    providers: [SoapService, InfoAtmsService, DatosJournalService, UtilsService]
 })
 export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
@@ -58,7 +60,8 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
                 public infoAtmsService: InfoAtmsService,
-                public datosJournalService: DatosJournalService) {
+                public datosJournalService: DatosJournalService,
+                public utilsService: UtilsService) {
 
         console.log(nomComponente+".constructor:: Inicia");
     }
@@ -102,6 +105,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             });
         }
 
+        this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
+
+        console.log(JSON.stringify(this.opersFinancieras));
         this.itemResource = new DataTableResource(this.opersFinancieras);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems({limit: this.regsLimite, offset: 0});

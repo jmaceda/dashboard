@@ -24,10 +24,11 @@ var arrDatosAtmsX:any[] = [];
   selector: 'horz-vert-scrolling-demo',
   styleUrls: [
     './scrolling.component.css',
+    /*
     '../../../../assets/ngx-datatable/themes/dark.scss',
     '../../../../assets/ngx-datatable/themes/material.scss',
     '../../../../assets/ngx-datatable/themes/bootstrap.scss'
-    /*
+
     '../../../../assets/app.css'
 
     "../../../../assets/icons.css",

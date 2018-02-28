@@ -136,7 +136,7 @@ export class UtilsService {
 
         Ref: https://gist.github.com/mbeaty/1218651
      */
-    public sort_by(field, reverse, primer){
+    public sort_by(field, reverse, primer?){
 
         reverse = (reverse) ? -1 : 1;
 
