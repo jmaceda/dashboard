@@ -33,7 +33,7 @@ export const ROUTES: RouteInfo[] = [
 
 
 
-    //{ path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
+    { path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
     //{ path: 'SmartTable',  title: 'SmartTableComponent',          icon: 'pe-7s-notebook',     class: '' },
     ];
 

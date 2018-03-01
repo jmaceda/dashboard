@@ -109,7 +109,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         let idx = 0;
         arrDatosAtms = [];
         let arrDevicesOffline = [];
-
+        console.log(JSON.stringify(gDatosAtms));
         //console.log(JSON.stringify(gDatosAtms));
         gDatosAtms.forEach(( reg )=> {
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
@@ -121,9 +121,9 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
             // Recupera los datos efectivo del cajero
             let parameters = { atmId: reg.Id };
 
-            if ( reg.OnlineDevices.length > 0 ){
-                for(let cve in reg.OnlineDevices) {
-                    arrDevicesOffline.push(gDevicesAtm[reg.OnlineDevices[cve]]);
+            if ( reg.OfflineDevices.length > 0 ){
+                for(let cve in reg.OfflineDevices) {
+                    arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
                 }
             }
 
@@ -152,7 +152,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                  numBilletes:                    gDatosEfectivoAtm.Amount,
                  montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
                  */
-                dispositios: arrDevicesOffline
+                DevicesOffline: arrDevicesOffline
             };
 
             arrDevicesOffline = [];
@@ -160,6 +160,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
 
         });
+        console.log(JSON.stringify(arrDatosAtms));
 
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
