@@ -76,6 +76,8 @@ import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-h
 
 import { PruebasModule }              from './tmp/pruebas/pruebas.module';
 
+import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
+
 
 
 @NgModule({
@@ -107,7 +109,8 @@ import { PruebasModule }              from './tmp/pruebas/pruebas.module';
     EfectDispCoponent,
     OpersFinancierasComponent,
     //SmartTableComponent
-    RechazosHmaComponent
+    RechazosHmaComponent,
+    TiempoPromOperComponent
 
   ],
 

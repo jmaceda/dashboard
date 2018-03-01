@@ -8,6 +8,10 @@ export var gCatEventos:any;
 export var gCatalogoEventos:any[] = [];
 export var gDevicesAtm:any[] = [];
 
+export var gNumPagsLogHma = 0;
+export var gNumRegsLogHma = 0;
+export var gRespDatosLogHma:any;
+
 var nomComponente:string = "LogHmaService";
 
 @Injectable()
@@ -52,6 +56,48 @@ export class LogHmaService implements OnInit {
         //console.log(Object.keys(gCatalogoEventos).length);
 
         return(gCatalogoEventos);
+    }
+
+    public GetHmaLogDataLength(respNumPaginasLogHma:object, status){
+        gNumPagsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalPages;
+        gNumRegsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalItems;
+    }
+
+    public GetHmaLogPage(respDatosLogHma:any[], status){
+        gRespDatosLogHma = respDatosLogHma;
+    }
+
+    public obtenTiempoPromedioOper(filtrosConsulta){
+
+        let paramsCons: any = {
+            ip: [filtrosConsulta.ipAtm], timeStampStart: filtrosConsulta.timeStampStart, timeStampEnd: filtrosConsulta.timeStampEnd,
+            events: ['MediaInserted', 'CardEjected', 'MediaRemoved', 'MediaTaken'], device: ['ICM', 'PTR']
+        };
+
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
+
+        let datosRespLogHma:any = [];
+
+        if (gNumPagsLogHma > 0) {
+            for (let idx = 0; idx < gNumPagsLogHma; idx++) {
+                paramsCons.page = idx;
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
+                datosRespLogHma = datosRespLogHma.concat(gRespDatosLogHma);
+            }
+
+            let cveCat;
+            datosRespLogHma.forEach( (reg) => {
+                console.log(reg);
+                /*
+                cveCat = "c"+reg.HmaEventId;
+                reg.Events = gCatalogoEventos[cveCat];
+                reg.DescDevice = gDevicesAtm[reg.Device];
+                */
+            });
+        }
+
+
     }
 
 }
