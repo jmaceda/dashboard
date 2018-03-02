@@ -77,8 +77,9 @@ import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-h
 import { PruebasModule }              from './tmp/pruebas/pruebas.module';
 
 import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
+import { ManualGrgComponent }                from './docs/manual-grg.component';
 
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiem
     OpersFinancierasComponent,
     //SmartTableComponent
     RechazosHmaComponent,
-    TiempoPromOperComponent
+    TiempoPromOperComponent,
+    ManualGrgComponent
 
   ],
 
@@ -134,6 +136,7 @@ import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiem
     NgxDatatableModule,
     BlockUIModule,
     PruebasModule,
+    PdfViewerModule
 
 
     //Ng2SmartTableModule,

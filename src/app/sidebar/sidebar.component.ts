@@ -29,12 +29,11 @@ export const ROUTES: RouteInfo[] = [
     //{ path: 'rechazoshma',       title: 'Rechazos',                icon: 'pe-7s-cash',     class: '' },
     //{ path: 'DemoComponent',       title: 'Super Table',                icon: 'pe-7s-cash',     class: '' },
 
-
-
-
+    //{ path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
+    //{ path: 'SmartTable',  title: 'SmartTableComponent',          icon: 'pe-7s-notebook',     class: '' },
 
     { path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
-    //{ path: 'SmartTable',  title: 'SmartTableComponent',          icon: 'pe-7s-notebook',     class: '' },
+    { path: 'manualgrg',  title: 'Sensores H68N GRG',          icon: 'pe-7s-notebook',     class: '' },
     ];
 
 //

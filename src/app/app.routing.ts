@@ -37,8 +37,8 @@ import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-h
 import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
 //import { AgGridApp }              from './tmp/pruebas/ag-grid/ag-grid-app.component';
 
-import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
-
+import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
+import { ManualGrgComponent }                from './docs/manual-grg.component';
 
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
@@ -63,8 +63,11 @@ const routes: Routes =[
 
 
     //{ path: 'DemoComponent',      component: AgGridApp },
-    { path: 'DemoComponent',      component: DemoComponent },
+    //{ path: 'DemoComponent',      component: DemoComponent },
     { path: 'opersfinan',      component: OpersFinancierasComponent },
+    { path: 'manualgrg',      component: ManualGrgComponent },
+
+
     //{ path: 'SmartTable',  component: SmartTableComponent },
 
     { path: 'user',           component: UserComponent },
