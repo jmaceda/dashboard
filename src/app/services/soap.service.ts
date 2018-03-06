@@ -19,14 +19,11 @@ export class SoapService {
 
     constructor() {
 
-
-
-
         if (window.location.port == '8687' || window.location.port == '3000'){
             this.url = '/services/dataservices.asmx'; // Prod
         }else{
-            // this.url = '/dataservices.asmx'; //  QA
-            this.url = '/dataservices.asmx'; // Prod
+            this.url = '/dataservices.asmx'; //  QA
+            //this.url = '/dataservices.asmx'; // Prod
         }
 
         console.log("SoapService.constructor:: ["+window.location.origin+"]  ["+window.location.port+"]   url["+this.url+"]");
@@ -40,7 +37,7 @@ export class SoapService {
 
    post(url, action, params, fncCallBack, async){
 
-
+       //url = '/dataservices.asmx';
        this.blockUI.start('Loading...'); // Start blocking
         //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
         this.soapParams = new SOAPClientParameters;
@@ -68,7 +65,7 @@ export class SoapService {
                     soapCallback = fncCallBack;
                 }
 
-
+                console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
                 this.soapClient.invoke(this.url, action, this.soapParams, async, soapCallback);
              this.blockUI.stop(); // Stop blocking
             });

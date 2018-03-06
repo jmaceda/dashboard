@@ -58,6 +58,19 @@
         max-width: 2px;
     }
 
+
+    #contenedor{
+        overflow:hidden;
+    }
+
+    #1{
+        float: left;
+    }
+
+    #2{
+        float:left;
+    }
+
 </style>
 
 <div class="container-fluid">
@@ -89,85 +102,40 @@
                         >
 
                         <ng-template #dataTableExpand  let-item="item">
-                            <div  class="noWrap">
-                                <table>
-                                    <tr>
-                                        <td>
+                            <div id="contenedor" style="overflow:hidden;">
+                                <div id="1" style="float: left; max-width: 40px; width: 40px;">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <span>Cassettes</span>
-                                                </td>
-                                                <td>
-                                                    <span>{{item.CassettesStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                                </td>
+                                                <th style="width: 100%;max-width: 100%;">Última Actualización</th>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>Bóveda</span>
-                                                </td>
-                                                <td>
-                                                    <span>{{item.SafeOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                                </td>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ultimaAct of item.FchsUltimaAct">
+                                                <td style="width: 10%;max-width: 10%;">{{ultimaAct.desc}}</td>
+                                                <td style="width: 50%;max-width: 50%;">{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>Gabinete</span>
-                                                </td>
-                                                <td>
-                                                    <span>{{item.CabinetOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                                </td>
-                                            </tr>
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                    </tr>
-
+                                        </tbody>
+                                    </table>
                                     <!--
-                                    <tr>
-                                        <td>
-                                            <span>ServiceDate: {{item.ServiceDate | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cassettero: {{item.cassettero}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CassettesStatusTimestamp: {{item.CassettesStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Denominación: {{item.denominacion}}</span>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>SafeOpenTs: {{item.SafeOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cantidad: {{item.numBilletes}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CabinetOpenTs: {{item.CabinetOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Monto Total: {{item.montoTotal}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <span>RetractStatusTimestamp: {{item.RetractStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>RejectStatusTimestamp: {{item.RejectStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>LastIOnlineTimestamp: {{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
+                                    <span>Última Actualización</span>
+                                    <div *ngFor="let ultimaAct of item.FchsUltimaAct" class="table table-bordered table-striped tabla">
+                                        <div id="1" style="float: left; width: 8rem;">
+                                            <span>{{ultimaAct.desc}}</span>
+                                        </div>
+                                        <div id="2" style="float: left; width: 17rem;">
+                                            <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                        </div>
+                                    </div>
                                     -->
-                                </table>
+                                 </div>
+
+                                <div id="2" style="float:left; width: 25rem;">
+                                    <span>Dispositivos con Error</span>
+                                    <div *ngFor="let dispositivo of item.DevicesOffline">
+                                        <span>{{dispositivo}}</span>
+                                    </div>
+                                </div>
                             </div>
                         </ng-template>
 

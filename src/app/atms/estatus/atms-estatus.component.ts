@@ -1,12 +1,12 @@
 // app/atms/detalle-atms.component.ts
-import { Component, OnInit, OnDestroy }                                    from '@angular/core';
+import { Component, OnInit, OnDestroy }                         from '@angular/core';
 import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
 import { sprintf }                                              from "sprintf-js";
 import { SoapService }                                          from '../../services/soap.service';
 //import { Router }                                               from '@angular/router';
 //import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
-import { LogHmaService }                                from '../../services/log-hma.service';
+import { LogHmaService }                                        from '../../services/log-hma.service';
 //import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
@@ -109,7 +109,10 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         let idx = 0;
         arrDatosAtms = [];
         let arrDevicesOffline = [];
+        let arrFchasUltimaAct = [];
+
         console.log(JSON.stringify(gDatosAtms));
+
         //console.log(JSON.stringify(gDatosAtms));
         gDatosAtms.forEach(( reg )=> {
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
@@ -126,6 +129,11 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                     arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
                 }
             }
+
+            arrFchasUltimaAct.push({'desc': 'ATM',          'fcha': reg.LastIOnlineTimestamp});
+            arrFchasUltimaAct.push({'desc': 'Cassettes',    'fcha': reg.CassettesStatusTimestamp});
+            arrFchasUltimaAct.push({'desc': 'Bóveda',       'fcha': reg.SafeOpenTs});
+            arrFchasUltimaAct.push({'desc': 'Gabinete',     'fcha': reg.CabinetOpenTs});
 
             arrDatosAtms[idx++] = {
                 Description:                    reg.Description,
@@ -152,12 +160,12 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                  numBilletes:                    gDatosEfectivoAtm.Amount,
                  montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
                  */
-                DevicesOffline: arrDevicesOffline
+                DevicesOffline: arrDevicesOffline,
+                FchsUltimaAct: arrFchasUltimaAct
             };
 
             arrDevicesOffline = [];
-
-
+            arrFchasUltimaAct = [];
 
         });
         console.log(JSON.stringify(arrDatosAtms));
