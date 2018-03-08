@@ -91,18 +91,25 @@ export class TiempoPromOperComponent implements OnInit, OnDestroy  {
 
     public tiempoPromOpers:any = [];
     public numOpers:any = 0;
-    public tiempoPromedio:any = 0;
+    public tiempoPromedio:any = "00:00";
 
     public obtenDatosLogHMA(filtrosConsulta){
 
+        this.tiempoPromOpers    = [];
+        this.numOpers           = 0;
+        this.tiempoPromedio     = "00:00";
+
         this.tiempoPromOpers = this.logHmaService.obtenTiempoPromedioOper(filtrosConsulta);
-        this.numOpers       = this.tiempoPromOpers.length;
-        let segsDuracion    = this.tiempoPromOpers[this.numOpers -1].acumSegs;
-        let minsTotDura     = Math.floor(segsDuracion / this.numOpers);
-        let segsTotDura     = (minsTotDura == 0) ? segsDuracion : segsDuracion - (minsTotDura * 60);
+        let numTotOpers = this.tiempoPromOpers.length;
+
+        this.numOpers       = this.tiempoPromOpers[numTotOpers -1].numOper;
+        let segsDuracion    = this.tiempoPromOpers[numTotOpers -1].acumSegs;
+        let minsTotDura     = Math.floor( (segsDuracion / this.numOpers) / 60);
+        let segsTotDura     = (minsTotDura == 0) ? Math.floor( segsDuracion / this.numOpers) : segsDuracion - (minsTotDura);
 
         this.tiempoPromedio = Math.round(this.tiempoPromOpers[this.numOpers -1].acumSegs / this.numOpers);
         this.tiempoPromedio = sprintf("%02d:%02d", minsTotDura, segsTotDura);
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
     public GetHmaLogDataLength(respNumPaginasLogHma:object, status){

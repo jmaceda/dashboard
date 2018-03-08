@@ -148,8 +148,14 @@
                     <div class="card">
                         <div class="header" style="padding: 2px;">
                             <h5 class="title" style="text-align: center; font-weight: bold;">Tiempo Promedio de Operaciones</h5>
-                            <p>Número de Operaciones: {{numOpers}}</p>
-                            <p>Tiempo Promedio por Operación: {{tiempoPromedio}}</p>
+                            <div class="row">
+                                <div class="col-md-6" style="text-align: center;">Número de Operaciones</div>
+                                <div class="col-md-6" style="text-align: center;">Tiempo Promedio</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="text-align: center;">{{numOpers}}</div>
+                                <div class="col-md-6" style="text-align: center;">{{tiempoPromedio}}</div>
+                            </div>
                         </div>
                         <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
                             <table class="table table-hover table-striped">

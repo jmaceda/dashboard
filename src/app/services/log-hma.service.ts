@@ -76,20 +76,14 @@ export class LogHmaService implements OnInit {
             events: ['MediaInserted', 'CardEjected', 'MediaRemoved'], device: ['ICM']
         };
 
+        console.log(paramsCons);
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
-
+        console.log("Paginas: <"+gNumPagsLogHma+">");
         let datosRespLogHma:any     = [];
         let datosTiempoOpers:any    = [];
 
         if (gNumPagsLogHma > 0) {
-            /*
-            for (let idx = 0; idx < gNumPagsLogHma; idx++) {
-                paramsCons.page = idx;
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
-                datosRespLogHma = datosRespLogHma.concat(gRespDatosLogHma);
-            }
-            */
 
             let cveCat:string       = "";
             let ftoHora:any         = {month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
@@ -102,9 +96,9 @@ export class LogHmaService implements OnInit {
             let segsTotDura:number  = 0;
             let acumSegs:number     = 0;
 
-
             for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
+                console.log(paramsCons);
                 this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 //datosRespLogHma = datosRespLogHma.concat(gRespDatosLogHma);
 
