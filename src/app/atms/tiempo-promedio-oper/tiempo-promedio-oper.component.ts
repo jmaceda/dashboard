@@ -98,11 +98,11 @@ export class TiempoPromOperComponent implements OnInit, OnDestroy  {
         this.tiempoPromOpers = this.logHmaService.obtenTiempoPromedioOper(filtrosConsulta);
         this.numOpers       = this.tiempoPromOpers.length;
         let segsDuracion    = this.tiempoPromOpers[this.numOpers -1].acumSegs;
-        let minsTotDura     = Math.floor(segsDuracion/60);
+        let minsTotDura     = Math.floor(segsDuracion / this.numOpers);
         let segsTotDura     = (minsTotDura == 0) ? segsDuracion : segsDuracion - (minsTotDura * 60);
 
-        this.tiempoPromedio  = sprintf("%02d:%02d", minsTotDura, segsTotDura);
         this.tiempoPromedio = Math.round(this.tiempoPromOpers[this.numOpers -1].acumSegs / this.numOpers);
+        this.tiempoPromedio = sprintf("%02d:%02d", minsTotDura, segsTotDura);
     }
 
     public GetHmaLogDataLength(respNumPaginasLogHma:object, status){
