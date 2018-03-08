@@ -1,3 +1,133 @@
+
+
+<style>
+    .justDer {
+        text-align: right;
+    }
+
+    .justIzq {
+        text-align: left;
+    }
+
+    .justCen {
+        text-align: center;
+    }
+
+    .letraFontMedio {
+        font-size: 0.875em;
+    }
+
+    .encabezado {
+        font-weight: bold;
+        background-color: #C0C0C0;
+        text-align: right;
+    }
+
+    .encabezadoI {
+        font-weight: bold;
+        background-color: #C0C0C0;
+        text-align: left;
+    }
+
+    .marco2 {
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    .marco3 {
+        border-top-width: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-style: solid;
+    }
+
+    .eliminaEspacios {
+        margin-left: 0px;
+        padding-left: 1px;
+        margin-right: 0px;
+        padding-right: 1px;
+    }
+
+    .coloFondo {
+        background-color: #E2F6FB;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 1px 1px;
+        vertical-align: middle;
+    }
+
+    table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1px;
+        font-size: 0.875em;
+    }
+
+    .col1 {
+        width: 20%;
+    }
+
+    .col1_25 {
+        width: 25%;
+    }
+    .totalResumenBancos {
+        /*background-color: #0B0B0B;*/
+        /*color: #FFFFFF;*/
+        text-transform: none;
+        font-weight: bold;
+    }
+    .col2_7h {
+        width: 7%;
+        text-align: center;
+    }
+    .col2_7i {
+        width: 7%;
+        text-align: left;
+    }
+    .col2_7d {
+        width: 7%;
+        text-align: right;
+    }
+    .col2 {
+        width: 7%;
+        text-align: right;
+    }
+    .col10 {
+        width: 2%;
+    }
+
+    .col11 {
+        width: 4%;
+        text-align: right;
+    }
+
+    .col12 {
+        width: 10%;
+        text-align: right;
+    }
+
+    .table>thead>tr>th {
+        background-color: #070959;
+        color: #FFF200;
+        text-transform: none;
+    }
+
+    .cold1 {
+        width: 2%;
+    }
+    .cold2 {
+        width: 5%;
+        text-align: right;
+    }
+
+</style>
 <div class="container-fluid">
 
     <filtros-consultas
@@ -12,6 +142,40 @@
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
         <div class="card" style="padding: 3px;">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="header" style="padding: 2px;">
+                            <h5 class="title" style="text-align: center; font-weight: bold;">Tiempo Promedio de Operaciones</h5>
+                            <p>Número de Operaciones: {{numOpers}}</p>
+                            <p>Tiempo Promedio por Operación: {{tiempoPromedio}}</p>
+                        </div>
+                        <div class="content table-responsive table-full-width" style="padding-top: 0px; padding-bottom: 2px;">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px;">ID</th>
+                                    <th style="width: 10px;">Inició</th>
+                                    <th style="width: 10px;">Terminó</th>
+                                    <th style="width: 10px;">Duración</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let row of tiempoPromOpers">
+                                    <td style="width: 10px;">{{row.numOper}}</td>
+                                    <td style="width: 10px;">{{row.hraIni}}</td>
+                                    <td style="width: 10px;">{{row.hraFin}}</td>
+                                    <td style="width: 10px;">{{row.tiempoDura}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
             <data-table id="loghma"
                         [headerTitle]="tituloLogHMA"
                         [items]="items"
@@ -91,6 +255,7 @@
                 </data-table-column>
 
             </data-table>
+            -->
         </div>
     </div>
 </div>

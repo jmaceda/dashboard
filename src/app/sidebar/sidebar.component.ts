@@ -14,9 +14,9 @@ export const ROUTES: RouteInfo[] = [
     { path: 'journal',          title: 'Journal',                   icon: 'pe-7s-note2',        class: '' },
     { path: 'aclaraciones',     title: 'Aclaraciones',              icon: 'pe-7s-search',       class: '' },
     { path: 'loghma',           title: 'Log HMA',                   icon: 'pe-7s-notebook',     class: '' },
-    { path: 'totaltienda',      title: 'Totales por Tienda',        icon: 'pe-7s-notebook',     class: '' },
-    { path: 'resumenefectivo',  title: 'Resumen de Efectivo',       icon: 'pe-7s-notebook',     class: '' },
-    { path: 'detalletienda',    title: 'Detalle por Tienda',        icon: 'pe-7s-notebook',     class: '' },
+    //{ path: 'totaltienda',      title: 'Totales por Tienda',        icon: 'pe-7s-notebook',     class: '' },
+    //{ path: 'resumenefectivo',  title: 'Resumen de Efectivo',       icon: 'pe-7s-notebook',     class: '' },
+    //{ path: 'detalletienda',    title: 'Detalle por Tienda',        icon: 'pe-7s-notebook',     class: '' },
     { path: 'retirosetv',       title: 'Cortes ETV',                icon: 'pe-7s-cash',     class: '' },
 
     { path: 'retiroshma',       title: 'Retiros HMA',               icon: 'pe-7s-cash',     class: '' },
@@ -32,7 +32,7 @@ export const ROUTES: RouteInfo[] = [
     //{ path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
     //{ path: 'SmartTable',  title: 'SmartTableComponent',          icon: 'pe-7s-notebook',     class: '' },
 
-    { path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
+    //{ path: 'HorzVertScrolling',  title: 'HorzVertScrolling',          icon: 'pe-7s-notebook',     class: '' },
     { path: 'manualgrg',  title: 'Sensores H68N GRG',          icon: 'pe-7s-notebook',     class: '' },
     ];
 
