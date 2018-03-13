@@ -30,7 +30,7 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 
-//import { ParamsAtmsComponent }              from './atms/params-atms/params-atms.component';
+//import { ParamsAtmsComponent }              from './atms/params-atmsTmp/params-atmsTmp.component';
 import { FiltrosConsultasComponent }        from './shared/filtros-consultas/filtros-consultas.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
 //import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';

@@ -223,7 +223,7 @@ export class DatosJournalService implements OnInit {
     }
 
     // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
-    public obtenComisionesPorAtm(infoAtm){
+    public obtenComisionesPorAtm(paramsConsulta, infoAtm){
 
         let ftoFchSys:any           = {year: 'numeric', month: '2-digit', day: '2-digit'};
         let ftoHora:any             = {hour: '2-digit', minute: '2-digit', second: '2-digit'};
@@ -232,84 +232,169 @@ export class DatosJournalService implements OnInit {
         let fchSys:any              = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
         let timeStampStart:string   = fchSys + "-00-00";
         let timeStampEnd:string     = fchSys + "-23-59";
+        let comision:number         = 0;
+
+        timeStampStart   = "2018-03-10-00-00";
+        timeStampEnd     = "2018-03-10-23-59";
+
+        timeStampStart   = paramsConsulta.timeStampStart;
+        timeStampEnd     = paramsConsulta.timeStampEnd;
+
         let comisonesAtm:any        = {
             "numRetiros": 0,"comisionesRetiros": 0,"montoRetiros": 0,"hraPrimerRetiro": "","hraUtimoRetiro": "",
             "numConsultas": 0,"comisionesConsultas": 0,"hraPrimeraConsulta": "","hraUtimaConsulta": "", 'totalComisiones': 0,
-            'numDepositos': 0, 'montoDepositos': 0,"hraPrimerDeposito": "","hraUtimoDeposito": ""
+            'numDepositos': 0, 'montoDepositos': 0,"hraPrimerDeposito": "","hraUtimoDeposito": "",
+            "errConsultas": 0, "errComisionConsultas": 0, "errPrimeraConsulta": "", "errUltimaConsulta": "",
+            "errRetiros": 0, "errMontoRetiros": 0, "errComisionRetiros": 0, "errPrimerRetiro": "", "errUltimoRetiro": "", "errTotal": 0
         };
         let fchMovto:string         = "";
 
         // Obten número de paginas de Journal de un ATM
         let paramsCons: any = {
             ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
-            events: ["Withdrawal", "BalanceCheck", "CashManagement"], minAmount: -1, maxAmount: -1,
+            events: ["Withdrawal", "BalanceCheck", "CashManagement", "Exception"], minAmount: -1, maxAmount: -1,
             authId: -1, cardNumber: -1, accountId: -1
         };
-        console.log(JSON.stringify(paramsCons));
+//console.log("paramsCons["+JSON.stringify(paramsCons)+"]");
+        //console.log(JSON.stringify(paramsCons));
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-
+//console.log("gPaginasJournal["+JSON.stringify(gPaginasJournal)+"]");
         // Obten datos del Journal de un ATM
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
-                console.log("Se van a calcular las comisiones");
-                //console.log(JSON.stringify(gDatosJournal));
-                /*
-                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false)
-                .then(result => {
-                    console.log(result);
-                */
+//console.log(JSON.stringify(gDatosJournal));
+                gDatosJournal.forEach( (reg) => {
 
+                    if ( reg.SwitchResponseCode >= 1000) {
+                        //console.log(reg.Ip + " -- " + reg.SwitchResponseCode + " -- " + reg.HWErrorCode + " -- " + reg.Event + " -- " + reg.OperationType + " -- " + reg.AccountType + " -- " + reg.Data);
+                    }
+                    if (reg.SwitchResponseCode >= 1000) {
+                        if (reg.Event.substring(0,15) != "CASH MANAGEMENT") {
+                            //console.log(reg.SwitchResponseCode + " -- " + reg.Event + " --- " + reg.AccountType + " ---  " + reg.HWErrorCode);
+                        }
+                    }
+                    comisonesAtm.Description = infoAtm.Description;
+                    comisonesAtm.idAtm       = reg.AtmName;
 
-                    gDatosJournal.forEach( (reg) => {
+                    fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
+                    comision = (reg.Surcharge / ((iva / 100) + 1));
+                    switch (reg.OperationType) {
+                        case 'BalanceCheck': {
+                            if (reg.SwitchResponseCode == 0) {
+                                comisonesAtm.numConsultas++;
+                                comisonesAtm.comisionesConsultas += comision; //(reg.Surcharge / ((iva / 100) + 1));
+                                comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
+                                comisonesAtm.hraUtimaConsulta = fchMovto;
+                                comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                            }
+                            break;
+                        }
+                        case 'Withdrawal': {
+                            if (reg.SwitchResponseCode == 0) {
+                                comisonesAtm.numRetiros++;
+                                comisonesAtm.comisionesRetiros += comision; //(reg.Surcharge / ((iva / 100) + 1));
+                                comisonesAtm.montoRetiros += reg.Amount;
+                                comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
+                                comisonesAtm.hraUtimoRetiro = fchMovto;
+                                comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                            }
+                            break;
+                        }
+                        case 'CashManagement': {
+                            if (reg.Data.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito") {
+                                comisonesAtm.numDepositos++;
+                                comisonesAtm.montoDepositos += reg.Amount;
+                                comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
+                                comisonesAtm.hraUtimoDeposito = fchMovto;
+                            }
+                            break;
+                        }
 
-                        comisonesAtm.Description = infoAtm.Description;
-                        comisonesAtm.idAtm       = reg.AtmName;
-                        //comisonesAtm.ipAtm = reg.Ip;
-
-                        if (reg.SwitchResponseCode == 0) {
-                            fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
-                            switch (reg.OperationType) {
-                                case 'BalanceCheck': {
-                                    comisonesAtm.numConsultas++;
-                                    comisonesAtm.comisionesConsultas += (reg.Surcharge / ((iva / 100) + 1));
-                                    comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
-                                    comisonesAtm.hraUtimaConsulta = fchMovto;
-                                    comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
-                                    break;
+                        case 'Exception': {
+                            if (reg.Event == "Withdrawal"){
+                                if(reg.SwitchResponseCode >= 1000){
+                                    comisonesAtm.errRetiros++;
+                                    comisonesAtm.errMontoRetiros       += reg.Amount;
+                                    comisonesAtm.errComisionRetiros    += comision;
+                                    comisonesAtm.errPrimerRetiro        = (comisonesAtm.errPrimerRetiro == '') ? fchMovto : comisonesAtm.errPrimerRetiro;
+                                    comisonesAtm.errUltimoRetiro        = fchMovto;
+                                    comisonesAtm.errTotal++;
                                 }
-                                case 'Withdrawal': {
-                                    comisonesAtm.numRetiros++;
-                                    comisonesAtm.comisionesRetiros += (reg.Surcharge / ((iva / 100) + 1));
-                                    comisonesAtm.montoRetiros += reg.Amount;
-                                    comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
-                                    comisonesAtm.hraUtimoRetiro = fchMovto;
-                                    comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
-                                    break;
-                                }
-                                case 'CashManagement': {
-                                    comisonesAtm.numDepositos++;
-                                    comisonesAtm.montoDepositos += reg.Amount;
-                                    comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
-                                    comisonesAtm.hraUtimoDeposito = fchMovto;
-                                    break;
+                            }else if (reg.Event == "BalanceCheck"){
+                                if(reg.SwitchResponseCode >= 1000){
+                                    comisonesAtm.errConsultas++;
+                                    comisonesAtm.errComisionConsultas  += comision;
+                                    comisonesAtm.errPrimeraConsulta     = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;
+                                    comisonesAtm.errUltimaConsulta      = fchMovto;
+                                    comisonesAtm.errTotal++;
                                 }
                             }
                         }
-                    });
-                /*
-                }).catch(error => {
-                    console.log(error);
+                    }
                 });
-                */
             }
-            //console.log("comisionesAtm -->"+JSON.stringify(comisonesAtm)+"<--");
-            //this.dataJournalRedBlu = datosJournal;
         }
         return(comisonesAtm);
     }
+
+
+    public exportaComisiones2Excel(opersFinancieras){
+
+        console.log("exportaComisiones2Excel:: Inicio");
+        let arr2Excel:any[] = [];
+        let tmpComisionesRetiroso:any;
+        let tmpComisionesConsultas:any;
+        let tmpTotalComisiones:any;
+        let tmpMontoDepositos:any;
+        let tmpMontoRetiroso:any;
+
+        let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+        opersFinancieras.forEach((reg)=> {
+            //tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
+
+            tmpComisionesRetiroso   = reg.comisionesRetiros.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpMontoRetiroso        = reg.montoRetiros.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpComisionesConsultas  = reg.comisionesConsultas.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpTotalComisiones      = reg.totalComisiones.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpMontoDepositos       = reg.montoDepositos.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+
+            arr2Excel.push(
+                {
+                    "Ubicación":           	                reg.Description,
+                    "Retiros":                   	        reg.numRetiros,
+                    "Comisiones Retiro":                  	tmpComisionesRetiroso,
+                    "Monto Retiros":             	        tmpMontoRetiroso,
+                    "Primer Retiro":       	                reg.hraPrimerRetiro,
+                    "Último Retiro":    	                reg.hraUtimoRetiro,
+
+                    "Consultas":                   	        reg.numConsultas,
+                    "Comisiones Consulta":                  tmpComisionesConsultas,
+                    "Primera Consulta":       	            reg.hraPrimeraConsulta,
+                    "Última Consulta":    	                reg.hraUtimaConsulta,
+
+                    "Total Comisiones":                  	tmpTotalComisiones,
+
+                    "Errores Comunicación":                 reg.errTotal,
+
+                    "Depósitos":                   	        reg.numDepositos,
+                    "Monto Depósitos":                  	tmpMontoDepositos,
+                    "Primer Depósito":       	            reg.hraPrimerDeposito,
+                    "Último Depósito":    	                reg.hraUtimoDeposito,
+
+                }
+            )
+        });
+
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSVService();
+            exporter.exportAllToCSV(arr2Excel, 'Operaciones.csv');
+        }
+    }
+
 }
 // {infoAtm.Desc, NumRetiros, ComisRetiros, hraPrimerRet, hrasUltRet, NumCons, ComisCons,, hraPrimerCons, hrasUltCons, TotComis, NumDepos, MontoDepos)

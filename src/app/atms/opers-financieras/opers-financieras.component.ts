@@ -42,7 +42,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     // Filtros
     public dListaAtmGpos:any            = [];
     public dTipoListaParams:string      = "G";
-    public dSolicitaFechasIni           = false;
+    public dSolicitaFechasIni           = true;
     public dSolicitaFechasFin           = false;
     public dUltimaActualizacion:string;
 
@@ -56,6 +56,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public xtIsOnline:string            = "";
     public Titulo:string                = "";
     public opersFinancieras:any[]       = [];
+    private isDatosJournal:boolean      = false;
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
@@ -70,18 +71,23 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         //this.datosDeOperacion();
+        /*
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
 
+
+
         this.datosDeOperacion();
         this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
+        */
     }
 
     public ngOnDestroy() {
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
+
     }
 
     public infoIdAtms:any = [];
@@ -89,59 +95,93 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
     }
 
-    public datosDeOperacion(){
+    public parametrosConsulta(filtrosConsulta) {
+
+        console.log("OpersFinancierasComponent.parametrosConsulta:: Inicio");
+        let idGpo = filtrosConsulta.gpo;
+        let fIniParam               = filtrosConsulta.fchInicio;
+        let fFinParam               = filtrosConsulta.fchInicio;
+        let ipAtm                   = filtrosConsulta.gpo;
+        let timeStampStart:string   = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+            fIniParam.hour, fIniParam.min);
+        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fIniParam.year, fIniParam.month, fIniParam.day);
+        let paramsConsulta:any      = {timeStampStart: timeStampStart, timeStampEnd: timeStampEnd, idGpo: idGpo};
+
+        this.pDatosDelJournal(paramsConsulta);
+
+    }
+
+    public pDatosDelJournal(paramsConsulta){
+
+        if (this.intervalId != null){
+            clearInterval(this.intervalId);
+        }
+
+        this.datosDeOperacion(paramsConsulta);
+        this.intervalId = setInterval(() => { this.datosDeOperacion(paramsConsulta); }, this.tiempoRefreshDatos);
+    }
+
+    public datosDeOperacion(paramsConsulta){
+
+        if ($('#btnExpExel2').length == 0) {
+            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()" [attr.disabled]="isDatosJournal ? \"\" : null">');
+            //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
+        }
+
+        $('#btnExpExel2').css('cursor', 'not-allowed');
+        this.isDatosJournal = true;
 
         let datosAtm:any;
         let idAtms:any[]        = this.infoAtmsService.obtenIdAtmsOnLine();
         this.opersFinancieras   = [];
-        console.log("-->"+JSON.stringify(idAtms)+"<--");
+
+        //$("#idDivAreaGrid span[_ngcontent-c7].glyphicon.glyphicon-triangle-right:before").css("color", "blue!important");
+
+        //console.log("-->"+JSON.stringify(idAtms)+"<--");
         if(idAtms != null){
             idAtms.forEach( (reg) => {
-                datosAtm = this.datosJournalService.obtenComisionesPorAtm({'Description': reg.Description,'descAtm': reg.Name, 'Ip': reg.Ip});
-                console.log("-->"+JSON.stringify(datosAtm)+"<--");
+                datosAtm = this.datosJournalService.obtenComisionesPorAtm(paramsConsulta, {'Description': reg.Description,'descAtm': reg.Name, 'Ip': reg.Ip});
                 if (datosAtm.numConsultas > 0 || datosAtm.numRetiros > 0 || datosAtm.numDepositos > 0) {
                     this.opersFinancieras.push(datosAtm);
                 }
             });
+
         }
 
         this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
 
-        console.log(JSON.stringify(this.opersFinancieras));
-        this.itemResource = new DataTableResource(this.opersFinancieras);
-        this.itemResource.count().then(count => this.itemCount = count);
-        this.reloadItems({limit: this.regsLimite, offset: 0});
+        if (this.opersFinancieras.length > 0 ) {
+            this.itemResource = new DataTableResource(this.opersFinancieras);
+            this.itemResource.count().then(count => this.itemCount = count);
+            this.reloadItems({limit: this.regsLimite, offset: 0});
 
-        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+            this.filtrosUtilsService.fchaHraUltimaActualizacion();
+        }
+
+        if (this.opersFinancieras.length > 0) {
+            $('#btnExpExel2').css('cursor', 'pointer');
+            this.isDatosJournal = false;
+            this.exportaComisiones2Excel(true);
+        }else{
+            $('#btnExpExel2').css('cursor', 'not-allowed');
+            this.isDatosJournal = true;
+        }
+
+        this.opersFinancieras = [];
     }
 
-    public parametrosConsulta(filtrosConsulta){
+    public parametrosConsultaTmp(filtrosConsulta){
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-
+/*
         this.datosDeOperacion();
         this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
+        */
     }
-
-    /*
-    public parametrosConsulta(filtrosConsulta){
-
-        let parametrosConsulta:any = {};
-        let idGpo     = filtrosConsulta.gpo;
-        let filtrosCons = {idGpo: idGpo};
-
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }
-
-        this.obtenGetAtm(filtrosCons);
-        this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
-    }
-    */
 
     reloadItems(params) {
-        console.log("reloadItems::");
+        //console.log("reloadItems::");
         this.itemResource.query(params).then(items => this.items = items);
     }
 
@@ -154,5 +194,11 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     }
 
     rowTooltip(item) { return item.jobTitle; }
+
+    private exportaComisiones2Excel(event){
+        console.log(nomComponente+".exportaComisiones2Excel:: Inicio");
+        //console.log(JSON.stringify(this.opersFinancieras));
+        //this.datosJournalService.exportaComisiones2Excel(this.opersFinancieras);
+    }
 
 }

@@ -95,20 +95,39 @@ export class TiempoPromOperComponent implements OnInit, OnDestroy  {
 
     public obtenDatosLogHMA(filtrosConsulta){
 
-        this.tiempoPromOpers    = [];
+        this.tiempoPromOpers    = [{detalle: {}}];
         this.numOpers           = 0;
         this.tiempoPromedio     = "00:00";
 
         this.tiempoPromOpers = this.logHmaService.obtenTiempoPromedioOper(filtrosConsulta);
         let numTotOpers = this.tiempoPromOpers.length;
 
-        this.numOpers       = this.tiempoPromOpers[numTotOpers -1].numOper;
-        let segsDuracion    = this.tiempoPromOpers[numTotOpers -1].acumSegs;
-        let minsTotDura     = Math.floor( (segsDuracion / this.numOpers) / 60);
-        let segsTotDura     = (minsTotDura == 0) ? Math.floor( segsDuracion / this.numOpers) : segsDuracion - (minsTotDura);
+        /*
+        let tiempoMinimo:any = null;
+        let tiempoMaximo:any = null;
+        this.tiempoPromOpers.forEach( (reg) => {
+            if ( tiempoMinimo == null ){
+                tiempoMinimo = {hra: reg.hraIni, tiempo: reg.tiempoDura};
+            }
+            if ( tiempoMaximo == null ){
+                tiempoMaximo = {hra: reg.hraIni, tiempo: reg.tiempoDura};
+            }
+            if (reg.tiempoDura < tiempoMinimo && reg.tiempoDura != "*****"){
+                tiempoMinimo = {hra: reg.hraIni, tiempo: reg.tiempoDura};
+            }
+            if (reg.tiempoDura > tiempoMaximo){
+                tiempoMaximo = {hra: reg.hraIni, tiempo: reg.tiempoDura};
+            }
+        });
+        */
+        //console.log("TiempoMinimo: "+tiempoMinimo+"   TiempoMaximo: "+tiempoMaximo);
+        //this.numOpers       = this.tiempoPromOpers[numTotOpers -1].numOper;
+        //let segsDuracion    = this.tiempoPromOpers[numTotOpers -1].acumSegs;
+        //let minsTotDura     = Math.floor( (segsDuracion / this.numOpers) / 60);
+        //let segsTotDura     = (minsTotDura == 0) ? Math.floor( segsDuracion / this.numOpers) : segsDuracion - (minsTotDura);
 
-        this.tiempoPromedio = Math.round(this.tiempoPromOpers[this.numOpers -1].acumSegs / this.numOpers);
-        this.tiempoPromedio = sprintf("%02d:%02d", minsTotDura, segsTotDura);
+        //this.tiempoPromedio = Math.round(this.tiempoPromOpers[this.numOpers -1].acumSegs / this.numOpers);
+        //this.tiempoPromedio = sprintf("%02d:%02d", minsTotDura, segsTotDura);
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 

@@ -62,6 +62,65 @@
         overflow-x: hidden;
         overflow-y: hidden;
     }
+
+    .data-table-header {
+        display : none;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    .letraNegrita{
+        font-weight: bold;
+    }
+    .centraTexto{
+        text-align: center;
+    }
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+    }
+    #divErroresOpers {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-left: 25%;"
+        width: 35em;
+        max-width: 35em;
+    }
+
+    #tablaErroresOpers {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid;
+    }
+
+    #tablaErroresOpers thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+    }
+
+    #tablaErroresOpers[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
+        background-color: #5C5757;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #tablaErroresOpers thead tr th,
+    #tablaErroresOpers thead tr td {
+        border: 1px solid black;
+    }
+
+    #tablaErroresOpers thead {
+        border: 1px solid black;
+    }
+
 </style>
 
 <div class="container-fluid">
@@ -79,8 +138,26 @@
 
         <div id="idDivCardGrid" class="card">
 
-            <data-table id="stat-atms-grid"  style="overflow-x: hidden;"
-                        [headerTitle]="Titulo"
+            <!--
+            <div class="row" style="padding: 0px; vertical-align: middle;">
+
+                <div class="col-md-8" style="vertical-align: middle;">
+                    <span style="font-size: 25px;">Operaciones Financieras</span>
+                </div>
+                <div class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    < !- - button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button -- >
+                    <input id="btnExpExel"
+                        style="cursor: pointer;"
+                        title="Exporta archivo CVS"
+                        type=image   src="assets/img/office_excel.png"
+                        [attr.disabled]="isDatosJournal?'':null"
+                        width="45" height="40" (click)="exportaJournal2Excel()">
+                </div>
+            </div>
+    -->
+
+            <data-table id="idOpersFinancieras"  style="overflow-x: hidden;"
+                        headerTitle="Operaciones Financieras"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
@@ -92,12 +169,51 @@
                         [indexColumnHeader]="'ID'"
                         [rowTooltip]="rowTooltip">
 
+                <ng-template #dataTableExpand  let-item="item">
+                    <div id="divErroresOpers" class="content table-responsive">
+                        <div class="centraTexto">
+                            <span class="letraNegrita" style="font-size: 17px">Operaciones con error de comunicación</span>
+                        </div>
+
+                        <table id="tablaErroresOpers" class="table table-hover table-striped sombraObjeto" style="border: 1px solid black;">
+                            <thead>
+                                <tr class="fondoTituloDetalle">
+                                    <th class="col-md-1">Operaciones</th>
+                                    <th class="col-md-1">Número</th>
+                                    <th class="col-md-1">Monto</th>
+                                    <th class="col-md-1">Comisión</th>
+                                    <th class="col-md-1">Primera</th>
+                                    <th class="col-md-1">Última</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Retiros</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errRetiros | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errMontoRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errComisionRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errPrimerRetiro}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errUltimoRetiro}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Consultas</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errConsultas | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico"></td>
+                                    <td class="col-md-1 campoNumerico">{{item.errComisionConsultas | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errPrimeraConsulta}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errUltimaConsulta}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+
                 <data-table-column
                         [property]="'Description'"
                         [header]="'Ubicación'"
                         [sortable]="true"
-                        [resizable]="false"
-                        width="4%">
+                        [resizable]="true"
+                        width="55px">
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
                             <div class="noWrap">
                                 <span>{{item.Description}}</span>
@@ -105,34 +221,6 @@
                         </ng-template>
                 </data-table-column>
 
-                <!--
-                <data-table-column
-                        [property]="'idAtm'"
-                        [header]="'ATM'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2.4%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                            <div>
-                                <span>{{item.idAtm}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                -->
-                <!--
-                <data-table-column
-                        [property]="'ipAtm'"
-                        [header]="'IP'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2.5%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                            <div>
-                                <span>{{item.ipAtm}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                -->
                 <data-table-column
                         [property]="'numRetiros'"
                         [header]="'Retiros'"
@@ -194,7 +282,6 @@
                     </ng-template>
                 </data-table-column>
 
-
                 <data-table-column
                         [property]="'numConsultas'"
                         [header]="'Consultas'"
@@ -249,13 +336,30 @@
                         [header]="'Total Surcharge'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="2.5%">
+                        width="35px">
                         <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
                             <div style="text-align: right;">
                                 <span>{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
+
+                <data-table-column
+                        [property]="'errTotal'"
+                        [header]="'Errores Comunicación'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="30px">
+                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                            <div style="text-align: right;">
+                                <span>{{item.errTotal | number:'1.0-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+
+
+
 
                 <data-table-column
                         [property]="'numDepositos'"

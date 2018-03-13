@@ -194,23 +194,29 @@ div.ngx-column.ngx-col-4.ngx-col-mr-auto {
 
 
 /*  */
-button.btn.btn-default.btn-sm.refresh-button {
+button.btn.btn-default.btn-sm.refresh-button,
+button.btn.btn-default.btn-sm.column-selector-button{
     display: none;
 }
 
 /*  */
-#stat-atms-grid div div table thead tr th.expand-column-header{
+#stat-atms-grid div div table thead tr th.expand-column-header,
+#idOpersFinancieras div div table thead tr th.expand-column-header {
     width: 6px;
 }
-#stat-atms-grid div div table thead tr th.index-column-header{
-    width: 10px;
+#stat-atms-grid div div table thead tr th.index-column-header,
+#idOpersFinancieras div div table thead tr th.index-column-header {
+    width: 12px;
+    text-align: center;
 }
 
-#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable{
+#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable,
+#idOpersFinancieras div div table thead tr th.column-header.column-Ip.sortable {
     width: 56px;
 }
 
-#stat-atms-grid div div table tbody tr td.data-column.column-Ip{
+#stat-atms-grid div div table tbody tr td.data-column.column-Ip,
+#idOpersFinancieras div div table tbody tr td.data-column.column-Ip{
     width: 26px;
 }
 
@@ -227,3 +233,9 @@ button.btn.btn-default.btn-sm.refresh-button {
 table.table.table-condensed.table-bordered.data-table thead tr th {
     text-align: center;
 }
+
+/*
+#idDivAreaGrid span[_ngcontent-c7].glyphicon.glyphicon-triangle-right:before{
+    color: springgreen !important;
+}
+*/

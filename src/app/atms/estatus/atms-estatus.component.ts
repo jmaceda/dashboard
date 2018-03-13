@@ -137,6 +137,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
             arrDatosAtms[idx++] = {
                 Description:                    reg.Description,
+
                 Ip:                             reg.Ip,
                 DeviceStatus:                   reg.DeviceStatus,
                 IsOnline:                       tIsOnline,

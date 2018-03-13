@@ -71,17 +71,18 @@ export class LogHmaService implements OnInit {
 
     public obtenTiempoPromedioOper(filtrosConsulta){
 
+
         let paramsCons: any = {
             ip: [filtrosConsulta.ipAtm], timeStampStart: filtrosConsulta.timeStampStart, timeStampEnd: filtrosConsulta.timeStampEnd,
             events: ['MediaInserted', 'CardEjected', 'MediaRemoved'], device: ['ICM']
         };
-
         console.log(paramsCons);
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
         console.log("Paginas: <"+gNumPagsLogHma+">");
         let datosRespLogHma:any     = [];
         let datosTiempoOpers:any    = [];
+        let respDatosTiempoOpers:any;
 
         if (gNumPagsLogHma > 0) {
 
@@ -90,11 +91,16 @@ export class LogHmaService implements OnInit {
             let hraInicio:any       = null;
             let hraTermino:any      = null;
             let segsDuracion:any    = 0;
-            let numOper:number      = 0;
-            let tiempoDuracion:any  = 0;
+            let numOpers:number     = 0;
+            let tiempoDuracion:any  = "00:00";
             let minsTotDura:number  = 0;
             let segsTotDura:number  = 0;
             let acumSegs:number     = 0;
+            let hraTiempoMin:any    = null;
+            let segsTiempoMin:any = "99:99";
+            let hraTiempoMax:any    = null;
+            let segsTiempoMax:any = "00:00";
+
 
             for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
@@ -122,16 +128,39 @@ export class LogHmaService implements OnInit {
                             tiempoDuracion = "*****";
                         }else{
                             acumSegs += segsDuracion;
-                            numOper++;
+                            numOpers++;
                         }
-                        datosTiempoOpers.push({hraIni: hraInicio, hraFin: hraTermino, tiempoDura: tiempoDuracion, acumSegs: acumSegs, numOper: numOper})
+
+
+
+                        datosTiempoOpers.push({hraIni: hraInicio, hraFin: hraTermino, tiempoDura: tiempoDuracion, acumSegs: acumSegs, numOpers: numOpers});
                         hraInicio   = null;
+                    }
+
+                    if (hraTiempoMin == null || (tiempoDuracion < segsTiempoMin && tiempoDuracion != "*****")){
+                        hraTiempoMin    = reg.TimeStamp;
+                        segsTiempoMin   = tiempoDuracion
+                    }
+                    if (hraTiempoMax == null || (tiempoDuracion > segsTiempoMax)){
+                        hraTiempoMax    = reg.TimeStamp;
+                        segsTiempoMax   = tiempoDuracion
                     }
                 });
             }
-            console.log("Num. opers: "+numOper);
+            console.log("Num. opers: "+numOpers);
+
+            minsTotDura     = Math.floor( (acumSegs / numOpers) / 60);
+            segsTotDura     = (minsTotDura == 0) ? Math.floor( acumSegs / numOpers) : acumSegs - (minsTotDura);
+            let tiempoPromedio  = Math.round(acumSegs / numOpers);
+
+            console.log("acumSegs: ["+acumSegs+"]  numOpers["+numOpers+"]");
+            console.log("minsTotDura: ["+minsTotDura+"]  segsTotDura["+segsTotDura+"]  tiempoPromedio["+tiempoPromedio+"]");
+            respDatosTiempoOpers = {
+                'resumen': {'hraTiempoMin': hraTiempoMin, 'segsTiempoMin': segsTiempoMin, 'hraTiempoMax': hraTiempoMax, 'segsTiempoMax': segsTiempoMax, 'numOper': numOpers },
+                'detalle': datosTiempoOpers
+            };
         }
-        return(datosTiempoOpers);
+        return(respDatosTiempoOpers);
     }
 
 }

@@ -65,7 +65,7 @@ export class SoapService {
                     soapCallback = fncCallBack;
                 }
 
-                console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
+                //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
                 this.soapClient.invoke(this.url, action, this.soapParams, async, soapCallback);
              this.blockUI.stop(); // Stop blocking
             });

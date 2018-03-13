@@ -98,6 +98,10 @@ export class FiltrosConsultasComponent implements OnInit {
         this.ipATMs.sort(function (a, b) {
             return a.localeCompare(b);
         });
+
+        if( this.dSolicitaFechasIni == true && this.dSolicitaFechasFin == false){
+            $('#idDivFechas').css({'display': 'table-cell','vertical-align': 'middle', 'text-align': 'center'});
+        }
     }
 
     public inicilizaFechasFiltro(){
@@ -159,6 +163,14 @@ export class FiltrosConsultasComponent implements OnInit {
     }
 
     public pAtmSeleccionado(idx){}
+
+    private muestraDosFecha(){
+        if (this.dSolicitaFechasIni && this.dSolicitaFechasFin){
+            return("A");
+        }else if (this.dSolicitaFechasIni && !this.dSolicitaFechasFin){
+            return("I");
+        }
+    }
 
     /*
 
