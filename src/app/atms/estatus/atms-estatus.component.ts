@@ -139,6 +139,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                 Description:                    reg.Description,
 
                 Ip:                             reg.Ip,
+                Name:                           reg.Name,
                 DeviceStatus:                   reg.DeviceStatus,
                 IsOnline:                       tIsOnline,
                 PaperStatus:                    reg.PaperStatus,

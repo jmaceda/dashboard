@@ -81,7 +81,8 @@
         -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
         box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
     }
-    #divErroresOpers {
+    #divErroresOpers,
+    #divOpersSinError{
         padding-top: 3px;
         padding-bottom: 3px;
         margin-left: 25%;"
@@ -170,7 +171,7 @@
                         [rowTooltip]="rowTooltip">
 
                 <ng-template #dataTableExpand  let-item="item">
-                    <div id="divErroresOpers" class="content table-responsive">
+                    <div *ngIf="item.errTotal > 0" id="divErroresOpers" class="content table-responsive">
                         <div class="centraTexto">
                             <span class="letraNegrita" style="font-size: 17px">Operaciones con error de comunicación</span>
                         </div>
@@ -205,6 +206,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div *ngIf="item.errTotal == 0" id="divOpersSinError">
+                        <span class="letraNegrita" style="font-size: 17px">Operaciones sin errores de comunicación</span>
                     </div>
                 </ng-template>
 
@@ -352,7 +356,8 @@
                         width="30px">
                         <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
                             <div style="text-align: right;">
-                                <span>{{item.errTotal | number:'1.0-2'}}</span>
+                                <span style="color: red" *ngIf="item.errTotal > 0">{{item.errTotal | number:'1.0-2'}}</span>
+                                <span style="color: black" *ngIf="item.errTotal == 0">{{item.errTotal | number:'1.0-2'}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>

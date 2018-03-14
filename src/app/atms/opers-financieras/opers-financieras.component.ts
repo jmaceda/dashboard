@@ -50,7 +50,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public items                        = [];
     public itemCount                    = 0;
 
-    public regsLimite:number            = 15;
+    public regsLimite:number            = 13;
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 60 * 1); // Actualiza la información cada minuto.
     public xtIsOnline:string            = "";
@@ -117,14 +117,24 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             clearInterval(this.intervalId);
         }
 
+        let ftoFchSys:any           = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let expFchSys:any           = /(\d+)\/(\d+)\/(\d+)/
+        let fchSys:any              = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3$1$2');
+        let fchParam:any  = (paramsConsulta.timeStampEnd.substring(0,10)).replace(/-/g,"");
+
         this.datosDeOperacion(paramsConsulta);
-        this.intervalId = setInterval(() => { this.datosDeOperacion(paramsConsulta); }, this.tiempoRefreshDatos);
+
+        if( fchSys == fchParam) {
+            this.intervalId = setInterval(() => {
+                this.datosDeOperacion(paramsConsulta);
+            }, this.tiempoRefreshDatos);
+        }
     }
 
     public datosDeOperacion(paramsConsulta){
 
         if ($('#btnExpExel2').length == 0) {
-            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()" [attr.disabled]="isDatosJournal ? \"\" : null">');
+            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
             //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
         }
 
@@ -160,8 +170,8 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
         if (this.opersFinancieras.length > 0) {
             $('#btnExpExel2').css('cursor', 'pointer');
-            this.isDatosJournal = false;
-            this.exportaComisiones2Excel(true);
+            this.isDatosJournal = true;
+            //this.exportaComisiones2Excel(true);
         }else{
             $('#btnExpExel2').css('cursor', 'not-allowed');
             this.isDatosJournal = true;

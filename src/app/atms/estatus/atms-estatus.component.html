@@ -108,13 +108,14 @@
     tr:nth-child(even) {background: #CCC}
     tr:nth-child(odd) {background: #FFF}
 
-
+/*
     span:nth-child(1)   {
         color: #777;
     }
     span:nth-child(even) {
         color: blue;
     }
+*/
 
 </style>
 
@@ -167,77 +168,15 @@
 
                                 <div id="div2"   style="border: solid thin;">
                                     <span class="letrasNegritas">Dispositivos con Error</span>
+                                    <br>
                                     <div>
                                         <div *ngFor="let dispositivo of item.DevicesOffline" class="table table-striped tabla">
                                             <span>{{dispositivo}}</span>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="div0"></div>
-                                <div id="div3">Texto que va en el div3</div>
-
-<!--
-                                <div class="row">
-                                <div class="col-md-6" style="height: 70%;  border: thin; margin-left: 5px">
-                                    <span style="font-weight:bold;">Última Actualización</span>
-                                    <table class="table table-bordered table-striped">
-                                        <tbody>
-                                            <tr *ngFor="let ultimaAct of item.FchsUltimaAct">
-                                                <td class="col-md-2">{{ultimaAct.desc}}</td>
-                                                <td class="col-md-2">{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                    <div class="col-md-6" style="height: 70%;  border: solid;">
-
-                                </div>
--->
-
-
-                                <!--
-                                <div id="1" style="float: left; max-width: 40px; width: 40px;">
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 100%;max-width: 100%;">Última Actualización</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let ultimaAct of item.FchsUltimaAct">
-                                                <td style="width: 10%;max-width: 10%;">{{ultimaAct.desc}}</td>
-                                                <td style="width: 50%;max-width: 50%;">{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    -->
-
-
-                                    <!--
-                                    <span>Última Actualización</span>
-                                    <div *ngFor="let ultimaAct of item.FchsUltimaAct" class="table table-bordered table-striped tabla">
-                                        <div id="1" style="float: left; width: 8rem;">
-                                            <span>{{ultimaAct.desc}}</span>
-                                        </div>
-                                        <div id="2" style="float: left; width: 17rem;">
-                                            <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </div>
-                                    </div>
-                                    -->
-
-                                <!--
-                                 </div>
-
-                                <div id="2" style="float:left; width: 25rem;">
-                                    <span>Dispositivos con Error</span>
-                                    <div *ngFor="let dispositivo of item.DevicesOffline">
-                                        <span>{{dispositivo}}</span>
-                                    </div>
-                                </div>
-                            -->
 
                             </div>
 
@@ -248,19 +187,19 @@
                         [header]="'Descripción'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="10em">
+                        width="65px">
                         <ng-template #dataTableCell let-item="item">
-                            <div   class="noWrap" style="width: 10em;">
+                            <div   class="noWrap" style="width: 65px;">
                                 <span nowrap>{{item.Description}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
                         [property]="'Name'"
-                        [header]="'Name'"
+                        [header]="'Atm Id'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="4em">
+                        width="3em">
                 </data-table-column>
                 <data-table-column
                         [property]="'Ip'"
