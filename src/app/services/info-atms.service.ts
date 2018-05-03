@@ -3,18 +3,24 @@
 import { Injectable }       from '@angular/core';
 import { OnInit }           from '@angular/core';
 import { SoapService }      from './soap.service';
+import { LogHmaService }    from './log-hma.service';
 
 export var gDatosAtm:any;
 export var gDatosAtms:any;
 export var gGrupos;
-
+export var gDevicesAtm:any[]  = [];
 var nomServicio = "InfoAtmsService";
 
 @Injectable()
 export class InfoAtmsService implements OnInit {
 
-    constructor(public _soapService: SoapService){
+    constructor(public _soapService: SoapService,
+                public logHmaService: LogHmaService){
         console.log(nomServicio+".constructor:: init");
+    }
+
+    public ngOnInit() {
+        gDevicesAtm  = this.logHmaService.GetHmaDevices();
     }
 
     public GetAtm(datosAtms:any, status){
@@ -137,7 +143,10 @@ export class InfoAtmsService implements OnInit {
 
     public obtenIdAtmsOnLine(){
 
-        let parametros          = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1};
+        let parametros          = { 
+				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, 
+				stateId: -1, townId: -1, areaId: -1, zipCode: -1
+		};
         let fchOper:any;
         let idAtms:any[]        = [];
         let infoDatosAtms:any   = [];
@@ -145,7 +154,7 @@ export class InfoAtmsService implements OnInit {
         let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
         let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
 
-        infoDatosAtms = this.obtenDetalleAtms(parametros);
+        infoDatosAtms 			= this.obtenDetalleAtms(parametros);
 
         if(infoDatosAtms.length > 0) {
             infoDatosAtms.forEach((reg) => {
@@ -159,7 +168,60 @@ export class InfoAtmsService implements OnInit {
         return(idAtms);
     }
 
-    ngOnInit(){}
+	public obtenIdAtmsOnLinePorGpo(paramsConsulta?:any){
+		//console.log(paramsConsulta);
+		
+        let parametros          = { 
+				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
+				osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1
+		};
+        let fchOper:any;
+        let idAtms:any[]        = [];
+        let infoDatosAtms:any   = [];
+        let ftoFchSys:any       = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
+		let fchParam:any        = paramsConsulta.timeStampEnd.substring(0,10);
+        let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
+        let arrDevicesOffline   = [];
+		parametros.groupId 		= (paramsConsulta.idGpo != undefined && paramsConsulta.idGpo != null) ? paramsConsulta.idGpo : -1;
+		
+        infoDatosAtms = this.obtenDetalleAtms(parametros);
+
+        if(infoDatosAtms.length > 0) {
+			if (fchParam != fchSys.toString()) {
+				infoDatosAtms.forEach((reg) => {
+                    if ( reg.OfflineDevices.length > 0 ){
+                        for(let cve in reg.OfflineDevices) {
+                            arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
+                        }
+                    }
+                    idAtms.push({
+                        'Description': reg.Description,
+                        'Name': reg.Name,
+                        'Id': reg.Id,
+                        'Ip': reg.Ip,
+                        'DevicesOffline': arrDevicesOffline
+                    });
+                });
+			} else {
+				infoDatosAtms.forEach((reg) => {
+					fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
+
+					if (fchOper == fchSys) {
+						idAtms.push({
+							'Description': reg.Description, 
+							'Name': reg.Name, 
+							'Id': reg.Id, 
+							'Ip': reg.Ip
+						});
+					}
+				});
+			}
+
+        }
+        return(idAtms);
+    }
+
 
 }
 

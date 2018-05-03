@@ -30,10 +30,8 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 
-//import { ParamsAtmsComponent }              from './atms/params-atmsTmp/params-atmsTmp.component';
 import { FiltrosConsultasComponent }        from './shared/filtros-consultas/filtros-consultas.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
-//import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';
 
 import { AtmsComponent }                    from './atms/atms.component';
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
@@ -46,10 +44,7 @@ import { DetallePorTienda }                 from './reportes/detalle-por-tienda/
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 
 import { ReportesModule }                   from './reportes/reportes.module';
-//import { ParamsComponent }                  from './reportes/params/params.component';
 import { AclaracionesComponent }            from './reportes/aclaraciones/aclara.component';
-//import { NgbdModalContent }                 from './utils/ngbd-modal-content';
-//import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 import { BsModalModule }                    from 'ng2-bs3-modal';
 
@@ -63,23 +58,13 @@ import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scro
 import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
-import { BlockUIModule } from 'ng-block-ui';
+import { BlockUIModule }                    from 'ng-block-ui';
+import { RechazosHmaComponent }             from './tmp/rechazos-hma/rechazos-hma.component';
+import { PruebasModule }                    from './tmp/pruebas/pruebas.module';
+import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
+import { ManualGrgComponent }               from './docs/manual-grg.component';
 
-//import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
-//import { SmartTableService } from './tmp/ng2-smart-table/smart-table.service';
-
-//import { Ng2SmartTableModule } from 'ng2-smart-table';
-//import { NbThemeModule } from '@nebular/theme';
-//import { NbSidebarModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
-
-import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
-
-import { PruebasModule }              from './tmp/pruebas/pruebas.module';
-
-import { TiempoPromOperComponent }        from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
-import { ManualGrgComponent }                from './docs/manual-grg.component';
-
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfViewerModule }                  from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [

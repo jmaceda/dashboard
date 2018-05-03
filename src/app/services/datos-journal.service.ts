@@ -255,18 +255,17 @@ export class DatosJournalService implements OnInit {
             events: ["Withdrawal", "BalanceCheck", "CashManagement", "Exception"], minAmount: -1, maxAmount: -1,
             authId: -1, cardNumber: -1, accountId: -1
         };
-//console.log("paramsCons["+JSON.stringify(paramsCons)+"]");
-        //console.log(JSON.stringify(paramsCons));
+
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-//console.log("gPaginasJournal["+JSON.stringify(gPaginasJournal)+"]");
+
         // Obten datos del Journal de un ATM
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
-//console.log(JSON.stringify(gDatosJournal));
+
                 gDatosJournal.forEach( (reg) => {
 
                     if ( reg.SwitchResponseCode >= 1000) {
@@ -315,8 +314,10 @@ export class DatosJournalService implements OnInit {
                         }
 
                         case 'Exception': {
+							let regexErrCom = /Problemas de comunicación|Error de conexión|Tiempo expirado/g
                             if (reg.Event == "Withdrawal"){
-                                if(reg.SwitchResponseCode >= 1000){
+                                //if(reg.SwitchResponseCode >= 1000){
+								if (regexErrCom.test(reg.HWErrorCode)){
                                     comisonesAtm.errRetiros++;
                                     comisonesAtm.errMontoRetiros       += reg.Amount;
                                     comisonesAtm.errComisionRetiros    += comision;
@@ -325,7 +326,8 @@ export class DatosJournalService implements OnInit {
                                     comisonesAtm.errTotal++;
                                 }
                             }else if (reg.Event == "BalanceCheck"){
-                                if(reg.SwitchResponseCode >= 1000){
+                                //if(reg.SwitchResponseCode >= 1000){
+								if (regexErrCom.test(reg.HWErrorCode)){ 
                                     comisonesAtm.errConsultas++;
                                     comisonesAtm.errComisionConsultas  += comision;
                                     comisonesAtm.errPrimeraConsulta     = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;

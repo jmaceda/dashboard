@@ -8,8 +8,8 @@ import { InfoAtmsService }                                      from '../../serv
 import { DatosJournalService }                                  from '../../services/datos-journal.service';
 
 import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
-import { UtilsService }                                 from '../../services/utils.service';
-
+import { UtilsService }                                         from '../../services/utils.service';
+//import { LogHmaService }                                        from '../../services/log-hma.service';
 
 var arrDatosAtms:any[] = [];
 
@@ -53,7 +53,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public regsLimite:number            = 13;
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 60 * 1); // Actualiza la información cada minuto.
-    public xtIsOnline:string            = "";
+    //public xtIsOnline:string            = "";
     public Titulo:string                = "";
     public opersFinancieras:any[]       = [];
     private isDatosJournal:boolean      = false;
@@ -62,50 +62,41 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                 public filtrosUtilsService: FiltrosUtilsService,
                 public infoAtmsService: InfoAtmsService,
                 public datosJournalService: DatosJournalService,
-                public utilsService: UtilsService) {
+                public utilsService: UtilsService) //,
+                //public logHmaService: LogHmaService)
+    {
 
         console.log(nomComponente+".constructor:: Inicia");
     }
 
-    public atmsActivos:any [] = [];
+    //public atmsActivos:any [] = [];
 
-    public ngOnInit() {
-        //this.datosDeOperacion();
-        /*
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }
-
-
-
-        this.datosDeOperacion();
-        this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
-        */
-    }
+    public ngOnInit() {}
 
     public ngOnDestroy() {
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-
     }
 
-    public infoIdAtms:any = [];
-    public obtenOpersAtms(ipAtm){
-
-    }
+    //public infoIdAtms:any = [];
+    //public obtenOpersAtms(ipAtm){ }
 
     public parametrosConsulta(filtrosConsulta) {
 
         console.log("OpersFinancierasComponent.parametrosConsulta:: Inicio");
-        let idGpo = filtrosConsulta.gpo;
+        let idGpo 					= filtrosConsulta.gpo;
         let fIniParam               = filtrosConsulta.fchInicio;
         let fFinParam               = filtrosConsulta.fchInicio;
         let ipAtm                   = filtrosConsulta.gpo;
         let timeStampStart:string   = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
         let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fIniParam.year, fIniParam.month, fIniParam.day);
-        let paramsConsulta:any      = {timeStampStart: timeStampStart, timeStampEnd: timeStampEnd, idGpo: idGpo};
+        let paramsConsulta:any      = {
+				'timeStampStart': timeStampStart, 
+				'timeStampEnd': timeStampEnd, 
+				'idGpo': idGpo
+		};
 
         this.pDatosDelJournal(paramsConsulta);
 
@@ -117,9 +108,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             clearInterval(this.intervalId);
         }
 
-        let ftoFchSys:any           = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        let expFchSys:any           = /(\d+)\/(\d+)\/(\d+)/
-        let fchSys:any              = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3$1$2');
+        let ftoFchSys:any = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let expFchSys:any = /(\d+)\/(\d+)\/(\d+)/
+        let fchSys:any    = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3$1$2');
         let fchParam:any  = (paramsConsulta.timeStampEnd.substring(0,10)).replace(/-/g,"");
 
         this.datosDeOperacion(paramsConsulta);
@@ -138,29 +129,82 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
         }
 
+		//console.log("OpersFinancierasComponent.datosDeOperacion:: paramsConsulta -->"+JSON.stringify(paramsConsulta)+"<--");
         $('#btnExpExel2').css('cursor', 'not-allowed');
-        this.isDatosJournal = true;
+        this.isDatosJournal 		= true;
 
         let datosAtm:any;
-        let idAtms:any[]        = this.infoAtmsService.obtenIdAtmsOnLine();
-        this.opersFinancieras   = [];
+		let idAtms:any[]        	= this.infoAtmsService.obtenIdAtmsOnLinePorGpo(paramsConsulta);
+		let numRetirosTiendas		= 0;
+		let numConsultasTiendas		= 0;		
+		let comisTotalTiendas   	= 0;
+		let comisRetirosTiendas 	= 0;
+		let comisConsultasTiendas	= 0;
+		let numRetirosPlazas   		= 0;
+		let numConsultasPlazas 		= 0;		
+		let comisTotalPlazas   		= 0;
+		let comisRetirosPlazas 		= 0;
+		let comisConsultasPlazas 	= 0;
+		let expRegText              = "^CI[0-9]{2}XX[0-9]{4}[0-9A-Za-z]*$";
+		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
+		let regexPlaza:any      	= new RegExp( expRegText.replace(/XX/g, "GP") );
 
-        //$("#idDivAreaGrid span[_ngcontent-c7].glyphicon.glyphicon-triangle-right:before").css("color", "blue!important");
-
+		this.opersFinancieras   	= [];
+		
         //console.log("-->"+JSON.stringify(idAtms)+"<--");
         if(idAtms != null){
             idAtms.forEach( (reg) => {
-                datosAtm = this.datosJournalService.obtenComisionesPorAtm(paramsConsulta, {'Description': reg.Description,'descAtm': reg.Name, 'Ip': reg.Ip});
-                if (datosAtm.numConsultas > 0 || datosAtm.numRetiros > 0 || datosAtm.numDepositos > 0) {
+                datosAtm = this.datosJournalService.obtenComisionesPorAtm(paramsConsulta, {
+							'Description': reg.Description,
+							'descAtm': reg.Name, 
+							'Ip': reg.Ip,
+                            'DevicesOffline': reg.DevicesOffline
+				});
+			
+                if ( (datosAtm.numConsultas + datosAtm.numRetiros + datosAtm.numDepositos) > 0) {
                     this.opersFinancieras.push(datosAtm);
+
+					if ( regexTienda.test(datosAtm.idAtm) ){
+						numRetirosTiendas       += datosAtm.numRetiros;
+						comisRetirosTiendas 	+= datosAtm.comisionesRetiros;
+						numConsultasTiendas     += datosAtm.numConsultas;
+						comisConsultasTiendas 	+= datosAtm.comisionesConsultas;
+						comisTotalTiendas 		+= datosAtm.totalComisiones;
+					} else if( regexPlaza.test(datosAtm.idAtm) ){
+						numRetirosPlazas        += datosAtm.numRetiros;
+						comisRetirosPlazas 		+= datosAtm.comisionesRetiros;
+						numConsultasPlazas      += datosAtm.numConsultas;
+						comisConsultasPlazas 	+= datosAtm.comisionesConsultas;
+						comisTotalPlazas 		+= datosAtm.totalComisiones;						
+					}
                 }
             });
 
         }
 
         this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
-
-        if (this.opersFinancieras.length > 0 ) {
+		
+		if (comisTotalTiendas > 0 || comisTotalPlazas > 0){
+			this.opersFinancieras.push({
+				'Description': 'Comisiones Tiendas',
+				'numRetiros': numRetirosTiendas,
+				'comisionesRetiros': comisRetirosTiendas,
+				'numConsultas': numConsultasTiendas,
+				'comisionesConsultas': comisConsultasTiendas,
+				'totalComisiones': comisTotalTiendas
+			});
+			this.opersFinancieras.push({
+				'Description': 'Comisiones Plazas', 
+				'numRetiros': numRetirosPlazas,
+				'comisionesRetiros': comisRetirosPlazas,
+				'numConsultas': numConsultasPlazas,				
+				'comisionesConsultas': comisConsultasPlazas, 
+				'totalComisiones': comisTotalPlazas
+			});
+		}
+		
+        //if (this.opersFinancieras.length > 0 ) 
+		{
             this.itemResource = new DataTableResource(this.opersFinancieras);
             this.itemResource.count().then(count => this.itemCount = count);
             this.reloadItems({limit: this.regsLimite, offset: 0});
@@ -180,18 +224,19 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         this.opersFinancieras = [];
     }
 
+	/*
     public parametrosConsultaTmp(filtrosConsulta){
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-/*
+/ *
         this.datosDeOperacion();
         this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
-        */
+        * /
     }
+	*/
 
     reloadItems(params) {
-        //console.log("reloadItems::");
         this.itemResource.query(params).then(items => this.items = items);
     }
 
@@ -203,12 +248,35 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         alert('Double clicked: ' + rowEvent.row.item.name);
     }
 
-    rowTooltip(item) { return item.jobTitle; }
+    rowTooltip(item) {
+	//console.log(JSON.stringify(item));
+		//return item.jobTitle; 
+	}
 
     private exportaComisiones2Excel(event){
         console.log(nomComponente+".exportaComisiones2Excel:: Inicio");
         //console.log(JSON.stringify(this.opersFinancieras));
         //this.datosJournalService.exportaComisiones2Excel(this.opersFinancieras);
     }
+	
+	/*
+	rowColorsX(reg) {
+	
+		if (reg.Description == "Monto total Tiendas" || reg.Description == "Monto total Plazas"){
+			return('rgb(255, 255, 197)');
+		}		
+		//console.log("reg:: -->"+JSON.stringify(reg)+"<--")
+        //if (car.year >= this.yearLimit) return 'rgb(255, 255, 197)';
+    }
+	*/
+	
+	getColor(Description){
+		let styles:any = {};
+
+		if (Description == "Comisiones Tiendas" || Description == "Comisiones Plazas"){
+			styles = {'font-weight': 'bold', 'color': 'blue'};
+		}
+		return styles;
+	}
 
 }

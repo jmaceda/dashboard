@@ -121,7 +121,22 @@
     #tablaErroresOpers thead {
         border: 1px solid black;
     }
-
+	
+	.clsColumnaRigth{
+		text-align: right;
+		vertical-align: middle;
+	}
+	
+	.clsColumnaLeft{
+		text-align: left;
+		vertical-align: middle;
+	}
+	
+	.clsColumnaCenter{
+		text-align: center;
+		vertical-align: middle;
+	}
+	
 </style>
 
 <div class="container-fluid">
@@ -208,7 +223,7 @@
                         </table>
                     </div>
                     <div *ngIf="item.errTotal == 0" id="divOpersSinError">
-                        <span class="letraNegrita" style="font-size: 17px">Operaciones sin errores de comunicación</span>
+                        <span class="letraNegrita" style="font-size: 17px">Operaciones sin errores</span>
                     </div>
                 </ng-template>
 
@@ -218,9 +233,11 @@
                         [sortable]="true"
                         [resizable]="true"
                         width="55px">
-                        <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                             <div class="noWrap">
-                                <span>{{item.Description}}</span>
+								<span [ngStyle]="getColor(item.Description)">						
+									{{item.Description}}
+								</span>							
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -231,9 +248,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="1.8%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
-                                <span>{{item.numRetiros | number:'1.0-2'}}</span>
+                                <span [ngStyle]="getColor(item.Description)">
+									{{item.numRetiros | number:'1.0-2'}}
+								</span>
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -243,9 +262,11 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2.2%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
-                                <span>{{item.comisionesRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+								<span [ngStyle]="getColor(item.Description)">
+									{{item.comisionesRetiros | currency:'USD':'symbol':'1.0-2'}}
+								</span>
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -255,7 +276,7 @@
                     [sortable]="true"
                     [resizable]="false"
                     width="2.3%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: right;">
                             <span>{{item.montoRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
                         </div>
@@ -267,7 +288,7 @@
                     [sortable]="true"
                     [resizable]="false"
                     width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: center;">
                             <span>{{item.hraPrimerRetiro}}</span>
                         </div>
@@ -279,7 +300,7 @@
                     [sortable]="true"
                     [resizable]="false"
                     width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: center;">
                             <span>{{item.hraUtimoRetiro}}</span>
                         </div>
@@ -287,79 +308,85 @@
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'numConsultas'"
-                        [header]="'Consultas'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
-                            <div style="text-align: right;">
-                                <span>{{item.numConsultas | number:'1.0-2'}}</span>
-                            </div>
-                        </ng-template>
+					[property]="'numConsultas'"
+					[header]="'Consultas'"
+					[sortable]="true"
+					[resizable]="false"
+					width="2%">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
+						<div style="text-align: right;">
+							<span [ngStyle]="getColor(item.Description)">
+								{{item.numConsultas | number:'1.0-2'}}
+							</span>
+						</div>
+					</ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'comisionesConsultas'"
-                        [header]="'Monto Surcharge'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2.5%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
-                            <div style="text-align: right;">
-                                <span>{{item.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}</span>
-                            </div>
-                        </ng-template>
+					[property]="'comisionesConsultas'"
+					[header]="'Monto Surcharge'"
+					[sortable]="true"
+					[resizable]="false"
+					width="2.5%">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
+						<div style="text-align: right;">
+							<span [ngStyle]="getColor(item.Description)">
+								{{item.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}
+							</span>
+						</div>
+					</ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'hraPrimeraConsulta'"
-                        [header]="'Primera Consulta'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                        <div style="text-align: center;">
-                            <span>{{item.hraPrimeraConsulta}}</span>
-                        </div>
-                    </ng-template>
+					[property]="'hraPrimeraConsulta'"
+					[header]="'Primera Consulta'"
+					[sortable]="true"
+					[resizable]="false"
+					width="2%">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
+						<div style="text-align: center;">
+							<span>{{item.hraPrimeraConsulta}}</span>
+						</div>
+					</ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'hraUtimaConsulta'"
-                        [header]="'Última Consulta'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
-                        <div style="text-align: center;">
-                            <span>{{item.hraUtimaConsulta}}</span>
-                        </div>
-                    </ng-template>
-                </data-table-column>
-
-                <data-table-column
-                        [property]="'totalComisiones'"
-                        [header]="'Total Surcharge'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="35px">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
-                            <div style="text-align: right;">
-                                <span>{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
-                            </div>
-                        </ng-template>
+					[property]="'hraUtimaConsulta'"
+					[header]="'Última Consulta'"
+					[sortable]="true"
+					[resizable]="false"
+					width="2%">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
+						<div style="text-align: center;">
+							<span>{{item.hraUtimaConsulta}}</span>
+						</div>
+					</ng-template>
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'errTotal'"
-                        [header]="'Errores Comunicación'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="30px">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
-                            <div style="text-align: right;">
-                                <span style="color: red" *ngIf="item.errTotal > 0">{{item.errTotal | number:'1.0-2'}}</span>
-                                <span style="color: black" *ngIf="item.errTotal == 0">{{item.errTotal | number:'1.0-2'}}</span>
-                            </div>
-                        </ng-template>
+					[property]="'totalComisiones'"
+					[header]="'Total Surcharge'"
+					[sortable]="true"
+					[resizable]="false"
+					width="35px">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
+						<div style="text-align: right;">
+							<span [ngStyle]="getColor(item.Description)">
+								{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}
+							</span>
+						</div>
+					</ng-template>
+                </data-table-column>
+
+                <data-table-column
+					[property]="'errTotal'"
+					[header]="'Errores Comunicación'"
+					[sortable]="true"
+					[resizable]="false"
+					width="30px">
+					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
+						<div style="text-align: right;">
+							<span style="color: red" *ngIf="item.errTotal > 0">{{item.errTotal | number:'1.0-2'}}</span>
+							<span style="color: black" *ngIf="item.errTotal == 0">{{item.errTotal | number:'1.0-2'}}</span>
+						</div>
+					</ng-template>
                 </data-table-column>
 
 
@@ -372,7 +399,7 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
                                 <span>{{item.numDepositos | number:'1.0-2'}}</span>
                             </div>
@@ -385,7 +412,7 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2.2%">
-                        <ng-template #dataTableCell let-item="item" style="text-align: right;vertical-align: middle;">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
                                 <span>{{item.montoDepositos | currency:'USD':'symbol':'1.0-2'}}</span>
                             </div>
@@ -397,7 +424,7 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: center;">
                             <span>{{item.hraPrimerDeposito}}</span>
                         </div>
@@ -409,7 +436,7 @@
                         [sortable]="true"
                         [resizable]="false"
                         width="2%">
-                    <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: center;">
                             <span>{{item.hraUtimoDeposito}}</span>
                         </div>
