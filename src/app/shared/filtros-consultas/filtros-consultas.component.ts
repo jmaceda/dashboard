@@ -81,17 +81,19 @@ export class FiltrosConsultasComponent implements OnInit {
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
             this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
+            //this.gListaGpos = [];
             this.ipATMs = [];
-            this.ipATMs.push("-- Todos --");
+            //this.ipATMs.push("-- Todos --");
             this.gListaGpos.forEach((reg)=> {
                 this.ipATMs.push(reg.Description);
             });
-
+            //this.ipATMs.push("Monitoreo");  // Filtrar operaciones para este Grupo
             console.log("--> " + this.ipATMs + "<--");
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
             this.ipATMs = this.detalleAtmsService.obtenGetAtm();
+            //this.ipATMs = ["11.50.2.8"]   // Filtrar operaciones para esta IP
             this.contenidoLista = "Seleccione ATM";
         }
 

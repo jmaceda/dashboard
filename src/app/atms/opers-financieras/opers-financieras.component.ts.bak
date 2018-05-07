@@ -127,7 +127,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
         }
 
-		//console.log("OpersFinancierasComponent.datosDeOperacion:: paramsConsulta -->"+JSON.stringify(paramsConsulta)+"<--");
         $('#btnExpExel2').css('cursor', 'not-allowed');
         this.isDatosJournal 		= true;
 
@@ -234,6 +233,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 	*/
 
     reloadItems(params) {
+        //console.log("reloadItems::");
         this.itemResource.query(params).then(items => this.items = items);
     }
 

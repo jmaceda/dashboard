@@ -19,8 +19,9 @@ export class SoapService {
 
     constructor() {
 
-        if (window.location.port == '8687' || window.location.port == '3000'){
-            this.url = '/services/dataservices.asmx'; // Prod
+        if (window.location.port == '8687' || window.location.port == '3000' || window.location.port == '9099' || window.location.port == '820'){
+            this.url = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx'; // Prod
+            // https://manager.redblu.com.mx:8080/services/dataservices.asmx
         }else{
             this.url = '/dataservices.asmx'; //  QA
             //this.url = '/dataservices.asmx'; // Prod

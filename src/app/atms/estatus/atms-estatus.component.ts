@@ -111,7 +111,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         let arrDevicesOffline = [];
         let arrFchasUltimaAct = [];
 
-        console.log(JSON.stringify(gDatosAtms));
+        //console.log(JSON.stringify(gDatosAtms));
 
         //console.log(JSON.stringify(gDatosAtms));
         gDatosAtms.forEach(( reg )=> {
@@ -170,7 +170,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
             arrFchasUltimaAct = [];
 
         });
-        console.log(JSON.stringify(arrDatosAtms));
+        //console.log(JSON.stringify(arrDatosAtms));
 
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);

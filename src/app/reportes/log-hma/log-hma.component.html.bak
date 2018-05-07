@@ -36,7 +36,7 @@
                         [header]="'Fecha/Hora'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="11em">
+                        width="8em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
