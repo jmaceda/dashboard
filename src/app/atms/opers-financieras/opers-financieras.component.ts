@@ -5,6 +5,7 @@ import { sprintf }                                              from "sprintf-js
 import { SoapService }                                          from '../../services/soap.service';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 import { InfoAtmsService }                                      from '../../services/info-atms.service';
+//import { InfoGroupsService }                                    from '../../services/info-groups.service';
 import { DatosJournalService }                                  from '../../services/datos-journal.service';
 
 import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
@@ -122,6 +123,8 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
     public datosDeOperacion(paramsConsulta){
 
+        console.log("OpersFinancierasComponent.datosDeOperacion:: Obtiene los datos de las operaciones");
+
         if ($('#btnExpExel2').length == 0) {
             $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
             //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
@@ -147,8 +150,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
 		let regexPlaza:any      	= new RegExp( expRegText.replace(/XX/g, "GP") );
 
+		//console.log("OpersFinancierasComponent.datosDeOperacion:: -->"+JSON.stringify(idAtms)+"<--");
 		this.opersFinancieras   	= [];
-		
+
         //console.log("-->"+JSON.stringify(idAtms)+"<--");
         if(idAtms != null){
             idAtms.forEach( (reg) => {
@@ -157,7 +161,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 							'descAtm': reg.Name, 
 							'Ip': reg.Ip
 				});
-			
+
                 if ( (datosAtm.numConsultas + datosAtm.numRetiros + datosAtm.numDepositos) > 0) {
                     this.opersFinancieras.push(datosAtm);
 

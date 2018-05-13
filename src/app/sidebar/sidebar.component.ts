@@ -24,7 +24,7 @@ export const ROUTES: RouteInfo[] = [
     { path: 'opersfinan',       title: 'Opers. Financieras',               icon: 'pe-7s-cash',     class: '' },
 
     { path: 'promopers',       title: 'Tiempo Promedio',                icon: 'pe-7s-cash',     class: '' },
-
+    { path: 'reportebanxico',  title: 'Reporte Banxico',                icon: 'pe-7s-cash',     class: '' },
 
     //{ path: 'rechazoshma',       title: 'Rechazos',                icon: 'pe-7s-cash',     class: '' },
     //{ path: 'DemoComponent',       title: 'Super Table',                icon: 'pe-7s-cash',     class: '' },

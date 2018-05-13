@@ -1,17 +1,27 @@
 /* app/services/detalle-atms-service.ts */
 
-import { Injectable }       from '@angular/core';
-import { OnInit }           from '@angular/core';
-import { SoapService }      from './soap.service';
+import { Injectable }               from '@angular/core';
+import { OnInit }                   from '@angular/core';
+import { SoapService }              from './soap.service';
+import { GroupsModel }              from '../models/groups.model';
+import { GroupsAtmsModel }          from '../models/groups-atms.model';
 
 export var gDatosAtm:any;
 export var gDatosGroups:any = [];
 export var gGrupos;
 export var gDevicesAtm:any[]  = [];
-var nomServicio = "InfoAtmsService";
+export var gGroupsWithAtms:any[] = [];
+export var gGroupsAtmIds:any[] = [];
+
+
+var nomServicio = "InfoGroupsService";
 
 @Injectable()
 export class InfoGroupsService implements OnInit {
+
+    private groupsWithAtmsModel: GroupsModel[] = [];
+    private groupsModel: GroupsModel[] = [];
+    public groupsAtmsModel: GroupsAtmsModel[] = [];
 
     constructor(public _soapService: SoapService){ //},
         console.log(nomServicio+".constructor:: init");
@@ -22,74 +32,123 @@ export class InfoGroupsService implements OnInit {
     }
 
     public GetGroup(datosGroups:any, status){
-
         console.log(nomServicio+".GetGroup:: Inicio  ["+new Date()+"]");
         gDatosGroups = datosGroups;
     }
 
-
-    public obtenDetalleGroups(parametros?:any) {
-
-        //console.log(nomServicio+".obtenGroups:: Se van a obtener los datos");
-        let parameters:any = parametros;
-
-        if (parametros == null || parametros == undefined) {
-            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
-        }
-
-        // Obtiene los datos de los ATMs
-        this._soapService.post('', "GetGroup", parameters, this.GetGroup, false);
-
-        return(gDatosGroups);
-    };
-
     public obtenGroups(parametros?:any) {
 
-        console.log(nomServicio+".obtenGroups:: Se van a obtener los datos");
-        let parameters:any = parametros;
-        let arrNomGroups:any[] = [];
+        this._soapService.post('', "GetGroup", parametros, this.GetGroup, false);
 
-        if (parametros == null || parametros == undefined) {
-            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+        if (gDatosGroups.length > 0){
+            gDatosGroups.forEach( reg => {
+                this.groupsModel.push(reg);
+            });
         }
-
-        if ( gDatosGroups == 0 ) {
-            // Obtiene los datos de los Grupos
-            this._soapService.post('', "GetGroup", parameters, this.GetGroup, false);
-        }
-
-        arrNomGroups = gDatosGroups;
-
-        /*
-        gDatosGroups.forEach((reg)=> {
-            arrNomGroups.push( (reg.Id + ' (' + reg.Ip + ')') );
-        });
-        */
-        return(arrNomGroups.sort(comparar));
-
-    };
-
-
-    public GetAtmDetail(datosAtm:any, status){
-        gDatosAtm = datosAtm;
+        return(gDatosGroups);
     }
 
-    public obtenGroupsDetail(parametros?:any) {
+    public GetGroupsWithAtms(datosGroups:any, status){
+        gGroupsWithAtms = datosGroups;
+    }
 
-        console.log(nomServicio+".obtenGroups:: Se van a obtener los datos");
-        let parameters:any = parametros;
+    public obtenGroupsConAtms(){
 
-        if (parametros != null || parametros != undefined) {
-            // Obtiene los datos del detalle de un ATMs
-            this._soapService.post('', "GetAtmDetail", parameters, this.GetAtmDetail, false);
-        }else{
-            gDatosAtm = "*** No ha indicado el ID del Cajero a consultar ***";
+        console.log(nomServicio+".obtenGroupsConAtms:: Obten grupos con ATMs asociados");
+        //console.log(nomServicio+".obtenGroupsConAtms (1):: gGroupsWithAtms["+gGroupsWithAtms+"]");
+        this.groupsWithAtmsModel = [];
+        this._soapService.post('', "GetGroupsWithAtms", '', this.GetGroupsWithAtms, false);
+        //console.log(nomServicio+".obtenGroupsConAtms (2):: gGroupsWithAtms["+gGroupsWithAtms+"]");
+        if (gGroupsWithAtms.length > 0){
+
+            gGroupsWithAtms.forEach( reg => {
+                this.groupsWithAtmsModel.push(reg);
+            });
         }
-
-        return(gDatosAtm);
-
+        return(gGroupsWithAtms);
     };
 
+
+    public GetGroupsAtmIds(datosIdAtms:any, status){
+        gGroupsAtmIds = datosIdAtms;
+    }
+
+    public obtenGroupsAtms(idGroup, descGpo){
+
+        //console.log(nomServicio+".obtenGroupsAtms:: Se van a obtener los datos del grupo ["+idGroup+"]  ["+descGpo+"]");
+
+        let parameters:any = {groups: idGroup};
+        let idAtms:string[] = [];
+
+        this._soapService.post('', "GetGroupsAtmIds", parameters, this.GetGroupsAtmIds, false);
+
+        if (gGroupsAtmIds.length > 0){
+
+            idAtms = gGroupsAtmIds.toString().split(",");
+
+            for(let idx=0; idx < idAtms.length; idx++){
+                if ( idAtms[idx] != "" && idAtms[idx] != null && idAtms[idx] != undefined ){
+                    this.groupsAtmsModel.push({'IdAtm': parseInt(idAtms[idx]), 'IdGpo': idGroup, 'DescGpo': descGpo});
+                }
+            }
+        }
+
+        return(gGroupsWithAtms);
+    };
+
+
+    public cargaCatAtmGroups(){
+
+        console.log(nomServicio+".cargaCatAtmGroups:: Carga el catalogo de Grupos por ATM");
+
+        //let gruposConAtms:any   = this.obtenGroupsConAtms();
+        this.groupsAtmsModel    = [];
+
+        //console.log(nomServicio+".obtenGroupsAtm:: -->" + JSON.stringify(this.groupsWithAtmsModel) + "<--");
+
+        if (this.groupsWithAtmsModel.length > 0){
+            this.groupsWithAtmsModel.forEach( reg => {
+                this.obtenGroupsAtms(reg.Id, reg.Description);
+            });
+
+            //console.log(nomServicio+".obtenGroupsAtm:: Fin-->" + JSON.stringify(this.groupsAtmsModel) + "<--");
+        }
+
+
+    }
+
+    public obtenGroupsAtm(idAtm){
+
+        console.log(nomServicio+".obtenGroupsAtm:: Obten del catalogo los grupos del ATM ["+idAtm+"]");
+
+        let arrGroupsAtm        = [];
+
+        this.groupsAtmsModel.forEach( reg => {
+            if (idAtm == reg.IdAtm){
+                arrGroupsAtm.push(reg);
+            }
+        });
+        return(arrGroupsAtm);
+    }
+
+
+    public cargaCataAtmsConGrupos(){
+
+        console.log(nomServicio+".cargaCataAtmsConGrupos:: Carga catalogo de ATMs con sus grupos asociados");
+
+        // Cargar grupos con ATMs asociados
+        this.obtenGroupsConAtms();
+
+        // Cargar grupos con ATMs asociados
+        if (this.groupsWithAtmsModel.length > 0){
+            this.groupsWithAtmsModel.forEach( reg => {
+                this.obtenGroupsAtms(reg.Id, reg.Description);
+            });
+
+    }
+
+    }
+    /*
     GetGroupsWithAtms(datosGroups:any, status){
         gGrupos = datosGroups;
     }
@@ -106,8 +165,9 @@ export class InfoGroupsService implements OnInit {
         //console.log("InfoAtmsService.obtenGroupss:: ["+arrNomGrupos+"]");
         return(gGrupos.sort(comparar));
     }
+*/
 
-
+                /*
     obtenIdGroup(descGpo){
         let idGpo = -1;
 
@@ -121,12 +181,14 @@ export class InfoGroupsService implements OnInit {
 
         return(idGpo);
     }
+    */
 
-
+/*
     GetAtmsIps(datosGroups:any, status){
         gDatosGroups = datosGroups;
     }
-
+    */
+/*
     public obtenGroupssIps(parametros?:any) {
 
         console.log(nomServicio+".obtenGroupssIps:: Se van a obtener los datos");
@@ -141,7 +203,8 @@ export class InfoGroupsService implements OnInit {
 
         return(gDatosGroups);
     };
-
+*/
+    /*
     public obtenIdAtmsOnLine(){
 
         let parametros          = { 
@@ -168,7 +231,10 @@ export class InfoGroupsService implements OnInit {
         }
         return(idAtms);
     }
+*/
 
+
+    /*
 	public obtenIdAtmsOnLinePorGpo(paramsConsulta?:any){
 		//console.log(paramsConsulta);
 		
@@ -222,7 +288,7 @@ export class InfoGroupsService implements OnInit {
         }
         return(idAtms);
     }
-
+*/
 
 }
 

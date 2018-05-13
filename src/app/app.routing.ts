@@ -39,6 +39,8 @@ import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.comp
 
 import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
 import { ManualGrgComponent }                from './docs/manual-grg.component';
+import { ReporteMensualComponent }           from './reportes/banxico/reporte-mensual/reporte-mensual.component';
+
 
 const routes: Routes =[
     { path: 'atms',           component: AtmsEstatusComponent },
@@ -65,6 +67,7 @@ const routes: Routes =[
     //{ path: 'DemoComponent',      component: AgGridApp },
     //{ path: 'DemoComponent',      component: DemoComponent },
     { path: 'opersfinan',      component: OpersFinancierasComponent },
+    { path: 'reportebanxico',  component: ReporteMensualComponent },
     { path: 'manualgrg',      component: ManualGrgComponent },
 
 

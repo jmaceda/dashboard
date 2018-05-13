@@ -57,6 +57,7 @@ import { DataBaseService }                  from './services/data-base.service';
 import { ExportToCSVService }               from './services/export-to-csv.service';
 import { FiltrosUtilsService }              from './services/filtros-utils.service';
 
+
 import { NgxDatatableModule }               from '@swimlane/ngx-datatable';
 
 import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
@@ -70,6 +71,10 @@ import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/ti
 import { ManualGrgComponent }               from './docs/manual-grg.component';
 
 import { PdfViewerModule }                  from 'ng2-pdf-viewer';
+
+import { InfoGroupsService }                from './services/info-groups.service';
+import { SoapService }                      from './services/soap.service';
+import { ReporteMensualComponent }          from './reportes/banxico/reporte-mensual/reporte-mensual.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +107,8 @@ import { PdfViewerModule }                  from 'ng2-pdf-viewer';
     //SmartTableComponent
     RechazosHmaComponent,
     TiempoPromOperComponent,
-    ManualGrgComponent
+    ManualGrgComponent,
+    ReporteMensualComponent
 
   ],
 
@@ -141,6 +147,8 @@ import { PdfViewerModule }                  from 'ng2-pdf-viewer';
     DataBaseService,
     ExportToCSVService,
     FiltrosUtilsService,
+    InfoGroupsService,
+    SoapService,
     //SmartTableService,
     //NbSidebarService
   ],

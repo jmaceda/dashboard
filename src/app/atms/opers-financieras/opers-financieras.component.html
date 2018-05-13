@@ -186,6 +186,60 @@
                         [rowTooltip]="rowTooltip">
 
                 <ng-template #dataTableExpand  let-item="item">
+
+                    <div class="row">
+                        <div class="col-md-4">
+
+                                <span class="letrasNegritas">Última Actualización</span>
+                                <div class="row">
+                                    <div *ngFor="let ultimaAct of item.FchasUltimaAct" class="table table-striped tabla">
+                                        <div class="col-md-6" id="1" style="float: left;">
+                                            <span>{{ultimaAct.desc}}</span>
+                                        </div>
+                                        <div  class="col-md-6" id="2" style="float: left;">
+                                            <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+
+                                <!--
+                                <div id="ultimaActualizacion" style="overflow: hidden; height: 250px">
+
+                                    <div id="div1"  style="border: solid thin;">
+                                        <span class="letrasNegritas">Última Actualización</span>
+                                        <div>
+                                            <div *ngFor="let ultimaAct of item.FchsUltimaAct" class="table table-striped tabla">
+                                                <div id="1" style="float: left; width: 8rem;">
+                                                    <span>{{ultimaAct.desc}}</span>
+                                                </div>
+                                                <div id="2" style="float: left; width: 17rem;">
+                                                    <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="div0"></div>
+
+                                    <div id="div2"   style="border: solid thin;">
+                                        <span class="letrasNegritas">Dispositivos con Error</span>
+                                        <br>
+                                        <div>
+                                            <div *ngFor="let dispositivo of item.DevicesOffline" class="table table-striped tabla">
+                                                <span>{{dispositivo}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+
                     <div *ngIf="item.errTotal > 0" id="divErroresOpers" class="content table-responsive">
                         <div class="centraTexto">
                             <span class="letraNegrita" style="font-size: 17px">Operaciones con error de comunicación</span>

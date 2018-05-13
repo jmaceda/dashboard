@@ -1,8 +1,9 @@
 /* app/services/detalle-atms-service.ts */
 
-import { Injectable }       from '@angular/core';
-import { OnInit }           from '@angular/core';
-import { SoapService }      from './soap.service';
+import { Injectable }           from '@angular/core';
+import { OnInit }               from '@angular/core';
+import { SoapService }          from './soap.service';
+import { InfoGroupsService }    from './info-groups.service';
 
 export var gDatosAtm:any;
 export var gDatosAtms:any;
@@ -13,7 +14,8 @@ var nomServicio = "InfoAtmsService";
 @Injectable()
 export class InfoAtmsService implements OnInit {
 
-    constructor(public _soapService: SoapService){ //},
+    constructor(public _soapService: SoapService,
+                public infoGroupsService: InfoGroupsService){//},
                 //public logHmaService: LogHmaService){
         console.log(nomServicio+".constructor:: init");
     }
@@ -23,15 +25,14 @@ export class InfoAtmsService implements OnInit {
     }
 
     public GetAtm(datosAtms:any, status){
-
-        console.log(nomServicio+".GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
 
     public obtenDetalleAtms(parametros?:any) {
 
-        //console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");
+        console.log(nomServicio+".obtenDetalleAtms:: Obten datos de todos los ATMs (GetAtm)");
+
         let parameters:any = parametros;
 
         if (parametros == null || parametros == undefined) {
@@ -168,7 +169,8 @@ export class InfoAtmsService implements OnInit {
     }
 
 	public obtenIdAtmsOnLinePorGpo(paramsConsulta?:any){
-		//console.log(paramsConsulta);
+
+        console.log(nomServicio+".obtenIdAtmsOnLinePorGpo:: Obten datos de ATMs Online por Grupo");
 		
         let parametros          = { 
 				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
@@ -182,6 +184,8 @@ export class InfoAtmsService implements OnInit {
 		let fchParam:any        = paramsConsulta.timeStampEnd.substring(0,10);
         let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
         let arrDevicesOffline   = [];
+        let arrFchasUltimaAct   = [];
+        let arrGroupsAtm        = [];
 		parametros.groupId 		= (paramsConsulta.idGpo != undefined && paramsConsulta.idGpo != null) ? paramsConsulta.idGpo : -1;
 		
         infoDatosAtms = this.obtenDetalleAtms(parametros);
@@ -189,17 +193,29 @@ export class InfoAtmsService implements OnInit {
         if(infoDatosAtms.length > 0) {
 			if (fchParam == fchSys.toString()) {
 				infoDatosAtms.forEach((reg) => {
+                    arrFchasUltimaAct   = [];
+                    arrGroupsAtm        = [];
                     if ( reg.OfflineDevices.length > 0 ){
                         for(let cve in reg.OfflineDevices) {
                             arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
                         }
                     }
+
+                    arrFchasUltimaAct.push({'desc': 'ATM',          'fcha': reg.LastIOnlineTimestamp});
+                    arrFchasUltimaAct.push({'desc': 'Cassettes',    'fcha': reg.CassettesStatusTimestamp});
+                    arrFchasUltimaAct.push({'desc': 'Bóveda',       'fcha': reg.SafeOpenTs});
+                    arrFchasUltimaAct.push({'desc': 'Gabinete',     'fcha': reg.CabinetOpenTs});
+
+                    arrGroupsAtm.push( this.infoGroupsService.obtenGroupsAtm(reg.Id));
+
                     idAtms.push({
                         'Description': reg.Description,
                         'Name': reg.Name,
                         'Id': reg.Id,
                         'Ip': reg.Ip,
-                        'DevicesOffline': arrDevicesOffline
+                        'DevicesOffline': arrDevicesOffline,
+                        'FchasUltimaAct': arrFchasUltimaAct,
+                        'Grupos': arrGroupsAtm
                     });
                 });
 			} else {
@@ -218,6 +234,7 @@ export class InfoAtmsService implements OnInit {
 			}
 
         }
+        //console.log(nomServicio+".obtenIdAtmsOnLinePorGpo:: idAtms<"+JSON.stringify(idAtms)+">");
         return(idAtms);
     }
 

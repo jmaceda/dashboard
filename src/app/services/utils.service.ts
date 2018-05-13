@@ -85,8 +85,8 @@ export class UtilsService {
         delimitador: Caracter delimitador entre grupos de billetes y denominaciòn.
         posDenom: Indica la posiciòn de la denominacion y billetes (DB=<denomina> x <billetes>  /  BD=<billetes> x <denomina>
      */
-    public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom = "DB") {
-
+    public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom) {
+        //onsole.log("obtenNumBilletesPorDenominacion:: arrCantidadBilletes<"+JSON.stringify(arrCantidadBilletes)+">");
         let numBilletes = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
         let charDelim   = (delimitador == undefined || delimitador == null || delimitador == "") ? "|" : delimitador;
         let numBill     = 0;
@@ -101,7 +101,7 @@ export class UtilsService {
             //console.log("reg["+reg+"]");
             if (reg != ("null"+charDelim)) {
                 for (let elem of reg.split(charDelim)) {
-
+                    //console.log("elem["+elem+"]  posDenom["+posDenom+"]");
                     if (elem == undefined || elem == null || elem == "") {
                         continue;
                     }
@@ -126,7 +126,7 @@ export class UtilsService {
                 denominaBilletes.opers++;
             }
         }
-
+//console.log("denominaBilletes <"+ JSON.stringify(denominaBilletes) +">");
         return(denominaBilletes);
     }
 

@@ -255,18 +255,17 @@ export class DatosJournalService implements OnInit {
             events: ["Withdrawal", "BalanceCheck", "CashManagement", "Exception"], minAmount: -1, maxAmount: -1,
             authId: -1, cardNumber: -1, accountId: -1
         };
-//console.log("paramsCons["+JSON.stringify(paramsCons)+"]");
-        //console.log(JSON.stringify(paramsCons));
+
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-//console.log("gPaginasJournal["+JSON.stringify(gPaginasJournal)+"]");
+
         // Obten datos del Journal de un ATM
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
-//console.log(JSON.stringify(gDatosJournal));
+
                 gDatosJournal.forEach( (reg) => {
 
                     if ( reg.SwitchResponseCode >= 1000) {
