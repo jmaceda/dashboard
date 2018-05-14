@@ -86,7 +86,7 @@ export class UtilsService {
         posDenom: Indica la posiciòn de la denominacion y billetes (DB=<denomina> x <billetes>  /  BD=<billetes> x <denomina>
      */
     public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom) {
-        //onsole.log("obtenNumBilletesPorDenominacion:: arrCantidadBilletes<"+JSON.stringify(arrCantidadBilletes)+">");
+
         let numBilletes = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
         let charDelim   = (delimitador == undefined || delimitador == null || delimitador == "") ? "|" : delimitador;
         let numBill     = 0;
@@ -97,36 +97,30 @@ export class UtilsService {
 
             reg = reg.replace(/\[(.*)\]/, "$1"); // Elimina corchetes cuadrados.
 
-            // Lee cada grupo de billetes con denominaciones.
-            //console.log("reg["+reg+"]");
             if (reg != ("null"+charDelim)) {
                 for (let elem of reg.split(charDelim)) {
-                    //console.log("elem["+elem+"]  posDenom["+posDenom+"]");
                     if (elem == undefined || elem == null || elem == "") {
                         continue;
                     }
 
-                    elem = elem.split("x");
+                    elem            = elem.split("x");
 
                     if (posDenom == "BD") {
-                        numBill = Number(elem[0]);
-                        denomina = elem[1];
+                        numBill     = Number(elem[0]);
+                        denomina    = elem[1];
                     } else {
-                        denomina = elem[0];
-                        numBill = Number(elem[1]);
+                        denomina    = elem[0];
+                        numBill     = Number(elem[1]);
                     }
 
                     let cveDenomina = "b" + denomina;
 
-                    denominaBilletes[cveDenomina] += numBill;
-                    //console.log(nomComponente + ".:: denomina-->" + denomina + "*" + numBill + "<--");
-                    denominaBilletes.monto += (denomina * numBill);
-                    //console.log("denomina["+denomina+"]   numBill["+numBill+"]  monto["+denominaBilletes.monto+"]");
+                    denominaBilletes[cveDenomina]   += numBill;
+                    denominaBilletes.monto          += (denomina * numBill);
                 }
                 denominaBilletes.opers++;
             }
         }
-//console.log("denominaBilletes <"+ JSON.stringify(denominaBilletes) +">");
         return(denominaBilletes);
     }
 

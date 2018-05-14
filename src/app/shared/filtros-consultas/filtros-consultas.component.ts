@@ -38,8 +38,8 @@ export class FiltrosConsultasComponent implements OnInit {
     @Input() dUltimaActualizacion: string;      // Recibe lf fecha y hora de la ultima actualización para mostrarla en "idFchHraUltimaActual"
     @Input() dListaAtmGpos: any;                // Recibe la lista de ATMs o Grupos para ser mostrados en el combo "idComboAtmGpo".
     @Input() dTipoListaParams: any;             // Recibe si el combo "idComboAtmGpo" debe mostar A=lista de ATMs o G=lista de Grupos
-    @Input() dSolicitaFechasIni: any;           // Indica se mostrara el combo para solicitar la fecha inicial o no (true=Si /false=No)
-    @Input() dSolicitaFechasFin: any;           // Indica se mostrara el combo para solicitar la fecha final o no (true=Si /false=No)
+    @Input() dSolicitaFechasIni: any;           // Indica si mostrara el combo para solicitar la fecha inicial o no (true=Si /false=No)
+    @Input() dSolicitaFechasFin: any;           // Indica si mostrara el combo para solicitar la fecha final o no (true=Si /false=No)
     @Output() parametrosConsulta = new EventEmitter(); // Función del Componente Padre que será ejecutada al oprimir el bototon "Actualiza".
 
 

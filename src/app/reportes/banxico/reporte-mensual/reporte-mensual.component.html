@@ -87,12 +87,16 @@
     }
 
     .encabColumna {
-        text-align: center;
+        text-align: right;
         font-weight: bold;
     }
 
-    .campoFoot {
+    .campoNumFoot {
         text-align: right;
+        font-weight: bold;
+    }
+    .campoTxtFoot {
+        text-align: left;
         font-weight: bold;
     }
 </style>
@@ -118,56 +122,103 @@
 
                 <h5 class="title">Procesando el día: {{diaProceso}}</h5>
 
+                <div class="header" style="padding: 2px;">
+                    <h5 class="title" style="text-align: center; font-weight: bold;">Saldo de Efectivo ({{fchInicio}}-{{fchFin}}</h5>
+                </div>
 
-
-                    <div class="header" style="padding: 2px;">
-                        <h5 class="title" style="text-align: center; font-weight: bold;">Retiros</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="col-md-1 encabColumna"></span>
+                        <span class="col-md-1 encabColumna">$20</span>
+                        <span class="col-md-1 encabColumna">$50</span>
+                        <span class="col-md-1 encabColumna">$100</span>
+                        <span class="col-md-1 encabColumna">$200</span>
+                        <span class="col-md-1 encabColumna">$500</span>
+                        <span class="col-md-1 encabColumna">$1000</span>
+                        <span class="col-md-1 encabColumna">Opers</span>
+                        <span class="col-md-2 encabColumna">Monto</span>
+                        <span class="col-md-2"></span>
                     </div>
+                </div>
 
+                <!--
+                <div *ngFor="let datos of datosReporte">
                     <div class="row">
-                        <div class="col-md-1 encabColumna">$20</div>
-                        <div class="col-md-1 encabColumna">$50</div>
-                        <div class="col-md-1 encabColumna">$100</div>
-                        <div class="col-md-1 encabColumna">$200</div>
-                        <div class="col-md-1 encabColumna">$500</div>
-                        <div class="col-md-1 encabColumna">$1000</div>
-                        <div class="col-md-1 encabColumna">Opers</div>
-                        <div class="col-md-2 encabColumna">Monto</div>
-                        <div class="col-md-3 encabColumna"></div>
+                        <span class="col-md-1 campoNum">{{datos.b20 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.b50 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.b100 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.b200 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.b500 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.b1000 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{datos.opers | number:'1.0-0'}}</span>
+                        <span class="col-md-2 campoNum">{{datos.monto | currency:'USD':'symbol':'1.0-2'}}</span>
+                        <span class="col-md-3"></span>
                     </div>
+                </div>
+                -->
 
-
-                        <div *ngFor="let datos of datosReporte">
-                            <div class="row">
-                                <span class="col-md-1 campoNum">{{datos.b20 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.b50 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.b100 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.b200 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.b500 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.b1000 | number:'1.0-0'}}</span>
-                                <span class="col-md-1 campoNum">{{datos.opers | number:'1.0-0'}}</span>
-                                <span class="col-md-2 campoNum">{{datos.monto | currency:'USD':'symbol':'1.0-2'}}</span>
-                                <span class="col-md-3"></span>
-                            </div>
-                        </div>
-
-                    <div class="row">
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b20 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b50 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b100 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b200 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b500 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.b1000 | number:'1.0-0'}}</span>
-                        <span class="col-md-1 campoFoot">{{totalRetirosReporte.opers | number:'1.0-0'}}</span>
-                        <span class="col-md-2 campoFoot">{{totalRetirosReporte.monto | currency:'USD':'symbol':'1.0-2'}}</span>
-                        <span class="col-md-3WWWWW"></span>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="col-md-1">Depósitos</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b20 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b50 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b100 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b200 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b500 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.b1000 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalDepositosReporte.opers | number:'1.0-0'}}</span>
+                        <span class="col-md-2 campoNum">{{totalDepositosReporte.monto | currency:'USD':'symbol':'1.0-2'}}</span>
+                        <span class="col-md-2"></span>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div id="idPeriodoInfo" *ngIf="fchUltimaActualizacion">
-                            <span>Información reportada a partir del último corte: {{datosUltimoCorte}} - {{fchUltimaActualizacion}}</span>
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="col-md-1">Retiros</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b20 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b50 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b100 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b200 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b500 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.b1000 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNum">{{totalRetirosReporte.opers | number:'1.0-0'}}</span>
+                        <span class="col-md-2 campoNum">{{totalRetirosReporte.monto | currency:'USD':'symbol':'1.0-2'}}</span>
+                        <span class="col-md-2"></span>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="col-md-1 campoTxtFoot">Saldo</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b20 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b50 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b100 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b200 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b500 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.b1000 | number:'1.0-0'}}</span>
+                        <span class="col-md-1 campoNumFoot">{{totalSaldo.opers | number:'1.0-0'}}</span>
+                        <span class="col-md-2 campoNumFoot">{{totalSaldo.monto | currency:'USD':'symbol':'1.0-2'}}</span>
+                        <span class="col-md-2"></span>
+                    </div>
+                </div>
+            <!--
+                <div class="row">
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b20 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b50 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b100 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b200 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b500 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.b1000 | number:'1.0-0'}}</span>
+                    <span class="col-md-1 campoFoot">{{totalRetirosReporte.opers | number:'1.0-0'}}</span>
+                    <span class="col-md-2 campoFoot">{{totalRetirosReporte.monto | currency:'USD':'symbol':'1.0-2'}}</span>
+                    <span class="col-md-3"></span>
+                </div>
+                -->
+                <div class="row">
+                    <div id="idPeriodoInfo" *ngIf="fchUltimaActualizacion">
+                        <span>Información reportada a partir del último corte: {{datosUltimoCorte}} - {{fchUltimaActualizacion}}</span>
+                    </div>
+                </div>
 
 
             </div>

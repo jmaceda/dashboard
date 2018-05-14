@@ -93,9 +93,9 @@ export class ReporteMensualComponent implements OnInit {
 
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos: any = [];
-    public dTipoListaParams: string = "A";
-    public dSolicitaFechasIni = false;
-    public dSolicitaFechasFin = false;
+    public dTipoListaParams: string = "A";  // Valores permitidos:  G = Grupo / A = ATM
+    public dSolicitaFechasIni = true;       // true = Solicitara fecha inicial de parametros.
+    public dSolicitaFechasFin = true;       // true = Solicitara fecha final de parametros.
     public dUltimaActualizacion: string;
     public fchUltimaActualizacion: any = null;
     public itemResource = new DataTableResource([]);
@@ -106,6 +106,17 @@ export class ReporteMensualComponent implements OnInit {
     public billetesDepositados: AcumulaBilletesModel = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
     public billetesRetirados: AcumulaBilletesModel = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
     public arrBilletesDisponibles: AcumulaBilletesModel[] = [];
+
+    private datosRespLogHma: any[]      = [];
+    public datosReporte: any[]          = [];
+    public diaProceso: number           = 0;
+    public totalRetirosReporte: any     = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
+    public totalDepositosReporte:any    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
+    public totalSaldo:any               = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
+    public detalleDepositos:any         = [];
+    public detalleDotaciones:any        = [];
+    public detalleRetiros:any           = {};
+    private diasProcesar:number         = 16
 
 
     constructor(public _soapService: SoapService,
@@ -136,9 +147,69 @@ export class ReporteMensualComponent implements OnInit {
             fFinParam.hour, fFinParam.min);
         let datosParam: any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
 
-        this.obtenDatos(datosParam);
+        console.log(nomComponente + ".obtenDatos:: datosParam<"+JSON.stringify(datosParam)+">");
+        //this.obtenDatos(datosParam);
     }
 
+
+    public obtenDatos(params?) {
+
+        console.log(nomComponente + ".obtenDatos:: Inicio");
+
+        params.ipAtm            = '11.50.2.8';
+
+        this.obtenDepositos(params);
+        this.obtenRetiros(params);
+
+        this.totalSaldo = {
+            b20:    this.totalDepositosReporte.b20      - this.totalRetirosReporte.b20,
+            b50:    this.totalDepositosReporte.b50      - this.totalRetirosReporte.b50,
+            b100:   this.totalDepositosReporte.b100     - this.totalRetirosReporte.b100,
+            b200:   this.totalDepositosReporte.b200     - this.totalRetirosReporte.b200,
+            b500:   this.totalDepositosReporte.b500     - this.totalRetirosReporte.b500,
+            b1000:  this.totalDepositosReporte.b1000    - this.totalRetirosReporte.b1000,
+            opers:  this.totalDepositosReporte.opers    + this.totalRetirosReporte.opers,
+            monto:  this.totalDepositosReporte.monto    - this.totalRetirosReporte.monto
+        }
+    }
+
+    public obtenDepositos(params){
+        this.obtenDatosDotaciones(params);
+        this.obtenDatosDepositos(params);
+    }
+
+    public obtenRetiros(params){
+        this.obtenRetirosOper(params);
+        this.obtenRetirosEtv(params);
+    }
+
+    public acumulaTotalDepositos(datosDepositos){
+
+        datosDepositos.forEach( reg => {
+            this.totalDepositosReporte.b20      += reg.b20;
+            this.totalDepositosReporte.b50      += reg.b50;
+            this.totalDepositosReporte.b100     += reg.b100;
+            this.totalDepositosReporte.b200     += reg.b200;
+            this.totalDepositosReporte.b500     += reg.b500;
+            this.totalDepositosReporte.b1000    += reg.b1000;
+            this.totalDepositosReporte.opers    += reg.opers;
+            this.totalDepositosReporte.monto    += reg.monto;
+        });
+    }
+
+    public acumulaTotalRetiros(datosReporte){
+
+        datosReporte.forEach( reg => {
+            this.totalRetirosReporte.b20    += reg.b20;
+            this.totalRetirosReporte.b50    += reg.b50;
+            this.totalRetirosReporte.b100   += reg.b100;
+            this.totalRetirosReporte.b200   += reg.b200;
+            this.totalRetirosReporte.b500   += reg.b500;
+            this.totalRetirosReporte.b1000  += reg.b1000;
+            this.totalRetirosReporte.opers  += reg.opers;
+            this.totalRetirosReporte.monto  += reg.monto;
+        });
+    }
 
     public GetHmaLogDataLength(respNumPaginasLogHma: object, status) {
         gNumPagsLogHma = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalPages;
@@ -150,60 +221,43 @@ export class ReporteMensualComponent implements OnInit {
         gRespDatosLogHma = respDatosLogHma;
     }
 
+    public GetEjaLogDataLength(paginasJournal:any, status){
+        gPaginasJournal = paginasJournal;
+    }
 
-    private datosRespLogHma: any[] = [];
-    public datosReporte: any[] = [];
-    public diaProceso: number = 0;
-    public totalRetirosReporte: any = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
-
-    public obtenDatos(params?) {
-
-        console.log(nomComponente + ".obtenDatos:: Inicio");
-
-        //this.obtenDatosRetiros(params);
-        this.obtenDatosDepositos(params);
-        this.obtenDatosDotaciones(params);
+    public GetEjaLogPage(datosJournal:any, status){
+        gDatosJournal = datosJournal;
     }
 
     public obtenDatosDotaciones(params){
 
-        console.log(nomComponente + ".obtenDatosDepositos:: Inicio");
+        console.log(nomComponente + ".obtenDatosDotaciones:: Inicio");
 
-        params.events           = ['Replenishment'];
-        params.ipAtm            = '11.50.2.5';
+        params.events               = ['Replenishment'];
 
-        let datosReporte:any        = [];
+        //let datosReporte:any        = [];
         let strIdBilletes           = "DOTAR CONTADORES FINAL";
-        this.datosReporte           = [];
+        let respuestaDatos:any      = "";
+        //this.datosReporte           = [];
+        this.diaProceso             = 0;
 
-        this.diaProceso = 0;
+        this.detalleDotaciones.push ({b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0});
 
-        //for(let dia=1; dia < 12; dia++)
-        {
-            let dia = 4;
+        for(let dia=1; dia < this.diasProcesar; dia++){
             this.diaProceso++;
             console.log(nomComponente + ".obtenDatosDotaciones:: Procesando el día ["+this.diaProceso+"]");
             let xdia = (dia < 10) ? "0"+dia: dia;
             params.timeStampStart   = '2018-05-' + xdia + '-00-00';
             params.timeStampEnd     = '2018-05-' + xdia + '-23-59';
+            respuestaDatos          = this.obtenDetalleDepositos(params, strIdBilletes);
 
-            datosReporte.push ( this.obtenDepositos(params, strIdBilletes) );
+            if (respuestaDatos != null) {
+                this.detalleDotaciones.push ( respuestaDatos );
+            }
         }
+        console.log("obtenDatosDotaciones:: detalleDotaciones<"+JSON.stringify(this.detalleDotaciones)+">");
 
-        /*
-         datosReporte.forEach( reg => {
-         this.totalRetirosReporte.b20 += reg.b20;
-         this.totalRetirosReporte.b50 += reg.b50;
-         this.totalRetirosReporte.b100 += reg.b100;
-         this.totalRetirosReporte.b200 += reg.b200;
-         this.totalRetirosReporte.b500 += reg.b500;
-         this.totalRetirosReporte.b1000 += reg.b1000;
-         this.totalRetirosReporte.opers += reg.opers;
-         this.totalRetirosReporte.monto += reg.monto;
-         });
-
-         this.datosReporte = datosReporte;
-         */
+        this.acumulaTotalDepositos(this.detalleDotaciones);
     }
 
 
@@ -212,58 +266,34 @@ export class ReporteMensualComponent implements OnInit {
         console.log(nomComponente + ".obtenDatosDepositos:: Inicio");
 
         params.events           = ['CashManagement'];
-        params.ipAtm            = '11.50.2.8';
+        //params.ipAtm            = '11.50.2.8';
 
-        let datosReporte:any        = [];
+        //let datosReporte:any        = [];
+        let respuestaDatos:any      = "";
         let strIdBilletes           = "PROCESADEPOSITO ConfirmaDeposito";
 
-        this.datosReporte           = [];
-        this.diaProceso = 0;
+        //this.datosReporte           = [];
+        this.diaProceso             = 0;
+        this.detalleDepositos.push ({b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0});
 
-
-        //for(let dia=1; dia < 12; dia++)
-        {
-            let dia = 4;
+        for(let dia=1; dia < this.diasProcesar; dia++){
             this.diaProceso++;
             console.log(nomComponente + ".obtenDatosDepositos:: Procesando el día ["+this.diaProceso+"]");
             let xdia = (dia < 10) ? "0"+dia: dia;
-            params.timeStampStart   = '2018-04-' + xdia + '-00-00';
-            params.timeStampEnd     = '2018-04-' + xdia + '-23-59';
+            params.timeStampStart   = '2018-05-' + xdia + '-00-00';
+            params.timeStampEnd     = '2018-05-' + xdia + '-23-59';
+            respuestaDatos          = this.obtenDetalleDepositos(params, strIdBilletes);
 
-            datosReporte.push ( this.obtenDepositos(params, strIdBilletes) );
+            if (respuestaDatos != null) {
+                this.detalleDepositos.push ( respuestaDatos );
+            }
         }
-
-        /*
-        datosReporte.forEach( reg => {
-            this.totalRetirosReporte.b20 += reg.b20;
-            this.totalRetirosReporte.b50 += reg.b50;
-            this.totalRetirosReporte.b100 += reg.b100;
-            this.totalRetirosReporte.b200 += reg.b200;
-            this.totalRetirosReporte.b500 += reg.b500;
-            this.totalRetirosReporte.b1000 += reg.b1000;
-            this.totalRetirosReporte.opers += reg.opers;
-            this.totalRetirosReporte.monto += reg.monto;
-        });
-
-        this.datosReporte = datosReporte;
-        */
+        console.log("obtenDatosDepositos:: detalleDepositos<"+JSON.stringify(this.detalleDepositos)+">");
+        this.acumulaTotalDepositos(this.detalleDepositos);
     }
 
 
-
-    public GetEjaLogDataLength(paginasJournal:any, status){
-        gPaginasJournal = paginasJournal;
-        //console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
-    }
-
-    public GetEjaLogPage(datosJournal:any, status){
-        gDatosJournal = datosJournal;
-    }
-
-    public obtenDepositos(params, strIdBilletes){
-
-
-        //let events:string[]     = ['CashManagement'];
+    public obtenDetalleDepositos(params, strIdBilletes){
 
         let paramsCons: any = {
             ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd,
@@ -273,7 +303,7 @@ export class ReporteMensualComponent implements OnInit {
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
-        console.log(nomComponente+".obtenDepositos::  paramsCons <"+ JSON.stringify(paramsCons) + ">");
+        console.log(nomComponente+".obtenDetalleDepositos::  paramsCons <"+ JSON.stringify(paramsCons) + ">");
 
         let arrBillDepJournal:any[] = [];
         let arrBillDepJournal2      = {};
@@ -287,20 +317,14 @@ export class ReporteMensualComponent implements OnInit {
                 if ( gDatosJournal.length > 0){
                     gDatosJournal.forEach( reg => {
 
-                        //console.log("(1) -->" + JSON.stringify(reg.Data));
-
                         if (reg.Data.substring(0, strIdBilletes.length) == strIdBilletes) {
 
                             datosBilletes = reg.Data.replace(/.*\[(.*)\]/, "$1");
-                            //console.log("(2) -->" + JSON.stringify(datosBilletes));
 
                             if ( datosBilletes.indexOf("total") > 0){
                                 datosBilletes = datosBilletes.substring(0,datosBilletes.indexOf("|total"))
                             }
-                            //console.log("(3) -->" + JSON.stringify(datosBilletes));
-                            //datosBilletes = (datosBilletes.indexOf("|total=")) ? datosBilletes.replace(/total=/g,"") : datosBilletes;
-                            //console.log(JSON.stringify(datosBilletes.replace(/.*\[(.*)\]/, "$1")));
-                            //arrBillDepJournal.push(datosBilletes.replace(/.*\[(.*)\]/, "$1"));
+
                             arrBillDepJournal.push(datosBilletes);
                         }
                     })
@@ -313,76 +337,136 @@ export class ReporteMensualComponent implements OnInit {
 
             console.log(JSON.stringify(arrBillDepJournal2));
             return(arrBillDepJournal2);
-            //console.log("datosJournaldatosJournal <"+ JSON.stringify(datosJournal) + ">");
 
-/*
-            let cveCat;
-            let arrRetirosLogHardware:any[] = [];
-            let arrBillRetLogHardware:any[] = [];
-            let billetesRetiro = "";
-
-            this.datosRespLogHma.forEach( (reg) => {
-
-                if (reg.HmaEventId == 2083) { //'DenominateInfo'){
-                    billetesRetiro = "";
-                    billetesRetiro = reg.Data;
-                }else if(reg.HmaEventId == 2058){
-                    arrRetirosLogHardware.push({'billetes': billetesRetiro, 'monto': reg.Data});
-                    arrBillRetLogHardware.push(billetesRetiro);
-                    billetesRetiro = "";
-                }
-            });
-
-            arrBillRetLogHardware2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetLogHardware, ";", "BD");
-            console.log(JSON.stringify(arrBillRetLogHardware2));
-            return(arrBillRetLogHardware2);
-*/
         }
-
-
-
     }
 
-
-    public obtenDatosRetiros(params?) {
+    public obtenRetirosEtv(params?) {
 
         console.log(nomComponente + ".obtenDatosRetiros:: Inicio");
 
         let datosReporte:any        = [];
-        this.datosReporte           = [];
+        let respuestaDatos:any      = "";
+        this.diaProceso             = 0;
+        //let retirosEtv:any          = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
 
-        for(let dia=1; dia < 31; dia++){
+        //this.datosReporte           = [];
+
+        params.events = ['Administrative', 'Replenishment'];
+
+        for(let dia=1; dia < this.diasProcesar; dia++){
             this.diaProceso++;
             let xdia = (dia < 10) ? "0"+dia: dia;
-            params.timeStampStart   = '2018-04-' + xdia + '-00-00';
-            params.timeStampEnd     = '2018-04-' + xdia + '-23-59';
-            datosReporte.push ( this.obtenRetiros(params) );
+            params.timeStampStart   = '2018-05-' + xdia + '-00-00';
+            params.timeStampEnd     = '2018-05-' + xdia + '-23-59';
+            respuestaDatos = this.obtenDatosRetirosEtv(params, '');
+            if (respuestaDatos != null) {
+                datosReporte.push(respuestaDatos);
+            }
         }
-
-        datosReporte.forEach( reg => {
-            this.totalRetirosReporte.b20 += reg.b20;
-            this.totalRetirosReporte.b50 += reg.b50;
-            this.totalRetirosReporte.b100 += reg.b100;
-            this.totalRetirosReporte.b200 += reg.b200;
-            this.totalRetirosReporte.b500 += reg.b500;
-            this.totalRetirosReporte.b1000 += reg.b1000;
-            this.totalRetirosReporte.opers += reg.opers;
-            this.totalRetirosReporte.monto += reg.monto;
-        });
-
-        this.datosReporte = datosReporte;
-
+        this.acumulaTotalRetiros(datosReporte);
+        return (datosReporte);
     }
 
-    public obtenRetiros(params){
+    public obtenDatosRetirosEtv(params, strIdBilletes){
+
+        let paramsCons: any = {
+            ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd,
+            events: params.events, minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+        };
+
+        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
+
+        console.log(nomComponente+".obtenDatosRetirosEtv::  paramsCons <"+ JSON.stringify(paramsCons) + ">");
+
+        let arrBillRetirosEtv:any[] = [];
+        let arrBillRetirosEtv2      = {};
+        let datosBilletes           = "";
+        let strAntesDeCero          = "DOTAR CAPTURA CONTADORES - ANTES DE CERO";
+        let strContadoresFinal      = "DOTAR CONTADORES FINAL";
+        let strRegresandoATM        = "REGRESANDO A MODO ATM";
+        let strEntrandoOos          = "Entrando a Oos";
+        let billetesCaseteros       = "";
+        let billetesRechazos        = "";
+
+        if (gPaginasJournal.TotalPages > 0) {
+            let datosJournal: any = [];
+            for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
+                paramsCons.page = idx;
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+                if ( gDatosJournal.length > 0){
+                    gDatosJournal.forEach( reg => {
+// DOTAR CAPTURA CONTADORES - ANTES DE CERO[50x57|100x0|200x119|500x1178|][20x19|50x4|100x2|200x3|500x7|1000x16|][total=636530]
+// DOTAR CONTADORES FINAL [50x0|100x0|200x0|500x0|total=0]
+                        //console.log("obtenDatosRetirosEtv:: reg<"+JSON.stringify(reg)+">");
+                        if (reg.Data.substring(0, strAntesDeCero.length) == strAntesDeCero) {
+                            billetesCaseteros   = reg.Data.replace(/.*\[(.*)\].*\[(.*)\].*\[(.*)\]/, "$1");
+                            arrBillRetirosEtv.push(billetesCaseteros);
+
+                            billetesRechazos    = reg.Data.replace(/.*\[(.*)\].*\[(.*)\].*\[(.*)\]/, "$2");
+                            arrBillRetirosEtv.push(billetesRechazos);
+                            //console.log("obtenDatosRetirosEtv:: arrBillRetirosEtv<"+JSON.stringify(arrBillRetirosEtv)+">");
+                        }
+
+                        /*
+                        if (reg.Data.substring(0, strIdBilletes.length) == strIdBilletes) {
+
+                            datosBilletes = reg.Data.replace(/.*\[(.*)\]/, "$1");
+
+                            if ( datosBilletes.indexOf("total") > 0){
+                                datosBilletes = datosBilletes.substring(0,datosBilletes.indexOf("|total"))
+                            }
+
+                            arrBillDepJournal.push(datosBilletes);
+                        }
+                        */
+                    })
+                }
+            }
+
+            if (arrBillRetirosEtv != null) {
+                console.log("obtenDatosRetirosEtv:: arrBillRetirosEtv<" + JSON.stringify(arrBillRetirosEtv) + ">");
+                arrBillRetirosEtv2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetirosEtv, "|", "DB");
+                console.log(JSON.stringify(arrBillRetirosEtv2));
+            }
+            return(arrBillRetirosEtv2);
+        }
+    }
+
+    public obtenRetirosOper(params?) {
+
+        console.log(nomComponente + ".obtenDatosRetiros:: Inicio");
+
+        let datosReporte: any   = [];
+        let respuestaDatos:any  = "";
+        this.diaProceso         = 0;
+        //this.datosReporte       = [];
+
+        for (let dia = 1; dia < this.diasProcesar; dia++) {
+            this.diaProceso++;
+            let xdia                = (dia < 10) ? "0" + dia : dia;
+            params.timeStampStart   = '2018-05-' + xdia + '-00-00';
+            params.timeStampEnd     = '2018-05-' + xdia + '-23-59';
+            respuestaDatos          = this.obtenDatosRetirosOper(params, '');
+            if (respuestaDatos != null) {
+                datosReporte.push(respuestaDatos);
+            }
+        }
+        this.acumulaTotalRetiros(datosReporte);
+        return (datosReporte);
+    }
+
+    public obtenDatosRetirosOper(params, strIdBilletes){
+
         params.ipAtm            = '11.50.2.8';
         let device:string[]     = ['AFD'];
         let events:string[]     = ['DispenseOk', 'DenominateInfo'];
-        let arrBillRetLogHardware2 = {};
 
-        console.log(nomComponente+".obtenDatosLogHMA (1):: params<"+JSON.stringify(params)+">");
+        console.log(nomComponente+".obtenDatosRetirosOper:: params<"+JSON.stringify(params)+">");
         let paramsCons: any = {
-            ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd, events: events, device: device
+            ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd,
+            events: events, device: device
         };
 
         // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
@@ -397,39 +481,22 @@ export class ReporteMensualComponent implements OnInit {
                 this.datosRespLogHma = this.datosRespLogHma.concat(gRespDatosLogHma);
             }
 
-            let cveCat;
-            let arrRetirosLogHardware:any[] = [];
             let arrBillRetLogHardware:any[] = [];
-            let billetesRetiro = "";
+            let billetesRetiro              = "";
 
             this.datosRespLogHma.forEach( (reg) => {
 
                 if (reg.HmaEventId == 2083) { //'DenominateInfo'){
-                    billetesRetiro = "";
                     billetesRetiro = reg.Data;
                 }else if(reg.HmaEventId == 2058){
-                    arrRetirosLogHardware.push({'billetes': billetesRetiro, 'monto': reg.Data});
                     arrBillRetLogHardware.push(billetesRetiro);
                     billetesRetiro = "";
                 }
             });
 
-            arrBillRetLogHardware2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetLogHardware, ";", "BD");
+            let arrBillRetLogHardware2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetLogHardware, ";", "BD");
             console.log(JSON.stringify(arrBillRetLogHardware2));
             return(arrBillRetLogHardware2);
         }
-
-
-
     }
-
-
-    public RetirosLogHMA(){
-
-    }
-
-    public DepositosDotacion(){
-
-    }
-
 }
