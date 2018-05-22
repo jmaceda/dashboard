@@ -132,7 +132,7 @@ import { ReporteMensualComponent }          from './reportes/banxico/reporte-men
     NgxDatatableModule,
     BlockUIModule,
     PruebasModule,
-    PdfViewerModule
+    PdfViewerModule,
 
 
     //Ng2SmartTableModule,

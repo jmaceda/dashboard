@@ -189,7 +189,7 @@ export class ReporteMensualComponent implements OnInit {
         this.obtenDepositos(params);
         this.obtenRetiros(params);
         this.calculaTotalSaldos();
-        this.fchInicialProceso = params.timeStampStart;
+                                                    this.fchInicialProceso = params.timeStampStart;
                                                 let fchFin:any             = new Date();
         console.log("Fin ["+fchFin+"]");
 

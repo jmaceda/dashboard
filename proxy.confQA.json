@@ -1,5 +1,5 @@
 {
-    "/": {
+    "/**": {
         "target": "https://manager-qa.redblu.com.mx:8080/",
         "secure": false,
         "changeOrigin": true,

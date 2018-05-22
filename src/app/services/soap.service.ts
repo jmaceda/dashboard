@@ -13,22 +13,24 @@ export class SoapService {
     // Decorator wires up blockUI instance
     @BlockUI() blockUI: NgBlockUI;
 
-    public soapParams:any;
-    public soapClient:any;
-    public url:string = "";
+    public soapParams: any;
+    public soapClient: any;
+    public url       : string = "";
 
     constructor() {
 
         if (window.location.port == '8687' || window.location.port == '3000' || window.location.port == '9099' || window.location.port == '820'){
             //this.url = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx'; // Prod
-            this.url = '/services/dataservices.asmx'; // Prod
+            this.url = '/services/dataservices.asmx';  // Prod
+            //this.url = '/dataservices.asmx';           // Azteca
             // https://manager.redblu.com.mx:8080/services/dataservices.asmx
         }else{
-            this.url = '/dataservices.asmx'; //  QA
+            this.url = '/dataservices.asmx';  //  QA
             //this.url = '/dataservices.asmx'; // Prod
         }
         if (window.location.port == '820') {
-            this.url = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx'; // Prod
+            this.url = 'https://manager.redblu.com.mx:8080/services/dataservices.asmx';  // Prod
+            this.url = 'https://manager-qa.redblu.com.mx:8080/AztecaServices/dataservices.asmx';
         }
 
 
@@ -42,7 +44,6 @@ export class SoapService {
 
 
    post(url, action, params, fncCallBack, async){
-
        //url = '/dataservices.asmx';
        this.blockUI.start('Loading...'); // Start blocking
         //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
@@ -71,13 +72,13 @@ export class SoapService {
                     soapCallback = fncCallBack;
                 }
 
-                //console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
+                console.log("SoapService.post:: url["+url+"]   this.url["+this.url+"]");
                 this.soapClient.invoke(this.url, action, this.soapParams, async, soapCallback);
              this.blockUI.stop(); // Stop blocking
             });
     }
     setCredentials(username, password){
         this.soapClient.username = username;
-		this.soapClient.password = password;
+        this.soapClient.password = password;
     }
 }
