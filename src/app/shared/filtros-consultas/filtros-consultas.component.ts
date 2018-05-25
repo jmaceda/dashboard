@@ -19,6 +19,7 @@ import { BsModalComponent }                 from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 //import 'bootstrap/dist/js/bootstrap.bundle.js';
 //import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
+import { NotificationsComponent } from '../../notifications/notifications.component';
 
 
 export var datosATMs  = [];
@@ -67,9 +68,13 @@ export class FiltrosConsultasComponent implements OnInit {
     public atmSeleccionado:string = "";
     //public value:number;
 
+    public notificationsComponent: NotificationsComponent;
+
     constructor(public _soapService: SoapService,
                 public detalleAtmsService: InfoAtmsService,
                 private modalService: NgbModal){
+
+        this.notificationsComponent = new NotificationsComponent();
     }
 
 
@@ -144,6 +149,7 @@ export class FiltrosConsultasComponent implements OnInit {
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM};
         }
 
+        this.notificationsComponent.showNotification('top','center', 'warning');
         this.parametrosConsulta.emit(this.paramsConsulta);
     }
 

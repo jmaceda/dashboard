@@ -143,9 +143,12 @@ export class EfectDispCoponent implements OnInit {
         let montoUltimoCorte:any            = "";
         let fchUltimoCorte2:any             = "";
 
+        ultimoCorte                         = datosCortesJournal[datosCortesJournal.length -1];
+        if (ultimoCorte == undefined || ultimoCorte == null){
+            return(0);
+        }
         billetesDisponibles                 = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
         datosCortesJournal                  = this.datosJournalService.obtenCortesJournal(filtrosCons);
-        ultimoCorte                         = datosCortesJournal[datosCortesJournal.length -1];
         fchUltimoCorte                      = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
         montoUltimoCorte                    = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
         fchUltimoCorte2                     = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");

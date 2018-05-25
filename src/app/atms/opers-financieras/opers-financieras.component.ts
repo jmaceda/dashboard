@@ -213,6 +213,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             this.filtrosUtilsService.fchaHraUltimaActualizacion();
         }
 
+        /*
         if (this.opersFinancieras.length > 0) {
             $('#btnExpExel2').css('cursor', 'pointer');
             this.isDatosJournal = true;
@@ -221,6 +222,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             $('#btnExpExel2').css('cursor', 'not-allowed');
             this.isDatosJournal = true;
         }
+        */
 
         this.opersFinancieras = [];
     }
