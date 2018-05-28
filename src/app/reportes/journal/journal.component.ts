@@ -8,6 +8,9 @@ import { DataTableResource }                    from 'angular-4-data-table-fix';
 import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
 import { DatosJournalService }                  from '../../services/datos-journal.service';
 
+import { NotificationsComponent }               from '../../notifications/notifications.component';
+import { SweetAlertService }                    from 'ngx-sweetalert2';
+import swal                                     from 'sweetalert2'
 
 var arrDatosJournal:any[] = [];
 
@@ -25,7 +28,7 @@ export const nomComponente:string = "JournalComponent";
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, DatosJournalService]
+    providers: [SoapService, DatosJournalService, SweetAlertService]
 })
 export class JournalComponent implements OnInit  {
 
@@ -44,19 +47,37 @@ export class JournalComponent implements OnInit  {
     public columnas:any;
     public dataJournalRedBlu            = [];
     private isDatosJournal:boolean      = false;
+    public notificationsComponent: NotificationsComponent;
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
-                public datosJournalService: DatosJournalService){
+                public datosJournalService: DatosJournalService,
+                private _swal2: SweetAlertService){
+
+        this.notificationsComponent = new NotificationsComponent();
+
+        /*
+        swal({
+            title: 'Parámetros',
+            text: "No ha indicado el Grupo de ATMs a consultar",
+            type: 'warning',
+            //showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.value) {
+                swal(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+        */
     }
 
     ngOnInit() {
-        if ( $('#btnExpExel').length == 0) {
-            $('.data-table-header').append('<input id="btnExpExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaJournal2Excel()">');
-        }
-
-        $('#btnExpExel').css('cursor', 'not-allowed');
-        this.isDatosJournal = true;
         this.columnas = this.datosJournalService.obtenColumnasVista();
     }
 
@@ -96,19 +117,19 @@ export class JournalComponent implements OnInit  {
             this.dataJournalRedBlu = datosJournal;
         }
 
-        if (this.dataJournalRedBlu.length > 0) {
-            $('#btnExpExel').css('cursor', 'pointer');
-            this.isDatosJournal = false;
-        }else{
-            $('#btnExpExel').css('cursor', 'not-allowed');
-            this.isDatosJournal = true;
-        }
-
         this.itemResource = new DataTableResource(this.dataJournalRedBlu);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
+        if (this.dataJournalRedBlu.length > 0) {
+            $('#btnExpExel').css('cursor', 'pointer');
+            this.isDatosJournal = true;
+        }else{
+            this.notificationsComponent.showNotification('top','center', 'warning', 'No existe información en el Journal con los parámetros indicados');
+            $('#btnExpExel').css('cursor', 'not-allowed');
+            this.isDatosJournal = false;
+        }
     }
 
     public GetEjaLogDataLength(paginasJournal:any, status){
@@ -135,8 +156,15 @@ export class JournalComponent implements OnInit  {
 
     rowTooltip(item) { return item.jobTitle; }
 
-    public exportaJournal2Excel(event){
-        console.log(nomComponente+".exportaJournal2Excel:: Inicio");
+    public exportaJournal2Excel(){
+        $('#btnExpExel').css('cursor', 'not-allowed');
+        this.isDatosJournal = false;
+
+        this.notificationsComponent.showNotification('bottom','right', 'info', 'Exportado información del Journal a formato CVS');
         this.datosJournalService.exportaJournal2Excel(this.dataJournalRedBlu);
+
+        $('#btnExpExel').css('cursor', 'pointer');
+        this.isDatosJournal = true;
     }
+
 }

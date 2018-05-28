@@ -6,11 +6,11 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { sprintf }                                      from "sprintf-js";
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
 import { LogHmaService }                                from '../../services/log-hma.service';
+import { NotificationsComponent }               from '../../notifications/notifications.component';
+import { SweetAlertService }                    from 'ngx-sweetalert2';
 
 import { EventEmitter}      from '@angular/core';
-
 
 var arrDatosJournal:any[]               = [];
 var nomComponente:string                = "LogHmaComponent";
@@ -45,9 +45,11 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
     public items                    = [];
     public itemCount                = 0;
     public tituloLogHMA:string      = "Log HMA";
-    public ipATM: string;
+    //public ipATM: string;
     public regsLimite: number       = 200;
     private datosRespLogHma:any[]   = [];
+    private isDatosHMA:boolean      = false;
+    public notificationsComponent: NotificationsComponent;
 
     public columns = [
         { key: 'Ip',                title: 'IP'},
@@ -61,12 +63,15 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
-                public logHmaService: LogHmaService){
+                public logHmaService: LogHmaService,
+                private _swal2: SweetAlertService){
+
+        this.notificationsComponent = new NotificationsComponent();
     }
 
     ngOnInit() {
-        gDevicesAtm         = this.logHmaService.GetHmaDevices();
-        gCatalogoEventos    = this.logHmaService.obtenEventos();
+        gDevicesAtm      = this.logHmaService.GetHmaDevices();
+        gCatalogoEventos = this.logHmaService.obtenEventos();
     }
 
     public ngOnDestroy() {
@@ -95,7 +100,6 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
             ip: [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd, events: -1, device: -1
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         this.datosRespLogHma = [];
@@ -124,12 +128,20 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
         this.reloadItems( {limit: this.regsLimite, offset: 0});
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
+
+        if (this.datosRespLogHma.length > 0) {
+            $('#btnExpExel').css('cursor', 'pointer');
+            this.isDatosHMA = true;
+        }else{
+            this.notificationsComponent.showNotification('top','center', 'warning', 'No existe información en el Log de Hardware con los parámetros indicados');
+            $('#btnExpExel').css('cursor', 'not-allowed');
+            this.isDatosHMA = false;
+        }
     }
 
     public GetHmaLogDataLength(respNumPaginasLogHma:object, status){
         gNumPagsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalPages;
         gNumRegsLogHma  = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalItems;
-        console.log(nomComponente+".obtenNumeroDePaginasLog:: gNumPagsLogHma["+gNumPagsLogHma+"]  gNumRegsLogHma["+gNumRegsLogHma+"]");
     }
 
     public GetHmaLogPage(respDatosLogHma:any[], status){
@@ -146,7 +158,7 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
     }
 
     rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
+        console.log('Double clicked: ' + rowEvent.row.item.name);
     }
 
     rowTooltip(item) { return item.jobTitle; }
@@ -154,4 +166,17 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
     private MsgConsola(msg:any){
         console.log(nomComponente+".");
     }
+
+
+    public exportaHMA2Excel(){
+        $('#btnExpExel').css('cursor', 'not-allowed');
+        this.isDatosHMA = false;
+
+        this.notificationsComponent.showNotification('bottom','right', 'info', 'Exportado información del Journal a formato CVS');
+        this.logHmaService.exportaHMA2Excel(this.datosRespLogHma);
+
+        $('#btnExpExel').css('cursor', 'pointer');
+        this.isDatosHMA = true;
+    }
+
 }

@@ -156,11 +156,6 @@ export class DatosJournalService implements OnInit {
                 { key: 'Reference1',        title: 'Referencia 1' },
                 { key: 'Reference2',        title: 'Referencia 2' },
                 { key: 'Reference3',        title: 'Referencia 3' },
-                /*
-                 { key: 'AtmId',        		title: 'Id Atm', },
-                 { key: 'SerializedId',      title: 'Id Serial' },
-                 { key: 'Id',        		title: 'Id' },
-                 */
             ];
 
         return(columnas);
@@ -173,6 +168,8 @@ export class DatosJournalService implements OnInit {
         let tmpMonto:any;
         let tmpMontoDisponible:any;
         let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let ftoFchSys:any   = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let ftoHora:any     = {hour: '2-digit', minute: '2-digit', second: '2-digit'};
 
         dataJournalRedBlu.forEach((reg)=> {
             tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
@@ -184,7 +181,6 @@ export class DatosJournalService implements OnInit {
                     "Fecha/Hora":           	            tmpFchHora,
                     "IP":                   	            reg.Ip,
                     "ATM":                  	            reg.AtmName,
-                    "Atm Id":             	                reg.AtmId,
                     "Tarjeta número":       	            reg.CardNumber,
                     "Tipo de Operación":    	            reg.OperationType,
                     "Contador de Transacción":              reg.TransactionCount,
@@ -201,6 +197,7 @@ export class DatosJournalService implements OnInit {
                     "Flag Code":           		            reg.FlagCode,
                     "Terminal Capabilities":                reg.TerminalCaps,
                     "POS Code":            		            reg.PosMode,
+                    "Id. Autorización":                     reg.AuthId,
                     "Código de Autorización del Switch":	reg.SwitchAuthCode,
                     "Surcharge":          					reg.Surcharge.toLocaleString("es-MX"),
                     "Código de Respuesta del Switch": 		reg.SwitchResponseCode,
@@ -210,8 +207,6 @@ export class DatosJournalService implements OnInit {
                     "Referencia 1":         				reg.Reference1,
                     "Referencia 2":         				reg.Reference2,
                     "Referencia 3":         				reg.Reference3,
-                     //SerializedId:       reg.SerializedId,
-                     //Id:                 reg.Id
                 }
             )
         });
@@ -233,9 +228,6 @@ export class DatosJournalService implements OnInit {
         let timeStampStart:string   = fchSys + "-00-00";
         let timeStampEnd:string     = fchSys + "-23-59";
         let comision:number         = 0;
-
-        timeStampStart   = "2018-03-10-00-00";
-        timeStampEnd     = "2018-03-10-23-59";
 
         timeStampStart   = paramsConsulta.timeStampStart;
         timeStampEnd     = paramsConsulta.timeStampEnd;
@@ -276,39 +268,40 @@ export class DatosJournalService implements OnInit {
                             //console.log(reg.SwitchResponseCode + " -- " + reg.Event + " --- " + reg.AccountType + " ---  " + reg.HWErrorCode);
                         }
                     }
-                    comisonesAtm.Description = infoAtm.Description;
-                    comisonesAtm.idAtm       = reg.AtmName;
-
+                    comisonesAtm.Description    = infoAtm.Description;
+                    comisonesAtm.idAtm          = reg.AtmName;
+                    comision                    = (reg.Surcharge / ((iva / 100) + 1));
                     fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
-                    comision = (reg.Surcharge / ((iva / 100) + 1));
+
+
                     switch (reg.OperationType) {
                         case 'BalanceCheck': {
                             if (reg.SwitchResponseCode == 0) {
                                 comisonesAtm.numConsultas++;
-                                comisonesAtm.comisionesConsultas += comision; //(reg.Surcharge / ((iva / 100) + 1));
-                                comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
-                                comisonesAtm.hraUtimaConsulta = fchMovto;
-                                comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                                comisonesAtm.comisionesConsultas   += comision;
+                                comisonesAtm.totalComisiones       += comision;
+                                comisonesAtm.hraPrimeraConsulta     = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
+                                comisonesAtm.hraUtimaConsulta       = fchMovto;
                             }
                             break;
                         }
                         case 'Withdrawal': {
                             if (reg.SwitchResponseCode == 0) {
                                 comisonesAtm.numRetiros++;
-                                comisonesAtm.comisionesRetiros += comision; //(reg.Surcharge / ((iva / 100) + 1));
-                                comisonesAtm.montoRetiros += reg.Amount;
-                                comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
-                                comisonesAtm.hraUtimoRetiro = fchMovto;
-                                comisonesAtm.totalComisiones += (reg.Surcharge / ((iva / 100) + 1));
+                                comisonesAtm.comisionesRetiros     += comision;
+                                comisonesAtm.totalComisiones       += comision;
+                                comisonesAtm.montoRetiros          += reg.Amount;
+                                comisonesAtm.hraPrimerRetiro        = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
+                                comisonesAtm.hraUtimoRetiro         = fchMovto;
                             }
                             break;
                         }
                         case 'CashManagement': {
                             if (reg.Data.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito") {
                                 comisonesAtm.numDepositos++;
-                                comisonesAtm.montoDepositos += reg.Amount;
-                                comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
-                                comisonesAtm.hraUtimoDeposito = fchMovto;
+                                comisonesAtm.montoDepositos        += reg.Amount;
+                                comisonesAtm.hraPrimerDeposito      = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
+                                comisonesAtm.hraUtimoDeposito       = fchMovto;
                             }
                             break;
                         }
@@ -316,7 +309,6 @@ export class DatosJournalService implements OnInit {
                         case 'Exception': {
 							let regexErrCom = /Problemas de comunicación|Error de conexión|Tiempo expirado/g
                             if (reg.Event == "Withdrawal"){
-                                //if(reg.SwitchResponseCode >= 1000){
 								if (regexErrCom.test(reg.HWErrorCode)){
                                     comisonesAtm.errRetiros++;
                                     comisonesAtm.errMontoRetiros       += reg.Amount;
@@ -326,7 +318,6 @@ export class DatosJournalService implements OnInit {
                                     comisonesAtm.errTotal++;
                                 }
                             }else if (reg.Event == "BalanceCheck"){
-                                //if(reg.SwitchResponseCode >= 1000){
 								if (regexErrCom.test(reg.HWErrorCode)){ 
                                     comisonesAtm.errConsultas++;
                                     comisonesAtm.errComisionConsultas  += comision;
@@ -357,8 +348,6 @@ export class DatosJournalService implements OnInit {
         let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
 
         opersFinancieras.forEach((reg)=> {
-            //tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
-
             tmpComisionesRetiroso   = reg.comisionesRetiros.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
             tmpMontoRetiroso        = reg.montoRetiros.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
             tmpComisionesConsultas  = reg.comisionesConsultas.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
@@ -373,21 +362,16 @@ export class DatosJournalService implements OnInit {
                     "Monto Retiros":             	        tmpMontoRetiroso,
                     "Primer Retiro":       	                reg.hraPrimerRetiro,
                     "Último Retiro":    	                reg.hraUtimoRetiro,
-
                     "Consultas":                   	        reg.numConsultas,
                     "Comisiones Consulta":                  tmpComisionesConsultas,
                     "Primera Consulta":       	            reg.hraPrimeraConsulta,
                     "Última Consulta":    	                reg.hraUtimaConsulta,
-
                     "Total Comisiones":                  	tmpTotalComisiones,
-
                     "Errores Comunicación":                 reg.errTotal,
-
                     "Depósitos":                   	        reg.numDepositos,
                     "Monto Depósitos":                  	tmpMontoDepositos,
                     "Primer Depósito":       	            reg.hraPrimerDeposito,
                     "Último Depósito":    	                reg.hraUtimoDeposito,
-
                 }
             )
         });
@@ -399,4 +383,3 @@ export class DatosJournalService implements OnInit {
     }
 
 }
-// {infoAtm.Desc, NumRetiros, ComisRetiros, hraPrimerRet, hrasUltRet, NumCons, ComisCons,, hraPrimerCons, hrasUltCons, TotComis, NumDepos, MontoDepos)

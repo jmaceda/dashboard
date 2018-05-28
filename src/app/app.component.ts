@@ -4,8 +4,14 @@ import { PlatformLocation }     from '@angular/common';
 import { Location }             from '@angular/common';
 import { InfoGroupsService }    from './services/info-groups.service';
 
-export var variable_de_app_component = "Variable declarada en app.component";
-export var nomComponente:any = "AppComponent";
+
+
+
+export var gCatalogoEventos:any[]       = [];
+export var gDevicesAtm:any[]            = [];
+
+export var variable_de_app_component    = "Variable declarada en app.component";
+export var nomComponente:any            = "AppComponent";
 
 @Component({
   selector: 'app-root',
@@ -18,9 +24,7 @@ export class AppComponent implements OnInit {
                  public infoGroupsService: InfoGroupsService) {}
 
     ngOnInit(){
-        console.log(nomComponente+".ngOnInit:: Se van a cargar el Catalogo de ATMs por Grupo");
         this.infoGroupsService.cargaCataAtmsConGrupos();
-        console.log(nomComponente+".ngOnInit:: Se cargo el Catalogo de ATMs por Grupo");
     }
 
     isMap(path){

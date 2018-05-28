@@ -15,19 +15,14 @@ var nomServicio = "InfoAtmsService";
 export class InfoAtmsService implements OnInit {
 
     constructor(public _soapService: SoapService,
-                public infoGroupsService: InfoGroupsService){//},
-                //public logHmaService: LogHmaService){
-        console.log(nomServicio+".constructor:: init");
+                public infoGroupsService: InfoGroupsService){
     }
 
-    public ngOnInit() {
-        //gDevicesAtm  = this.logHmaService.GetHmaDevices();
-    }
+    public ngOnInit() {}
 
     public GetAtm(datosAtms:any, status){
         gDatosAtms = datosAtms;
     }
-
 
     public obtenDetalleAtms(parametros?:any) {
 
@@ -60,12 +55,13 @@ export class InfoAtmsService implements OnInit {
         let idx = 0;
         let arrNomAtms:any[] = [];
 
-        gDatosAtms.forEach((reg)=> {
-            arrNomAtms.push( (reg.Description + ' (' + reg.Ip + ')') );
-        });
+        if (gDatosAtms.length > 0) {
+            gDatosAtms.forEach((reg) => {
+                arrNomAtms.push((reg.Description + ' (' + reg.Ip + ')'));
+            });
+        }
 
         return(arrNomAtms.sort(comparar));
-
     };
 
 
@@ -79,7 +75,6 @@ export class InfoAtmsService implements OnInit {
         let parameters:any = parametros;
 
         if (parametros != null || parametros != undefined) {
-            // Obtiene los datos del detalle de un ATMs
             this._soapService.post('', "GetAtmDetail", parameters, this.GetAtmDetail, false);
         }else{
             gDatosAtm = "*** No ha indicado el ID del Cajero a consultar ***";
@@ -89,6 +84,7 @@ export class InfoAtmsService implements OnInit {
 
     };
 
+    /*
     GetGroupsWithAtms(datosGroups:any, status){
         gGrupos = datosGroups;
     }
@@ -99,13 +95,15 @@ export class InfoAtmsService implements OnInit {
 
         let arrNomGrupos:any[] = [];
 
-        gGrupos.forEach((reg)=> {
-            arrNomGrupos.push( (reg.Description));
-        });
-        //console.log("InfoAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+        if (gGrupos.length > 0) {
+            gGrupos.forEach((reg) => {
+                arrNomGrupos.push((reg.Description));
+            });
+        }
+
         return(gGrupos.sort(comparar));
     }
-
+*/
 
     obtenIdGroup(descGpo){
         let idGpo = -1;
@@ -141,14 +139,14 @@ export class InfoAtmsService implements OnInit {
         return(gDatosAtms);
     };
 
-    public obtenIdAtmsOnLine(){
+    public obtenInfoAtmsOnLine(){
 
         let parametros          = { 
 				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, 
 				stateId: -1, townId: -1, areaId: -1, zipCode: -1
 		};
         let fchOper:any;
-        let idAtms:any[]        = [];
+        let infoAtms:any[]      = [];
         let infoDatosAtms:any   = [];
         let ftoFchSys:any       = {year: 'numeric', month: '2-digit', day: '2-digit'};
         let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
@@ -161,39 +159,40 @@ export class InfoAtmsService implements OnInit {
                 fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
 
                 if (fchOper == fchSys) {
-                    idAtms.push({'Description': reg.Description, 'Name': reg.Name, 'Id': reg.Id, 'Ip': reg.Ip});
+                    infoAtms.push({'Description': reg.Description, 'Name': reg.Name, 'Id': reg.Id, 'Ip': reg.Ip});
                 }
             });
         }
-        return(idAtms);
+        return(infoAtms);
     }
 
-	public obtenIdAtmsOnLinePorGpo(paramsConsulta?:any){
+	public obtenInfoAtmsOnLinePorGpo(paramsConsulta?:any){
 
-        console.log(nomServicio+".obtenIdAtmsOnLinePorGpo:: Obten datos de ATMs Online por Grupo");
+        console.log(nomServicio+".obtenInfoAtmsOnLinePorGpo:: Obten datos de ATMs Online por Grupo");
 		
         let parametros          = { 
 				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
 				osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1
 		};
         let fchOper:any;
-        let idAtms:any[]        = [];
+        let infoAtms:any[]      = [];
         let infoDatosAtms:any   = [];
         let ftoFchSys:any       = {year: 'numeric', month: '2-digit', day: '2-digit'};
         let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
 		let fchParam:any        = paramsConsulta.timeStampEnd.substring(0,10);
-        let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
+        let fchSys:any          = (new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2')).toString();
         let arrDevicesOffline   = [];
-        let arrFchasUltimaAct   = [];
+        let arrFechasUltimaAct  = [];
         let arrGroupsAtm        = [];
+
 		parametros.groupId 		= (paramsConsulta.idGpo != undefined && paramsConsulta.idGpo != null) ? paramsConsulta.idGpo : -1;
-		
-        infoDatosAtms = this.obtenDetalleAtms(parametros);
+        infoDatosAtms           = this.obtenDetalleAtms(parametros);
 
         if(infoDatosAtms.length > 0) {
-			if (fchParam == fchSys.toString()) {
+            /* Información de ATMs de la fecha indicada como parametro */
+			if (fchParam == fchSys) {
 				infoDatosAtms.forEach((reg) => {
-                    arrFchasUltimaAct   = [];
+                    arrFechasUltimaAct   = [];
                     arrGroupsAtm        = [];
                     if ( reg.OfflineDevices.length > 0 ){
                         for(let cve in reg.OfflineDevices) {
@@ -201,29 +200,30 @@ export class InfoAtmsService implements OnInit {
                         }
                     }
 
-                    arrFchasUltimaAct.push({'desc': 'ATM',          'fcha': reg.LastIOnlineTimestamp});
-                    arrFchasUltimaAct.push({'desc': 'Cassettes',    'fcha': reg.CassettesStatusTimestamp});
-                    arrFchasUltimaAct.push({'desc': 'Bóveda',       'fcha': reg.SafeOpenTs});
-                    arrFchasUltimaAct.push({'desc': 'Gabinete',     'fcha': reg.CabinetOpenTs});
+                    arrFechasUltimaAct.push({'desc': 'ATM',          'fcha': reg.LastIOnlineTimestamp});
+                    arrFechasUltimaAct.push({'desc': 'Caseteros',    'fcha': reg.CassettesStatusTimestamp});
+                    arrFechasUltimaAct.push({'desc': 'Bóveda',       'fcha': reg.SafeOpenTs});
+                    arrFechasUltimaAct.push({'desc': 'Gabinete',     'fcha': reg.CabinetOpenTs});
 
                     arrGroupsAtm.push( this.infoGroupsService.obtenGroupsAtm(reg.Id));
 
-                    idAtms.push({
+                    infoAtms.push({
                         'Description': reg.Description,
                         'Name': reg.Name,
                         'Id': reg.Id,
                         'Ip': reg.Ip,
                         'DevicesOffline': arrDevicesOffline,
-                        'FchasUltimaAct': arrFchasUltimaAct,
+                        'FechasUltimaAct': arrFechasUltimaAct,
                         'Grupos': arrGroupsAtm
                     });
                 });
 			} else {
+			    /* Información de ATMs de un fecha determinada */
 				infoDatosAtms.forEach((reg) => {
 					fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
 
 					if (fchOper == fchSys) {
-						idAtms.push({
+                        infoAtms.push({
 							'Description': reg.Description, 
 							'Name': reg.Name, 
 							'Id': reg.Id, 
@@ -234,8 +234,8 @@ export class InfoAtmsService implements OnInit {
 			}
 
         }
-        //console.log(nomServicio+".obtenIdAtmsOnLinePorGpo:: idAtms<"+JSON.stringify(idAtms)+">");
-        return(idAtms);
+
+        return(infoAtms);
     }
 
 

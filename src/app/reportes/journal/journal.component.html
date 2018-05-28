@@ -4,6 +4,10 @@
         height: 40px;
     }
 
+    .table > thead > tr > th {
+        text-transform: none;
+    }
+
 </style>
 
 
@@ -23,8 +27,25 @@
 
         <div class="card" style="padding: 3px;">
 
+            <div class="row" style="padding: 0px; vertical-align: middle;">
+
+                <div class="col-md-8" style="vertical-align: middle;">
+                    <span style="font-size: 25px;">Journal</span>
+                </div>
+                <div id="divExpExcel" class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <input id="btnExpExel"
+                           style="cursor: not-allowed;"
+                           title="Exporta archivo CVS"
+                           type=image   src="assets/img/office_excel.png"
+                           width="35" height="35" (click)="exportaJournal2Excel()"
+                           [disabled]="!isDatosJournal">
+                </div>
+            </div>
+
+
             <data-table id="journal"
                         headerTitle="Journal"
+                        [header] = "false"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
@@ -41,7 +62,7 @@
                         [header]="'Fecha/Hora'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="13em">
+                        width="12em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
@@ -50,17 +71,24 @@
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'IP'"
+                        [property]="'Ip'"
                         [header]="'IP'"
                         [sortable]="true"
-                        [resizable]="false">
+                        [resizable]="false"
+                        width="9em">
                 </data-table-column>
 
                 <data-table-column
                         [property]="'AtmName'"
                         [header]="'ATM'"
                         [sortable]="true"
-                        [resizable]="false">
+                        [resizable]="false"
+                        width="10em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colCent" >
+                                <span>{{item.AtmName}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
                 <data-table-column
@@ -92,11 +120,11 @@
                         [header]="'Monto'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="7em">
+                        width="8em">
                         <ng-template #dataTableCell let-item="item">
                             <div class="colNum" >
-                                <span *ngIf="item.Amount == ''"></span>
-                                <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
+                                <!-- span *ngIf="item.Amount == ''"></span -->
+                                <span class="colNum">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -208,6 +236,14 @@
                 </data-table-column>
 
                 <data-table-column
+                        [property]="'AuthId'"
+                        [header]="'Id Autorización'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="9em">
+                </data-table-column>
+
+                <data-table-column
                         [property]="'SwitchAuthCode'"
                         [header]="'Código de Autorización del Switch'"
                         [sortable]="true"
@@ -217,24 +253,28 @@
 
                 <data-table-column
                         [property]="'Surcharge'"
-                        [header]="'Comisión'"
+                        [header]="'Surcharge'"
                         [sortable]="true"
                         [resizable]="false"
                         width="7em">
                         <ng-template #dataTableCell let-item="item">
                             <div class="colNum" >
+                                <span *ngIf="item.Surcharge == 0">0</span>
+                                <span *ngIf="item.Surcharge > 0">{{item.Surcharge | number:'1.2-2'}}</span>
+                                <!--
                                 <span *ngIf="item.OperationType != 'BalanceCheck' && item.OperationType != 'Withdrawal'"></span>
                                 <span class="colNum" *ngIf="item.OperationType == 'BalanceCheck' || item.OperationType == 'Withdrawal' || item.OperationType == 'ControlMessage'">{{item.Surcharge | number:'1.2-2'}}</span>
+                                -->
                             </div>
                         </ng-template>
                 </data-table-column>
 
                 <data-table-column
                         [property]="'SwitchResponseCode'"
-                        [header]="'Resp'"
+                        [header]="'Código de Respuesta del Switch'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="6em">
+                        width="13em">
                         <ng-template #dataTableCell let-item="item">
                             <div class="colCent" >
                                 <span>{{item.SwitchResponseCode}}</span>
@@ -257,7 +297,7 @@
 
                 <data-table-column
                         [property]="'Available'"
-                        [header]="'Saldo'"
+                        [header]="'Disponible'"
                         [sortable]="true"
                         [resizable]="false"
                         width="8em">
@@ -270,19 +310,16 @@
                 </data-table-column>
 
                 <data-table-column
-                        [property]="'OperationType'"
-                        [header]="'Tipo Operación'"
-                        [sortable]="true"
-                        [resizable]="true"
-                        width="15em">
-                </data-table-column>
-
-                <data-table-column
                         [property]="'SwitchAtmId'"
                         [header]="'Switch ATM Id'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="15em">
+                        width="10em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colCent" >
+                                <span>{{item.SwitchAtmId}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
                 <data-table-column

@@ -12,10 +12,21 @@ export class NotificationsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-  showNotification(from, align, tipo?){
+  ngOnInit() { }
+
+  showNotification(from, align, tipo?, msg?){
       const type = ['','info','success','warning','danger'];
+
+      let msg2:string = "";
+
+      if (typeof(msg) == "object"){
+          console.log(msg)
+          msg.forEach( reg => {
+              msg2 += "* "+reg + "<br>";
+          })
+      } else {
+          msg2 = msg;
+      }
 
       var color = Math.floor((Math.random() * 4) + 1);
       tipo = (tipo == null || tipo == undefined) ? 'info' : tipo;
@@ -25,18 +36,30 @@ export class NotificationsComponent implements OnInit {
           case 'warning': color = 3; break;
           case 'danger': color = 4; break;
       }
-      //color = (tipo == 'info') ? 1: (tipo == 2)
+
       $.notify({
           icon: "pe-7s-attention",
-          message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+          message: msg2
       },{
           type: type[color],
-          //type: type[tipo],
           timer: 1000,
           placement: {
               from: from,
               align: align
-          }
+          },
+          animate: {
+              enter: 'animated bounceInDown',
+              exit: 'animated bounceOutUp'
+          },
+          offset: 20,
+          allow_dismiss: false,
+          //showProgressbar: true
       });
+
+      /*
+      $('button.close').empty();
+      $('button.close').addClass('pe-7s-close-circle');
+      $('button.pe-7s-close-circle').removeClass('close');
+      */
   }
 }

@@ -12,27 +12,27 @@ import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
 import { InfoAtmsService }                  from '../../services/info-atms.service';
-import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalBasic }                   from '../../utils/modal-basic';
-import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
+import { InfoGroupsService }                from '../../services/info-groups.service';
+//import { NgbdModalBasic }                   from '../../utils/modal-basic';
+//import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 import { BsModalComponent }                 from 'ng2-bs3-modal';
 import * as $ from 'jquery';
-//import 'bootstrap/dist/js/bootstrap.bundle.js';
-//import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
 import { NotificationsComponent } from '../../notifications/notifications.component';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
 
 
 export var datosATMs  = [];
 export var ipATMs  = [];
 
-var nomModulo = "ParamsComponent";
+var nomModulo = "FiltrosConsultasComponent";
 
 
 @Component({
     selector   : 'filtros-consultas',
     templateUrl: './filtros-consultas.component.html',
     styleUrls  : ['./filtros-consultas.component.css'],
-    providers: [SoapService, InfoAtmsService],
+    providers: [SoapService, InfoAtmsService, InfoGroupsService],
 })
 export class FiltrosConsultasComponent implements OnInit {
 
@@ -57,56 +57,49 @@ export class FiltrosConsultasComponent implements OnInit {
     public contenidoCombo;
     public fchInicio: Date;
     public fchFin: Date;
-    public elijaOpcion:string = "Seleccione el ATM";
+    //public elijaOpcion:string = "Seleccione el ATM";
     public gListaGpos:any[];
     public ipATMs:any[] = [];
     public ip;
     public url;
     public paramsConsulta:any = {};
     public contenidoLista:string = "";
-    public gpoSeleccionado:string = "";
+    //public gpoSeleccionado:string = "";
     public atmSeleccionado:string = "";
-    //public value:number;
 
     public notificationsComponent: NotificationsComponent;
+    //public ngbdModalBasic: NgbdModalBasic = new NgbdModalBasic();
 
-    constructor(public _soapService: SoapService,
-                public detalleAtmsService: InfoAtmsService,
-                private modalService: NgbModal){
+    constructor(
+                    public _soapService: SoapService,
+                    public detalleAtmsService: InfoAtmsService,
+                    private infoGroupsService: InfoGroupsService,
+               // private modalService: NgbModal
+                ){
 
         this.notificationsComponent = new NotificationsComponent();
     }
 
 
     public ngOnInit() {
-        console.log(nomModulo + ".ngOnInit:: Inicio");
 
         this.inicilizaFechasFiltro();
 
         if (this.dTipoListaParams == "G") {
-            this.contenidoCombo = "Grupos";
-            this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
-            //this.gListaGpos = [];
-            this.ipATMs = [];
-            //this.ipATMs.push("-- Todos --");
-            this.gListaGpos.forEach((reg)=> {
-                this.ipATMs.push(reg.Description);
-            });
-            //this.ipATMs.push("Monitoreo");  // Filtrar operaciones para este Grupo
-            console.log("--> " + this.ipATMs + "<--");
-            this.contenidoLista = "Seleccione Grupo";
+            this.contenidoCombo     = "Grupos";
+            this.ipATMs             = this.infoGroupsService.obtenDescGroupsConAtms();
+            this.contenidoLista     = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
-            this.contenidoCombo = "ATMs";
-            this.ipATMs = this.detalleAtmsService.obtenGetAtm();
-            //this.ipATMs = ["11.50.2.8"]   // Filtrar operaciones para esta IP
-            this.contenidoLista = "Seleccione ATM";
+            this.contenidoCombo     = "ATMs";
+            this.ipATMs             = this.detalleAtmsService.obtenGetAtm();
+            this.contenidoLista     = "Seleccione ATM";
         }
 
         this.ipATMs.sort(function (a, b) {
             return a.localeCompare(b);
         });
 
-        if( this.dSolicitaFechasIni == true && this.dSolicitaFechasFin == false){
+        if( this.dSolicitaFechasIni && this.dSolicitaFechasFin){
             $('#idDivFechas').css({'display': 'table-cell','vertical-align': 'middle', 'text-align': 'center'});
         }
     }
@@ -117,12 +110,43 @@ export class FiltrosConsultasComponent implements OnInit {
         let _anioSys    = fchSys.getFullYear();
         let _mesSys     = fchSys.getMonth();
         let _diaSys     = fchSys.getDate();
-        let _hraSys     = fchSys.getHours();
-        let _minSys     = fchSys.getMinutes();
-        let _segSys     = fchSys.getSeconds();
 
         this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
         this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
+    }
+
+    public validaParams(paramsConsulta){
+
+        let msgValidaciones:any = [];
+
+        if (this.dTipoListaParams == "G") {
+            if (paramsConsulta.gpo == -1 || paramsConsulta.gpo == "-1"){
+                msgValidaciones.push("No ha indicado el Grupo a consultar");
+            }
+        } else {
+            if (paramsConsulta.atm == "" || paramsConsulta.atm == null || paramsConsulta.atm == undefined){
+                msgValidaciones.push("No ha indicado el ATM a consultar");
+            }
+        }
+
+        if (this.dSolicitaFechasIni && this.dSolicitaFechasFin){
+           if (paramsConsulta.fchInicio.milsec > paramsConsulta.fchFin.milsec){
+               msgValidaciones.push("La fecha Inicial es mayor a la Final");
+           }
+        }
+
+        if (this.dSolicitaFechasIni){
+            console.log(paramsConsulta.fchInicio.milsec + " --  " +(new Date().getTime()));
+            if (paramsConsulta.fchInicio.milsec > (new Date().getTime())){
+                msgValidaciones.push("La fecha Inicial es mayor a la Actual");
+            }
+        }
+
+        if (msgValidaciones.length > 0){
+            this.notificationsComponent.showNotification('top','center', 'warning', msgValidaciones);
+            return(false);
+        }
+        return(true);
     }
 
     public pActualizaInfo(){
@@ -132,25 +156,22 @@ export class FiltrosConsultasComponent implements OnInit {
         let fchFin      = this.Date2Json(this.fchFin);
         let ipATM       = this.atmSeleccionado;
 
-        console.log("params.component.paramsActuales: fchInicio["+JSON.stringify(fchInicio)+"] fchFin["+JSON.stringify(fchFin)+"]");
         let idGpo:any;
         if (this.dTipoListaParams == "G") {
-            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.atmSeleccionado+"]");
             if (this.atmSeleccionado != "Todos") {
-                idGpo = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
+                idGpo = this.infoGroupsService.obtenIdGroup(this.atmSeleccionado);
             }
-            console.log("ParamsComponent.paramsActuales:: idGpo["+typeof(idGpo)+"]");
             idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
-            console.log("ParamsComponent.paramsActuales:: idGpo["+idGpo+"]");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo};
         }else {
-            console.log("ParamsComponent.paramsActuales:: ipATM["+ipATM+"]");
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM};
         }
 
-        this.notificationsComponent.showNotification('top','center', 'warning');
-        this.parametrosConsulta.emit(this.paramsConsulta);
+        let paramsOk:any = this.validaParams(this.paramsConsulta);
+        if (paramsOk == true){
+            this.parametrosConsulta.emit(this.paramsConsulta);
+        }
     }
 
 
@@ -180,85 +201,6 @@ export class FiltrosConsultasComponent implements OnInit {
         }
     }
 
-    /*
-
-    Código pendiente para aplicar cuando se muestren todos los filtros para seleccionarlos desde una pantalla modal.
-
-    public GetEjaFilters(result:any, status){
-
-        var ipATM = '';
-
-        for(let idx = 0; idx < result.length; idx++){
-            for(let idx2 = 0; idx2 < result[idx].length; idx2++){
-                if(idx === 0){
-                    ipATM = result[idx][idx2];
-                    ipATMs[ipATMs.length] = result[idx][idx2];
-                }else{
-                    datosATMs.push(result[idx][idx2] + "    ("+ result[0][idx2] + ")");
-                }
-            }
-        }
-    }
-
-    public obtieneIpATMs(){
-        //console.log('ParamsComponent.obtenIpATMs:: Inicio');
-        ipATMs  = [];
-        this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters);
-        this.ipATMs = ipATMs;
-        //this.ipATMs = ipATMs.sort(comparar);
-        this.ipATMs = ipATMs.sort(function (a, b) {
-            return a.localeCompare(b);
-        });
-        //console.log('ParamsComponent.obtenIpATMs:: Se ejecuto la consulta');
-    }
-
-
-
-
-    public gSeleccion:any;
-
-    public paramsActuales(idOrigen:number){
-        console.log("ParamsComponent.paramsActuales:: inicia");
-        //this.arrParams  = this.ipATMs;
-        let fchInicio   = this.Date2Json(this.fchInicio);
-        let fchFin      = this.Date2Json(this.fchFin);
-        let ipATM       = this.atmSeleccionado;
-
-        console.log("params.component.paramsActuales: fchInicio["+JSON.stringify(fchInicio)+"] fchFin["+JSON.stringify(fchFin)+"]");
-        let idGpo:any;
-        if (this.dTipoListaParams == "G") {
-            console.log("ParamsComponent.paramsActuales:: gpoSeleccionado["+this.atmSeleccionado+"]");
-            if (this.atmSeleccionado != "Todos") {
-                idGpo = this.detalleAtmsService.obtenIdGroup(this.atmSeleccionado);
-            }
-            console.log("ParamsComponent.paramsActuales:: idGpo["+typeof(idGpo)+"]");
-            idGpo = (typeof(idGpo) == 'number') ? idGpo.toString() : idGpo;
-            console.log("ParamsComponent.paramsActuales:: idGpo["+idGpo+"]");
-            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo, idOrigen: idOrigen};
-        }else {
-            console.log("ParamsComponent.paramsActuales:: ipATM["+ipATM+"]");
-            ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
-            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, idOrigen: idOrigen};
-        }
-
-        this.parametrosConsulta.emit(this.paramsConsulta);
-    }
-
-    public pActualizaParams() {
-
-        console.log("ParamsComponent.pActualizaParams:: Se va a abrir la modal");
-        this.modal.open();
-        console.log("ParamsComponent.pActualizaParams:: Se abrio la modal");
-        this.paramsActuales(3);
-    }
-
-    public pActualizaInfoX(){
-        //console.log("pActualizaInfo:: Atm seleccionado["+this.atmSeleccionado+"]");
-        this.paramsActuales(1);
-    }
-   */
-
-
-
+    private pActualizaParams(){}
 }
 

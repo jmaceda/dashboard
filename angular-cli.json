@@ -21,7 +21,8 @@
       "styles": [
         "./assets/sass/light-bootstrap-dashboard.scss",
         "./assets/ngx-datatable/themes/material.scss",
-        "./assets/ngx-datatable/themes/dark.scss"
+        "./assets/ngx-datatable/themes/dark.scss",
+        "../node_modules/sweetalert2/dist/sweetalert2.css"
       ],
       "scripts": [
           "../node_modules/popper.js/dist/umd/popper.min.js",
@@ -30,7 +31,8 @@
           "../node_modules/bootstrap-notify/bootstrap-notify.js",
           "../node_modules/chartist/dist/chartist.js",
           "../node_modules/angular-4-data-table/dist/index.js",
-          "../node_modules/moment/min/moment.min.js"
+          "../node_modules/moment/min/moment.min.js",
+          "../node_modules/sweetalert2/dist/sweetalert2.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

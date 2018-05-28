@@ -71,9 +71,6 @@ export class ParamsComponent implements OnInit {
         let _anioSys    = fchSys.getFullYear();
         let _mesSys     = fchSys.getMonth();   //hoy es 0!
         let _diaSys     = fchSys.getDate();
-        let _hraSys     = fchSys.getHours();
-        let _minSys     = fchSys.getMinutes();
-        let _segSys     = fchSys.getSeconds();
 
         this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
         this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
@@ -87,7 +84,7 @@ export class ParamsComponent implements OnInit {
 
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
-            this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
+            this.gListaGpos = []; //this.detalleAtmsService.obtenGetGroups();
             this.ipATMs = [];
             this.ipATMs.push("-- Todos --");
             this.gListaGpos.forEach((reg)=> {
@@ -97,7 +94,7 @@ export class ParamsComponent implements OnInit {
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
-            this.ipATMs = this.detalleAtmsService.obtenGetAtm();
+            this.ipATMs = []; //this.detalleAtmsService.obtenGetAtm();
             this.contenidoLista = "Seleccione ATM";
         }
 

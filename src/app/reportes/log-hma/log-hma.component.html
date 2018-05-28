@@ -12,8 +12,26 @@
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
         <div class="card" style="padding: 3px;">
+
+            <div class="row" style="padding: 0px; vertical-align: middle;">
+
+                <div class="col-md-8" style="vertical-align: middle;">
+                    <span style="font-size: 25px;">{{tituloLogHMA}}</span>
+                </div>
+                <div id="divExpExcel" class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <input id="btnExpExel"
+                           style="cursor: not-allowed;"
+                           title="Exporta archivo CVS"
+                           type=image   src="assets/img/office_excel.png"
+                           width="35" height="35" (click)="exportaHMA2Excel()"
+                           [disabled]="!isDatosHMA">
+                </div>
+            </div>
+
+
             <data-table id="loghma"
                         [headerTitle]="tituloLogHMA"
+                        [header] = "false"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
@@ -36,7 +54,7 @@
                         [header]="'Fecha/Hora'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="11em">
+                        width="12em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>

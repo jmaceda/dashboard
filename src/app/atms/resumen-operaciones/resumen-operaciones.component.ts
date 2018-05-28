@@ -20,7 +20,7 @@ import { FiltrosUtilsService }                  from '../../services/filtros-uti
 //import { ResOpersModel, IResOpersModel }      from '../../models/res-opers.models';
 //import { DataBaseService }                    from '../../services/data-base.service';
 
-import { ParamsAtmsComponent }                           from '../params-atmsTmp/params-atms.component';
+//import { ParamsAtmsComponent }                           from '../params-atmsTmp/params-atms.component.t';
 import { ResumenOperacionesModel }              from '../../models/resumen-operaciones.model';
 import { ResumenOperacionesService }            from '../../services/resumen-operaciones.service';
 import * as moment from 'moment';

@@ -1,18 +1,15 @@
 // app/atms/detalle-atms.component.ts
 import { Component, OnInit, OnDestroy }                         from '@angular/core';
-import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
+import { DataTableResource }                                    from 'angular-4-data-table-fix';
 import { sprintf }                                              from "sprintf-js";
 import { SoapService }                                          from '../../services/soap.service';
-//import { Router }                                               from '@angular/router';
-//import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 import { LogHmaService }                                        from '../../services/log-hma.service';
-//import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
 export var gDatosEfectivoAtm:any[];
-export var gDevicesAtm:any[]            = [];
+export var gDevicesAtm:any[] = [];
 export const nomComponente:string = "AtmsEstatusComponent";
 
 export var gGetGroupsAtmIds:any;
@@ -48,12 +45,12 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
     public regsLimite:number            = 15;
     public intervalId                   = null;
-    public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
-    public xtIsOnline:string            = "";
+    public tiempoRefreshDatos:number    = (1000 * 30 * 1);
+    //public xtIsOnline:string            = "";
     public itemResource                 = new DataTableResource(arrDatosAtms);
     public items                        = [];
     public itemCount                    = 0;
-    public Titulo:string                = "";
+    //public Titulo:string                = "";
 
 
     constructor(public _soapService: SoapService,
@@ -62,18 +59,19 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        gDevicesAtm         = this.logHmaService.GetHmaDevices();
+        console.log(nomComponente+".ngOnInit:: gDevicesAtm<"+gDevicesAtm+">");
+        gDevicesAtm = this.logHmaService.GetHmaDevices();
     }
 
     public ngOnDestroy() {
         if (this.intervalId != null){
-            console.log(nomComponente+".ngOnDestroy:: ngOnDesroy()");
             clearInterval(this.intervalId);
         }
     }
 
     public parametrosConsulta(filtrosConsulta){
 
+        console.log(nomComponente+".parametrosConsulta: <"+JSON.stringify(filtrosConsulta)+">");
         let parametrosConsulta:any = {};
         let idGpo     = filtrosConsulta.gpo;
         let filtrosCons = {idGpo: idGpo};
@@ -111,18 +109,13 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         let arrDevicesOffline = [];
         let arrFchasUltimaAct = [];
 
-        //console.log(JSON.stringify(gDatosAtms));
-
-        //console.log(JSON.stringify(gDatosAtms));
         gDatosAtms.forEach(( reg )=> {
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-            this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
+            //this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
-
-            // Recupera los datos efectivo del cajero
-            let parameters = { atmId: reg.Id };
+            //let parameters   = { atmId: reg.Id };
 
             if ( reg.OfflineDevices.length > 0 ){
                 for(let cve in reg.OfflineDevices) {
@@ -137,7 +130,6 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
             arrDatosAtms[idx++] = {
                 Description:                    reg.Description,
-
                 Ip:                             reg.Ip,
                 Name:                           reg.Name,
                 DeviceStatus:                   reg.DeviceStatus,
@@ -147,7 +139,6 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                 CabinetOpen:                    tCabinetOpen,
                 CassetteAmount:                 reg.CassetteAmount,
                 OfflineDevices:                 tOffDispo,
-
                 ServiceDate:                    reg.ServiceDate,
                 CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
                 SafeOpenTs:                     reg.SafeOpenTs,
@@ -170,12 +161,11 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
             arrFchasUltimaAct = [];
 
         });
-        //console.log(JSON.stringify(arrDatosAtms));
 
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
-        this.Titulo="";
+        //this.Titulo="";
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
 

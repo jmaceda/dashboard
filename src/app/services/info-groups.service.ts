@@ -13,23 +13,20 @@ export var gDevicesAtm:any[]  = [];
 export var gGroupsWithAtms:any[] = [];
 export var gGroupsAtmIds:any[] = [];
 
-
 var nomServicio = "InfoGroupsService";
 
 @Injectable()
 export class InfoGroupsService implements OnInit {
 
-    private groupsWithAtmsModel: GroupsModel[] = [];
-    private groupsModel: GroupsModel[] = [];
-    public groupsAtmsModel: GroupsAtmsModel[] = [];
+    public groupsWithAtmsModel: GroupsModel[]  = [];
+    public groupsModel: GroupsModel[]          = [];
+    public groupsAtmsModel: GroupsAtmsModel[]  = [];
 
-    constructor(public _soapService: SoapService){ //},
+    constructor(public _soapService: SoapService){
         console.log(nomServicio+".constructor:: init");
     }
 
-    public ngOnInit() {
-        //gDevicesAtm  = this.logHmaService.GetHmaDevices();
-    }
+    public ngOnInit() {}
 
     public GetGroup(datosGroups:any, status){
         console.log(nomServicio+".GetGroup:: Inicio  ["+new Date()+"]");
@@ -49,23 +46,21 @@ export class InfoGroupsService implements OnInit {
     }
 
     public GetGroupsWithAtms(datosGroups:any, status){
-        gGroupsWithAtms = datosGroups;
+        gGrupos = datosGroups;
     }
 
     public obtenGroupsConAtms(){
 
-        console.log(nomServicio+".obtenGroupsConAtms:: Obten grupos con ATMs asociados");
-        //console.log(nomServicio+".obtenGroupsConAtms (1):: gGroupsWithAtms["+gGroupsWithAtms+"]");
         this.groupsWithAtmsModel = [];
         this._soapService.post('', "GetGroupsWithAtms", '', this.GetGroupsWithAtms, false);
-        //console.log(nomServicio+".obtenGroupsConAtms (2):: gGroupsWithAtms["+gGroupsWithAtms+"]");
-        if (gGroupsWithAtms.length > 0){
 
-            gGroupsWithAtms.forEach( reg => {
+        if (gGrupos.length > 0){
+            gGrupos.forEach( reg => {
                 this.groupsWithAtmsModel.push(reg);
             });
         }
-        return(gGroupsWithAtms);
+
+        return(gGrupos);
     };
 
 
@@ -75,9 +70,7 @@ export class InfoGroupsService implements OnInit {
 
     public obtenGroupsAtms(idGroup, descGpo){
 
-        //console.log(nomServicio+".obtenGroupsAtms:: Se van a obtener los datos del grupo ["+idGroup+"]  ["+descGpo+"]");
-
-        let parameters:any = {groups: idGroup};
+        let parameters:any  = {groups: idGroup};
         let idAtms:string[] = [];
 
         this._soapService.post('', "GetGroupsAtmIds", parameters, this.GetGroupsAtmIds, false);
@@ -101,20 +94,13 @@ export class InfoGroupsService implements OnInit {
 
         console.log(nomServicio+".cargaCatAtmGroups:: Carga el catalogo de Grupos por ATM");
 
-        //let gruposConAtms:any   = this.obtenGroupsConAtms();
         this.groupsAtmsModel    = [];
-
-        //console.log(nomServicio+".obtenGroupsAtm:: -->" + JSON.stringify(this.groupsWithAtmsModel) + "<--");
 
         if (this.groupsWithAtmsModel.length > 0){
             this.groupsWithAtmsModel.forEach( reg => {
                 this.obtenGroupsAtms(reg.Id, reg.Description);
             });
-
-            //console.log(nomServicio+".obtenGroupsAtm:: Fin-->" + JSON.stringify(this.groupsAtmsModel) + "<--");
         }
-
-
     }
 
     public obtenGroupsAtm(idAtm){
@@ -128,6 +114,7 @@ export class InfoGroupsService implements OnInit {
                 arrGroupsAtm.push(reg);
             }
         });
+
         return(arrGroupsAtm);
     }
 
@@ -136,7 +123,6 @@ export class InfoGroupsService implements OnInit {
 
         console.log(nomServicio+".cargaCataAtmsConGrupos:: Carga catalogo de ATMs con sus grupos asociados");
 
-        // Cargar grupos con ATMs asociados
         this.obtenGroupsConAtms();
 
         // Cargar grupos con ATMs asociados
@@ -144,16 +130,46 @@ export class InfoGroupsService implements OnInit {
             this.groupsWithAtmsModel.forEach( reg => {
                 this.obtenGroupsAtms(reg.Id, reg.Description);
             });
-
+        }
     }
 
+    public obtenDescGroupsConAtms(){
+
+        let descGruposConAtms:any = [];
+
+        this.groupsWithAtmsModel = [];
+
+        this._soapService.post('', "GetGroupsWithAtms", '', this.GetGroupsWithAtms, false);
+
+        if (gGrupos.length > 0){
+            gGrupos.forEach( reg => {
+                descGruposConAtms.push(reg.Description);
+            });
+        }
+
+        return(descGruposConAtms);
+    };
+
+    obtenIdGroup(descGpo){
+        let idGpo = -1;
+
+        if (gGrupos != null && gGrupos != "") {
+            gGrupos.forEach((reg) => {
+                if (idGpo == -1 && descGpo == reg.Description) {
+                    idGpo = reg.Id;
+                }
+            });
+        }
+
+        return(idGpo);
     }
+
     /*
     GetGroupsWithAtms(datosGroups:any, status){
         gGrupos = datosGroups;
     }
 
-    obtenGroupss(){
+     obtenGetGroups(){
 
         this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
 
@@ -205,7 +221,7 @@ export class InfoGroupsService implements OnInit {
     };
 */
     /*
-    public obtenIdAtmsOnLine(){
+    public obtenInfoAtmsOnLine(){
 
         let parametros          = { 
 				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, 
@@ -235,7 +251,7 @@ export class InfoGroupsService implements OnInit {
 
 
     /*
-	public obtenIdAtmsOnLinePorGpo(paramsConsulta?:any){
+	public obtenInfoAtmsOnLinePorGpo(paramsConsulta?:any){
 		//console.log(paramsConsulta);
 		
         let parametros          = { 

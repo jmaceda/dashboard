@@ -125,17 +125,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
         console.log("OpersFinancierasComponent.datosDeOperacion:: Obtiene los datos de las operaciones");
 
-        if ($('#btnExpExel2').length == 0) {
-            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
-            //$('div.button-panel[_ngcontent-c6]').append('<input type="button" id="boton" value="Añadir texto al comienzo del párrafo">');
-        }
-
-		//console.log("OpersFinancierasComponent.datosDeOperacion:: paramsConsulta -->"+JSON.stringify(paramsConsulta)+"<--");
-        $('#btnExpExel2').css('cursor', 'not-allowed');
-        this.isDatosJournal 		= true;
 
         let datosAtm:any;
-		let idAtms:any[]        	= this.infoAtmsService.obtenIdAtmsOnLinePorGpo(paramsConsulta);
+		let idAtms:any[]        	= this.infoAtmsService.obtenInfoAtmsOnLinePorGpo(paramsConsulta);
 		let numRetirosTiendas		= 0;
 		let numConsultasTiendas		= 0;		
 		let comisTotalTiendas   	= 0;
@@ -203,7 +195,20 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 				'totalComisiones': comisTotalPlazas
 			});
 		}
-		
+
+
+        if ($('#btnExpExel2').length == 0) {
+            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
+        }
+
+        if (this.opersFinancieras.length > 0) {
+            $('#btnExpExel2').css('cursor', 'pointer');
+            this.isDatosJournal = false;
+        }else{
+            $('#btnExpExel2').css('cursor', 'not-allowed');
+            this.isDatosJournal = true;
+        }
+
         //if (this.opersFinancieras.length > 0 ) 
 		{
             this.itemResource = new DataTableResource(this.opersFinancieras);

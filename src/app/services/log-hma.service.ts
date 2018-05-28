@@ -1,15 +1,14 @@
-import { Injectable }                           from '@angular/core';
-import { OnInit }                               from '@angular/core';
-import { sprintf }                              from "sprintf-js";
-import { SoapService }                          from './soap.service';
+import { Injectable }                       from '@angular/core';
+import { OnInit }                           from '@angular/core';
+import { sprintf }                          from "sprintf-js";
+import { SoapService }                      from './soap.service';
+import * as moment                          from 'moment';
+import { DevicesModel }                     from '../models/devices.model';
+import { ExportToCSVService }               from './export-to-csv.service';
 
-import * as moment from 'moment';
-
+import { gCatalogoEventos, gDevicesAtm}     from '../app.component';
 
 export var gCatEventos:any;
-export var gCatalogoEventos:any[] = [];
-export var gDevicesAtm:any[] = [];
-
 export var gNumPagsLogHma = 0;
 export var gNumRegsLogHma = 0;
 export var gRespDatosLogHma:any;
@@ -19,26 +18,25 @@ var nomComponente:string = "LogHmaService";
 @Injectable()
 export class LogHmaService implements OnInit {
 
-    public devicesAtm:any[] = [];
+    public devicesAtm:any[]      = [];
+    public devicesModel: Array<DevicesModel> = [];
 
     constructor(public _soapService: SoapService){
-        console.log(nomComponente+".constructor:: init");
     }
 
-    public ngOnInit() {
-    }
+    public ngOnInit() { }
 
     public GetHmaDevices() {
 
         let url = "assets/data/devicesAtm.json";
 
         $.getJSON(url, function (data) {
-            //recorre cada elemento
+            console.log("data <"+JSON.stringify(data)+">");
             $.each(data, function (idx, descripcion) {
-                //console.log(JSON.stringify("("+idx+") "+descripcion));
                 gDevicesAtm[idx] = descripcion;
             });
         });
+
         return(gDevicesAtm);
     }
 
@@ -55,7 +53,6 @@ export class LogHmaService implements OnInit {
             cveCat = "c"+reg.SerializedId;
             gCatalogoEventos[cveCat] = reg.Name;
         });
-        //console.log(Object.keys(gCatalogoEventos).length);
 
         return(gCatalogoEventos);
     }
@@ -71,15 +68,13 @@ export class LogHmaService implements OnInit {
 
     public obtenTiempoPromedioOper(filtrosConsulta){
 
-
         let paramsCons: any = {
             ip: [filtrosConsulta.ipAtm], timeStampStart: filtrosConsulta.timeStampStart, timeStampEnd: filtrosConsulta.timeStampEnd,
             events: ['MediaInserted', 'CardEjected', 'MediaRemoved'], device: ['ICM']
         };
-        console.log(paramsCons);
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
-        console.log("Paginas: <"+gNumPagsLogHma+">");
+
         let datosRespLogHma:any     = [];
         let datosTiempoOpers:any    = [];
         let respDatosTiempoOpers:any;
@@ -97,16 +92,13 @@ export class LogHmaService implements OnInit {
             let segsTotDura:number  = 0;
             let acumSegs:number     = 0;
             let hraTiempoMin:any    = null;
-            let segsTiempoMin:any = "99:99";
+            let segsTiempoMin:any   = "99:99";
             let hraTiempoMax:any    = null;
-            let segsTiempoMax:any = "00:00";
-
+            let segsTiempoMax:any   = "00:00";
 
             for (let idx = 0; idx < gNumPagsLogHma; idx++) {
                 paramsCons.page = idx;
-                console.log(paramsCons);
                 this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
-                //datosRespLogHma = datosRespLogHma.concat(gRespDatosLogHma);
 
                 gRespDatosLogHma.forEach( (reg, idx) => {
                     reg.TimeStamp   = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora);
@@ -131,8 +123,6 @@ export class LogHmaService implements OnInit {
                             numOpers++;
                         }
 
-
-
                         datosTiempoOpers.push({hraIni: hraInicio, hraFin: hraTermino, tiempoDura: tiempoDuracion, acumSegs: acumSegs, numOpers: numOpers});
                         hraInicio   = null;
                     }
@@ -147,20 +137,48 @@ export class LogHmaService implements OnInit {
                     }
                 });
             }
-            console.log("Num. opers: "+numOpers);
 
             minsTotDura     = Math.floor( (acumSegs / numOpers) / 60);
             segsTotDura     = (minsTotDura == 0) ? Math.floor( acumSegs / numOpers) : acumSegs - (minsTotDura);
+
             let tiempoPromedio  = Math.round(acumSegs / numOpers);
 
-            console.log("acumSegs: ["+acumSegs+"]  numOpers["+numOpers+"]");
-            console.log("minsTotDura: ["+minsTotDura+"]  segsTotDura["+segsTotDura+"]  tiempoPromedio["+tiempoPromedio+"]");
             respDatosTiempoOpers = {
                 'resumen': {'hraTiempoMin': hraTiempoMin, 'segsTiempoMin': segsTiempoMin, 'hraTiempoMax': hraTiempoMax, 'segsTiempoMax': segsTiempoMax, 'numOper': numOpers },
                 'detalle': datosTiempoOpers
             };
         }
+
         return(respDatosTiempoOpers);
+    }
+
+
+    public exportaHMA2Excel(dataHMARedBlu){
+
+        let arr2Excel:any[] = [];
+        let tmpFchHora:any;
+        let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+        dataHMARedBlu.forEach((reg)=> {
+
+            tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
+
+            arr2Excel.push(
+                {
+                    "IP":                   	            reg.Ip,
+                    "Fecha/Hora":           	            tmpFchHora,
+                    "Dispositivo":                  	    reg.Device,
+                    "Mecanismo":       	                    reg.DescDevice,
+                    "Evento":    	                        reg.Events,
+                    "Parámetros":                           reg.Data
+                }
+            )
+        });
+
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSVService();
+            exporter.exportAllToCSV(arr2Excel, 'LogHMA.csv');
+        }
     }
 
 }

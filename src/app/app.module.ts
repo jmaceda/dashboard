@@ -76,6 +76,9 @@ import { InfoGroupsService }                from './services/info-groups.service
 import { SoapService }                      from './services/soap.service';
 import { ReporteMensualComponent }          from './reportes/banxico/reporte-mensual/reporte-mensual.component';
 
+//import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { SweetAlertService } from 'ngx-sweetalert2';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -133,6 +136,7 @@ import { ReporteMensualComponent }          from './reportes/banxico/reporte-men
     BlockUIModule,
     PruebasModule,
     PdfViewerModule,
+    //SweetAlert2Module.forRoot(),
 
 
     //Ng2SmartTableModule,
@@ -149,6 +153,7 @@ import { ReporteMensualComponent }          from './reportes/banxico/reporte-men
     FiltrosUtilsService,
     InfoGroupsService,
     SoapService,
+    SweetAlertService,
     //SmartTableService,
     //NbSidebarService
   ],

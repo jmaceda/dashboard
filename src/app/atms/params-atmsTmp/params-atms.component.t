@@ -17,8 +17,8 @@ import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
 import { InfoAtmsService }               from '../../services/info-atms.service';
-import { NgbdModalBasic }                   from '../../utils/modal-basic';
-import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
+//import { NgbdModalBasic }                   from '../../utils/modal-basic';
+//import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 
 
 
@@ -31,7 +31,7 @@ var nomModulo = "ParamsComponent";
 
 @Component({
     selector   : 'params-atms',
-    templateUrl: './params-atms.component.html',
+    templateUrl: './params-atms.component.h',
     styleUrls  : ['./params-atms.component.css'],
     providers: [SoapService, InfoAtmsService],
 })
