@@ -20,7 +20,6 @@ export class NotificationsComponent implements OnInit {
       let msg2:string = "";
 
       if (typeof(msg) == "object"){
-          console.log(msg)
           msg.forEach( reg => {
               msg2 += "* "+reg + "<br>";
           })
@@ -55,11 +54,5 @@ export class NotificationsComponent implements OnInit {
           allow_dismiss: false,
           //showProgressbar: true
       });
-
-      /*
-      $('button.close').empty();
-      $('button.close').addClass('pe-7s-close-circle');
-      $('button.pe-7s-close-circle').removeClass('close');
-      */
   }
 }

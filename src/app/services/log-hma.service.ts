@@ -5,7 +5,6 @@ import { SoapService }                      from './soap.service';
 import * as moment                          from 'moment';
 import { DevicesModel }                     from '../models/devices.model';
 import { ExportToCSVService }               from './export-to-csv.service';
-
 import { gCatalogoEventos, gDevicesAtm}     from '../app.component';
 
 export var gCatEventos:any;
@@ -31,7 +30,6 @@ export class LogHmaService implements OnInit {
         let url = "assets/data/devicesAtm.json";
 
         $.getJSON(url, function (data) {
-            console.log("data <"+JSON.stringify(data)+">");
             $.each(data, function (idx, descripcion) {
                 gDevicesAtm[idx] = descripcion;
             });

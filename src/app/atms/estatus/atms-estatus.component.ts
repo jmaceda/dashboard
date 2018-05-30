@@ -46,12 +46,9 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
     public regsLimite:number            = 15;
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 30 * 1);
-    //public xtIsOnline:string            = "";
     public itemResource                 = new DataTableResource(arrDatosAtms);
     public items                        = [];
     public itemCount                    = 0;
-    //public Titulo:string                = "";
-
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
@@ -59,7 +56,6 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        console.log(nomComponente+".ngOnInit:: gDevicesAtm<"+gDevicesAtm+">");
         gDevicesAtm = this.logHmaService.GetHmaDevices();
     }
 
@@ -71,7 +67,6 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
     public parametrosConsulta(filtrosConsulta){
 
-        console.log(nomComponente+".parametrosConsulta: <"+JSON.stringify(filtrosConsulta)+">");
         let parametrosConsulta:any = {};
         let idGpo     = filtrosConsulta.gpo;
         let filtrosCons = {idGpo: idGpo};
@@ -86,12 +81,9 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
     // Atualiza informciòn de la pantalla.
     public pActualizaInfo(filtrosCons): void {
-
-        console.log("pActualizaInfo::  Inicio");
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-
         this.obtenGetAtm(filtrosCons);
         this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
     }
@@ -113,9 +105,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
-            //this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
-            //let parameters   = { atmId: reg.Id };
 
             if ( reg.OfflineDevices.length > 0 ){
                 for(let cve in reg.OfflineDevices) {
@@ -165,33 +155,23 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
-        //this.Titulo="";
-
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
-
     }
 
     public GetAtm(datosAtms:any, status){
-        console.log("GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
     reloadItems(params) {
-        console.log("reloadItems::");
         this.itemResource.query(params).then(items => this.items = items);
     }
 
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item, x?, y?) {
         return item.jobTitle;
     }
-
 }
 

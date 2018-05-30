@@ -5,22 +5,14 @@ import { Input}                             from '@angular/core';
 import { Output}                            from '@angular/core';
 import { EventEmitter}                      from '@angular/core';
 import { ViewChild, ViewChildren}           from '@angular/core';
-import { TemplateRef }                      from '@angular/core';
-
-
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
 import { InfoAtmsService }                  from '../../services/info-atms.service';
 import { InfoGroupsService }                from '../../services/info-groups.service';
-//import { NgbdModalBasic }                   from '../../utils/modal-basic';
-//import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
 import { BsModalComponent }                 from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
-
 
 export var datosATMs  = [];
 export var ipATMs  = [];
@@ -105,7 +97,6 @@ export class FiltrosConsultasComponent implements OnInit {
     }
 
     public inicilizaFechasFiltro(){
-        console.log(nomModulo+".obtenFchSys:: init");
         let fchSys      = new Date();
         let _anioSys    = fchSys.getFullYear();
         let _mesSys     = fchSys.getMonth();
@@ -136,7 +127,6 @@ export class FiltrosConsultasComponent implements OnInit {
         }
 
         if (this.dSolicitaFechasIni){
-            console.log(paramsConsulta.fchInicio.milsec + " --  " +(new Date().getTime()));
             if (paramsConsulta.fchInicio.milsec > (new Date().getTime())){
                 msgValidaciones.push("La fecha Inicial es mayor a la Actual");
             }
@@ -150,7 +140,6 @@ export class FiltrosConsultasComponent implements OnInit {
     }
 
     public pActualizaInfo(){
-        console.log("ParamsComponent.paramsActuales:: inicia");
 
         let fchInicio   = this.Date2Json(this.fchInicio);
         let fchFin      = this.Date2Json(this.fchFin);

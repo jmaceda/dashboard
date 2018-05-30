@@ -1,34 +1,5 @@
 <!-- data-table-demo1.html -->
 <style>
-    /*
-    .refresh-button, .column-selector-button{
-        padding-bottom: 2px;
-        padding-top: 2px;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
-    .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 2px 2px;
-        vertical-align: middle;
-    }
-
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
-    .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 2px 2px;
-        vertical-align: middle;
-    }
-    .data-table.table td {
-        padding: 2px 2px;
-        vertical-align: middle;
-    }
-
-    td.data-column.column-IsOnline{
-        text-align: center;
-        vertical-align: middle;
-    }
-    */
 
     #idDivAreaGrid {
         margin-top: 1.5%;
@@ -104,7 +75,6 @@
     #tablaErroresOpers[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
         background-color: #5C5757;
         color: #FFFFFF;
-        /*font-weight: bold;*/
     }
 
     #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
@@ -154,24 +124,6 @@
 
         <div id="idDivCardGrid" class="card">
 
-            <!--
-            <div class="row" style="padding: 0px; vertical-align: middle;">
-
-                <div class="col-md-8" style="vertical-align: middle;">
-                    <span style="font-size: 25px;">Operaciones Financieras</span>
-                </div>
-                <div class="col-md-4" style="text-align: right; vertical-align: middle;">
-                    < !- - button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button -- >
-                    <input id="btnExpExel"
-                        style="cursor: pointer;"
-                        title="Exporta archivo CVS"
-                        type=image   src="assets/img/office_excel.png"
-                        [attr.disabled]="isDatosJournal?'':null"
-                        width="45" height="40" (click)="exportaJournal2Excel()">
-                </div>
-            </div>
-    -->
-
             <data-table id="idOpersFinancieras"  style="overflow-x: hidden;"
                         headerTitle="Operaciones Financieras"
                         [items]="items"
@@ -204,41 +156,6 @@
 
                         </div>
                     </div>
-
-                                <!--
-                                <div id="ultimaActualizacion" style="overflow: hidden; height: 250px">
-
-                                    <div id="div1"  style="border: solid thin;">
-                                        <span class="letrasNegritas">Última Actualización</span>
-                                        <div>
-                                            <div *ngFor="let ultimaAct of item.FchsUltimaAct" class="table table-striped tabla">
-                                                <div id="1" style="float: left; width: 8rem;">
-                                                    <span>{{ultimaAct.desc}}</span>
-                                                </div>
-                                                <div id="2" style="float: left; width: 17rem;">
-                                                    <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="div0"></div>
-
-                                    <div id="div2"   style="border: solid thin;">
-                                        <span class="letrasNegritas">Dispositivos con Error</span>
-                                        <br>
-                                        <div>
-                                            <div *ngFor="let dispositivo of item.DevicesOffline" class="table table-striped tabla">
-                                                <span>{{dispositivo}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    -->
 
                     <div *ngIf="item.errTotal > 0" id="divErroresOpers" class="content table-responsive">
                         <div class="centraTexto">
@@ -442,10 +359,6 @@
 						</div>
 					</ng-template>
                 </data-table-column>
-
-
-
-
 
                 <data-table-column
                         [property]="'numDepositos'"

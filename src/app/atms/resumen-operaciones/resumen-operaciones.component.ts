@@ -1,14 +1,10 @@
 import { Component, OnInit }                             from '@angular/core';
-import { Input, Output} from '@angular/core';
-import { LocationStrategy, PlatformLocation, Location }  from '@angular/common';
 import { LegendItem, ChartType }                         from '../../lbd/lbd-chart/lbd-chart.component';
-import * as Chartist                                     from 'chartist';
 import { SoapService }                                   from '../../services/soap.service';
 import { sprintf }                                       from "sprintf-js";
 import {FormGroup, FormBuilder, Validators}              from '@angular/forms';
 import { DepositosModel }                                from './models/depositos';
 import 'rxjs/add/operator/pairwise';
-import { Router }                               from '@angular/router';
 import { ActivatedRoute }                       from '@angular/router';
 
 // Importamos la clase del servicio
@@ -16,11 +12,6 @@ import { DesglosaBilletes }                     from './services/DesglosaBillete
 import { GuardaDepositosBD }                    from './services/GuardaDepositosBD.service';
 import { ErroresPorBanco }                      from '../../models/errores-por-banco.model';
 import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
-//import { ResOpersService }                    from '../../services/res-opers.service';
-//import { ResOpersModel, IResOpersModel }      from '../../models/res-opers.models';
-//import { DataBaseService }                    from '../../services/data-base.service';
-
-//import { ParamsAtmsComponent }                           from '../params-atmsTmp/params-atms.component.t';
 import { ResumenOperacionesModel }              from '../../models/resumen-operaciones.model';
 import { ResumenOperacionesService }            from '../../services/resumen-operaciones.service';
 import * as moment from 'moment';
@@ -45,8 +36,7 @@ export var gNumPaginas                 = 0;
 export var gNumRegistros               = 0;
 export var gNumRegsProcesados          = 0;
 export var aDatosJournal               = [];
-export var gNumPaginasCompletas = 0;
-//export var tIdx:number = 0;
+export var gNumPaginasCompletas        = 0;
 
 var fechaSys = new Date();
 var fechaHoy = sprintf("%4d-%02d-%02d",fechaSys.getFullYear(), (fechaSys.getMonth() + 1), fechaSys.getDate());
@@ -61,7 +51,6 @@ var request;
 var objStore;
 var tiempoRefreshDatos:number = (1000 * 30 * 1); // Actualiza la información cada minuto.
 
-//var Dexie;                    //require('dexie');
 var dbDexie;
 var db3;
 var openRequest;
@@ -133,8 +122,6 @@ export class DatosRetirosXhora{
     }
 }
 
-
-//export var datosATMs  = [];
 export var ipATMs  = [];
 var idxErrBanco:number = 0;
 
@@ -253,10 +240,8 @@ export class ResumenOperacionesComponent implements OnInit  {
     public encabDepositos   = {hId:'ID', dCta: 'Cuenta', hHraIni:'Inicio', hHraFin: 'Finalizo', hMonto:'Monto', hBill20:'$20', hBill50:'$50', hBill100:'$100', hBill200:'$200', hBill500:'$500', hBill1000:'$1000'};
 
     public ipATM: string;
-
     public tblConsRetPorMes: TblConsRetPorMes;
     public iPs:any[] = ['11.40.2.2', '11.40.2.8'];
-
     public iniArrCeros(numElems, valIni):Array<number>{
         return([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
     }
@@ -277,10 +262,7 @@ export class ResumenOperacionesComponent implements OnInit  {
     public listaErrsPorBanco: any[][] = [];
     public cErroresPorBanco: ErroresPorBanco[];
     public lErroresPorBanco: ErroresPorBanco[];
-
     public numPaginas = 0;
-    public urlPath = "";
-
     public resDep:ResumenOperacionesModel;
     public resRet:ResumenOperacionesModel;
     public resRetNoExist:ResumenOperacionesModel;
@@ -297,8 +279,6 @@ export class ResumenOperacionesComponent implements OnInit  {
                 public activatedRoute: ActivatedRoute,
                 public filtrosUtilsService: FiltrosUtilsService,
                 public resumenOperacionesService: ResumenOperacionesService){
-
-        console.log("ResumenOperacionesComponent:: Inicia");
 
         this.inicializaVariables();
     }
@@ -358,13 +338,10 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.dAcumMontoRetirosPorHora = this.iniArrCeros(24, 0);
         this.dNumConsPorHora          = this.iniArrCeros(24, 0);
         this.tBillDep                 = [{ tMonto: 0, tB20: 0, tB50: 0, tB100: 0, tB200: 0, tB500: 0, tB1000: 0}];
-
-        this.infoDepositos = [];
-
-
-        this.opersBanco  = {'nomBanco': "", 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
-        this.listaBancos = [];
-        this.listaErrsPorBanco = [];
+        this.infoDepositos            = [];
+        this.opersBanco               = {'nomBanco': "", 'numRetOk':0, 'numRetNoOk':0, 'numRechazos':0, 'numCons':0, 'numConsNoOk':0, 'numReversos':0};
+        this.listaBancos              = [];
+        this.listaErrsPorBanco        = [];
 
         arrDatosServidor = [];
         for(let idx=0; idx<24; idx++){
@@ -392,12 +369,10 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.opersRetiros = {dNums: 0, dMontoRetiros: 0, dHraPrimerRetiro: "", dHraUltimoRetiro: ""}; //, numRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], montoRetiros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
         this.opersRetiros.numRetiros = Array(24).fill(0);
         this.opersRetiros.montoRetiros = Array(24).fill(0);
-        console.log("this.opersRetiros --> "+JSON.stringify(this.opersRetiros)+" <--");
     };
 
 
     ngOnInit() {
-        // Pinta las areas de la pantalla.
         this.resumenInicialOperaciones();
     }
 
@@ -411,8 +386,6 @@ export class ResumenOperacionesComponent implements OnInit  {
 
     /* * Obtiene lso filtros para la consulta * */
     public parametrosConsulta(filtrosConsulta){
-
-        console.log(nomComponente+".parametrosConsulta:: Params recibidos: ["+JSON.stringify(filtrosConsulta)+"]");
 
         let fIniParam           = filtrosConsulta.fchInicio;
         let fFinParam           = filtrosConsulta.fchFin;
@@ -430,20 +403,13 @@ export class ResumenOperacionesComponent implements OnInit  {
     /* ** Obtiene los datos del Journal * */
     public pDatosDelJournalOrig(filtrosCons){
 
-        console.log(nomComponente+".pDatosDelJournal filtrosCons-->"+JSON.stringify(filtrosCons)+"<--");
-
-        // *** Actualiza parametros para la consulta de los servicios.
         let paramsCons:any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        console.log(nomComponente + ".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
-
-        // Verifica si la consulta del servicio anterior indica que se tienen más de ceros paginas continua con el proceso.
         if (gNumPaginas > 0) {
 
             numPaginaObtenida = 0;
@@ -452,25 +418,17 @@ export class ResumenOperacionesComponent implements OnInit  {
                 this.numPaginas = 0;
             }
 
-            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
-            // ** this.numPaginas = Esta variable contiene el número de paginas completas de la última consulta.
-            // ** gNumPaginas = El número máximo de información.
             for (let idx = gNumPaginasCompletas; idx < gNumPaginas; idx++) {
                 paramsCons.page = idx;
-                console.log(nomComponente+".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
                 this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
             }
 
-            // Respalda el arreglo con las paginas completas (200 registros).
-            console.log(nomComponente+".gNumRegistros [" + gNumRegistros + "]   gNumPaginasCompletas[" + gNumPaginasCompletas + "]");
-            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) { // && arrDatosServidorBack.length == 0){
+            if (gNumRegistros > 200 && (gNumPaginas - 1) > gNumPaginasCompletas) {
                 arrDatosServidorBack = arrDatosServidor;
-                /* la primera consulta */
             }
 
-            arrDatosServidor = arrDatosServidorBack;
-
-            gNumRegsProcesados = (arrDatosServidor.concat(arrDatosServidorInc)).length;
+            arrDatosServidor    = arrDatosServidorBack;
+            gNumRegsProcesados  = (arrDatosServidor.concat(arrDatosServidorInc)).length;
             this.procesaDatosLog(arrDatosServidor.concat(arrDatosServidorInc), gNumPaginas);
 
             if (arrDatosServidorInc.length > 0) {
@@ -487,26 +445,17 @@ export class ResumenOperacionesComponent implements OnInit  {
 
     public pDatosDelJournal(filtrosCons){
 
-        console.log(nomComponente+".pDatosDelJournal filtrosCons-->"+JSON.stringify(filtrosCons)+"<--");
-
-        // *** Actualiza parametros para la consulta de los servicios.
         let paramsCons:any = {
             ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
             events: "-1", minAmount: "-1", maxAmount: "-1", authId: "-1", cardNumber: "-1", accountId: "-1"
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
-        console.log(nomComponente + ".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
         this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
-
-        // Verifica si la consulta del servicio anterior indica que se tienen más de ceros paginas continua con el proceso.
         if (gNumPaginas > 0) {
 
-            // *** Llama al servicio remoto para obtener la información solicitada del Journal.
             for (let idx = 0; idx < gNumPaginas; idx++) {
                 paramsCons.page = idx;
-                console.log(nomComponente+".pDatosDelJournal::  paramsCons["+JSON.stringify(paramsCons)+"]");
                 this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
                 arrDatosServidor = arrDatosServidor.concat(gDatosJournal);
             }
@@ -521,12 +470,8 @@ export class ResumenOperacionesComponent implements OnInit  {
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
-    // Actualiza informciòn de la pantalla.
     public pActualizaInfo(): void {
 
-        //console.log("pActualizaInfo:: url["+this.rutaActual+"]");
-
-        // Se obtiene el nombre de la clase actual:  this.constructor.name
         if (ipAnterior != this.paramsServicioNumPaginas.ip[0] ||
             (gFchInicioAnterior != this.paramsServicioNumPaginas.timeStampStart ||
              gFchInicioFinAnterior != this.paramsServicioNumPaginas.timeStampEnd) ||
@@ -590,10 +535,7 @@ export class ResumenOperacionesComponent implements OnInit  {
 
     public opersRetiros:any = {};
     public retirosPorHora:any = {};
-
     public datosRetirosPorHora(reg) {
-
-
         let date                 = new Date(reg.TimeStamp);
         let _hora                = date.getHours();
 
@@ -950,7 +892,7 @@ export class ResumenOperacionesComponent implements OnInit  {
                                 this.dotacion.monto = reg.Amount;
                             }
                         }
-                        //console.log("reg.Data["+reg.Data+"]");
+
                         if (reg.Data != null && reg.Data == "REGRESANDO A MODO ATM [AFD EXCHANGE ACTIVE TRUE] [CDM EXCHANGE ACTIVE FALSE]"){
                             this.dotacion.terminaDota   = tmpHoraOperacion;
                             this.dotacion.estado        = "Concluida";
@@ -967,19 +909,6 @@ export class ResumenOperacionesComponent implements OnInit  {
             idxReg++;
         });
 
-        console.log("this.opersRetiros --> "+JSON.stringify(this.opersRetiros)+" <--");
-
-        console.log("resDep ["+JSON.stringify(this.resDep)+"]");
-        console.log("resRet ["+JSON.stringify(this.resRet)+"]");
-        console.log("resRetNoExist ["+JSON.stringify(this.resRetNoExist)+"]");
-        console.log("resCons ["+JSON.stringify(this.resCons)+"]");
-        console.log("resConsNoExist ["+JSON.stringify(this.resConsNoExist)+"]");
-        console.log("resRev ["+JSON.stringify(this.resRev)+"]");
-        console.log("resCambiaNIP ["+JSON.stringify(this.resCambiaNip)+"]");
-        console.log("resCambiaNipErr ["+JSON.stringify(this.resCambiaNipErr)+"]");
-
-        console.log("088) "+nomComponente+".verificaMovtosPorHora:: -->"+this.infoMovtosPorHora+"<--");
-
         this.infoMovtosPorHora = this.resumenOperacionesService.acumulaMovtosPorHora(this.infoMovtosPorHora);
 
         this.resumenOperacionesService.verificaMovtosPorHora(this.infoMovtosPorHora);
@@ -987,9 +916,6 @@ export class ResumenOperacionesComponent implements OnInit  {
         let horaSys = (new Date()).getHours();
         for (let i in this.infoMovtosPorHora) {
             let info = this.infoMovtosPorHora[i];
-
-            //if (info.hora <= horaSys)
-            //    console.log(sprintf("%02d  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d", info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
         }
 
         this.mResumenOperaciones();
@@ -1065,12 +991,8 @@ export class ResumenOperacionesComponent implements OnInit  {
 
         if (tmpFechaOper == tmpFechaSist) {
             this.tiempoSinOperaciones = Math.round(((dateSys - reg.TimeStamp) / 1000) / 60);
-
-            console.log("Log: [" + reg.TimeStamp + "]   [" + new Date(reg.TimeStamp) + "]");
-            console.log("Actual: [" + dateSys + "]   [" + new Date(dateSys) + "]");
             this.msgError = "";
             if ((dateSys - reg.TimeStamp) > tiempoSinOperacion) {
-                console.log("**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****");
                 this.msgError = "**** No ha habido operaciones aproximadamente en " + this.tiempoSinOperaciones + " minutos ****";
             }
         }
@@ -1104,7 +1026,6 @@ export class ResumenOperacionesComponent implements OnInit  {
         }
     }
 
-    // Arma la pantalla de los datos de la tabla del Resumen de Operaciones
     public mResumenOperaciones():void{
 
         this.tblResOperacion = {
@@ -1121,7 +1042,6 @@ export class ResumenOperacionesComponent implements OnInit  {
         };
     }
 
-    // Arma los datos de la tabla del Depositos
     pResDep():void{
 
         this.tblResDep = {
@@ -1139,9 +1059,7 @@ export class ResumenOperacionesComponent implements OnInit  {
         }
     }
 
-    // Arma la información de la tabla de Resumen de Operaciones por Banco
     public mResumenPorBanco():void{
-
 
         let arrDatos = [];
         let arrTotDatos = [{fNumBancos: 0, fNumRetOk: 0, fNumRetNoOK: 0, fNumCons: 0, fNumConsNoOk: 0, fNumReversos: 0, fnumRechazos: 0}];
@@ -1180,10 +1098,8 @@ export class ResumenOperacionesComponent implements OnInit  {
         };
     }
 
-    // Despiega en la pagina la información de Consultas y Retiros.
     public mRretirosPorHora():void{
 
-        // Acumula los movimientos que se realizaron antes de la 7 de la mañana.
         let tNumRetiros         = 0;
         let tAcumNumRetiros     = 0;
         let tNumConsultas       = 0;
@@ -1192,7 +1108,6 @@ export class ResumenOperacionesComponent implements OnInit  {
         let tAcumMontoRetiros   = 0;
         let tNumConsPorHora     = 0;
         let arrRetiros          = [];
-
 
         for(let idx=0; idx < 7; idx++){
             tNumConsultas += this.dNumConsPorHora[idx];
@@ -1210,7 +1125,6 @@ export class ResumenOperacionesComponent implements OnInit  {
             }
         }
 
-        // Agrega al objeto arrRetiros los movimientos que entraron antes de la 7 de la manañana
         let carVacio = "0";
         let tmpHora = "<7";
         arrRetiros.push(
@@ -1235,7 +1149,6 @@ export class ResumenOperacionesComponent implements OnInit  {
             acumMonto[idx]  = (idx == 0) ? this.dMontoRetirosPorHora[idx]   : this.dMontoRetirosPorHora[idx]    + acumMonto[idx -1];
         }
 
-        // Agrega al objeto arrRetiros los movimientos que entraron despues de la 7 de la manañana
         for(let idx=7; idx < this.dAcumNumRetirosPorHora.length; idx++){
             if ( this.dNumConsPorHora[idx] > 0 || this.dNumRetirosPorHora[idx] > 0) {
                 arrRetiros.push(
@@ -1256,17 +1169,13 @@ export class ResumenOperacionesComponent implements OnInit  {
         };
     }
 
-    //  Recupera la respueta del servicio xxx con el que se obtiene el número de paginas y registro del Journal
     public GetEjaLogDataLength(result:object, status){
         gNumPaginas   = JSON.parse(JSON.stringify(result)).TotalPages;
         gNumRegistros = JSON.parse(JSON.stringify(result)).TotalItems;
-        console.log(nomComponente+".:: paginas["+JSON.stringify(result)+"]");
     }
 
-    //  Recupera la respueta del servicio xxx con el que se obtiene ela información del Journal
     public GetEjaLogPage(result:any[], status){
         gDatosJournal = result;
-        console.log(nomComponente+".obtenDatosJournal:: Pagina: ["+numPaginaObtenida+"]   Renglones: ["+result.length+"]");
     }
 
 
@@ -1290,5 +1199,3 @@ export class ResumenOperacionesComponent implements OnInit  {
 }
 
 function comparar ( a, b ){ return a - b; }
-
-// 1361 lineas (version 1)

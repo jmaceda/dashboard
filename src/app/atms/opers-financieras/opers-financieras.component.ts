@@ -5,17 +5,14 @@ import { sprintf }                                              from "sprintf-js
 import { SoapService }                                          from '../../services/soap.service';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
 import { InfoAtmsService }                                      from '../../services/info-atms.service';
-//import { InfoGroupsService }                                    from '../../services/info-groups.service';
 import { DatosJournalService }                                  from '../../services/datos-journal.service';
-
 import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
-import { UtilsService }                                 from '../../services/utils.service';
+import { UtilsService }                                         from '../../services/utils.service';
 
 
 var arrDatosAtms:any[] = [];
 
 export const nomComponente:string = "OpersFinancierasComponent";
-
 export var gGetGroupsAtmIds:any;
 
 export class GetGroupsAtmIds{
@@ -64,11 +61,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                 public infoAtmsService: InfoAtmsService,
                 public datosJournalService: DatosJournalService,
                 public utilsService: UtilsService) {
-
-        console.log(nomComponente+".constructor:: Inicia");
     }
-
-    //public atmsActivos:any [] = [];
 
     public ngOnInit() { }
 
@@ -78,12 +71,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         }
     }
 
-    //public infoIdAtms:any = [];
-    //public obtenOpersAtms(ipAtm){ }
-
     public parametrosConsulta(filtrosConsulta) {
-
-        console.log("OpersFinancierasComponent.parametrosConsulta:: Inicio");
         let idGpo 					= filtrosConsulta.gpo;
         let fIniParam               = filtrosConsulta.fchInicio;
         let fFinParam               = filtrosConsulta.fchInicio;
@@ -122,10 +110,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     }
 
     public datosDeOperacion(paramsConsulta){
-
-        console.log("OpersFinancierasComponent.datosDeOperacion:: Obtiene los datos de las operaciones");
-
-
         let datosAtm:any;
 		let idAtms:any[]        	= this.infoAtmsService.obtenInfoAtmsOnLinePorGpo(paramsConsulta);
 		let numRetirosTiendas		= 0;
@@ -142,10 +126,8 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
 		let regexPlaza:any      	= new RegExp( expRegText.replace(/XX/g, "GP") );
 
-		//console.log("OpersFinancierasComponent.datosDeOperacion:: -->"+JSON.stringify(idAtms)+"<--");
 		this.opersFinancieras   	= [];
 
-        //console.log("-->"+JSON.stringify(idAtms)+"<--");
         if(idAtms != null){
             idAtms.forEach( (reg) => {
                 datosAtm = this.datosJournalService.obtenComisionesPorAtm(paramsConsulta, {
@@ -209,75 +191,25 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             this.isDatosJournal = true;
         }
 
-        //if (this.opersFinancieras.length > 0 ) 
-		{
-            this.itemResource = new DataTableResource(this.opersFinancieras);
-            this.itemResource.count().then(count => this.itemCount = count);
-            this.reloadItems({limit: this.regsLimite, offset: 0});
-
-            this.filtrosUtilsService.fchaHraUltimaActualizacion();
-        }
-
-        /*
-        if (this.opersFinancieras.length > 0) {
-            $('#btnExpExel2').css('cursor', 'pointer');
-            this.isDatosJournal = true;
-            //this.exportaComisiones2Excel(true);
-        }else{
-            $('#btnExpExel2').css('cursor', 'not-allowed');
-            this.isDatosJournal = true;
-        }
-        */
-
+        this.itemResource = new DataTableResource(this.opersFinancieras);
+        this.itemResource.count().then(count => this.itemCount = count);
+        this.reloadItems({limit: this.regsLimite, offset: 0});
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
         this.opersFinancieras = [];
     }
-
-	/*
-    public parametrosConsultaTmp(filtrosConsulta){
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }
-/ *
-        this.datosDeOperacion();
-        this.intervalId = setInterval(() => { this.datosDeOperacion(); }, this.tiempoRefreshDatos);
-        * /
-    }
-	*/
 
     reloadItems(params) {
         this.itemResource.query(params).then(items => this.items = items);
     }
 
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
-    rowTooltip(item) {
-	//console.log(JSON.stringify(item));
-		//return item.jobTitle; 
-	}
+    rowTooltip(item) {}
 
-    private exportaComisiones2Excel(event){
-        console.log(nomComponente+".exportaComisiones2Excel:: Inicio");
-        //console.log(JSON.stringify(this.opersFinancieras));
-        //this.datosJournalService.exportaComisiones2Excel(this.opersFinancieras);
-    }
-	
-	/*
-	rowColorsX(reg) {
-	
-		if (reg.Description == "Monto total Tiendas" || reg.Description == "Monto total Plazas"){
-			return('rgb(255, 255, 197)');
-		}		
-		//console.log("reg:: -->"+JSON.stringify(reg)+"<--")
-        //if (car.year >= this.yearLimit) return 'rgb(255, 255, 197)';
-    }
-	*/
-	
+    private exportaComisiones2Excel(event){}
+
 	getColor(Description){
 		let styles:any = {};
 

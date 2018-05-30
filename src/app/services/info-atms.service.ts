@@ -26,15 +26,12 @@ export class InfoAtmsService implements OnInit {
 
     public obtenDetalleAtms(parametros?:any) {
 
-        console.log(nomServicio+".obtenDetalleAtms:: Obten datos de todos los ATMs (GetAtm)");
-
         let parameters:any = parametros;
 
         if (parametros == null || parametros == undefined) {
             parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
         }
 
-        // Obtiene los datos de los ATMs
         this._soapService.post('', "GetAtm", parameters, this.GetAtm, false);
 
         return(gDatosAtms);
@@ -42,14 +39,12 @@ export class InfoAtmsService implements OnInit {
 
     public obtenGetAtm(parametros?:any) {
 
-        console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");
         let parameters:any = parametros;
 
         if (parametros == null || parametros == undefined) {
             parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
         }
 
-        // Obtiene los datos de los ATMs
         this._soapService.post('', "GetAtm", parameters, this.GetAtm, false);
 
         let idx = 0;
@@ -71,7 +66,6 @@ export class InfoAtmsService implements OnInit {
 
     public obtenGetAtmDetail(parametros?:any) {
 
-        console.log(nomServicio+".obtenGetAtm:: Se van a obtener los datos");
         let parameters:any = parametros;
 
         if (parametros != null || parametros != undefined) {
@@ -83,27 +77,6 @@ export class InfoAtmsService implements OnInit {
         return(gDatosAtm);
 
     };
-
-    /*
-    GetGroupsWithAtms(datosGroups:any, status){
-        gGrupos = datosGroups;
-    }
-
-    obtenGetGroups(){
-
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
-
-        let arrNomGrupos:any[] = [];
-
-        if (gGrupos.length > 0) {
-            gGrupos.forEach((reg) => {
-                arrNomGrupos.push((reg.Description));
-            });
-        }
-
-        return(gGrupos.sort(comparar));
-    }
-*/
 
     obtenIdGroup(descGpo){
         let idGpo = -1;
@@ -126,14 +99,12 @@ export class InfoAtmsService implements OnInit {
 
     public obtenGetAtmsIps(parametros?:any) {
 
-        console.log(nomServicio+".obtenGetAtmsIps:: Se van a obtener los datos");
         let parameters:any = parametros;
 
         if (parametros == null || parametros == undefined) {
             parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
         }
 
-        // Obtiene los datos de los ATMs por Id
         this._soapService.post('', "GetAtmsIps", parameters, this.GetAtmsIps, false);
 
         return(gDatosAtms);
@@ -168,8 +139,6 @@ export class InfoAtmsService implements OnInit {
 
 	public obtenInfoAtmsOnLinePorGpo(paramsConsulta?:any){
 
-        console.log(nomServicio+".obtenInfoAtmsOnLinePorGpo:: Obten datos de ATMs Online por Grupo");
-		
         let parametros          = { 
 				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
 				osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1
@@ -218,7 +187,6 @@ export class InfoAtmsService implements OnInit {
                     });
                 });
 			} else {
-			    /* Información de ATMs de un fecha determinada */
 				infoDatosAtms.forEach((reg) => {
 					fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
 
@@ -237,8 +205,6 @@ export class InfoAtmsService implements OnInit {
 
         return(infoAtms);
     }
-
-
 }
 
 function comparar ( a, b ){ return a - b; }

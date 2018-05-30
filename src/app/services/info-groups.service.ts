@@ -6,7 +6,7 @@ import { SoapService }              from './soap.service';
 import { GroupsModel }              from '../models/groups.model';
 import { GroupsAtmsModel }          from '../models/groups-atms.model';
 
-export var gDatosAtm:any;
+//export var gDatosAtm:any;
 export var gDatosGroups:any = [];
 export var gGrupos;
 export var gDevicesAtm:any[]  = [];
@@ -22,14 +22,11 @@ export class InfoGroupsService implements OnInit {
     public groupsModel: GroupsModel[]          = [];
     public groupsAtmsModel: GroupsAtmsModel[]  = [];
 
-    constructor(public _soapService: SoapService){
-        console.log(nomServicio+".constructor:: init");
-    }
+    constructor(public _soapService: SoapService){}
 
     public ngOnInit() {}
 
     public GetGroup(datosGroups:any, status){
-        console.log(nomServicio+".GetGroup:: Inicio  ["+new Date()+"]");
         gDatosGroups = datosGroups;
     }
 
@@ -92,8 +89,6 @@ export class InfoGroupsService implements OnInit {
 
     public cargaCatAtmGroups(){
 
-        console.log(nomServicio+".cargaCatAtmGroups:: Carga el catalogo de Grupos por ATM");
-
         this.groupsAtmsModel    = [];
 
         if (this.groupsWithAtmsModel.length > 0){
@@ -104,8 +99,6 @@ export class InfoGroupsService implements OnInit {
     }
 
     public obtenGroupsAtm(idAtm){
-
-        console.log(nomServicio+".obtenGroupsAtm:: Obten del catalogo los grupos del ATM ["+idAtm+"]");
 
         let arrGroupsAtm        = [];
 
@@ -120,8 +113,6 @@ export class InfoGroupsService implements OnInit {
 
 
     public cargaCataAtmsConGrupos(){
-
-        console.log(nomServicio+".cargaCataAtmsConGrupos:: Carga catalogo de ATMs con sus grupos asociados");
 
         this.obtenGroupsConAtms();
 
@@ -163,149 +154,6 @@ export class InfoGroupsService implements OnInit {
 
         return(idGpo);
     }
-
-    /*
-    GetGroupsWithAtms(datosGroups:any, status){
-        gGrupos = datosGroups;
-    }
-
-     obtenGetGroups(){
-
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
-
-        let arrNomGrupos:any[] = [];
-
-        gGrupos.forEach((reg)=> {
-            arrNomGrupos.push( (reg.Description));
-        });
-        //console.log("InfoAtmsService.obtenGroupss:: ["+arrNomGrupos+"]");
-        return(gGrupos.sort(comparar));
-    }
-*/
-
-                /*
-    obtenIdGroup(descGpo){
-        let idGpo = -1;
-
-        if (gGrupos != null && gGrupos != "") {
-            gGrupos.forEach((reg) => {
-                if (idGpo == -1 && descGpo == reg.Description) {
-                    idGpo = reg.Id;
-                }
-            });
-        }
-
-        return(idGpo);
-    }
-    */
-
-/*
-    GetAtmsIps(datosGroups:any, status){
-        gDatosGroups = datosGroups;
-    }
-    */
-/*
-    public obtenGroupssIps(parametros?:any) {
-
-        console.log(nomServicio+".obtenGroupssIps:: Se van a obtener los datos");
-        let parameters:any = parametros;
-
-        if (parametros == null || parametros == undefined) {
-            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
-        }
-
-        // Obtiene los datos de los ATMs por Id
-        this._soapService.post('', "GetAtmsIps", parameters, this.GetAtmsIps, false);
-
-        return(gDatosGroups);
-    };
-*/
-    /*
-    public obtenInfoAtmsOnLine(){
-
-        let parametros          = { 
-				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, 
-				stateId: -1, townId: -1, areaId: -1, zipCode: -1
-		};
-        let fchOper:any;
-        let idAtms:any[]        = [];
-        let infodatosGroups:any   = [];
-        let ftoFchSys:any       = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
-        let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
-
-        infodatosGroups 			= this.obtenDetalleGroups(parametros);
-
-        if(infodatosGroups.length > 0) {
-            infodatosGroups.forEach((reg) => {
-                fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
-
-                if (fchOper == fchSys) {
-                    idAtms.push({'Description': reg.Description, 'Name': reg.Name, 'Id': reg.Id, 'Ip': reg.Ip});
-                }
-            });
-        }
-        return(idAtms);
-    }
-*/
-
-
-    /*
-	public obtenInfoAtmsOnLinePorGpo(paramsConsulta?:any){
-		//console.log(paramsConsulta);
-		
-        let parametros          = { 
-				nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
-				osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1
-		};
-        let fchOper:any;
-        let idAtms:any[]        = [];
-        let infodatosGroups:any   = [];
-        let ftoFchSys:any       = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        let expFchSys:any       = /(\d+)\/(\d+)\/(\d+)/;
-		let fchParam:any        = paramsConsulta.timeStampEnd.substring(0,10);
-        let fchSys:any          = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
-        let arrDevicesOffline   = [];
-		parametros.groupId 		= (paramsConsulta.idGpo != undefined && paramsConsulta.idGpo != null) ? paramsConsulta.idGpo : -1;
-		
-        infodatosGroups = this.obtenDetalleGroups(parametros);
-
-        if(infodatosGroups.length > 0) {
-			if (fchParam == fchSys.toString()) {
-				infodatosGroups.forEach((reg) => {
-                    if ( reg.OfflineDevices.length > 0 ){
-                        for(let cve in reg.OfflineDevices) {
-                            arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
-                        }
-                    }
-                    idAtms.push({
-                        'Description': reg.Description,
-                        'Name': reg.Name,
-                        'Id': reg.Id,
-                        'Ip': reg.Ip,
-                        'DevicesOffline': arrDevicesOffline
-                    });
-                });
-			} else {
-				infodatosGroups.forEach((reg) => {
-					fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
-
-					if (fchOper == fchSys) {
-						idAtms.push({
-							'Description': reg.Description, 
-							'Name': reg.Name, 
-							'Id': reg.Id, 
-							'Ip': reg.Ip
-						});
-					}
-				});
-			}
-
-        }
-        return(idAtms);
-    }
-*/
-
 }
 
 function comparar ( a, b ){ return a - b; }
