@@ -25,18 +25,11 @@ import { DetallePorTienda }                 from './reportes/detalle-por-tienda/
 import { AtmsEstatusComponent }             from './atms/estatus/atms-estatus.component';
 import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-cifras.component';
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
-import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
+import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
-
 import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
-//import { SmartTableComponent } from './tmp/ng2-smart-table/smart-table.component';
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
-
-//import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
-import { DemoComponent }              from './tmp/pruebas/demo-app/demo-app.component';
-//import { AgGridApp }              from './tmp/pruebas/ag-grid/ag-grid-app.component';
-
 import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
 import { ManualGrgComponent }                from './docs/manual-grg.component';
 import { ReporteMensualComponent }           from './reportes/banxico/reporte-mensual/reporte-mensual.component';
@@ -52,31 +45,19 @@ const routes: Routes =[
     { path: 'totaltienda',    component: TotalesPorTiendaComponent },
     { path: 'resumenefectivo',component: ResumenDeEfectivo },
     { path: 'detalletienda',  component: DetallePorTienda },
-
     { path: 'retirosetv',     component: RetirosEtvComponent },
     { path: 'retiroshma',     component: RetirosHmaComponent },
     { path: 'efectdisp',      component: EfectDispCoponent },
-
     { path: 'rechazoshma',     component: RechazosHmaComponent },
-
-    { path: 'HorzVertScrolling',  component: HorzVertScrolling },
-
-    { path: 'promopers',  component: TiempoPromOperComponent },
-
-
-    //{ path: 'DemoComponent',      component: AgGridApp },
-    //{ path: 'DemoComponent',      component: DemoComponent },
-    { path: 'opersfinan',      component: OpersFinancierasComponent },
-    { path: 'reportebanxico',  component: ReporteMensualComponent },
-    { path: 'manualgrg',      component: ManualGrgComponent },
-
-
-    //{ path: 'SmartTable',  component: SmartTableComponent },
-
-    { path: 'user',           component: UserComponent },
-    { path: 'table',          component: TablesComponent },
-    { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
+    { path: 'HorzVertScrolling',    component: HorzVertScrolling },
+    { path: 'promopers',            component: TiempoPromOperComponent },
+    { path: 'opersfinan',           component: OpersFinancierasComponent },
+    //{ path: 'reportebanxico',       component: ReporteMensualComponent },
+    { path: 'manualgrg',            component: ManualGrgComponent },
+    { path: 'user',                 component: UserComponent },
+    { path: 'table',                component: TablesComponent },
+    { path: 'typography',           component: TypographyComponent },
+    { path: 'icons',                component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },

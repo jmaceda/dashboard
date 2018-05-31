@@ -1,14 +1,11 @@
 // app/reportes/retiro-etv/retiro-etv.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
-import { OnDestroy }                                    from '@angular/core';
-import { EventEmitter}                                  from '@angular/core';
 
 import { sprintf }                                      from "sprintf-js";
-import { DataTable }                                    from 'angular-4-data-table-fix';
-import { DataTableTranslations }                        from 'angular-4-data-table-fix';
+//import { DataTable }                                    from 'angular-4-data-table-fix';
+//import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-
 import { SoapService }                                  from '../../services/soap.service';
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
@@ -57,7 +54,6 @@ export class RetirosEtvComponent implements OnInit  {
     public parametrosConsulta(filtrosConsulta){
         let fIniParam = filtrosConsulta.fchInicio;
         let fFinParam = filtrosConsulta.fchFin;
-        //let ipAtm     = infoRecibida.atm;
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
@@ -70,49 +66,19 @@ export class RetirosEtvComponent implements OnInit  {
 
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
-        // TotalItems / TotalPages
-        //console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
     }
 
     public GetEjaLogPage(datosCortesEtv:any, status){
         gDatosCortesEtv = datosCortesEtv;
     }
-/*
-    public obtenCortesJournal(filtrosCons){
 
-        let paramsCons: any = {
-            ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
-            events: ["Administrative"], minAmount: 1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
-        };
-        let datosCortesEtv: any = [];
-
-        //console.log("paramsCons: >"+JSON.stringify(paramsCons)+"<");
-        //console.log("---> Inicio: "+new Date());
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
-
-        if (gPaginasJournal.TotalPages > 0) {
-
-            this.arrDatosCortesEtv = [];
-
-            for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
-                paramsCons.page = idx;
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
-                datosCortesEtv = datosCortesEtv.concat(gDatosCortesEtv);
-            }
-        }
-
-        return(datosCortesEtv);
-
-    }
-*/
     public obtenDatosDeCortesEtv(filtrosCons) {
 
         let datosCortesEtv = this.datosJournalService.obtenCortesJournal(filtrosCons);
 
-        //console.log("1) -->"+JSON.stringify(datosCortesEtv)+"<--");
         if (datosCortesEtv.length > 0){
             this.arrDatosCortesEtv = [];
-            //console.log("---> Fin: "+new Date());
+
             datosCortesEtv.forEach((reg) => {
                 if (reg.Data.substring(0,40) == "DOTAR CAPTURA CONTADORES - ANTES DE CERO") {
                     let data = (reg.Data).substring(41).replace(/\]\[/g, ' ').replace(/[\[\]]/g, ' ');
@@ -121,8 +87,6 @@ export class RetirosEtvComponent implements OnInit  {
                     let billRech        = data.split(" ")[1];
                     let totalRetiro     = data.split(" ")[2];
                     let billTot: any    = {};
-
-                    //console.log("2) -->"+JSON.stringify(data)+"<--");
 
                     billOK              = this.utilsService.convBillToJson(billOK, "DC");  // "DC" indica formato billetes: <Denominación>x<Contador>
                     billRech            = this.utilsService.convBillToJson(billRech, "DC");
@@ -150,7 +114,7 @@ export class RetirosEtvComponent implements OnInit  {
                     })
                 }
             });
-            //console.log("---> Fin: "+new Date());
+
             this.filtrosUtilsService.fchaHraUltimaActualizacion();
             this.itemResource = new DataTableResource(this.arrDatosCortesEtv);
             this.itemResource.count().then(count => this.itemCount = count);
@@ -171,18 +135,11 @@ export class RetirosEtvComponent implements OnInit  {
          this.itemResource.query(params).then(items => this.items = items);
     }
 
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item) { return item.jobTitle; }
-
-
-    /*   -------------------------------   */
 
     GetHmaEvent(catEventos:any, status){
         gCatEventos = catEventos;
@@ -197,7 +154,6 @@ export class RetirosEtvComponent implements OnInit  {
             cveCat = "c"+reg.SerializedId;
             gCatalogoEventos[cveCat] = reg.Name;
         });
-        console.log(Object.keys(gCatalogoEventos).length);
     }
 
 
@@ -216,13 +172,10 @@ export class RetirosEtvComponent implements OnInit  {
         this.obtenEventos();
 
         let paramsCons:any = {ip: ["11.40.2.8"], timeStampStart: "2018-01-01-00-00", timeStampEnd: "2018-01-01-23-59", device: ["ICM", "AFD"],
-            events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]};
+            events: ["DenominateInfo", "DenominateFailed", "DispenseFailed", "RetractOk", "DispenseOk", "ARQCGenerationOk", "MediaRemoved", "MediaTaken"]
+        };
 
-        console.log(new Date());
-        console.log("Params HSM :" +JSON.stringify(paramsCons));
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
-
-        console.log("Paginas HSM :" +JSON.stringify(gPaginasHMA));
 
         if (gPaginasHMA.TotalPages > 0) {
             let datosRetirosHMA: any = [];
@@ -230,7 +183,6 @@ export class RetirosEtvComponent implements OnInit  {
 
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
-                console.log("Params HSM :" +JSON.stringify(paramsCons));
                 this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
@@ -239,8 +191,6 @@ export class RetirosEtvComponent implements OnInit  {
                 cveCat = "c"+reg.HmaEventId;
                 reg.Events = gCatalogoEventos[cveCat];
             });
-            //console.log(JSON.stringify(datosRetirosHMA));
         }
-        console.log(new Date());
     }
 }

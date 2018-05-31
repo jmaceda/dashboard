@@ -1,12 +1,10 @@
 import { Component }                            from '@angular/core';
 import { OnInit }                               from '@angular/core';
-import { OnDestroy }                            from '@angular/core';
 
 import { sprintf }                              from "sprintf-js";
 import { ConfigService }                        from './configuration.service';
 import { SoapService }                          from '../../services/soap.service';
 import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
-
 import { DatosJournalService }                  from '../../services/datos-journal.service';
 
 var nomComponente = "AclaracionesComponent";
@@ -54,12 +52,9 @@ export class AclaracionesComponent implements OnInit  {
         this.columnas = this.datosJournalService.obtenColumnasVista();
     }
 
-    // disable component
     private datosJournalInput(): void {
         this.isDatosJournal = false;
     }
-
-
 
     public parametrosConsulta(filtrosConsulta){
 
@@ -83,13 +78,7 @@ export class AclaracionesComponent implements OnInit  {
         };
 
         this.dataJournalRedBlu = [];
-
-        console.log(nomComponente+".pDatosDelJournal:: paramsCons["+JSON.stringify(paramsCons)+"]");
-
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-
-        console.log(nomComponente+".pDatosDelJournal:: gPaginasJournal["+JSON.stringify(gPaginasJournal)+"]");
 
         if (gPaginasJournal.TotalPages > 0) {
             let datosAclara: any = [];
@@ -113,7 +102,6 @@ export class AclaracionesComponent implements OnInit  {
 
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
-        console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
     }
 
     public GetEjaLogPage(datosAclaracion:any, status){
@@ -121,7 +109,6 @@ export class AclaracionesComponent implements OnInit  {
     }
 
     public exportaJournal2Excel(event){
-        console.log(nomComponente+".exportaJournal2Excel:: Inicio");
         this.datosJournalService.exportaJournal2Excel(this.dataJournalRedBlu);
     }
 }

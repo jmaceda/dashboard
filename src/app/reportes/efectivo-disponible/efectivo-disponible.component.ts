@@ -1,12 +1,8 @@
 // app/reportes/totales-por-tienda/totales-por-tienda.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
-import { OnDestroy }                                    from '@angular/core';
-import { EventEmitter}                                  from '@angular/core';
 
 import { sprintf }                                      from "sprintf-js";
-import { DataTable }                                    from 'angular-4-data-table-fix';
-import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
 
 import { SoapService }                                  from '../../services/soap.service';
@@ -99,7 +95,6 @@ export class EfectDispCoponent implements OnInit {
     public billetesRetirados : AcumulaBilletesModel      = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
     public arrBilletesDisponibles : AcumulaBilletesModel[] = [];
 
-
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService: FiltrosUtilsService,
                 public depositosPorTiendaService: DepositosPorTiendaService,
@@ -143,7 +138,10 @@ export class EfectDispCoponent implements OnInit {
         let montoUltimoCorte:any            = "";
         let fchUltimoCorte2:any             = "";
 
+        billetesDisponibles                 = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
+        datosCortesJournal                  = this.datosJournalService.obtenCortesJournal(filtrosCons);
         ultimoCorte                         = datosCortesJournal[datosCortesJournal.length -1];
+
         if (ultimoCorte == undefined || ultimoCorte == null){
             return(0);
         }
@@ -157,16 +155,8 @@ export class EfectDispCoponent implements OnInit {
         filtrosCons                 = JSON.parse(filtrosConsMovtos);
         filtrosCons.timeStampStart  = fchUltimoCorte2;
 
-        //this.billetesRetirados      = (this.infoLogHMA(filtrosCons));
-        //this.billetesDepositados    = (this.infoDepositosEnJournal(filtrosCons));
-        /*
-         AcumulaBilletesModel {b20: 0, b50: 292, b100: 176, b200: 37, b500: 0, …}b20: 0b50: 292b100: 176b200: 37b500: 0b1000: 0monto: 39600opers: 35__proto__: Object
-         this.billetesDepositados
-         AcumulaBilletesModel {b20: 0, b50: 354, b100: 200, b200: 50, b500: 10, …}b20: 0b50: 354b100: 200b200: 50b500: 10b1000: 0monto: 52700opers: 8__proto__: Object
-         */
-
         this.infoLogHMA(filtrosCons);
-
+;
         billetesDisponibles.opers   = this.billetesDepositados.opers + this.billetesRetirados.opers;
         billetesDisponibles.b20     = this.billetesDepositados.b20   - this.billetesRetirados.b20;
         billetesDisponibles.b50     = this.billetesDepositados.b50   - this.billetesRetirados.b50;
@@ -182,7 +172,6 @@ export class EfectDispCoponent implements OnInit {
 
         this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
         this.datosUltimoCorte = fchUltimoCorte;
-
         this.fchUltimaActualizacion = (new Date()).toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'});
 
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
@@ -198,7 +187,6 @@ export class EfectDispCoponent implements OnInit {
             events: ["DenominateInfo", "DispenseOk", "NotesValidated", "CashInEndOk"]
         };
 
-        console.log(nomComponente + ".infoLogHMA:: paramsCons -->"+JSON.stringify(paramsCons)+"<--");
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         if (gPaginasHMA.TotalPages > 0) {
@@ -240,15 +228,8 @@ export class EfectDispCoponent implements OnInit {
                 }
             });
 
-            //console.log(nomComponente+".infoLogHMA:: billetesRetirados");
             this.billetesRetirados   = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
-
-            //console.log(nomComponente+".infoLogHMA:: billetesDepositados");
             this.billetesDepositados = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesDeposito, ";", "BD");
-            //numBilletes = this.utilsService.obtenNumBilletesPorDenominacion(arrBilletesRetiro, ";", "BD");
-
-            //console.log(nomComponente+".infoLogHMA:: billetesRetirados("+JSON.stringify(this.billetesRetirados)+")");
-            //console.log(nomComponente+".infoLogHMA:: billetesDepositados("+JSON.stringify(this.billetesDepositados)+")");
         }
         return(numBilletes);
     }
@@ -275,9 +256,6 @@ export class EfectDispCoponent implements OnInit {
 
         filtrosCons                 = JSON.parse(filtrosConsMovtos);
         filtrosCons.timeStampStart  = fchUltimoCorte2;
-
-        //this.billetesRetirados      = (this.infoRetirosEnHMA(filtrosCons));
-        //this.billetesDepositados    = (this.infoDepositosEnJournal(filtrosCons));
 
         billetesDisponibles.opers   = this.billetesDepositados.opers + this.billetesRetirados.opers;
         billetesDisponibles.b20     = this.billetesDepositados.b20   - this.billetesRetirados.b20;
@@ -311,7 +289,6 @@ export class EfectDispCoponent implements OnInit {
             })
         })
 
-        // Sort by price high to low
         this.infoCortesETV.sort(this.utilsService.sort_by('TimeStamp', true, parseInt));
     }
 
@@ -330,8 +307,6 @@ export class EfectDispCoponent implements OnInit {
         gdatosHMA = datosHMA;
     }
 
-
-
     GetHmaLogDataLength(paginasHMA:any, status){
         gPaginasHMA = paginasHMA;
     }
@@ -345,7 +320,6 @@ export class EfectDispCoponent implements OnInit {
             events: ["DenominateInfo"]
         };
 
-        console.log(nomComponente + ".infoRetirosEnHMA:: -->"+JSON.stringify(paramsCons)+"<--");
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         if (gPaginasHMA.TotalPages > 0) {

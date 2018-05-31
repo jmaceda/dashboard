@@ -1,14 +1,9 @@
 // app/reportes/totales-por-tienda/totales-por-tienda.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
-import { OnDestroy }                                    from '@angular/core';
-import { EventEmitter}                                  from '@angular/core';
 
 import { sprintf }                                      from "sprintf-js";
-import { DataTable }                                    from 'angular-4-data-table-fix';
-import { DataTableTranslations }                        from 'angular-4-data-table-fix';
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-
 import { SoapService }                                  from '../../../services/soap.service';
 import { FiltrosUtilsService }                          from '../../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../../services/acumulado-por-deposito.service';
@@ -119,7 +114,6 @@ export class ReporteMensualComponent implements OnInit {
     private diasProcesar:number       = 16;
     private fchInicialProceso         = "";
 
-
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService      : FiltrosUtilsService,
                 public depositosPorTiendaService: DepositosPorTiendaService,
@@ -134,11 +128,7 @@ export class ReporteMensualComponent implements OnInit {
         gCatalogoEventos = this.logHmaService.obtenEventos();
     }
 
-    /*
-       Acumula número de días a una fecha determinada con formato YYYY-MM-DD
-     */
     public sumaDiasFecha(fchTmp, numDias){
-
         let fch = new Date(fchTmp.replace(/-/,"/"));
         fch.setDate(fch.getDate() + numDias);
         let fchRes = sprintf("%04d-%02d-%02d", fch.getFullYear(), (fch.getMonth()+1), fch.getDate());
@@ -146,9 +136,6 @@ export class ReporteMensualComponent implements OnInit {
     }
 
     public validaRangoFechas(datosParam){
-
-        console.log(datosParam.timeStampStart.substring(0,10) + " -- " + datosParam.timeStampEnd.substring(0,10));
-
         if (datosParam.timeStampStart.substring(0,10) == datosParam.timeStampEnd.substring(0,10)){
             return(true);
         }
@@ -167,42 +154,27 @@ export class ReporteMensualComponent implements OnInit {
         let fchFinParam: string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
         let datosParam: any = {timeStampStart: fchIniParam, timeStampEnd: fchFinParam, ipAtm: ipAtm};
-
-        console.log(nomComponente + ".obtenDatmyDate.setMonth(myDate.getMonth() + 1);os:: datosParam<"+JSON.stringify(datosParam)+">");
-
         this.obtenDatos(datosParam);
     }
 
 
     public obtenDatos(params?) {
 
-        console.log(nomComponente + ".obtenDatos:: Inicio");
-
-        console.log(nomComponente + ".obtenDatos:: params<"+JSON.stringify(params)+">");
-
         this.totalDepositosReporte = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
         this.totalRetirosReporte   = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
         this.totalSaldo            = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
 
         let fchInicio:any = new Date();
-        console.log("Inicio ["+fchInicio+"]");
+
         this.obtenDepositos(params);
         this.obtenRetiros(params);
         this.calculaTotalSaldos();
         this.fchInicialProceso = params.timeStampStart;
-                                                let fchFin:any             = new Date();
-        console.log("Fin ["+fchFin+"]");
+        let fchFin:any             = new Date();
 
-
-
-        //this.obtenDepositos(params);
-        //this.obtenRetiros(params);
-        //this.calculaTotalSaldos();
     }
 
     public obtenDepositos(params){
-        console.log(nomComponente + ".obtenDepositos:: params<"+JSON.stringify(params)+">");
-
         this.detalleDepositos  = [];
         this.detalleDotaciones = [];
 
@@ -230,8 +202,6 @@ export class ReporteMensualComponent implements OnInit {
     }
 
     public acumulaTotalDepositos(datosDepositos){
-
-        console.log("acumulaTotalDeposito:: datosDepositos<"+JSON.stringify(datosDepositos)+">");
         datosDepositos.forEach( reg => {
             this.totalDepositosReporte.b20   += reg.b20;
             this.totalDepositosReporte.b50   += reg.b50;
@@ -242,7 +212,6 @@ export class ReporteMensualComponent implements OnInit {
             this.totalDepositosReporte.opers += reg.opers;
             this.totalDepositosReporte.monto += reg.monto;
         });
-        console.log("acumulaTotalDeposito:: totalDepositosReporte<"+JSON.stringify(this.totalDepositosReporte)+">");
     }
 
     public acumulaTotalRetiros(datosReporte){
@@ -262,7 +231,6 @@ export class ReporteMensualComponent implements OnInit {
     public GetHmaLogDataLength(respNumPaginasLogHma: object, status) {
         gNumPagsLogHma = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalPages;
         gNumRegsLogHma = JSON.parse(JSON.stringify(respNumPaginasLogHma)).TotalItems;
-        //console.log(nomComponente+".obtenNumeroDePaginasLog:: gNumPagsLogHma["+gNumPagsLogHma+"]  gNumRegsLogHma["+gNumRegsLogHma+"]");
     }
 
     public GetHmaLogPage(respDatosLogHma: any[], status) {
@@ -278,74 +246,36 @@ export class ReporteMensualComponent implements OnInit {
     }
 
     public obtenDatosDotaciones(params){
-
-        console.log(nomComponente + ".obtenDatosDotaciones:: Inicio");
-        console.log(nomComponente + ".obtenDatosDotaciones:: params<"+JSON.stringify(params)+">");
         params.events = ['Replenishment'];
 
-        //let datosReporte:any        = [];
         let strIdBilletes      = "DOTAR CONTADORES FINAL";
         let respuestaDatos:any = "";
-        //this.datosReporte           = [];
+
         this.diaProceso = 0;
 
         this.detalleDotaciones.push ({b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0});
 
-        /*
-        for(let dia=1; dia < this.diasProcesar; dia++){
-            this.diaProceso++;
-            console.log(nomComponente + ".obtenDatosDotaciones:: Procesando el día ["+this.diaProceso+"]");
-            let xdia                  = (dia < 10) ? "0"+dia: dia;
-                params.timeStampStart = '2018-05-' + xdia + '-00-00';
-                params.timeStampEnd   = '2018-05-' + xdia + '-23-59';
-                respuestaDatos        = this.obtenDetalleDepositos(params, strIdBilletes);
-
-            if (respuestaDatos != null) {
-                this.detalleDotaciones.push ( respuestaDatos );
-            }
-        }
-        */
         respuestaDatos = this.obtenDetalleDepositos(params, strIdBilletes);
 
         if (respuestaDatos != null) {
             this.detalleDotaciones.push ( respuestaDatos );
         }
-        console.log("obtenDatosDotaciones:: detalleDotaciones<"+JSON.stringify(this.detalleDotaciones)+">");
 
         this.acumulaTotalDepositos(this.detalleDotaciones);
     }
 
 
     public obtenDatosDepositos(params){
-
-        console.log(nomComponente + ".obtenDatosDepositos:: Inicio");
-        //console.log(nomComponente + ".obtenDatosDepositos:: params<"+JSON.stringify(params)+">");
         params.events = ['CashManagement'];
 
         let respuestaDatos:any = "";
         let strIdBilletes      = "PROCESADEPOSITO ConfirmaDeposito";
 
-        //this.diaProceso = 0;
         this.detalleDepositos.push ({b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0});
 
-        /*
-        for(let dia=1; dia < this.diasProcesar; dia++){
-            this.diaProceso++;
-            console.log(nomComponente + ".obtenDatosDepositos:: Procesando el día ["+this.diaProceso+"]");
-            let xdia                  = (dia < 10) ? "0"+dia: dia;
-                params.timeStampStart = '2018-05-' + xdia + '-00-00';
-                params.timeStampEnd   = '2018-05-' + xdia + '-23-59';
-                respuestaDatos        = this.obtenDetalleDepositos(params, strIdBilletes);
-
-            if (respuestaDatos != null) {
-                this.detalleDepositos.push ( respuestaDatos );
-            }
-        }
-        */
         respuestaDatos = this.obtenDetalleDepositos(params, strIdBilletes);
 
         if (respuestaDatos != null) {
-            console.log("obtenDatosDepositos:: detalleDepositos<"+JSON.stringify(this.detalleDepositos)+">");
             this.detalleDepositos.push ( respuestaDatos );
             
         }
@@ -361,10 +291,7 @@ export class ReporteMensualComponent implements OnInit {
             events: params.events,  minAmount     : 1,                     maxAmount   : -1,                  authId: -1, cardNumber: -1, accountId: -1
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-
-        console.log(nomComponente+".obtenDetalleDepositos::  paramsCons <"+ JSON.stringify(paramsCons) + ">");
 
         let arrBillDepJournal:any[] = [];
         let arrBillDepJournal2      = {};
@@ -390,14 +317,12 @@ export class ReporteMensualComponent implements OnInit {
                         }
                     })
                 }
-                //console.log(JSON.stringify("obtenDetalleDepositos:: arrBillDepJournal  <"+arrBillDepJournal+">"));
             }
             
             let posicionBilleteDenomina = (paramsCons.events == "CashManagement") ? "BD" : "DB";
 
             arrBillDepJournal2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillDepJournal, "|", posicionBilleteDenomina);
 
-            //console.log(JSON.stringify("obtenDetalleDepositos:: arrBillDepJournal2  <"+arrBillDepJournal2+">"));
             return(arrBillDepJournal2);
 
         }
@@ -405,29 +330,11 @@ export class ReporteMensualComponent implements OnInit {
 
     public obtenRetirosEtv(params?) {
 
-        console.log(nomComponente + ".obtenDatosRetiros:: Inicio");
-
         let datosReporte:any   = [];
         let respuestaDatos:any = "";
-            this.diaProceso    = 0;
-        //let retirosEtv:any          = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
-
-        //this.datosReporte           = [];
+        this.diaProceso        = 0;
 
         params.events = ['Administrative', 'Replenishment'];
-
-        /*
-        for(let dia=1; dia < this.diasProcesar; dia++){
-            this.diaProceso++;
-            let xdia                  = (dia < 10) ? "0"+dia: dia;
-                params.timeStampStart = '2018-05-' + xdia + '-00-00';
-                params.timeStampEnd   = '2018-05-' + xdia + '-23-59';
-                respuestaDatos        = this.obtenDatosRetirosEtv(params, '');
-            if (respuestaDatos != null) {
-                datosReporte.push(respuestaDatos);
-            }
-        }
-        */
 
         respuestaDatos = this.obtenDatosRetirosEtv(params, '');
         if (respuestaDatos != null) {
@@ -444,10 +351,7 @@ export class ReporteMensualComponent implements OnInit {
             events: params.events,  minAmount     : 1,                     maxAmount   : -1,                  authId: -1, cardNumber: -1, accountId: -1
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
-
-        console.log(nomComponente+".obtenDatosRetirosEtv::  paramsCons <"+ JSON.stringify(paramsCons) + ">");
 
         let arrBillRetirosEtv:any[] = [];
         let arrBillRetirosEtv2      = {};
@@ -466,67 +370,32 @@ export class ReporteMensualComponent implements OnInit {
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
                 if ( gDatosJournal.length > 0){
                     gDatosJournal.forEach( reg => {
-// DOTAR CAPTURA CONTADORES - ANTES DE CERO[50x57|100x0|200x119|500x1178|][20x19|50x4|100x2|200x3|500x7|1000x16|][total=636530]
-// DOTAR CONTADORES FINAL [50x0|100x0|200x0|500x0|total=0]
-                        //console.log("obtenDatosRetirosEtv:: reg<"+JSON.stringify(reg)+">");
                         if (reg.Data.substring(0, strAntesDeCero.length) == strAntesDeCero) {
                             billetesCaseteros = reg.Data.replace(/.*\[(.*)\].*\[(.*)\].*\[(.*)\]/, "$1");
                             arrBillRetirosEtv.push(billetesCaseteros);
 
                             billetesRechazos = reg.Data.replace(/.*\[(.*)\].*\[(.*)\].*\[(.*)\]/, "$2");
                             arrBillRetirosEtv.push(billetesRechazos);
-                            //console.log("obtenDatosRetirosEtv:: arrBillRetirosEtv<"+JSON.stringify(arrBillRetirosEtv)+">");
                         }
-
-                        /*
-                        if (reg.Data.substring(0, strIdBilletes.length) == strIdBilletes) {
-
-                            datosBilletes = reg.Data.replace(/.*\[(.*)\]/, "$1");
-
-                            if ( datosBilletes.indexOf("total") > 0){
-                                datosBilletes = datosBilletes.substring(0,datosBilletes.indexOf("|total"))
-                            }
-
-                            arrBillDepJournal.push(datosBilletes);
-                        }
-                        */
                     })
                 }
             }
 
             if (arrBillRetirosEtv != null) {
-                console.log("obtenDatosRetirosEtv:: arrBillRetirosEtv<" + JSON.stringify(arrBillRetirosEtv) + ">");
                 arrBillRetirosEtv2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetirosEtv, "|", "DB");
-                console.log(JSON.stringify(arrBillRetirosEtv2));
             }
             return(arrBillRetirosEtv2);
         }
     }
 
     public obtenRetirosOper(params?) {
-
-        console.log(nomComponente + ".obtenDatosRetiros:: Inicio");
-
         let datosReporte: any  = [];
         let respuestaDatos:any = "";
 
         params.events   = ["DenominateInfo", "MediaTaken"];  // DenominateInfo=2083   /   MediaTaken=2057
         params.device   = ["AFD"];
         this.diaProceso = 0;
-        //this.datosReporte       = [];
 
-        /*
-        for (let dia = 1; dia < this.diasProcesar; dia++) {
-            this.diaProceso++;
-            let xdia                  = (dia < 10) ? "0" + dia : dia;
-                params.timeStampStart = '2018-05-' + xdia + '-00-00';
-                params.timeStampEnd   = '2018-05-' + xdia + '-23-59';
-                respuestaDatos        = this.obtenDatosRetirosOper(params, '');
-            if (respuestaDatos != null) {
-                datosReporte.push(respuestaDatos);
-            }
-        }
-        */
         respuestaDatos = this.obtenDatosRetirosOper(params, '');
         if (respuestaDatos != null) {
             datosReporte.push(respuestaDatos);
@@ -537,13 +406,11 @@ export class ReporteMensualComponent implements OnInit {
 
     public obtenDatosRetirosOper(params, strIdBilletes){
 
-        console.log(nomComponente+".obtenDatosRetirosOper:: params<"+JSON.stringify(params)+">");
         let paramsCons: any = {
             ip    : [params.ipAtm], timeStampStart: params.timeStampStart, timeStampEnd: params.timeStampEnd,
             events: params.events,  device        : params.device
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         this.datosRespLogHma = [];
@@ -569,7 +436,6 @@ export class ReporteMensualComponent implements OnInit {
             });
 
             let arrBillRetLogHardware2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetLogHardware, ";", "BD");
-            console.log(JSON.stringify(arrBillRetLogHardware2));
             return(arrBillRetLogHardware2);
         }
     }

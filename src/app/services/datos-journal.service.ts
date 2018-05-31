@@ -5,7 +5,6 @@ import { sprintf }                  from "sprintf-js";
 import * as moment                  from 'moment';
 import { ExportToCSVService }       from './export-to-csv.service';
 import { SoapService }              from './soap.service';
-import {camelCase}                  from "@swimlane/ngx-datatable/release/utils";
 
 export var gPaginasJournal:any;
 export var gDatosJournal:any;
@@ -18,9 +17,7 @@ var iva:number = 16;
 @Injectable()
 export class DatosJournalService implements OnInit {
 
-    constructor(public _soapService: SoapService){
-        console.log(nomComponente+".constructor:: init");
-    }
+    constructor(public _soapService: SoapService){}
 
     ngOnInit(){}
 
@@ -34,7 +31,6 @@ export class DatosJournalService implements OnInit {
 
     public obtenCortesJournal(filtrosCons){
 
-        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
         let paramsCons: any = {};
 
         for (let idx=1; idx < 4; idx++) {
@@ -93,20 +89,16 @@ export class DatosJournalService implements OnInit {
 
         ldFecha2 = new Date(ldFecha1.setDate(ldFecha1.getDate() - diasIniRango));  // Resta cinco dias a la fecha inicial del rango.
 
-        console.log(nomComponente+".restaDiasFecha:: ldFecha2["+ldFecha2+"]");
-
         if (typeof(prmFecha) == "number"){
             ldFecha3 = ldFecha2.getTime();
         }else{
             ldFecha4 = (ldFecha2.toLocaleDateString(undefined, opc)).replace(/[\/ :]/g, "-").split("-");
             ldFecha3 = sprintf("%04d-%02d-%02d-%02d-%02d", ldFecha4[2], ldFecha4[1], ldFecha4[0], ldFecha4[3], ldFecha4[4]);
         }
-
         return(ldFecha3);
     }
 
     public obtenDatosUltimoCorteJournal(filtrosCons){
-        console.log("filtrosCons:: (1) "+ JSON.stringify(filtrosCons));
 
         let cortesJournal = this.obtenCortesJournal(filtrosCons);
         let ultimoCorte:any;
@@ -241,17 +233,14 @@ export class DatosJournalService implements OnInit {
         };
         let fchMovto:string         = "";
 
-        // Obten número de paginas de Journal de un ATM
         let paramsCons: any = {
             ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
             events: ["Withdrawal", "BalanceCheck", "CashManagement", "Exception"], minAmount: -1, maxAmount: -1,
             authId: -1, cardNumber: -1, accountId: -1
         };
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
-        // Obten datos del Journal de un ATM
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
@@ -260,13 +249,9 @@ export class DatosJournalService implements OnInit {
 
                 gDatosJournal.forEach( (reg) => {
 
-                    if ( reg.SwitchResponseCode >= 1000) {
-                        //console.log(reg.Ip + " -- " + reg.SwitchResponseCode + " -- " + reg.HWErrorCode + " -- " + reg.Event + " -- " + reg.OperationType + " -- " + reg.AccountType + " -- " + reg.Data);
-                    }
+                    if ( reg.SwitchResponseCode >= 1000) {}
                     if (reg.SwitchResponseCode >= 1000) {
-                        if (reg.Event.substring(0,15) != "CASH MANAGEMENT") {
-                            //console.log(reg.SwitchResponseCode + " -- " + reg.Event + " --- " + reg.AccountType + " ---  " + reg.HWErrorCode);
-                        }
+                        if (reg.Event.substring(0,15) != "CASH MANAGEMENT") {}
                     }
                     comisonesAtm.Description    = infoAtm.Description;
                     comisonesAtm.idAtm          = reg.AtmName;
@@ -337,7 +322,6 @@ export class DatosJournalService implements OnInit {
 
     public exportaComisiones2Excel(opersFinancieras){
 
-        console.log("exportaComisiones2Excel:: Inicio");
         let arr2Excel:any[] = [];
         let tmpComisionesRetiroso:any;
         let tmpComisionesConsultas:any;

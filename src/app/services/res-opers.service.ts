@@ -15,7 +15,6 @@ export class ResOpersService {
     }
 
     selectResOper = function (nomTab) {
-        // jsstore returns promise, when you dont specify OnSuccess
         return this._connection.select({
             From: nomTab
         });

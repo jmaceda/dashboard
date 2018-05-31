@@ -7,10 +7,9 @@ import { FiltrosUtilsService }                          from '../../services/fil
 import { sprintf }                                      from "sprintf-js";
 import { DataTableResource }                            from 'angular-4-data-table-fix';
 import { LogHmaService }                                from '../../services/log-hma.service';
-import { NotificationsComponent }               from '../../notifications/notifications.component';
-import { SweetAlertService }                    from 'ngx-sweetalert2';
+import { NotificationsComponent }                       from '../../notifications/notifications.component';
+import { SweetAlertService }                            from 'ngx-sweetalert2';
 
-import { EventEmitter}      from '@angular/core';
 
 var arrDatosJournal:any[]               = [];
 var nomComponente:string                = "LogHmaComponent";
@@ -45,7 +44,6 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
     public items                    = [];
     public itemCount                = 0;
     public tituloLogHMA:string      = "Log HMA";
-    //public ipATM: string;
     public regsLimite: number       = 200;
     private datosRespLogHma:any[]   = [];
     private isDatosHMA:boolean      = false;
@@ -152,20 +150,13 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
         this.itemResource.query(params).then(items => this.items = items);
     }
 
-    // special properties:
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        console.log('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item) { return item.jobTitle; }
 
-    private MsgConsola(msg:any){
-        console.log(nomComponente+".");
-    }
+    private MsgConsola(msg:any){}
 
 
     public exportaHMA2Excel(){
@@ -178,5 +169,4 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
         $('#btnExpExel').css('cursor', 'pointer');
         this.isDatosHMA = true;
     }
-
 }

@@ -1,7 +1,6 @@
 // app/reportes/journal.component.ts
 import { Component }                            from '@angular/core';
 import { OnInit }                               from '@angular/core';
-import { OnDestroy }                            from '@angular/core';
 import { SoapService }                          from '../../services/soap.service';
 import { sprintf }                              from "sprintf-js";
 import { DataTableResource }                    from 'angular-4-data-table-fix';
@@ -10,7 +9,6 @@ import { DatosJournalService }                  from '../../services/datos-journ
 
 import { NotificationsComponent }               from '../../notifications/notifications.component';
 import { SweetAlertService }                    from 'ngx-sweetalert2';
-import swal                                     from 'sweetalert2'
 
 var arrDatosJournal:any[] = [];
 
@@ -55,26 +53,6 @@ export class JournalComponent implements OnInit  {
                 private _swal2: SweetAlertService){
 
         this.notificationsComponent = new NotificationsComponent();
-
-        /*
-        swal({
-            title: 'Parámetros',
-            text: "No ha indicado el Grupo de ATMs a consultar",
-            type: 'warning',
-            //showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            //cancelButtonColor: '#d33',
-            confirmButtonText: 'OK'
-        }).then((result) => {
-            if (result.value) {
-                swal(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-            }
-        })
-        */
     }
 
     ngOnInit() {
@@ -104,7 +82,6 @@ export class JournalComponent implements OnInit  {
 
         this.dataJournalRedBlu = [];
 
-        // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
         this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
 
         if (gPaginasJournal.TotalPages > 0) {
@@ -134,7 +111,6 @@ export class JournalComponent implements OnInit  {
 
     public GetEjaLogDataLength(paginasJournal:any, status){
         gPaginasJournal = paginasJournal;
-        console.log(nomComponente+".GetEjaLogDataLength:: ["+JSON.stringify(gPaginasJournal)+"]");
     }
 
     public GetEjaLogPage(datosJournal:any, status){
@@ -145,14 +121,9 @@ export class JournalComponent implements OnInit  {
         this.itemResource.query(params).then(items => this.items = items);
     }
 
-    // special properties:
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item) { return item.jobTitle; }
 

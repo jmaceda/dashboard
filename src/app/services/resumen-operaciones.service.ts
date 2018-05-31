@@ -58,7 +58,6 @@ export class ResumenOperacionesService {
             infoMovtosPorHora[idx].acumNumCons         = infoMovtosPorHora[idx].numCons +numConsAnt;
             infoMovtosPorHora[idx].acumNumRetiro       = infoMovtosPorHora[idx].numRetiro +numRetAnt;
             infoMovtosPorHora[idx].acumMontoRetiro     = infoMovtosPorHora[idx].montoRetiro +montoRetiroAnt;
-            //infoMovtosPorHora[idx].acumMontoRetiro     = infoMovtosPorHora[idx].montoRetiro +montoRetiroAnt;
             infoMovtosPorHora[idx].comisCons           = infoMovtosPorHora[idx].numCons * comisConsultas;
             infoMovtosPorHora[idx].comisRet            = infoMovtosPorHora[idx].numRetiro * comisRetiros;
             infoMovtosPorHora[idx].comisTotal          = infoMovtosPorHora[idx].comisCons + infoMovtosPorHora[idx].comisRet;

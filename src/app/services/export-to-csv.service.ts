@@ -13,14 +13,11 @@ export class ExportToCSVService {
     }
 
     exportColumnsToCSV(JSONListItemsToPublish:any[], fileName:string, columns:string[]) {
-        //let self = this;
-console.log("--------- JMC -------");
+
         const items = JSONListItemsToPublish;
 
-        // Guarda los datos en el arreglo "arrayToPublish".
         let arrayToPublish = [];
 
-        // Por cada elemento en la lista "items"
         for (let idx = 0; idx < items.length; idx++) {
 
             let keys = Object.keys(items[idx]);

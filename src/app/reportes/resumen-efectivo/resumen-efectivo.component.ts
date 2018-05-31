@@ -20,7 +20,6 @@ export var gDatosGpoActual:any;
 export var gGrupos:any;
 export var gDatosResumenDeEfectivo:any;
 
-
 export class GetAtmDetail{
     Id: string;
     Description: string;
@@ -78,13 +77,12 @@ export class ResumenDeEfectivo implements OnInit  {
     public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
-
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
-
     public regsLimite:number = 15;
 
+    gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
     parametrosConsulta(infoRecibida){
 
@@ -106,12 +104,10 @@ export class ResumenDeEfectivo implements OnInit  {
 
     GetStoreTotals(datosTienda:any, status){
         gDatosResumenDeEfectivo = datosTienda;
-        console.log(JSON.stringify(datosTienda));
     }
 
     GetCmByStore(datosTienda:any, status){
         gDatosResumenDeEfectivo = datosTienda;
-        //console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
     public insertaDatosUltimoCorte(datosParam) {
@@ -123,9 +119,6 @@ export class ResumenDeEfectivo implements OnInit  {
         };
 
         let ultimoCorte = this.depositosPorTiendaService.obtenUltimoCorte(filtrosDepPorTienda);
-
-        console.log(nomCompoente + ".insertaDatosUltimoCorte:: ultimoCorte[" + JSON.stringify(ultimoCorte) + "]");
-        console.log(ultimoCorte.Date);
 
         let corteAnterior: any = {
             'tipoOper': 'Depósito Walmart',
@@ -147,7 +140,7 @@ export class ResumenDeEfectivo implements OnInit  {
         this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore, false);
 
         let datosEfectivo:any[] = [{}];
-        let idx:number = 0;
+        let idx:number          = 0;
         let acumDepositos:any   = {'tipoOper': 'Depósito Walmart',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumRetiros:any     = {'tipoOper': 'Retiro de Efectivo', 'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumDisponible:any  = {'tipoOper': 'Total Disponible',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
@@ -155,7 +148,6 @@ export class ResumenDeEfectivo implements OnInit  {
         this.insertaDatosUltimoCorte(datosParam);
 
         gDatosResumenDeEfectivo.forEach(( reg )=> {
-            //console.log("TxType["+reg.TxType+"]")
             if(reg.TxType == "Retiro de Efectivo"){
                 acumRetiros.b20   += Number(reg.Amount20);
                 acumRetiros.b50   += Number(reg.Amount50);
@@ -225,7 +217,6 @@ export class ResumenDeEfectivo implements OnInit  {
         this.itemResource = new DataTableResource(datosEfectivo);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
-
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
@@ -235,24 +226,15 @@ export class ResumenDeEfectivo implements OnInit  {
 
     }
 
-    gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
-
     ngOnInit() { }
 
     reloadItems(params) {
-        //console.log("reloadItems::  parms: "+JSON.stringify(filtros-consultas));
-
         this.itemResource.query(params).then(items => this.items = items);
-
     }
 
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item) { return item.jobTitle; }
 

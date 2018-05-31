@@ -61,7 +61,7 @@ import { FiltrosUtilsService }              from './services/filtros-utils.servi
 import { NgxDatatableModule }               from '@swimlane/ngx-datatable';
 
 import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
-import { RetirosHmaComponent }              from './tmp/retiros-hma/retiros-hma.component';
+import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
 import { BlockUIModule }                    from 'ng-block-ui';

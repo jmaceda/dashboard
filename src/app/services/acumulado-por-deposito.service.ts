@@ -14,23 +14,17 @@ var nomModulo = "DepositosPorTiendaService";
 @Injectable()
 export class DepositosPorTiendaService implements OnInit {
 
-    constructor(public _soapService: SoapService){
-        console.log(nomModulo+".constructor:: init");
-    }
+    constructor(public _soapService: SoapService){}
 
     public GetDepositCumulative(datosAtms:any, status){
-        console.log(nomModulo+".GetDepositCumulative:: Inicio  ["+new Date()+"]");
         gDatosAcumDepositos = datosAtms;
     }
 
 
     public obtenGetDepositCumulative(filtrosConsulta:any) {
 
-        console.log(nomModulo+".obtenGetDepositCumulative:: Parametros["+JSON.stringify(filtrosConsulta)+"]");
-
         let parameters = { startDate: filtrosConsulta.startDate, endDate: filtrosConsulta.endDate, store: filtrosConsulta.store};
 
-        // Obtiene los datos de los Depositos de la tienda.
         this._soapService.post('', "GetDepositCumulative", parameters, this.GetDepositCumulative, false);
 
         let idx = 0;
@@ -41,8 +35,6 @@ export class DepositosPorTiendaService implements OnInit {
     };
 
     public obtenUltimoCorte(filtrosConsulta:any){
-
-        console.log(nomModulo+".obtenUltimoCorte:: Parametros["+JSON.stringify(filtrosConsulta)+"]");
 
         let fchInicioCons = new Date(filtrosConsulta.startDate);
         fchInicioCons.setDate(fchInicioCons.getDate() - 5);
@@ -70,7 +62,6 @@ export class DepositosPorTiendaService implements OnInit {
            }
         });
 
-        console.log(nomModulo+".obtenUltimoCorte:: fchReciente["+fchReciente+"]");
         return(regUltimoCorte);
     }
 
@@ -87,7 +78,7 @@ export class DepositosPorTiendaService implements OnInit {
         gGrupos.forEach((reg)=> {
             arrNomGrupos.push( (reg.Description));
         });
-        console.log("InfoAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+
         return(gGrupos.sort(comparar));
     }
 
