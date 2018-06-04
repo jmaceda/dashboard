@@ -60,8 +60,10 @@
 
                             <td>{{row.OperationType}}</td>
 
-                            <td>{{row.TransactionCount}}</td>
-
+                            <!-- td  style="width: 25em; max-width: 25em;">{{row.TransactionCount}}</td -->
+                            <td style="width: 25em; max-width: 25em;">
+                                <span>{{row.TransactionCount}}</span>
+                            </td>
 
                             <td style="width: 10px; text-align: right;">
                                 <span style="text-align: right;">{{row.Amount | currency:'USD':'symbol':'1.2-2'}}</span>

@@ -12,6 +12,7 @@ import { UtilsService }                                 from '../../../services/
 import { LogHmaService }                                from '../../../services/log-hma.service';
 
 import { AcumulaBilletesModel }                         from '../../../models/acumula-billetes.model';
+import { NotificationsComponent }                       from '../../../notifications/notifications.component';
 
 export var gGetGroupsAtmsIps      : any;
 export var gGetAtmDetail          : any;
@@ -23,6 +24,7 @@ export var gPaginasHMA    : any;
 export var gdatosHMA      : any;
 export var gPaginasJournal: any = {TotalPages: 0, TotalItems: 0};
 export var gDatosJournal  : any[] = [];
+
 
 
 var arrDatosJournal:any[] = [];
@@ -82,7 +84,7 @@ var nomComponente = "ReporteMensualComponent";
         .even { color: red; }
         .odd { color: green; }
     `],
-    providers: [SoapService, DepositosPorTiendaService, DatosJournalService, UtilsService, LogHmaService]
+    providers: [SoapService, DepositosPorTiendaService, DatosJournalService, UtilsService, LogHmaService, NotificationsComponent]
 })
 export class ReporteMensualComponent implements OnInit {
 
@@ -108,18 +110,23 @@ export class ReporteMensualComponent implements OnInit {
     public  totalRetirosReporte: any  = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
     public  totalDepositosReporte:any = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};  //{b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
     public  totalSaldo:any            = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
+    public  totalReporteMensual:any[] = [];
     public  detalleDepositos:any      = [];
     public  detalleDotaciones:any     = [];
     public  detalleRetiros:any        = {};
     private diasProcesar:number       = 16;
     private fchInicialProceso         = "";
+    private isDatosJournal:boolean    = false;
 
     constructor(public _soapService: SoapService,
                 public filtrosUtilsService      : FiltrosUtilsService,
                 public depositosPorTiendaService: DepositosPorTiendaService,
                 public datosJournalService      : DatosJournalService,
                 public utilsService             : UtilsService,
-                public logHmaService            : LogHmaService) {
+                public logHmaService            : LogHmaService,
+                public notificationsComponent  : NotificationsComponent) {
+
+        this.notificationsComponent = new NotificationsComponent();
     }
 
     ngOnInit() {
@@ -144,6 +151,8 @@ export class ReporteMensualComponent implements OnInit {
 
     public parametrosConsulta(infoRecibida) {
 
+        this.notificationsComponent.showNotification('top','center', 'info', 'Se va a generar el reporte del cajero indicado');
+
         this.fchUltimaActualizacion = null;
 
         let fIniParam           = infoRecibida.fchInicio;
@@ -163,15 +172,62 @@ export class ReporteMensualComponent implements OnInit {
         this.totalDepositosReporte = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
         this.totalRetirosReporte   = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
         this.totalSaldo            = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, opers: 0, monto: 0};
+        this.totalReporteMensual   = [];
 
         let fchInicio:any = new Date();
 
         this.obtenDepositos(params);
         this.obtenRetiros(params);
         this.calculaTotalSaldos();
-        this.fchInicialProceso = params.timeStampStart;
-        let fchFin:any             = new Date();
+        this.fchInicialProceso  = params.timeStampStart;
+        let fchFin:any          = new Date();
 
+        this.totalReporteMensual.push({
+            concepto: "Depósitos",
+            b20     : this.totalDepositosReporte.b20,
+            b50     : this.totalDepositosReporte.b50,
+            b100    : this.totalDepositosReporte.b100,
+            b200    : this.totalDepositosReporte.b200,
+            b500    : this.totalDepositosReporte.b500,
+            b1000   : this.totalDepositosReporte.b1000,
+            opers   : this.totalDepositosReporte.opers,
+            monto   : this.totalDepositosReporte.monto
+        });
+
+        this.totalReporteMensual.push({
+            concepto: "Retiros",
+            b20     : this.totalRetirosReporte.b20,
+            b50     : this.totalRetirosReporte.b50,
+            b100    : this.totalRetirosReporte.b100,
+            b200    : this.totalRetirosReporte.b200,
+            b500    : this.totalRetirosReporte.b500,
+            b1000   : this.totalRetirosReporte.b1000,
+            opers   : this.totalRetirosReporte.opers,
+            monto   : this.totalRetirosReporte.monto
+        });
+
+        this.totalReporteMensual.push({
+            concepto: "Saldo",
+            b20     : this.totalSaldo.b20,
+            b50     : this.totalSaldo.b50,
+            b100    : this.totalSaldo.b100,
+            b200    : this.totalSaldo.b200,
+            b500    : this.totalSaldo.b500,
+            b1000   : this.totalSaldo.b1000,
+            opers   : this.totalSaldo.opers,
+            monto   : this.totalSaldo.monto
+        });
+
+        console.log(JSON.stringify(this.totalReporteMensual));
+
+        if (this.totalReporteMensual.length > 0) {
+            $('#btnExpExel').css('cursor', 'pointer');
+            this.isDatosJournal = true;
+        }else{
+            this.notificationsComponent.showNotification('top','center', 'warning', 'No existe información para el reporte del cajero indicado');
+            $('#btnExpExel').css('cursor', 'not-allowed');
+            this.isDatosJournal = false;
+        }
     }
 
     public obtenDepositos(params){
@@ -438,5 +494,16 @@ export class ReporteMensualComponent implements OnInit {
             let arrBillRetLogHardware2 = this.utilsService.obtenNumBilletesPorDenominacion(arrBillRetLogHardware, ";", "BD");
             return(arrBillRetLogHardware2);
         }
+    }
+
+    public exportaReporteMensual2Excel(){
+        $('#btnExpExel').css('cursor', 'not-allowed');
+        this.isDatosJournal = false;
+
+        this.notificationsComponent.showNotification('bottom','right', 'info', 'Exportado información del Journal a formato CVS');
+        this.datosJournalService.exportaReporteMensual2Excel(this.totalReporteMensual);
+
+        $('#btnExpExel').css('cursor', 'pointer');
+        this.isDatosJournal = true;
     }
 }

@@ -1,7 +1,7 @@
 {
   "project": {
     "version": "1.4.0",
-    "name": "lbd-free-angularcli"
+    "name": "monitor-redblu"
   },
   "apps": [
     {
@@ -22,6 +22,7 @@
         "./assets/sass/light-bootstrap-dashboard.scss",
         "./assets/ngx-datatable/themes/material.scss",
         "./assets/ngx-datatable/themes/dark.scss",
+        "../node_modules/@swimlane/ngx-datatable/assets/icons.css",
         "../node_modules/sweetalert2/dist/sweetalert2.css"
       ],
       "scripts": [

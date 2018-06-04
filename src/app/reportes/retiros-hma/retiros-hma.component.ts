@@ -224,4 +224,7 @@ export class RetirosHmaComponent implements OnInit  {
     }
     public datosRetirosHMA:any;
 
+    rowColors(items) {
+        if (items.Events == "ARQCGenerationOk") return 'rgb(205, 241, 250)';
+    }
 }

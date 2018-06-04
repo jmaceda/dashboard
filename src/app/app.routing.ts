@@ -52,7 +52,7 @@ const routes: Routes =[
     { path: 'HorzVertScrolling',    component: HorzVertScrolling },
     { path: 'promopers',            component: TiempoPromOperComponent },
     { path: 'opersfinan',           component: OpersFinancierasComponent },
-    //{ path: 'reportebanxico',       component: ReporteMensualComponent },
+    { path: 'reportebanxico',       component: ReporteMensualComponent },
     { path: 'manualgrg',            component: ManualGrgComponent },
     { path: 'user',                 component: UserComponent },
     { path: 'table',                component: TablesComponent },

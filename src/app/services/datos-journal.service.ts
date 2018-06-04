@@ -366,4 +366,31 @@ export class DatosJournalService implements OnInit {
         }
     }
 
+
+    public exportaReporteMensual2Excel(datosReporteMensual){
+        let arr2Excel:any[] = [];
+
+        datosReporteMensual.forEach((reg)=> {
+
+            arr2Excel.push(
+                {
+                    "Concepto"  :    reg.concepto,
+                    "$20"       :    reg.b20,
+                    "$50"       :    reg.b50,
+                    "$100"      :    reg.b100,
+                    "$200"      :    reg.b200,
+                    "$500"      :    reg.b500,
+                    "$1000"     :    reg.b1000,
+                    "Opers"     :    reg.opers,
+                    "Monto"     :    reg.monto
+                }
+            )
+        });
+
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSVService();
+            exporter.exportAllToCSV(arr2Excel, 'ReporteEfectivo.csv');
+        }
+    }
+
 }

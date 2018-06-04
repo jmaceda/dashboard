@@ -227,12 +227,48 @@ button.btn.btn-default.btn-sm.column-selector-button{
 
 /*   */
 .campoNumerico {
-    text-align: right;
-}
+     text-align: right;
+ }
 
 table.table.table-condensed.table-bordered.data-table thead tr th {
     text-align: center;
 }
+
+.clsFontsTituloDatatables {
+    padding: 2px 5px;
+    font-size: 22px;
+    vertical-align: middle;
+    /* height: 1.7em; */
+}
+
+.clsTituloDatatables {
+    line-height: normal;
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    height: 1.6em;
+}
+
+.clsFiltroDatatables {
+    font-size: 14px;
+    height: 1.6em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.clsCampoFiltroDatatables {
+    padding: 2px;
+    margin: 0px auto;
+    width: 35em;
+    margin-top: 5px;
+}
+
+.clsExcelTituloDatatables {
+    text-align: right;
+    vertical-align: middle;
+    height: 1.6em;
+}
+
 
 /*
 #idDivAreaGrid span[_ngcontent-c7].glyphicon.glyphicon-triangle-right:before{

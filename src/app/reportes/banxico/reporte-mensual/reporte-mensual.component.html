@@ -120,8 +120,24 @@
 
             <div class="container-fluid">
 
-                <h5 class="title">Procesando el día: {{diaProceso}}</h5>
+                
+				<div class="row clsFontsTituloDatatables">
 
+					<div class="col-md-8">
+						<h5 class="title">Procesando el día: {{diaProceso}}</h5>
+					</div>
+					
+					<div id="divExpExcel" class="col-md-4" style="text-align: right; vertical-align: middle;">
+						<input id="btnExpExel"
+							   style="cursor: not-allowed;"
+							   title="Exporta archivo CVS"
+							   type=image   src="assets/img/office_excel.png"
+							   width="35" height="35" (click)="exportaReporteMensual2Excel()"
+							   [disabled]="!isDatosJournal">
+					</div>
+				</div>
+			
+				
                 <div class="header" style="padding: 2px;">
                     <h5 class="title" style="text-align: center; font-weight: bold;">Saldo de Efectivo</h5>
                 </div>
