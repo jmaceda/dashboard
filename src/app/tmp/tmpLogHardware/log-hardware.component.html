@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="../../../../assets/icons.css">
 -->
 
-<!-- link rel="stylesheet" href="./scrolling.component.css" -->
+<!-- link rel="stylesheet" hrefjournal.component.css.css" -->
 
 <style>
 
@@ -224,22 +224,24 @@
 
             <div class="row clsFontsTituloDatatables">
 
-                <div class="col-md-3 clsTituloDatatables">
+                <div class="col-md-9 clsTituloDatatables">
                     <span style="vertical-align: middle;">{{tituloDatatable}}</span>
                 </div>
 
+                <!--
                 <div class="col-md-6 clsFiltroDatatables">
                     <span style="font-weight: bold;">Filtro:</span>
                     <input type="text" (keyup)='updateFilter($event)'>
                 </div>
+                -->
 
                 <div id="divExpExcel" class="col-md-3 clsExcelTituloDatatables">
-                    <input id="btnExpExel" class="clsImagenExcel"
+                    <input id="btnExpExel2" class="clsImagenExcel"
                            title={{tituloImgExcel}}
                            type=image
                            src="assets/img/office_excel.png"
-                           (click)="exportaJournal2Excel()"
-                           [disabled]="!isDatosJournal">
+                           (click)="exportaJournal2Excel($event)"
+                           >
                 </div>
             </div>
 

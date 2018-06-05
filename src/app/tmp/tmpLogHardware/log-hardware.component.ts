@@ -1,15 +1,20 @@
 import { Component }                            from '@angular/core';
+import { OnInit }                               from '@angular/core';
+import { OnDestroy }                            from '@angular/core';
 import { ViewEncapsulation }                    from '@angular/core';
 import { ViewChild }                            from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core'
+
+import { NotificationsComponent }               from '../../notifications/notifications.component';
+
+import { ChangeDetectorRef }                    from '@angular/core'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { sprintf }                              from "sprintf-js";
 
-import { SoapService }                          from '../../../services/soap.service';
-import { FiltrosUtilsService }                  from '../../../services/filtros-utils.service';
-import { DatosJournalService }                  from '../../../services/datos-journal.service';
+import { SoapService }                          from '../../services/soap.service';
+import { FiltrosUtilsService }                  from '../../services/filtros-utils.service';
+import { DatosJournalService }                  from '../../services/datos-journal.service';
 
 import { NgxDatatableModule, DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -29,14 +34,12 @@ var arrDatosAtmsX:any[] = [];
 
 @Component({
   selector: 'app-journal',
-  styleUrls: [
-    './journal.component.css',
-  ],
-  templateUrl: 'journal.component.html',
+  styleUrls: ['./journal.component.css'],
+  templateUrl: './journal.component.html',
   providers: [SoapService, DatosJournalService],
   //encapsulation: ViewEncapsulation.None
 })
-export class JournalComponent {
+export class JournalComponent implements OnInit  {
 
   // Parametros para la pantalla de filtros para la consulta
   public dListaAtmGpos:any            = [];
@@ -53,30 +56,31 @@ export class JournalComponent {
   public nomArchExcel                 = "Journal_";
   public columnas:any;
   public dataJournalRedBlu            = [];
-  private isDatosJournal:boolean      = false;
+  public isDatosJournal:boolean       = false;
+  private notificationsComponent: NotificationsComponent;
 
   selected = [];
   loadingIndicator: boolean = false;
   rawEvent: any;
   contextmenuRow: any;
   contextmenuColumn: any;
-  expanded: any = {};
-
-  totalRows: any = [];
-  rows: any = [];
 
   constructor(public _soapService: SoapService,
               public filtrosUtilsService: FiltrosUtilsService,
               public datosJournalService: DatosJournalService,
               private _changeDetectorRef: ChangeDetectorRef,){
 
+    this.isDatosJournal = !this.isDatosJournal;
+    this.notificationsComponent = new NotificationsComponent();
+
   }
 
   ngOnInit() {
-    $('#btnExpExel').css('cursor', 'not-allowed');
-    this.isDatosJournal = true;
+    $('#btnExpExel2').css('cursor', 'not-allowed');
+    this.isDatosJournal = this.isDatosJournal;
     this.columnas = this.datosJournalService.obtenColumnasVista();
   }
+
 
   public parametrosConsulta(filtrosConsulta){
 
@@ -121,18 +125,14 @@ export class JournalComponent {
           this.selected = [reg[2]];
         })
       }
-      //this.dataJournalRedBlu = datosJournal;
-      this.totalRows = this.dataJournalRedBlu;
-      this.data = this.dataJournalRedBlu;
-      this.filteredData = this.dataJournalRedBlu;
     }
 
     if (this.dataJournalRedBlu.length > 0) {
-      $('#btnExpExel').css('cursor', 'pointer');
-      this.isDatosJournal = false;
+      $('#btnExpExel2').css('cursor', 'pointer');
+      this.isDatosJournal = !this.isDatosJournal;
     }else{
-      $('#btnExpExel').css('cursor', 'not-allowed');
-      this.isDatosJournal = true;
+      $('#btnExpExel2').css('cursor', 'not-allowed');
+      this.isDatosJournal = this.isDatosJournal;
     }
     this.loadingIndicator = false;
 
@@ -163,9 +163,19 @@ export class JournalComponent {
 
   rowTooltip(item) { return item.jobTitle; }
 
-  public exportaJournal2Excel(event){
-    console.log(nomComponente+".exportaJournal2Excel:: Inicio");
-    this.datosJournalService.exportaJournal2Excel(this.dataJournalRedBlu);
+  public exportaJournal2Excel(){
+    if ( this.dataJournalRedBlu.length > 0) {
+      $('#btnExpExel2').css('cursor', 'not-allowed');
+      this.isDatosJournal = !this.isDatosJournal;
+
+      console.log(nomComponente + ".exportaJournal2Excel:: Inicio");
+      this.notificationsComponent.showNotification('bottom', 'right', 'info', 'Exportado información del Journal a formato CVS');
+      this.datosJournalService.exportaJournal2Excel(this.dataJournalRedBlu);
+      console.log(nomComponente + ".exportaJournal2Excel:: this.isDatosJournal["+this.isDatosJournal+"]");
+      $('#btnExpExel2').css('cursor', 'pointer');
+      this.isDatosJournal = this.isDatosJournal;
+      console.log(nomComponente + ".exportaJournal2Excel:: this.isDatosJournal["+this.isDatosJournal+"]");
+    }
   }
 
 
@@ -193,10 +203,12 @@ export class JournalComponent {
     contextMenuEvent.event.stopPropagation();
   }
 
+  /*
   toggleExpandRow(row) {
     //console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
+  */
 
   onDetailToggle(event) {
     //console.log('Detail Toggled', event);
@@ -235,4 +247,7 @@ export class JournalComponent {
     {prop: "Reference3", name: "Referencia 3"}
   ];
 
+  tmpFnc(event,id){
+    console.log("tmpFnc");
+  }
 }

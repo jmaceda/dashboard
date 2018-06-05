@@ -1,0 +1,351 @@
+<style>
+
+    table.table.table-condensed.table-bordered.data-table thead tr th.column-header {
+        height: 40px;
+    }
+
+    .table > thead > tr > th {
+        text-transform: none;
+    }
+
+</style>
+
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div style="margin: 1% 0%; height: 99%; width: 100%;">
+
+        <div class="card" style="padding: 3px;">
+
+            <div class="row clsFontsTituloDatatables">
+
+                <div class="col-md-8">
+                    <span class="">{{tituloDatatable}}</span>
+                </div>
+                <div id="divExpExcel" class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <input id="btnExpExel"
+                           style="cursor: not-allowed;"
+                           title="Exporta archivo CVS"
+                           type=image   src="assets/img/office_excel.png"
+                           width="35" height="35" (click)="exportaJournal2Excel()"
+                           [disabled]="!isDatosJournal">
+                </div>
+            </div>
+
+
+            <data-table id="journal"
+                        headerTitle="Journal"
+                        [header] = "false"
+                        [items]="items"
+                        [itemCount]="itemCount"
+                        (reload)="reloadItems($event)"
+                        (rowClick)="rowClick($event)"
+                        (rowDoubleClick)="rowDoubleClick($event)"
+                        [limit]="regsLimite"
+                        [rowColors]="rowColors"
+                        [selectOnRowClick]="true"
+                        [indexColumnHeader]="'ID'"
+                        [rowTooltip]="rowTooltip">
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Fecha/Hora'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="12em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Ip'"
+                        [header]="'IP'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="9em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'AtmName'"
+                        [header]="'ATM'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="10em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colCent" >
+                                <span>{{item.AtmName}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'CardNumber'"
+                        [header]="'Tarjeta número'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="12em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'OperationType'"
+                        [header]="'Tipo de Operación'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="12em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'TransactionCount'"
+                        [header]="'Contador de Transacción'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="10em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Amount'"
+                        [header]="'Monto'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="8em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colNum" >
+                                <!-- span *ngIf="item.Amount == ''"></span -->
+                                <span class="colNum">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column style="white-space: nowrap"
+                        [property]="'HWErrorCode'"
+                        [header]="'Código de error de HW'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="25em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="noWrap">
+                                <span>{{item.HWErrorCode}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Denomination'"
+                        [header]="'Denominación'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Aquirer'"
+                        [header]="'Emisor'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="12em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Event'"
+                        [header]="'Evento'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'AccountId'"
+                        [header]="'Cuenta Número'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'AccountType'"
+                        [header]="'Tipo de Cuenta'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Location'"
+                        [header]="'Ubicación'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="25em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="noWrap">
+                                <span>{{item.Location}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Arqc'"
+                        [header]="'ARQC'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="12em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Arpc'"
+                        [header]="'ARPC'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="12em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'FlagCode'"
+                        [header]="'Flag Code'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="8em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'TerminalCaps'"
+                        [header]="'Terminal Capabilities'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="10em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'PosMode'"
+                        [header]="'POS Code'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="8em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'AuthId'"
+                        [header]="'Id Autorización'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="9em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'SwitchAuthCode'"
+                        [header]="'Código de Autorización del Switch'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="14em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Surcharge'"
+                        [header]="'Surcharge'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="7em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colNum" >
+                                <span *ngIf="item.Surcharge == 0">0</span>
+                                <span *ngIf="item.Surcharge > 0">{{item.Surcharge | number:'1.2-2'}}</span>
+                                <!--
+                                <span *ngIf="item.OperationType != 'BalanceCheck' && item.OperationType != 'Withdrawal'"></span>
+                                <span class="colNum" *ngIf="item.OperationType == 'BalanceCheck' || item.OperationType == 'Withdrawal' || item.OperationType == 'ControlMessage'">{{item.Surcharge | number:'1.2-2'}}</span>
+                                -->
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'SwitchResponseCode'"
+                        [header]="'Código de Respuesta del Switch'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="13em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colCent" >
+                                <span>{{item.SwitchResponseCode}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Data'"
+                        [header]="'Datos'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="30em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="noWrap">
+                                <span>{{item.Data}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Available'"
+                        [header]="'Disponible'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="8em">
+                    <ng-template #dataTableCell let-item="item">
+                        <div class="colNum" >
+                            <span *ngIf="item.Available == '' && item.Amount != ''">{{0 | currency:'USD':'symbol':'1.2-2'}}</span>
+                            <span *ngIf="item.Available != ''">{{item.Available | currency:'USD':'symbol':'1.2-2'}}</span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'SwitchAtmId'"
+                        [header]="'Switch ATM Id'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="10em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div class="colCent" >
+                                <span>{{item.SwitchAtmId}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Reference1'"
+                        [header]="'Referencia 1'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Reference2'"
+                        [header]="'Referencia 2'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Reference3'"
+                        [header]="'Referencia 3'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="15em">
+                </data-table-column>
+            </data-table>
+        </div>
+    </div>
+
+</div>
