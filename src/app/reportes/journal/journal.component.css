@@ -47,9 +47,10 @@ datatable-header-cell.datatable-header-cell.sortable.resizeable{
 }
 */
 
-ngx-datatable[_ngcontent-c2] {
-    height: 30.8em;
-    max-height: 30.8em;
+ngx-datatable {
+
+    height: 91%;
+    max-height: 91%;
     left: 0px;
 
     /* Esquinas redondeadas */

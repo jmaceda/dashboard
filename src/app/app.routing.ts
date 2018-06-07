@@ -27,7 +27,7 @@ import { ResumenCifrasComponent }           from './atms/resumenCifras/resumen-c
 import { RetirosEtvComponent }              from './reportes/retiros-etv/retiros-etv.component';
 import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
-import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
+import { LogHardwareComponent }             from './tmp/tmpLogHardware/log-hardware.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
 import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
 import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
@@ -49,7 +49,7 @@ const routes: Routes =[
     { path: 'retiroshma',     component: RetirosHmaComponent },
     { path: 'efectdisp',      component: EfectDispCoponent },
     { path: 'rechazoshma',     component: RechazosHmaComponent },
-    { path: 'HorzVertScrolling',    component: HorzVertScrolling },
+    { path: 'loghardware',    component: LogHardwareComponent },
     { path: 'promopers',            component: TiempoPromOperComponent },
     { path: 'opersfinan',           component: OpersFinancierasComponent },
     { path: 'reportebanxico',       component: ReporteMensualComponent },

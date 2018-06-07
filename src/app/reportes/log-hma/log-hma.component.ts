@@ -163,7 +163,7 @@ export class LogHmaComponent implements OnInit, OnDestroy  {
         $('#btnExpExel').css('cursor', 'not-allowed');
         this.isDatosHMA = false;
 
-        this.notificationsComponent.showNotification('bottom','right', 'info', 'Exportado información del Journal a formato CVS');
+        this.notificationsComponent.showNotification('bottom','right', 'info', 'Exportado información del log de HMA a formato CVS');
         this.logHmaService.exportaHMA2Excel(this.datosRespLogHma);
 
         $('#btnExpExel').css('cursor', 'pointer');

@@ -60,7 +60,7 @@ import { FiltrosUtilsService }              from './services/filtros-utils.servi
 
 import { NgxDatatableModule }               from '@swimlane/ngx-datatable';
 
-import { HorzVertScrolling }                from './tmp/ngx-datatable/basic/scrolling.component';
+import { LogHardwareComponent }             from './tmp/tmpLogHardware/log-hardware.component';
 import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros-hma.component';
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 
@@ -75,6 +75,8 @@ import { PdfViewerModule }                  from 'ng2-pdf-viewer';
 import { InfoGroupsService }                from './services/info-groups.service';
 import { SoapService }                      from './services/soap.service';
 import { ReporteMensualComponent }          from './reportes/banxico/reporte-mensual/reporte-mensual.component';
+
+
 
 //import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SweetAlertService } from 'ngx-sweetalert2';
@@ -102,7 +104,6 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     FiltrosConsultasComponent,
     ResumenDeEfectivo,
     DetallePorTienda,
-    HorzVertScrolling,
     RetirosEtvComponent,
     RetirosHmaComponent,
     EfectDispCoponent,
@@ -111,7 +112,8 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     RechazosHmaComponent,
     TiempoPromOperComponent,
     ManualGrgComponent,
-    ReporteMensualComponent
+    ReporteMensualComponent,
+    LogHardwareComponent,
 
   ],
 

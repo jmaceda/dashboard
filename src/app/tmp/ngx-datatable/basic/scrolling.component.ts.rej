@@ -1,4 +1,4 @@
-diff a/src/app/tmp/ngx-datatable/basic/scrolling.component.ts b/src/app/tmp/ngx-datatable/basic/scrolling.component.ts	(rejected hunks)
+diff a/src/app/tmp/ngx-datatable/basic/log-hardware.component.ts b/src/app/tmp/ngx-datatable/basic/log-hardware.component.ts	(rejected hunks)
 @@ -24,15 +24,24 @@
    selector: 'horz-vert-scrolling-demo',
    styleUrls: [

@@ -27,7 +27,7 @@ export var gDatosJoural:any[] = [];
 export var gCatalogoEventos:any[]       = [];
 export var gDevicesAtm:any[]            = [];
 
-var nomComponente = "RetirosHmaComponent";
+var nomComponente = "EfectDispCoponent";
 
 export class GetAtmDetail{
     Id: string;
@@ -82,8 +82,8 @@ export class EfectDispCoponent implements OnInit {
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos: any = [];
     public dTipoListaParams: string = "A";
-    public dSolicitaFechasIni = false;
-    public dSolicitaFechasFin = false;
+    public dSolicitaFechasIni = true;
+    public dSolicitaFechasFin = true;
     public dUltimaActualizacion: string;
     public fchUltimaActualizacion:any = null;
     public itemResource = new DataTableResource([]);
@@ -145,8 +145,7 @@ export class EfectDispCoponent implements OnInit {
         if (ultimoCorte == undefined || ultimoCorte == null){
             return(0);
         }
-        //billetesDisponibles                 = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
-        //datosCortesJournal                  = this.datosJournalService.obtenCortesJournal(filtrosCons);
+
         fchUltimoCorte                      = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
         montoUltimoCorte                    = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
         fchUltimoCorte2                     = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
@@ -156,7 +155,7 @@ export class EfectDispCoponent implements OnInit {
         filtrosCons.timeStampStart  = fchUltimoCorte2;
 
         this.infoLogHMA(filtrosCons);
-;
+
         billetesDisponibles.opers   = this.billetesDepositados.opers + this.billetesRetirados.opers;
         billetesDisponibles.b20     = this.billetesDepositados.b20   - this.billetesRetirados.b20;
         billetesDisponibles.b50     = this.billetesDepositados.b50   - this.billetesRetirados.b50;
@@ -167,14 +166,15 @@ export class EfectDispCoponent implements OnInit {
         billetesDisponibles.monto   = this.billetesDepositados.monto - this.billetesRetirados.monto;
 
         this.arrBilletesDisponibles[0] = billetesDisponibles;
-
         this.datosCortesETV(datosCortesJournal);
-
-        this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
         this.datosUltimoCorte = fchUltimoCorte;
-        this.fchUltimaActualizacion = (new Date()).toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'});
 
-        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+        let ftoFchFinCons:any       = {year: 'numeric', month: '2-digit', day: '2-digit',hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let expFchFinCons:any       = /(\d+)-(\d+)-(\d+)-(\d+)-(\d+)/;
+        let fchFinCons:any          = filtrosCons.timeStampEnd.toLocaleString('en-us', ftoFchFinCons).replace(expFchFinCons, '$3/$2/$1 $4:$5');
+
+        this.fchUltimaActualizacion = fchFinCons;
+       this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
 
@@ -234,49 +234,6 @@ export class EfectDispCoponent implements OnInit {
         return(numBilletes);
     }
 
-
-    public obtenDetalleRetirosX(filtrosCons:any) {
-
-        let filtrosConsMovtos:any           = JSON.stringify(filtrosCons);
-        let opc2                            = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
-        let datosCortesJournal:any          = [];
-        let billetesDisponibles: any        = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
-        let ultimoCorte:any                 = [];
-        let fchUltimoCorte:any              = Date();
-        let montoUltimoCorte:any            = "";
-        let fchUltimoCorte2:any             = "";
-
-        billetesDisponibles                 = new AcumulaBilletesModel(0, 0, 0, 0, 0, 0, 0, 0);
-        datosCortesJournal                  = this.datosJournalService.obtenCortesJournal(filtrosCons);
-        ultimoCorte                         = datosCortesJournal[datosCortesJournal.length -1];
-        fchUltimoCorte                      = (new Date(ultimoCorte.TimeStamp)).toLocaleString(undefined, opc2);
-        montoUltimoCorte                    = ultimoCorte.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
-        fchUltimoCorte2                     = fchUltimoCorte.replace(/[\/ :]/g,"-").split("-");
-        fchUltimoCorte2                     = sprintf("%4d-%02d-%02d-%02d-%02d", fchUltimoCorte2[2], fchUltimoCorte2[1], fchUltimoCorte2[0], fchUltimoCorte2[3], fchUltimoCorte2[4]);
-
-        filtrosCons                 = JSON.parse(filtrosConsMovtos);
-        filtrosCons.timeStampStart  = fchUltimoCorte2;
-
-        billetesDisponibles.opers   = this.billetesDepositados.opers + this.billetesRetirados.opers;
-        billetesDisponibles.b20     = this.billetesDepositados.b20   - this.billetesRetirados.b20;
-        billetesDisponibles.b50     = this.billetesDepositados.b50   - this.billetesRetirados.b50;
-        billetesDisponibles.b100    = this.billetesDepositados.b100  - this.billetesRetirados.b100;
-        billetesDisponibles.b200    = this.billetesDepositados.b200  - this.billetesRetirados.b200;
-        billetesDisponibles.b500    = this.billetesDepositados.b500  - this.billetesRetirados.b500;
-        billetesDisponibles.b1000   = this.billetesDepositados.b1000 - this.billetesRetirados.b1000;
-        billetesDisponibles.monto   = this.billetesDepositados.monto - this.billetesRetirados.monto;
-
-        this.arrBilletesDisponibles[0] = billetesDisponibles;
-
-        this.datosCortesETV(datosCortesJournal);
-
-        this.datosUltimoCorte = sprintf("Ultimo Corte: %s [%s]", fchUltimoCorte, montoUltimoCorte);
-        this.datosUltimoCorte = fchUltimoCorte;
-
-        this.fchUltimaActualizacion = (new Date()).toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'});
-
-        this.filtrosUtilsService.fchaHraUltimaActualizacion();
-    }
 
     public infoCortesETV:any[] = [];
 

@@ -176,6 +176,17 @@ export class ReporteMensualComponent implements OnInit {
 
         let fchInicio:any = new Date();
 
+        /*
+        Obtener datos de inicio; estos datos se obtienen con los datos a partir del último corte hasta un día antes de la fecha de inicia indicada como parametro.
+        Los datos obtenidos en el paso anterior, se consideraran como Saldo Inicial del reporte.
+        - Obtener los datos del último corte.
+        - Obtener Depósitos a partir del último corte hasta un día antes de la fecha de inicio.
+        - Obtener Retiros a partir del último corte hasta un dpia antes de la fecha de inicio.
+        - Sumar los Depósitos y Retiros mencionados anteriormente, al calculo del proceso.
+         */
+
+
+
         this.obtenDepositos(params);
         this.obtenRetiros(params);
         this.calculaTotalSaldos();

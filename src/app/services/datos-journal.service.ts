@@ -32,7 +32,7 @@ export class DatosJournalService implements OnInit {
     public obtenCortesJournal(filtrosCons){
 
         let paramsCons: any = {};
-
+        console.log(nomComponente+".obtenCortesJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
         for (let idx=1; idx < 4; idx++) {
             filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart, (idx*10));
 
@@ -77,7 +77,7 @@ export class DatosJournalService implements OnInit {
         let ldFecha4:any;
 
         if (typeof(prmFecha) == "number"){
-            ldFecha1 = new Date(prmFecha).toLocaleDateString(undefined, opc);
+            ldFecha1 = new Date(prmFecha).toLocaleDateString('sp-SP', opc);
             ldFecha1 = (new Date((ldFecha1).replace(expReg2, "$3/$2/$1 $4:$5")));
         }else{
             ldFecha1 = (new Date((prmFecha).replace(expReg1, "$2/$3/$1 $4:$5")));
@@ -88,11 +88,13 @@ export class DatosJournalService implements OnInit {
         }
 
         ldFecha2 = new Date(ldFecha1.setDate(ldFecha1.getDate() - diasIniRango));  // Resta cinco dias a la fecha inicial del rango.
-
+        console.log(nomComponente+".restaDiasFecha:: ldFecha2["+ldFecha2+"]");
         if (typeof(prmFecha) == "number"){
             ldFecha3 = ldFecha2.getTime();
         }else{
             ldFecha4 = (ldFecha2.toLocaleDateString(undefined, opc)).replace(/[\/ :]/g, "-").split("-");
+            console.log(nomComponente+".restaDiasFecha:: Error en la siguiente línea con sprintf 'expecting number but found string'");
+            console.log(nomComponente+".restaDiasFecha:: prmFecha["+prmFecha+"]  ldFecha2["+ldFecha2+"]  ldFecha4["+ldFecha4+"]");
             ldFecha3 = sprintf("%04d-%02d-%02d-%02d-%02d", ldFecha4[2], ldFecha4[1], ldFecha4[0], ldFecha4[3], ldFecha4[4]);
         }
         return(ldFecha3);
@@ -154,7 +156,7 @@ export class DatosJournalService implements OnInit {
     }
 
     public exportaJournal2Excel(dataJournalRedBlu){
-
+        console.log(nomComponente+".exportaJournal2Excel:: Inicio");
         let arr2Excel:any[] = [];
         let tmpFchHora:any;
         let tmpMonto:any;
@@ -207,6 +209,8 @@ export class DatosJournalService implements OnInit {
             let exporter = new ExportToCSVService();
             exporter.exportAllToCSV(arr2Excel, 'Journal.csv');
         }
+
+        return(true);
     }
 
     // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)

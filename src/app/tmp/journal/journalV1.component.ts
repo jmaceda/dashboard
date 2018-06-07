@@ -20,15 +20,15 @@ export const nomComponente:string = "JournalComponent";
 
 @Component({
     selector   : 'app-journal',
-    templateUrl: './journal.component.html',
-    styleUrls  : ['./journal.component.css'],
+    templateUrl: './journalV1.component.html',
+    styleUrls  : ['./journalV1.component.css'],
     styles     : [`
         .even { color: red; }
         .odd { color: green; }
     `],
     providers: [SoapService, DatosJournalService, SweetAlertService]
 })
-export class JournalComponent implements OnInit  {
+export class JournalV1Component implements OnInit  {
 
     // Parametros para la pantalla de filtros para la consulta
     public dListaAtmGpos:any            = [];
