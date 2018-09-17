@@ -1,0 +1,118 @@
+<!-- Grupos con ATMs -->
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:pen="http://Pentomino.mx/">
+   <soap:Header/>
+   <soap:Body>
+      <pen:GetGroupsWithAtms/>
+   </soap:Body>
+</soap:Envelope>
+
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetGroupsWithAtmsResponse xmlns="http://Pentomino.mx/">
+         <GetGroupsWithAtmsResult>
+            <GenericFilter>
+               <Description>BAZ</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>77979156</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Monitoreo</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>41684324</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>MonitoreoV2</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>120521074</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>PreparacionATMs</Description>
+               <Description2>preparacionatms@com.mx</Description2>
+               <Id>216137448</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>pruebas</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>88711776</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 1118</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>234204938</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 2446</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>233719804</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3511</Description>
+               <Description2>lvillasenor@glider.com.mx</Description2>
+               <Id>70719042</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3805</Description>
+               <Description2>lvillasenor@glider.com.mx</Description2>
+               <Id>16228090</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3854</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>87505638</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3858</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>87965990</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3863</Description>
+               <Description2>lvillasenor@glider.com.mx</Description2>
+               <Id>3414803</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3896</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>87505640</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 3905</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>233719806</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 5770</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>233731154</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 6233</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>103384631</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda 6283</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>84573245</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda Prueba 0001</Description>
+               <Description2>lvillasenor@glider.com.mx</Description2>
+               <Id>1795334</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Tienda3848</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>233719802</Id>
+            </GenericFilter>
+            <GenericFilter>
+               <Description>Torneo Amistad</Description>
+               <Description2>rortega@glider.com.mx</Description2>
+               <Id>31694955</Id>
+            </GenericFilter>
+         </GetGroupsWithAtmsResult>
+      </GetGroupsWithAtmsResponse>
+   </soap:Body>
+</soap:Envelope>

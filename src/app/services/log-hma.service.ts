@@ -179,4 +179,81 @@ export class LogHmaService implements OnInit {
         }
     }
 
+    public obtenVersionCore(filtrosConsulta, infoAtm){
+
+        let paramsCons: any = {
+            ip: [infoAtm.Ip], timeStampStart: filtrosConsulta.timeStampStart, timeStampEnd: filtrosConsulta.timeStampEnd,
+            events: ['Version'], device: ['DEVICEBUS']
+        };
+        let datosVersionCore:any = {fCore: '', vCore: ''};
+
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
+
+        if (gNumPagsLogHma > 0) {
+
+            let ftoHora:any         = {month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+            for (let idx = gNumPagsLogHma; idx > 0; idx--) {
+
+                paramsCons.page = idx -1;
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
+
+                for(let idx2 = gRespDatosLogHma.length; idx2 > 0; idx2--) {
+                    let reg 		= gRespDatosLogHma[idx2 -1];
+                    //reg.TimeStamp   = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora);
+
+                    datosVersionCore = {fCore: reg.TimeStamp, vCore: reg.Data };
+                    idx2=0;
+                    idx=0;
+                }
+            }
+        }
+        /*
+        if (tmpVerCore == undefined){
+            tmpVerCore = {fCore: '', vCore: ''};
+        }
+        */
+        return(datosVersionCore);
+    }
+	
+    public obtenVersionSP(filtrosConsulta, infoAtm){
+
+        let paramsCons: any = {
+            ip: [infoAtm.Ip], timeStampStart: filtrosConsulta.timeStampStart, timeStampEnd: filtrosConsulta.timeStampEnd,
+            events: ['HardwareError'], device: ['AFD','ICM']
+        };
+        let datosVersionSP:any = {fSP: '', vSP: ''};
+
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
+
+        if (gNumPagsLogHma > 0) {
+
+            let ftoHora:any         = {month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+            for (let idx = gNumPagsLogHma; idx > 0; idx--) {
+
+                paramsCons.page = idx -1;
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
+
+                for(let idx2 = gRespDatosLogHma.length; idx2 > 0; idx2--) {
+                    let reg 		= gRespDatosLogHma[idx2 -1];
+                    //reg.TimeStamp   = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora);
+
+					if (reg.Data != null && reg.Data.substring(0,13) == "SPVersion=ATM" ){
+						console.log("reg.Data<"+JSON.stringify(reg.Data)+">");
+						datosVersionSP = {fSP: reg.TimeStamp, vSP: reg.Data };
+						idx2=0;
+						idx=0;
+					}
+                }
+            }
+        }
+        /*
+        if (tmpVerCore == undefined){
+            tmpVerCore = {fCore: '', vCore: ''};
+        }
+        */
+		//console.log("datosVersionSP<"+JSON.stringify(datosVersionSP)+">");
+        return(datosVersionSP);
+    }	
 }

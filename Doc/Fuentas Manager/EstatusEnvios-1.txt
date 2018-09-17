@@ -1,0 +1,70 @@
+<!-- Filtros para obtener parametros para obtener el estatus de envio de archivos -->
+
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetDtaFilters xmlns="http://Pentomino.mx/" />
+	</s:Body>
+</s:Envelope>
+
+
+<!-- Filtros para obtener parametros para obtener el estatus de envio de archivos -->
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetDtaFiltersResponse xmlns="http://Pentomino.mx/">
+			<GetDtaFiltersResult>
+				<ArrayOfString>
+					<string>11.50.2.10</string>
+					<string>11.50.2.15</string>
+					<string>11.50.2.16</string>
+					<string>11.50.2.17</string>
+					<string>11.50.2.18</string>
+					<string>11.50.2.19</string>
+					<string>11.50.2.2</string>
+					<string>11.50.2.22</string>
+					<string>11.50.2.24</string>
+					<string>11.50.2.25</string>
+					<string>11.50.2.4</string>
+					<string>11.50.2.5</string>
+					<string>11.50.2.8</string>
+					<string>11.50.2.9</string>
+				</ArrayOfString>
+				<ArrayOfString>
+					<string>DeleteConfig</string>
+					<string>deleteFile</string>
+					<string>executeFile</string>
+					<string>getConfigKeys</string>
+					<string>GoOffline</string>
+					<string>installFlow</string>
+					<string>listFiles</string>
+					<string>Send ATM Offline</string>
+					<string>SendFile</string>
+					<string>SetConfig</string>
+					<string>unzipFile</string>
+				</ArrayOfString>
+				<ArrayOfString>
+					<string>CI01GT0006</string>
+					<string>CI01GL0002</string>
+					<string>CI01GT0013</string>
+					<string>CI01GP0014</string>
+					<string>CI01GP0015</string>
+					<string>CI11GT0001</string>
+					<string>CI01GT0011</string>
+					<string>CI11GT0005</string>
+					<string>CI01GT0007</string>
+					<string>CI01GT0008</string>
+					<string>CI11GT0002</string>
+					<string>CI01GE0016</string>
+					<string>CI01GT0003</string>
+					<string>CI01GT0004</string>
+				</ArrayOfString>
+			</GetDtaFiltersResult>
+		</GetDtaFiltersResponse>
+	</soap:Body>
+</soap:Envelope>
+
+
+<!-- ---------------------------------------------------------------------------------- -->
+

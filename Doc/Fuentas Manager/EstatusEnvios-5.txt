@@ -1,0 +1,424 @@
+<!-- Consulta estatus de todos los comandos y sin fechas especificadas (todo) -->
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetDtaLogDataLength xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.50.2.15</string>
+			</ip>
+			<timeStampStart>-1</timeStampStart>
+			<timeStampEnd>-1</timeStampEnd>
+			<command>
+				<string>-1</string>
+			</command>
+		</GetDtaLogDataLength>
+	</s:Body>
+</s:Envelope>
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetDtaLogDataLengthResponse xmlns="http://Pentomino.mx/">
+			<GetDtaLogDataLengthResult>
+				<TotalItems>41</TotalItems>
+				<TotalPages>1</TotalPages>
+			</GetDtaLogDataLengthResult>
+		</GetDtaLogDataLengthResponse>
+	</soap:Body>
+</soap:Envelope>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetDtaLogPage xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.50.2.15</string>
+			</ip>
+			<timeStampStart>-1</timeStampStart>
+			<timeStampEnd>-1</timeStampEnd>
+			<command>
+				<string>-1</string>
+			</command>
+			<page>0</page>
+		</GetDtaLogPage>
+	</s:Body>
+</s:Envelope>
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetDtaLogPageResponse xmlns="http://Pentomino.mx/">
+			<GetDtaLogPageResult>
+				<DtaLog>
+					<Id>117554462</Id>
+					<SerializedId>117554462</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523405865493</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>117571404</Id>
+					<SerializedId>117571404</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523406970921</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118475402</Id>
+					<SerializedId>118475402</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475227291</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118476894</Id>
+					<SerializedId>118476894</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475262273</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118480764</Id>
+					<SerializedId>118480764</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475471401</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>RedBluFlow-27-03-2018.zip</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118480793</Id>
+					<SerializedId>118480793</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475472662</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118482632</Id>
+					<SerializedId>118482632</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475615046</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>PulsarClient.txt</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118482834</Id>
+					<SerializedId>118482834</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523475636022</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>CMALog.txt</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118696733</Id>
+					<SerializedId>118696733</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491338866</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118697180</Id>
+					<SerializedId>118697180</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491361473</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>HmaMigrationTool.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118697205</Id>
+					<SerializedId>118697205</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491362130</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118697801</Id>
+					<SerializedId>118697801</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491395286</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>HmaMigrationStart.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118697810</Id>
+					<SerializedId>118697810</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491396442</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118697946</Id>
+					<SerializedId>118697946</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523491413423</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>HmaMigrationStart.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118771018</Id>
+					<SerializedId>118771018</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496361490</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118771424</Id>
+					<SerializedId>118771424</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496391633</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>HmaMigrationStart.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118771431</Id>
+					<SerializedId>118771431</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496391889</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118773802</Id>
+					<SerializedId>118773802</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496531449</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>HmaMigrationStart.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118773803</Id>
+					<SerializedId>118773803</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496531902</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118774023</Id>
+					<SerializedId>118774023</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496548364</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>HmaMigrationTool.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118774025</Id>
+					<SerializedId>118774025</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496549099</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118774238</Id>
+					<SerializedId>118774238</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496564253</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>HmaMigrationStart.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>118779818</Id>
+					<SerializedId>118779818</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523496918063</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>HmaMigrationTool.exe</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119939198</Id>
+					<SerializedId>119939198</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572610164</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119939734</Id>
+					<SerializedId>119939734</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572633370</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>RedBluFlow-12-04-2018.zip</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119939765</Id>
+					<SerializedId>119939765</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572635505</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119940071</Id>
+					<SerializedId>119940071</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572653147</TimeStamp>
+					<Command>deleteFile</Command>
+					<Parameters>RedBluFlow-27-03-2018.zip</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119940113</Id>
+					<SerializedId>119940113</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572656376</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>119940602</Id>
+					<SerializedId>119940602</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523572694694</TimeStamp>
+					<Command>installFlow</Command>
+					<Parameters>RedBluFlow-12-04-2018.zip</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120216229</Id>
+					<SerializedId>120216229</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523590140532</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120216804</Id>
+					<SerializedId>120216804</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523590175287</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120217601</Id>
+					<SerializedId>120217601</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523590210985</TimeStamp>
+					<Command>unzipFile</Command>
+					<Parameters>Update-Kill.zip!C:\Pentomino\Downloads</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120223846</Id>
+					<SerializedId>120223846</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523590608522</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120224730</Id>
+					<SerializedId>120224730</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523590660039</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120239355</Id>
+					<SerializedId>120239355</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523591665171</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>120240744</Id>
+					<SerializedId>120240744</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1523591765930</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>139367307</Id>
+					<SerializedId>139367307</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1525129925465</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>139367790</Id>
+					<SerializedId>139367790</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1525129966015</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>AdminCajero.bat</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>223571524</Id>
+					<SerializedId>223571524</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1531375968944</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>223572200</Id>
+					<SerializedId>223572200</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1531376000140</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>pent.txt</Parameters>
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>223572219</Id>
+					<SerializedId>223572219</SerializedId>
+					<Ip>11.50.2.15</Ip>
+					<TimeStamp>1531376000782</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>117232937</AtmId>
+				</DtaLog>
+			</GetDtaLogPageResult>
+		</GetDtaLogPageResponse>
+	</soap:Body>
+</soap:Envelope>

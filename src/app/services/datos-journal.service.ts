@@ -29,7 +29,7 @@ export class DatosJournalService implements OnInit {
         gDatosJournal = datosCortesJournal;
     }
 
-    public obtenCortesJournal(filtrosCons){
+    public obtenCortesJournal(filtrosCons, tipoConsulta?:number){
 
         let paramsCons: any = {};
         console.log(nomComponente+".obtenCortesJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
@@ -47,7 +47,7 @@ export class DatosJournalService implements OnInit {
             }
         }
 
-        if (gPaginasJournal.TotalPages == 0){
+        if ( (tipoConsulta == undefined || tipoConsulta == 1) && gPaginasJournal.TotalPages == 0){
             paramsCons.timeStampStart = "2018-01-01-00-00";
         }
 
@@ -213,6 +213,10 @@ export class DatosJournalService implements OnInit {
         return(true);
     }
 
+
+    private datosJournal:any = new Array();
+
+
     // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
     public obtenComisionesPorAtm(paramsConsulta, infoAtm){
 
@@ -247,6 +251,7 @@ export class DatosJournalService implements OnInit {
 
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
+			console.log("Obteniendo datos del Journal del cajero: "+JSON.stringify(paramsCons.ip));
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
@@ -307,7 +312,7 @@ export class DatosJournalService implements OnInit {
                                     comisonesAtm.errTotal++;
                                 }
                             }else if (reg.Event == "BalanceCheck"){
-								if (regexErrCom.test(reg.HWErrorCode)){ 
+								if (regexErrCom.test(reg.HWErrorCode)){
                                     comisonesAtm.errConsultas++;
                                     comisonesAtm.errComisionConsultas  += comision;
                                     comisonesAtm.errPrimeraConsulta     = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;
@@ -319,6 +324,7 @@ export class DatosJournalService implements OnInit {
                     }
                 });
             }
+			//console.log("Termina de obtener datos del Journal del cajero: "+JSON.stringify(paramsCons.ip));
         }
         return(comisonesAtm);
     }
@@ -397,4 +403,86 @@ export class DatosJournalService implements OnInit {
         }
     }
 
+    // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
+    public obtenVersionesPorAtm(paramsConsulta, infoAtm){
+        let timeStampStart:string   = paramsConsulta.timeStampStart;
+        let timeStampEnd:string     = paramsConsulta.timeStampEnd;
+        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let opc2        = {day: '2-digit', month: '2-digit', year: 'numeric'};
+        let ldFecha1:any;
+        let ldFecha2:any;
+        let versiones:any = [];
+        let paramsCons: any = {
+            ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
+            events: ["Administrative"], minAmount: -1, maxAmount: -1,
+            authId: -1, cardNumber: -1, accountId: -1
+        };
+
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
+
+        if (gPaginasJournal.TotalPages > 0) {
+
+            let regExist = false;
+
+            for (let idx = gPaginasJournal.TotalPages; idx > 0; idx--) {
+                paramsCons.page = idx -1;
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+
+                for(let idx2 = gDatosJournal.length; idx2 > 0; idx2--) {
+                    let reg = gDatosJournal[idx2 -1];
+                    if (reg.Event == "INIT" && reg.Data.substring(0, 12) == "INICIO FLUJO") {
+                        ldFecha2 = new Date(reg.TimeStamp).toLocaleDateString('sp-SP', opc2);
+                        ldFecha1 = new Date(reg.TimeStamp).toLocaleDateString('sp-SP', opc);
+                        versiones = {
+                            Id: infoAtm.Name,
+                            Ip: infoAtm.Ip,
+                            Tienda: infoAtm.Description,
+                            fFlujo: reg.TimeStamp,
+                            Fch2: ldFecha2,
+                            vFlujo: reg.Data.substring(13),
+                            fCore: infoAtm.fCore,
+                            vCore: infoAtm.vCore,
+                            fSP: infoAtm.fSP,
+                            vSP: infoAtm.vSP,
+							vSPFull: infoAtm.vSP
+                        };
+
+                        idx = 0;
+                        idx2 = 0;
+                    }
+                }
+            }
+        }
+
+        if (versiones.length == 0){
+            versiones = {
+                Id: infoAtm.Name, Ip: infoAtm.Ip, Tienda: infoAtm.Description
+            };
+        }
+        return(versiones);
+    }
+
+    public obtenAcumCortesETV(filtrosCons){
+        let datosCortesJournal: any = [];
+        let numCortes:number = 0;
+        let montoCortes:number = 0;
+        let datosCortesETV:any        = {
+            "numCortes": 0, "montoCortes": 0,"hraPrimerCorte": "","hraUtimoCorte": ""
+        };
+
+
+        datosCortesJournal = this.obtenCortesJournal(filtrosCons, 2);
+
+        datosCortesJournal.forEach((reg)=> {
+            numCortes++;
+            montoCortes += reg.Amount;
+        });
+
+        if(datosCortesJournal > 0){
+            datosCortesETV.numCortes = numCortes;
+            datosCortesETV.montoCortes = numCortes;
+        }
+
+        return(datosCortesETV);
+    }
 }

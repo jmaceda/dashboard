@@ -8,6 +8,7 @@ import { InfoAtmsService }                                      from '../../serv
 import { DatosJournalService }                                  from '../../services/datos-journal.service';
 import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 import { UtilsService }                                         from '../../services/utils.service';
+import { ExportToCSVService }                                   from '../../services/export-to-csv.service';
 
 import { NotificationsComponent } from '../../notifications/notifications.component';
 
@@ -17,7 +18,7 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 
 var arrDatosAtms:any[] = [];
 
-export const nomComponente:string = "OpersFinancierasComponent";
+export const nomComponente:string = "OpersFinansXCajeroComponent";
 export var gGetGroupsAtmIds:any;
 
 export class GetGroupsAtmIds{
@@ -36,17 +37,17 @@ export class GetGroupsAtmIds{
 
 @Component({
     selector: 'opers-financieras',
-    templateUrl: './opers-financieras.component.html',
-    styleUrls: ['./opers-financieras.component.css'],
+    templateUrl: './opers-finans-x-cajero.component.html',
+    styleUrls: ['./opers-finans-x-cajero.component.css'],
     providers: [SoapService, InfoAtmsService, DatosJournalService, UtilsService, SweetAlertService]
 })
-export class OpersFinancierasComponent implements OnInit, OnDestroy {
+export class OpersFinansXCajeroComponent implements OnInit, OnDestroy {
 
     // Filtros
     public dListaAtmGpos:any            = [];
-    public dTipoListaParams:string      = "G";
+    public dTipoListaParams:string      = "A";
     public dSolicitaFechasIni           = true;
-    public dSolicitaFechasFin           = false;
+    public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
     public itemResource                 = new DataTableResource([]);
@@ -58,7 +59,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public tiempoRefreshDatos:number    = (1000 * 60 * 1); // Actualiza la información cada minuto.
     //public xtIsOnline:string            = "";
     public Titulo:string                = "";
-    public opersFinancieras:any[]       = [];
+    public opersFinanPorCajero:any[]       = [];
     private isDatosJournal:boolean      = false;
     private notificationsComponent: NotificationsComponent;
     private attribute: string = "atributos de esta clase";
@@ -94,15 +95,15 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public parametrosConsulta(filtrosConsulta) {
         let idGpo 					= filtrosConsulta.gpo;
         let fIniParam               = filtrosConsulta.fchInicio;
-        let fFinParam               = filtrosConsulta.fchInicio;
+        let fFinParam               = filtrosConsulta.fchFin;
         let ipAtm                   = filtrosConsulta.gpo;
         let timeStampStart:string   = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fIniParam.year, fIniParam.month, fIniParam.day);
+        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fFinParam.year, fFinParam.month, fFinParam.day);
         let paramsConsulta:any      = {
 				'timeStampStart': timeStampStart, 
-				'timeStampEnd': timeStampEnd, 
-				'idGpo': idGpo
+				'timeStampEnd': timeStampEnd,
+                'ipAtm': filtrosConsulta.atm
 		};
 
         this.pDatosDelJournal(paramsConsulta);
@@ -120,40 +121,24 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let fchSys:any    = new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3$1$2');
         let fchParam:any  = (paramsConsulta.timeStampEnd.substring(0,10)).replace(/-/g,"");
 
-        this.opersFinancieras = [];
-        this.itemResource = new DataTableResource(this.opersFinancieras);
+        this.opersFinanPorCajero = [];
+        this.itemResource = new DataTableResource(this.opersFinanPorCajero);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems({limit: this.regsLimite, offset: 0});
 
         this.datosDeOperacion(paramsConsulta);
 
-        /*
-        if( fchSys == fchParam) {
-            this.intervalId = setInterval(() => {
-                this.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
-        }
-        */
-		
     }
 
     private datosDeOperacion(paramsConsulta){
         let datosAtm:any;
-		let idAtms:any[]        	= this.infoAtmsService.obtenInfoAtmsOnLinePorGpo(paramsConsulta);
+        let idAtms:any        	= "";
         let numRetirosTiendas		= 0;
         let montoRetirosTiendas		= 0;
 		let numConsultasTiendas		= 0;		
 		let comisTotalTiendas   	= 0;
 		let comisRetirosTiendas 	= 0;
 		let comisConsultasTiendas	= 0;
-        let numRetirosPlazas   		= 0;
-        let montoRetirosPlazas		= 0;
-		let numConsultasPlazas 		= 0;		
-		let comisTotalPlazas   		= 0;
-		let comisRetirosPlazas 		= 0;
-        let depositosTotalPlazas    = 0;
-        let numDepositosPlazas      = 0;
-		let comisConsultasPlazas 	= 0;
         let depositosTotalTiendas   = 0;
         let numDepositosTiendas     = 0;
 		let expRegText              = "^CI[0-9]{2}XX[0-9]{4}[0-9A-Za-z]*$";
@@ -164,28 +149,37 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let ftoFchSys:any 			= {year: 'numeric', month: '2-digit', day: '2-digit'};
         let expFchSys:any 			= /(\d+)\/(\d+)\/(\d+)/
         let fchSys:any    			= new Date().toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3$1$2');
-		
-		this.opersFinancieras   	= [];
+
+        console.log("datosDeOperacion::  paramsConsulta["+JSON.stringify(paramsConsulta)+"]");
+		this.opersFinanPorCajero   	= [];
 
 		if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-		
+
+        let reg:any = {Description: 'Sta Lucia', Ip: paramsConsulta.ipAtm[0]};
 		// Guardar info en Storage Windows
         // this.storage.store('boundValue', this.attribute);
 
-        if(idAtms != null){
-            idAtms.forEach( (reg) => {
-//console.log("(1)");
+        let finProceso:boolean  = true;
+        let fchTmpProceso       = "";
+        let fchTmpProceso2:any;
+        let fchFinProceso:any   = paramsConsulta.timeStampEnd.substring(0,10);
+
+        while(finProceso == true) {
+
+            fchTmpProceso = paramsConsulta.timeStampStart.substring(0,10);
+            paramsConsulta.timeStampEnd = sprintf("%10s-23-59", fchTmpProceso);
+console.log("fchTmpProceso:: ["+fchTmpProceso+"]    fchFinProceso["+fchFinProceso+"]   Parametros para procesar: "+JSON.stringify(paramsConsulta));
+
                 datosAtm = this.datosJournalService.obtenComisionesPorAtm(paramsConsulta, {
-							'Description': reg.Description,
+							'Description': fchTmpProceso,
 							'descAtm': reg.Name, 
-							'Ip': reg.Ip
+							'Ip': paramsConsulta.ipAtm
                 });
-//console.log("(2)");
-//console.log(JSON.stringify(datosAtm));
+
                 if ( (datosAtm.numConsultas + datosAtm.numRetiros + datosAtm.numDepositos) > 0) {
-                    this.opersFinancieras.push(datosAtm);
+                    this.opersFinanPorCajero.push(datosAtm);
 
 					if ( regexTienda.test(datosAtm.idAtm) ){
                         numRetirosTiendas       += datosAtm.numRetiros;
@@ -196,108 +190,73 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 						comisTotalTiendas 		+= datosAtm.totalComisiones;
                         depositosTotalTiendas   += datosAtm.montoDepositos;
                         numDepositosTiendas     += datosAtm.numDepositos;
-					} else if( regexPlaza.test(datosAtm.idAtm) ){
-                        numRetirosPlazas        += datosAtm.numRetiros;
-                        montoRetirosPlazas      += datosAtm.montoRetiros;
-						comisRetirosPlazas 		+= datosAtm.comisionesRetiros;
-						numConsultasPlazas      += datosAtm.numConsultas;
-						comisConsultasPlazas 	+= datosAtm.comisionesConsultas;
-						comisTotalPlazas 		+= datosAtm.totalComisiones;
-                        depositosTotalPlazas    += datosAtm.montoDepositos;
-                        numDepositosPlazas      += datosAtm.numDepositos;
 					}
+                    this.itemResource = new DataTableResource(this.opersFinanPorCajero);
+                    this.itemResource.count().then(count => this.itemCount = count);
+                    this.reloadItems({limit: this.regsLimite, offset: 0});
                 }
-            });
 
-            if (this.opersFinancieras.length == 0)
-                msgValidaciones = "No existe información de la fecha indicada";
-        }else{
-            msgValidaciones = "No existe información del grupo indicadado";
+                finProceso = ( fchTmpProceso == fchFinProceso ) ? false : true;
+
+                if( finProceso == true) {
+                    fchTmpProceso2 = new Date(fchTmpProceso.replace(/-/g, "/"));
+                    fchTmpProceso2 = new Date(fchTmpProceso2.setDate(fchTmpProceso2.getDate() + 1));
+                    paramsConsulta.timeStampStart = sprintf("%04d-%02d-%02d-00-00", fchTmpProceso2.getFullYear(), fchTmpProceso2.getMonth()+1, fchTmpProceso2.getDate());
+                }
+                console.log("timeStampStart["+paramsConsulta.timeStampStart+"]");
         }
 
-        if (msgValidaciones != null){
-            //his.notificationsComponent.showNotification('top','center', 'warning', msgValidaciones);
-            this._swal2.info({
-                title: msgValidaciones
-            });
-        }
+        if (this.opersFinanPorCajero.length == 0) {
+            msgValidaciones = "No existe información de la fecha indicada";
+        } else {
 
-		console.log("Se va a realizar el acumulado de cifras");
-		if (comisTotalTiendas > 0 || comisTotalPlazas > 0){
-            this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
-		    this.opersFinancieras.push({
-				'Description': 'Comisiones Tiendas',
-                'numRetiros': numRetirosTiendas,
-                'montoRetiros': montoRetirosTiendas,
-				'comisionesRetiros': comisRetirosTiendas,
-				'numConsultas': numConsultasTiendas,
-				'comisionesConsultas': comisConsultasTiendas,
-				'totalComisiones': comisTotalTiendas,
-                'numDepositos': numDepositosTiendas,
-                'montoDepositos': depositosTotalTiendas
-			});
-			this.opersFinancieras.push({
-				'Description': 'Comisiones Plazas', 
-                'numRetiros': numRetirosPlazas,
-                'montoRetiros': montoRetirosPlazas,
-				'comisionesRetiros': comisRetirosPlazas,
-				'numConsultas': numConsultasPlazas,				
-				'comisionesConsultas': comisConsultasPlazas, 
-				'totalComisiones': comisTotalPlazas,
-                'numDepositos': numDepositosPlazas,
-                'montoDepositos': depositosTotalPlazas
-			});
-		}
 
-        if ($('#btnExpExel2').length == 0) {
-            $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
-        }
-
-        if (this.opersFinancieras.length > 0) {
-            $('#btnExpExel2').css('cursor', 'pointer');
-            this.isDatosJournal = false;
-        }else{
-            $('#btnExpExel2').css('cursor', 'not-allowed');
-            this.isDatosJournal = true;
-        }
-
-		console.log("Se va a cargar el buffer para mostrar los datos de la pantalla");
-        if(this.opersFinancieras.length > 0) {
-            this.itemResource = new DataTableResource(this.opersFinancieras);
-            this.itemResource.count().then(count => this.itemCount = count);
-            this.reloadItems({limit: this.regsLimite, offset: 0});
-            this.filtrosUtilsService.fchaHraUltimaActualizacion();
-        }
-        this.opersFinancieras = [];
-        console.log("Termina proceso");
-        /*
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }	
-        */
-       
-    
-        /*
-        if( fchSys == fchParam) {
-            var self = this;
-            setTimeout(function(){
-                self.datosDeOperacion(paramsConsulta)
-            }, this.tiempoRefreshDatos);
-        }
-        */
-        
-		
-        if( fchSys == fchParam) {
-			if (this.intervalId != null){
-				clearInterval(this.intervalId);
+            if (msgValidaciones != null) {
+                //his.notificationsComponent.showNotification('top','center', 'warning', msgValidaciones);
+                this._swal2.info({
+                    title: msgValidaciones
+                });
             }
-            var self = this;
-            this.intervalId = setInterval(() => {
-                self.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
+
+            console.log("Se va a realizar el acumulado de cifras");
+            if (comisTotalTiendas > 0) {
+                this.opersFinanPorCajero.sort(this.utilsService.sort_by('Description', false));
+                this.opersFinanPorCajero.push({
+                    'Description': 'Comisiones Tiendas',
+                    'numRetiros': numRetirosTiendas,
+                    'montoRetiros': montoRetirosTiendas,
+                    'comisionesRetiros': comisRetirosTiendas,
+                    'numConsultas': numConsultasTiendas,
+                    'comisionesConsultas': comisConsultasTiendas,
+                    'totalComisiones': comisTotalTiendas,
+                    'numDepositos': numDepositosTiendas,
+                    'montoDepositos': depositosTotalTiendas
+                });
+            }
+
+            if ($('#btnExpOpersCajeroExel').length == 0) {
+                $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpOpersCajeroExel" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisPorCajeroExcel()">');
+            }
+
+            if (this.opersFinanPorCajero.length > 0) {
+                $('#btnExpOpersCajeroExel').css('cursor', 'pointer');
+                this.isDatosJournal = false;
+            } else {
+                $('#btnExpOpersCajeroExel').css('cursor', 'not-allowed');
+                this.isDatosJournal = true;
+            }
+
+            console.log("Se va a cargar el buffer para mostrar los datos de la pantalla");
+            if (this.opersFinanPorCajero.length > 0) {
+                this.itemResource = new DataTableResource(this.opersFinanPorCajero);
+                this.itemResource.count().then(count => this.itemCount = count);
+                this.reloadItems({limit: this.regsLimite, offset: 0});
+                this.filtrosUtilsService.fchaHraUltimaActualizacion();
+            }
+            this.opersFinanPorCajero = [];
+            console.log("Termina proceso");
         }
-        	
-		
+
     }
 
     private reloadItems(params){
@@ -320,5 +279,40 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		}
 		return styles;
 	}
+
+
+    public exportaComisPorCajeroExcel(datosComisionPorCajeroRedBlu){
+        console.log(nomComponente+".exportaComisPorCajeroExcel:: Inicio");
+        let arr2Excel:any[] = [];
+        let tmpFchHora:any;
+        let tmpMonto:any;
+        let tmpMontoDisponible:any;
+        let ftoFecha:any    = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let ftoFchSys:any   = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        let ftoHora:any     = {hour: '2-digit', minute: '2-digit', second: '2-digit'};
+
+        this.opersFinanPorCajero.forEach((reg)=> {
+            tmpFchHora          = new Date(reg.TimeStamp).toLocaleString(undefined, ftoFecha);
+            tmpMonto            = reg.Amount.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+            tmpMontoDisponible  = reg.Available.toLocaleString("es-MX",{style:"currency", currency:"MXN"});
+
+            arr2Excel.push(
+                {
+                    "Fecha":           	                    tmpFchHora,
+                    "IP":                   	            reg.Ip,
+                    "ATM":                  	            reg.AtmName,
+
+                }
+            )
+        });
+
+        if (arr2Excel.length > 0) {
+            let exporter = new ExportToCSVService();
+            exporter.exportAllToCSV(arr2Excel, 'Journal.csv');
+        }
+
+        return(true);
+    }
+
 
 }

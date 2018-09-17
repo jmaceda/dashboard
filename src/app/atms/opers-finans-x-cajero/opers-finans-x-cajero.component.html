@@ -125,7 +125,7 @@
         <div id="idDivCardGrid" class="card">
 
             <data-table id="idOpersFinancieras"  style="overflow-x: hidden;"
-                        headerTitle="Operaciones Financieras"
+                        headerTitle="Operaciones Financieras por Cajero"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
@@ -200,7 +200,7 @@
 
                 <data-table-column
                         [property]="'Description'"
-                        [header]="'Ubicación'"
+                        [header]="'Fecha Operación'"
                         [sortable]="true"
                         [resizable]="true"
                         width="55px">

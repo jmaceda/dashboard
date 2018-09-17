@@ -215,10 +215,10 @@
 
                 <data-table-column
                         [property]="'numRetiros'"
-                        [header]="'Retiros'"
+                        [header]="'Núm. Retiros'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="1.8%">
+                        width="1.6%">
                         <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
                                 <span [ngStyle]="getColor(item.Description)">
@@ -232,7 +232,7 @@
                         [header]="'Monto Surcharge'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="2.2%">
+                        width="2.1%">
                         <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
 								<span [ngStyle]="getColor(item.Description)">
@@ -246,7 +246,7 @@
                     header="Monto Retiros"
                     [sortable]="true"
                     [resizable]="false"
-                    width="2.8%">
+                    width="2.5%">
                     <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: right;">
                             <span [ngStyle]="getColor(item.Description)">
@@ -256,36 +256,11 @@
                     </ng-template>
                 </data-table-column>
                 <data-table-column
-                    [property]="'hraPrimerRetiro'"
-                    [header]="'Primer Retiro'"
-                    [sortable]="true"
-                    [resizable]="false"
-                    width="2%">
-                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-                        <div style="text-align: center;">
-                            <span>{{item.hraPrimerRetiro}}</span>
-                        </div>
-                    </ng-template>
-                </data-table-column>
-                <data-table-column
-                    [property]="'hraUtimoRetiro'"
-                    [header]="'Último Retiro'"
-                    [sortable]="true"
-                    [resizable]="false"
-                    width="2%">
-                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-                        <div style="text-align: center;">
-                            <span>{{item.hraUtimoRetiro}}</span>
-                        </div>
-                    </ng-template>
-                </data-table-column>
-
-                <data-table-column
 					[property]="'numConsultas'"
-					[header]="'Consultas'"
+					[header]="'Núm. Cons.'"
 					[sortable]="true"
 					[resizable]="false"
-					width="2%">
+					width="1.6%">
 					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
 						<div style="text-align: right;">
 							<span [ngStyle]="getColor(item.Description)">
@@ -299,36 +274,12 @@
 					[header]="'Monto Surcharge'"
 					[sortable]="true"
 					[resizable]="false"
-					width="2.5%">
+					width="2.1%">
 					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
 						<div style="text-align: right;">
 							<span [ngStyle]="getColor(item.Description)">
 								{{item.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}
 							</span>
-						</div>
-					</ng-template>
-                </data-table-column>
-                <data-table-column
-					[property]="'hraPrimeraConsulta'"
-					[header]="'Primera Consulta'"
-					[sortable]="true"
-					[resizable]="false"
-					width="2%">
-					<ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-						<div style="text-align: center;">
-							<span>{{item.hraPrimeraConsulta}}</span>
-						</div>
-					</ng-template>
-                </data-table-column>
-                <data-table-column
-					[property]="'hraUtimaConsulta'"
-					[header]="'Última Consulta'"
-					[sortable]="true"
-					[resizable]="false"
-					width="2%">
-					<ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-						<div style="text-align: center;">
-							<span>{{item.hraUtimaConsulta}}</span>
 						</div>
 					</ng-template>
                 </data-table-column>
@@ -338,7 +289,7 @@
 					[header]="'Total Surcharge'"
 					[sortable]="true"
 					[resizable]="false"
-					width="35px">
+					width="37px">
 					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
 						<div style="text-align: right;">
 							<span [ngStyle]="getColor(item.Description)">
@@ -349,22 +300,8 @@
                 </data-table-column>
 
                 <data-table-column
-					[property]="'errTotal'"
-					[header]="'Errores Comunicación'"
-					[sortable]="true"
-					[resizable]="false"
-					width="30px">
-					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
-						<div style="text-align: right;">
-							<span style="color: red" *ngIf="item.errTotal > 0">{{item.errTotal | number:'1.0-2'}}</span>
-							<span style="color: black" *ngIf="item.errTotal == 0">{{item.errTotal | number:'1.0-2'}}</span>
-						</div>
-					</ng-template>
-                </data-table-column>
-
-                <data-table-column
                         [property]="'numDepositos'"
-                        [header]="'Depósitos'"
+                        [header]="'Núm. Depósitos'"
                         [sortable]="true"
                         [resizable]="false"
                         width="2%">
@@ -382,7 +319,7 @@
                         [header]="'Monto Depósitos'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="2.8%">
+                        width="3%">
                         <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
                                 <span [ngStyle]="getColor(item.Description)">
@@ -391,31 +328,21 @@
                             </div>
                         </ng-template>
                 </data-table-column>
-                <data-table-column
-                        [property]="'hraPrimerDeposito'"
-                        [header]="'Primera Depósito'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2%">
-                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-                        <div style="text-align: center;">
-                            <span>{{item.hraPrimerDeposito}}</span>
-                        </div>
-                    </ng-template>
-                </data-table-column>
-                <data-table-column
-                        [property]="'hraUtimoDeposito'"
-                        [header]="'Última Depósito'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="2%">
-                    <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
-                        <div style="text-align: center;">
-                            <span>{{item.hraUtimoDeposito}}</span>
-                        </div>
-                    </ng-template>
-                </data-table-column>
 
+                <data-table-column
+                        [property]="'prcRetDepos'"
+                        [header]="''"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                    <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
+                        <div style="text-align: right;">
+                                <span [ngStyle]="getColor(item.Description)">
+                                    {{item.prcRetDepos | number:'1.2-2'}}
+                                </span>
+                        </div>
+                    </ng-template>
+                </data-table-column>
             </data-table>
         </div>
     </div>

@@ -15,9 +15,11 @@ import {LocalStorageService, SessionStorageService} from 'ng2-webstorage';
 import { SweetAlertService } from 'ngx-sweetalert2';
 //import swal from 'sweetalert2';
 
+import { NgxDatatableModule, DatatableComponent } from '@swimlane/ngx-datatable';
+
 var arrDatosAtms:any[] = [];
 
-export const nomComponente:string = "OpersFinancierasComponent";
+export const nomComponente:string = "OpersFinanAcumulaComponent";
 export var gGetGroupsAtmIds:any;
 
 export class GetGroupsAtmIds{
@@ -36,17 +38,17 @@ export class GetGroupsAtmIds{
 
 @Component({
     selector: 'opers-financieras',
-    templateUrl: './opers-financieras.component.html',
-    styleUrls: ['./opers-financieras.component.css'],
+    templateUrl: './opers-finan-acumula.component.html',
+    styleUrls: ['./opers-finan-acumula.component.css'],
     providers: [SoapService, InfoAtmsService, DatosJournalService, UtilsService, SweetAlertService]
 })
-export class OpersFinancierasComponent implements OnInit, OnDestroy {
+export class OpersFinanAcumulaComponent implements OnInit, OnDestroy {
 
     // Filtros
     public dListaAtmGpos:any            = [];
     public dTipoListaParams:string      = "G";
     public dSolicitaFechasIni           = true;
-    public dSolicitaFechasFin           = false;
+    public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
     public itemResource                 = new DataTableResource([]);
@@ -62,8 +64,11 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     private isDatosJournal:boolean      = false;
     private notificationsComponent: NotificationsComponent;
     private attribute: string = "atributos de esta clase";
+    public tituloDatatable:string       = "Operaciones Financieras";
 
 
+    selected = [];
+    loadingIndicator: boolean = true;
 
 
     constructor(public _soapService: SoapService,
@@ -75,6 +80,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                 private _swal2: SweetAlertService) {
 
         this.notificationsComponent = new NotificationsComponent();
+        this.isDatosJournal = !this.isDatosJournal;
     }
 
     public ngOnInit() {
@@ -82,6 +88,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         this.storage.observe('key')
             .subscribe((value) => console.log('new value', value));
 
+        this.isDatosJournal = this.isDatosJournal;
     }
 
     public ngOnDestroy() {
@@ -94,11 +101,11 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public parametrosConsulta(filtrosConsulta) {
         let idGpo 					= filtrosConsulta.gpo;
         let fIniParam               = filtrosConsulta.fchInicio;
-        let fFinParam               = filtrosConsulta.fchInicio;
+        let fFinParam               = filtrosConsulta.fchFin;
         let ipAtm                   = filtrosConsulta.gpo;
         let timeStampStart:string   = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fIniParam.year, fIniParam.month, fIniParam.day);
+        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fFinParam.year, fFinParam.month, fFinParam.day);
         let paramsConsulta:any      = {
 				'timeStampStart': timeStampStart, 
 				'timeStampEnd': timeStampEnd, 
@@ -127,21 +134,13 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
         this.datosDeOperacion(paramsConsulta);
 
-        /*
-        if( fchSys == fchParam) {
-            this.intervalId = setInterval(() => {
-                this.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
-        }
-        */
-		
     }
 
     private datosDeOperacion(paramsConsulta){
         let datosAtm:any;
 		let idAtms:any[]        	= this.infoAtmsService.obtenInfoAtmsOnLinePorGpo(paramsConsulta);
         let numRetirosTiendas		= 0;
-        let montoRetirosTiendas		= 0;
+        let montoRetirosTiendas:number		= 0;
 		let numConsultasTiendas		= 0;		
 		let comisTotalTiendas   	= 0;
 		let comisRetirosTiendas 	= 0;
@@ -154,7 +153,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let depositosTotalPlazas    = 0;
         let numDepositosPlazas      = 0;
 		let comisConsultasPlazas 	= 0;
-        let depositosTotalTiendas   = 0;
+        let depositosTotalTiendas:number   = 0;
         let numDepositosTiendas     = 0;
 		let expRegText              = "^CI[0-9]{2}XX[0-9]{4}[0-9A-Za-z]*$";
 		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
@@ -170,7 +169,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-		
+        console.log("paramsConsulta["+JSON.stringify(paramsConsulta)+"]");
 		// Guardar info en Storage Windows
         // this.storage.store('boundValue', this.attribute);
 
@@ -185,6 +184,12 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 //console.log("(2)");
 //console.log(JSON.stringify(datosAtm));
                 if ( (datosAtm.numConsultas + datosAtm.numRetiros + datosAtm.numDepositos) > 0) {
+                    if (datosAtm.montoRetiros > 0 && datosAtm.montoDepositos > 0) {
+                        datosAtm.prcRetDepos = (datosAtm.montoRetiros / datosAtm.montoDepositos) * 100;
+                    } else {
+                        datosAtm.prcRetDepos = 0;
+                    }
+
                     this.opersFinancieras.push(datosAtm);
 
 					if ( regexTienda.test(datosAtm.idAtm) ){
@@ -207,6 +212,9 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                         numDepositosPlazas      += datosAtm.numDepositos;
 					}
                 }
+
+                this.selected = [reg[2]];
+
             });
 
             if (this.opersFinancieras.length == 0)
@@ -234,8 +242,10 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 				'comisionesConsultas': comisConsultasTiendas,
 				'totalComisiones': comisTotalTiendas,
                 'numDepositos': numDepositosTiendas,
-                'montoDepositos': depositosTotalTiendas
+                'montoDepositos': depositosTotalTiendas,
+                'prcRetDepos': ((montoRetirosTiendas/depositosTotalTiendas)*100)
 			});
+		    console.log("montoRetirosTiendas["+montoRetirosTiendas+"]   depositosTotalTiendas["+depositosTotalTiendas+"]   ["+((montoRetirosTiendas/depositosTotalTiendas)*100)+"]");
 			this.opersFinancieras.push({
 				'Description': 'Comisiones Plazas', 
                 'numRetiros': numRetirosPlazas,
@@ -249,6 +259,21 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 			});
 		}
 
+
+        if (this.opersFinancieras.length > 0) {
+            $('#btnExpExel2').css('cursor', 'pointer');
+            this.isDatosJournal = !this.isDatosJournal;
+        }else{
+            $('#btnExpExel2').css('cursor', 'not-allowed');
+            this.isDatosJournal = this.isDatosJournal;
+        }
+        this.loadingIndicator = false;
+
+        this.filtrosUtilsService.fchaHraUltimaActualizacion();
+
+
+
+/*
         if ($('#btnExpExel2').length == 0) {
             $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
         }
@@ -260,44 +285,19 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             $('#btnExpExel2').css('cursor', 'not-allowed');
             this.isDatosJournal = true;
         }
-
+*/
 		console.log("Se va a cargar el buffer para mostrar los datos de la pantalla");
+		/*
         if(this.opersFinancieras.length > 0) {
             this.itemResource = new DataTableResource(this.opersFinancieras);
             this.itemResource.count().then(count => this.itemCount = count);
             this.reloadItems({limit: this.regsLimite, offset: 0});
             this.filtrosUtilsService.fchaHraUltimaActualizacion();
         }
-        this.opersFinancieras = [];
+        */
+        //this.opersFinancieras = [];
         console.log("Termina proceso");
-        /*
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }	
-        */
-       
-    
-        /*
-        if( fchSys == fchParam) {
-            var self = this;
-            setTimeout(function(){
-                self.datosDeOperacion(paramsConsulta)
-            }, this.tiempoRefreshDatos);
-        }
-        */
-        
-		
-        if( fchSys == fchParam) {
-			if (this.intervalId != null){
-				clearInterval(this.intervalId);
-            }
-            var self = this;
-            this.intervalId = setInterval(() => {
-                self.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
-        }
-        	
-		
+
     }
 
     private reloadItems(params){
@@ -320,5 +320,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		}
 		return styles;
 	}
-
+    tmpFnc(event,id){
+        console.log("tmpFnc");
+    }
 }

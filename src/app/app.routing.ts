@@ -29,38 +29,49 @@ import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros
 import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
 import { LogHardwareComponent }             from './tmp/tmpLogHardware/log-hardware.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
-import { RechazosHmaComponent }              from './tmp/rechazos-hma/rechazos-hma.component';
+import { OpersFinansXCajeroComponent }      from './atms/opers-finans-x-cajero/opers-finans-x-cajero.component';
+import { OpersFinanAcumula2Component }      from './atms/opers-finan-acumula2/opers-finan-acumula2.component';
+import { RechazosHmaComponent }             from './tmp/rechazos-hma/rechazos-hma.component';
 import { TiempoPromOperComponent }          from './atms/tiempo-promedio-oper/tiempo-promedio-oper.component';
-import { ManualGrgComponent }                from './docs/manual-grg.component';
-import { ReporteMensualComponent }           from './reportes/banxico/reporte-mensual/reporte-mensual.component';
+import { ManualGrgComponent }               from './docs/manual-grg.component';
+import { ReporteMensualComponent }          from './reportes/banxico/reporte-mensual/reporte-mensual.component';
+import { ImpresionesOperComponent }         from './reportes/impresiones-oper/impresiones-oper.component';
+import { VerCoreFlujoComponent }            from './atms/ver-core-flujo/ver-core-flujo.component';
 
+import { OpersFinanAcumulaComponent }      from './atms/opers-finan-acumula/opers-finan-acumula.component';
 
 const routes: Routes =[
-    { path: 'atms',           component: AtmsEstatusComponent },
-    { path: 'resumen',        component: ResumenCifrasComponent },
-    { path: 'operaciones',    component: ResumenOperacionesComponent },
-    { path: 'journal',        component: JournalComponent },
-    { path: 'aclaraciones',   component: AclaracionesComponent },
-    { path: 'loghma',         component: LogHmaComponent },
-    { path: 'totaltienda',    component: TotalesPorTiendaComponent },
-    { path: 'resumenefectivo',component: ResumenDeEfectivo },
-    { path: 'detalletienda',  component: DetallePorTienda },
-    { path: 'retirosetv',     component: RetirosEtvComponent },
-    { path: 'retiroshma',     component: RetirosHmaComponent },
-    { path: 'efectdisp',      component: EfectDispCoponent },
-    { path: 'rechazoshma',     component: RechazosHmaComponent },
-    { path: 'loghardware',    component: LogHardwareComponent },
+    { path: 'atms',                 component: AtmsEstatusComponent },
+    { path: 'resumen',              component: ResumenCifrasComponent },
+    { path: 'operaciones',          component: ResumenOperacionesComponent },
+    { path: 'journal',              component: JournalComponent },
+    { path: 'aclaraciones',         component: AclaracionesComponent },
+    { path: 'loghma',               component: LogHmaComponent },
+    { path: 'totaltienda',          component: TotalesPorTiendaComponent },
+    { path: 'resumenefectivo',      component: ResumenDeEfectivo },
+    { path: 'detalletienda',        component: DetallePorTienda },
+    { path: 'retirosetv',           component: RetirosEtvComponent },
+    { path: 'retiroshma',           component: RetirosHmaComponent },
+    { path: 'efectdisp',            component: EfectDispCoponent },
+    { path: 'rechazoshma',          component: RechazosHmaComponent },
+    { path: 'loghardware',          component: LogHardwareComponent },
     { path: 'promopers',            component: TiempoPromOperComponent },
     { path: 'opersfinan',           component: OpersFinancierasComponent },
+    { path: 'opersfinanxcajero',    component: OpersFinansXCajeroComponent },
+    { path: 'opersfinanacumula2',   component: OpersFinanAcumula2Component },
     { path: 'reportebanxico',       component: ReporteMensualComponent },
     { path: 'manualgrg',            component: ManualGrgComponent },
     { path: 'user',                 component: UserComponent },
     { path: 'table',                component: TablesComponent },
     { path: 'typography',           component: TypographyComponent },
     { path: 'icons',                component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
+    { path: 'maps',                 component: MapsComponent },
+    { path: 'notifications',        component: NotificationsComponent },
+    { path: 'upgrade',              component: UpgradeComponent },
+    { path: 'impresiones',          component: ImpresionesOperComponent },
+    { path: 'versionesapp',         component: VerCoreFlujoComponent },
+    { path: 'opersfinanacumula',    component: OpersFinanAcumulaComponent },
+
     { path: '',  redirectTo: 'atms',   pathMatch: 'full' },
     { path: '**',  redirectTo: 'atms',   pathMatch: 'full' }
 ];

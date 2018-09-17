@@ -15,7 +15,7 @@ import { InfoAtmsService }               from '../../services/info-atms.service'
 import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
-import { BsModalComponent } from 'ng2-bs3-modal';
+//import { BsModalComponent } from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
@@ -42,8 +42,8 @@ export class ParamsComponent implements OnInit {
     @Output() parametrosConsulta = new EventEmitter(); //
 
     public contenidoCombo
-    @ViewChild('myModal')
-    modal: BsModalComponent;
+    //@ViewChild('myModal')
+    //modal: BsModalComponent;
 
     fchInicio: Date;
     fchFin: Date;
@@ -103,7 +103,8 @@ export class ParamsComponent implements OnInit {
 
     constructor(public _soapService: SoapService,
                 public detalleAtmsService: InfoAtmsService,
-                private modalService: NgbModal){
+                //private modalService: NgbModal
+				){
     }
 
     public GetEjaFilters(result:any, status){
@@ -189,7 +190,7 @@ export class ParamsComponent implements OnInit {
     public pActualizaParams() {
 
         console.log("ParamsComponent.pActualizaParams:: Se va a abrir la modal");
-        this.modal.open();
+        //this.modal.open();
         console.log("ParamsComponent.pActualizaParams:: Se abrio la modal");
         this.paramsActuales(3);
     }

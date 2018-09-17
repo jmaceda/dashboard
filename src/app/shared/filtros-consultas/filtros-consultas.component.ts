@@ -10,7 +10,7 @@ import { SoapService }                      from '../../services/soap.service';
 
 import { InfoAtmsService }                  from '../../services/info-atms.service';
 import { InfoGroupsService }                from '../../services/info-groups.service';
-import { BsModalComponent }                 from 'ng2-bs3-modal';
+//import { BsModalComponent }                 from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 
@@ -36,8 +36,8 @@ export class FiltrosConsultasComponent implements OnInit {
     @Output() parametrosConsulta = new EventEmitter(); // Función del Componente Padre que será ejecutada al oprimir el bototon "Actualiza".
 
 
-    @ViewChild('myModal')
-    modal: BsModalComponent;
+    //@ViewChild('myModal')
+    //modal: BsModalComponent;
     settings = {
         bigBanner: true,
         timePicker: true,
@@ -146,6 +146,9 @@ export class FiltrosConsultasComponent implements OnInit {
         let ipATM       = this.atmSeleccionado;
 
         let idGpo:any;
+
+        $('#btnRefreshJournal').css('cursor', 'pointer');
+
         if (this.dTipoListaParams == "G") {
             if (this.atmSeleccionado != "Todos") {
                 idGpo = this.infoGroupsService.obtenIdGroup(this.atmSeleccionado);

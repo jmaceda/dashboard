@@ -17,7 +17,7 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 
 var arrDatosAtms:any[] = [];
 
-export const nomComponente:string = "OpersFinancierasComponent";
+export const nomComponente:string = "OpersFinanAcumulaComponent";
 export var gGetGroupsAtmIds:any;
 
 export class GetGroupsAtmIds{
@@ -36,17 +36,17 @@ export class GetGroupsAtmIds{
 
 @Component({
     selector: 'opers-financieras',
-    templateUrl: './opers-financieras.component.html',
-    styleUrls: ['./opers-financieras.component.css'],
+    templateUrl: './opers-finan-acumula2.component.html',
+    styleUrls: ['./opers-finan-acumula2.component.css'],
     providers: [SoapService, InfoAtmsService, DatosJournalService, UtilsService, SweetAlertService]
 })
-export class OpersFinancierasComponent implements OnInit, OnDestroy {
+export class OpersFinanAcumula2Component implements OnInit, OnDestroy {
 
     // Filtros
     public dListaAtmGpos:any            = [];
     public dTipoListaParams:string      = "G";
     public dSolicitaFechasIni           = true;
-    public dSolicitaFechasFin           = false;
+    public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
     public itemResource                 = new DataTableResource([]);
@@ -94,11 +94,11 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public parametrosConsulta(filtrosConsulta) {
         let idGpo 					= filtrosConsulta.gpo;
         let fIniParam               = filtrosConsulta.fchInicio;
-        let fFinParam               = filtrosConsulta.fchInicio;
+        let fFinParam               = filtrosConsulta.fchFin;
         let ipAtm                   = filtrosConsulta.gpo;
         let timeStampStart:string   = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
-        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fIniParam.year, fIniParam.month, fIniParam.day);
+        let timeStampEnd:string     = sprintf("%04d-%02d-%02d-23-59", fFinParam.year, fFinParam.month, fFinParam.day);
         let paramsConsulta:any      = {
 				'timeStampStart': timeStampStart, 
 				'timeStampEnd': timeStampEnd, 
@@ -127,21 +127,13 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 
         this.datosDeOperacion(paramsConsulta);
 
-        /*
-        if( fchSys == fchParam) {
-            this.intervalId = setInterval(() => {
-                this.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
-        }
-        */
-		
     }
 
     private datosDeOperacion(paramsConsulta){
         let datosAtm:any;
 		let idAtms:any[]        	= this.infoAtmsService.obtenInfoAtmsOnLinePorGpo(paramsConsulta);
         let numRetirosTiendas		= 0;
-        let montoRetirosTiendas		= 0;
+        let montoRetirosTiendas:number		= 0;
 		let numConsultasTiendas		= 0;		
 		let comisTotalTiendas   	= 0;
 		let comisRetirosTiendas 	= 0;
@@ -154,7 +146,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         let depositosTotalPlazas    = 0;
         let numDepositosPlazas      = 0;
 		let comisConsultasPlazas 	= 0;
-        let depositosTotalTiendas   = 0;
+        let depositosTotalTiendas:number   = 0;
         let numDepositosTiendas     = 0;
 		let expRegText              = "^CI[0-9]{2}XX[0-9]{4}[0-9A-Za-z]*$";
 		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
@@ -170,7 +162,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
-		
+        console.log("paramsConsulta["+JSON.stringify(paramsConsulta)+"]");
 		// Guardar info en Storage Windows
         // this.storage.store('boundValue', this.attribute);
 
@@ -185,6 +177,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 //console.log("(2)");
 //console.log(JSON.stringify(datosAtm));
                 if ( (datosAtm.numConsultas + datosAtm.numRetiros + datosAtm.numDepositos) > 0) {
+                    datosAtm.prcRetDepos = (datosAtm.montoRetiros/ datosAtm.montoDepositos)*100;
                     this.opersFinancieras.push(datosAtm);
 
 					if ( regexTienda.test(datosAtm.idAtm) ){
@@ -234,8 +227,10 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 				'comisionesConsultas': comisConsultasTiendas,
 				'totalComisiones': comisTotalTiendas,
                 'numDepositos': numDepositosTiendas,
-                'montoDepositos': depositosTotalTiendas
+                'montoDepositos': depositosTotalTiendas,
+                'prcRetDepos': ((montoRetirosTiendas/depositosTotalTiendas)*100)
 			});
+		    console.log("montoRetirosTiendas["+montoRetirosTiendas+"]   depositosTotalTiendas["+depositosTotalTiendas+"]   ["+((montoRetirosTiendas/depositosTotalTiendas)*100)+"]");
 			this.opersFinancieras.push({
 				'Description': 'Comisiones Plazas', 
                 'numRetiros': numRetirosPlazas,
@@ -270,34 +265,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
         }
         this.opersFinancieras = [];
         console.log("Termina proceso");
-        /*
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }	
-        */
-       
-    
-        /*
-        if( fchSys == fchParam) {
-            var self = this;
-            setTimeout(function(){
-                self.datosDeOperacion(paramsConsulta)
-            }, this.tiempoRefreshDatos);
-        }
-        */
-        
-		
-        if( fchSys == fchParam) {
-			if (this.intervalId != null){
-				clearInterval(this.intervalId);
-            }
-            var self = this;
-            this.intervalId = setInterval(() => {
-                self.datosDeOperacion(paramsConsulta);
-            }, this.tiempoRefreshDatos);
-        }
-        	
-		
+
     }
 
     private reloadItems(params){
