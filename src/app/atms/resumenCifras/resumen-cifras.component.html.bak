@@ -184,11 +184,6 @@
         display: none !important;
     }
     */
-
-    table.table.table-condensed.table-bordered.data-table tbody[_ngcontent-c4].substitute-rows {
-        width: 500px;
-        max-width: 500px;
-    }
 </style>
 
 <div class="container-fluid">

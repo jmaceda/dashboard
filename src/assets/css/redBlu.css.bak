@@ -1,10 +1,12 @@
 /* Scroll para datatable @swimlane/ngx-datatable */
 div.ngx-columns{
     overflow-x: auto;
+    overflow-y: hidden;
 }
 
 th.ngx-table__header-cell{
     background-color: #777777;
+    text-align: center;
 }
 
 div#right {
@@ -20,6 +22,7 @@ div#right {
 
 table.table.table-condensed.table-bordered.data-table{
     overflow-x: auto;
+    overflow-y: auto;
 }
 
 table.table{
@@ -59,6 +62,9 @@ table.table.table-condensed.table-bordered.data-table thead tr th {
     padding-top: 0px;
     padding-left: 2px;
     padding-right: 2px;
+    background-color: #1A1561;
+    color: #FFFFFF;
+    /*font-weight: bold;*/
 }
 
 
@@ -195,29 +201,23 @@ div.ngx-column.ngx-col-4.ngx-col-mr-auto {
 
 
 /*  */
-button.btn.btn-default.btn-sm.refresh-button,
-button.btn.btn-default.btn-sm.column-selector-button{
+button.btn.btn-default.btn-sm.refresh-button {
     display: none;
 }
 
 /*  */
-#stat-atms-grid div div table thead tr th.expand-column-header,
-#idOpersFinancieras div div table thead tr th.expand-column-header {
+#stat-atms-grid div div table thead tr th.expand-column-header{
     width: 6px;
 }
-#stat-atms-grid div div table thead tr th.index-column-header,
-#idOpersFinancieras div div table thead tr th.index-column-header {
-    width: 12px;
-    text-align: center;
+#stat-atms-grid div div table thead tr th.index-column-header{
+    width: 10px;
 }
 
-#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable,
-#idOpersFinancieras div div table thead tr th.column-header.column-Ip.sortable {
+#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable{
     width: 56px;
 }
 
-#stat-atms-grid div div table tbody tr td.data-column.column-Ip,
-#idOpersFinancieras div div table tbody tr td.data-column.column-Ip{
+#stat-atms-grid div div table tbody tr td.data-column.column-Ip{
     width: 26px;
 }
 
@@ -228,61 +228,12 @@ button.btn.btn-default.btn-sm.column-selector-button{
 
 /*   */
 .campoNumerico {
-     text-align: right;
- }
+    text-align: right;
+}
 
-table.table.table-condensed.table-bordered.data-table thead tr th {
+.campoCentrado {
     text-align: center;
 }
-
-.clsFontsTituloDatatables {
-    padding: 2px 5px;
-    font-size: 22px;
-    vertical-align: middle;
-    /* height: 1.7em; */
-}
-
-.clsTituloDatatables {
-    line-height: normal;
-    text-align: left;
-    display: inline-block;
-    vertical-align: middle;
-    height: 1.6em;
-}
-
-.clsFiltroDatatables {
-    font-size: 14px;
-    height: 1.6em;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.clsCampoFiltroDatatables {
-    padding: 2px;
-    margin: 0px auto;
-    width: 35em;
-    margin-top: 5px;
-}
-
-.clsExcelTituloDatatables {
-    text-align: right;
-    vertical-align: middle;
-    height: 1.6em;
-}
-
-
-/*
-#idDivAreaGrid span[_ngcontent-c7].glyphicon.glyphicon-triangle-right:before{
-    color: springgreen !important;
-}
-*/
-
-.age-is-ten {
-    background: #ffc91f;
-}
-
-.bill-disponibles {
-    font-weight: bold !important;
-    color: #2f4aed !important;
-    background: #9EC2F1;
+table.table.table-condensed.table-bordered.data-table thead tr th {
+    text-align: center;
 }

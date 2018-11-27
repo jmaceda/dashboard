@@ -90,8 +90,7 @@
     background-repeat: repeat-y;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABCAYAAAD5PA/NAAAAFklEQVQI12PQkNdi1VTQ5gbSwkAsDQARLAIGtOSFUAAAAABJRU5ErkJggg==); }
   .ngx-datatable.material .datatable-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12); 
-	background-color: blue;}
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
     .ngx-datatable.material .datatable-header .datatable-header-cell {
       text-align: left;
       padding: .9rem 1.2rem;
@@ -99,7 +98,6 @@
       color: rgba(0, 0, 0, 0.54);
       vertical-align: bottom;
       font-size: 12px;
-	  background-color: blue;
       font-weight: 500; }
       .ngx-datatable.material .datatable-header .datatable-header-cell .datatable-header-cell-wrapper {
         position: relative; }
