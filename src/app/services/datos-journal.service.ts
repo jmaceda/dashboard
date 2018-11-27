@@ -300,6 +300,7 @@ export class DatosJournalService implements OnInit {
                                     comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
                                     comisonesAtm.hraUtimoDeposito = fchMovto;
                                 }
+<<<<<<< HEAD
                                 break;
                             }
 
@@ -322,6 +323,15 @@ export class DatosJournalService implements OnInit {
                                         comisonesAtm.errUltimaConsulta = fchMovto;
                                         comisonesAtm.errTotal++;
                                     }
+=======
+                            }else if (reg.Event == "BalanceCheck"){
+								if (regexErrCom.test(reg.HWErrorCode)){
+                                    comisonesAtm.errConsultas++;
+                                    comisonesAtm.errComisionConsultas  += comision;
+                                    comisonesAtm.errPrimeraConsulta     = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;
+                                    comisonesAtm.errUltimaConsulta      = fchMovto;
+                                    comisonesAtm.errTotal++;
+>>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                                 }
                             }
                         }

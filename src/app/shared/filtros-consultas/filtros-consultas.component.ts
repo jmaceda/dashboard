@@ -146,7 +146,10 @@ export class FiltrosConsultasComponent implements OnInit {
         let ipATM       = this.atmSeleccionado;
 
         let idGpo:any;
+<<<<<<< HEAD
         let descAtm:string = ipATM.substring(0,ipATM.indexOf("(")-1);
+=======
+>>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 
         $('#btnRefreshJournal').css('cursor', 'pointer');
 
