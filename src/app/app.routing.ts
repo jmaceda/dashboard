@@ -39,11 +39,9 @@ import { ImpresionesOperComponent }         from './reportes/impresiones-oper/im
 import { VerCoreFlujoComponent }            from './atms/ver-core-flujo/ver-core-flujo.component';
 
 import { OpersFinanAcumulaComponent }      from './atms/opers-finan-acumula/opers-finan-acumula.component';
-<<<<<<< HEAD
 import { EfectDispXGpoCoponent }            from './reportes/efect-disp-x-gpo/efect-disp-x-gpo.component';
 import { GruposAtmsComponent }              from './atms/grupos-atms/grupos-atms.component';
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+
 
 const routes: Routes =[
     { path: 'atms',                 component: AtmsEstatusComponent },
@@ -57,11 +55,9 @@ const routes: Routes =[
     { path: 'detalletienda',        component: DetallePorTienda },
     { path: 'retirosetv',           component: RetirosEtvComponent },
     { path: 'retiroshma',           component: RetirosHmaComponent },
-<<<<<<< HEAD
     { path: 'efectdisp',            component: EfectDispXAtmCoponent },
-=======
-    { path: 'efectdisp',            component: EfectDispCoponent },
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+    //{ path: 'efectdisp',            component: EfectDispCoponent },
+
     { path: 'rechazoshma',          component: RechazosHmaComponent },
     { path: 'loghardware',          component: LogHardwareComponent },
     { path: 'promopers',            component: TiempoPromOperComponent },
@@ -80,11 +76,8 @@ const routes: Routes =[
     { path: 'impresiones',          component: ImpresionesOperComponent },
     { path: 'versionesapp',         component: VerCoreFlujoComponent },
     { path: 'opersfinanacumula',    component: OpersFinanAcumulaComponent },
-<<<<<<< HEAD
     { path: 'efectdispgpo',         component: EfectDispXGpoCoponent },
     { path: 'gruposcajeros',        component: GruposAtmsComponent },
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 
     { path: '',  redirectTo: 'atms',   pathMatch: 'full' },
     { path: '**',  redirectTo: 'atms',   pathMatch: 'full' }

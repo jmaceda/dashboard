@@ -58,15 +58,13 @@
         padding-top: 5px;
         height: 19px;
     }
-<<<<<<< HEAD
+
     div.datatable-row-center datatable-header-cell.datatable-header-cell.sortable.resizeable{
         padding-bottom: 2px !important;
         padding-top: 2px !important;
         height: 19px !important;
     }
-=======
 
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
     .abc {
         /*
         width: 140px;
@@ -105,7 +103,6 @@
         color: white;
     }
 
-<<<<<<< HEAD
     /*
 =======
 >>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
@@ -162,8 +159,6 @@
         font-family: "Arial" !important;
         border-right-color: #ffffff !important;
     }
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 
 </style>
 
@@ -200,22 +195,14 @@
 
 
             <ngx-datatable
-<<<<<<< HEAD
-                #datatablejournal
-=======
                     #datatablejournal
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                     [loadingIndicator]="loadingIndicator"
                     [rows]="opersFinancieras"
                     class="material striped expandable"
                     [columnMode]="force"
                     [headerHeight]="30"
                     [footerHeight]="30"
-<<<<<<< HEAD
-                    [rowHeight]="30"
-=======
                     [rowHeight]="25"
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                     [scrollbarV]="true"
                     [scrollbarH]="true"
                     (click) = "tmpFnc($event)"
@@ -229,12 +216,8 @@
                         name="#"
                         [resizeable]="false"
                         [frozenLeft]="true"
-<<<<<<< HEAD
                         headerClass="attr-header"
                         [width]="35">
-=======
-                        [width]="45">
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                     <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <div class="colNum" >
                             <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
@@ -245,34 +228,27 @@
                 <ngx-datatable-column
                         prop="Description"
                         name="Ubicación"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
-                        headerClass="is-gender"
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="190">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="noWrap">
                             <span>{{row.Description}}</span>
                         </div>
                     </ng-template>
-<<<<<<< HEAD
-=======
+<!--
                     <ng-template let-row="row" ngx-datatable-header-template>
                         <div>
                             <span class="encabezados">Ubicación</span>
                         </div>
                     </ng-template>
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+-->
+
                 </ngx-datatable-column>
 
                 <ngx-datatable-column
                         prop="numRetiros"
                         name="Núm. Retiros"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="60">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class=""  style="text-align: right;">
@@ -284,53 +260,43 @@
                 <ngx-datatable-column
                         prop="comisionesRetiros"
                         name="Monto Surcharge"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="90">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
                             <span class="colNum">{{row.comisionesRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
                         </div>
                     </ng-template>
-<<<<<<< HEAD
-=======
+
+                    <!--
                     <ng-template let-row="row" ngx-datatable-header-template>
                         <div>
                             <span class="encabezados">Monto Surcharge</span>
                         </div>
                     </ng-template>
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+                    -->
                 </ngx-datatable-column>
 
                 <ngx-datatable-column
                         prop="montoRetiros"
                         name="Monto Retiros"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
                             <span class="colNum">{{row.montoRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
                         </div>
                     </ng-template>
-<<<<<<< HEAD
-=======
+                    <!--
                     <ng-template let-row="row" ngx-datatable-header-template>
                         <span class="encabezados">Monto Retiros</span>
                     </ng-template>
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+                    -->
                 </ngx-datatable-column>
                 <ngx-datatable-column
                         prop="numConsultas"
                         name="Núm. Cons."
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="60">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class=""  style="text-align: right;">
@@ -341,10 +307,7 @@
                 <ngx-datatable-column
                         prop="comisionesConsultas"
                         name="Monto Surcharge"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
@@ -353,17 +316,11 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-<<<<<<< HEAD
-                <ngx-datatable-column
-                        prop="totalComisiones"
-                        name="Total Surcharge"
-                        headerClass="attr-header"
-=======
 
                 <ngx-datatable-column
                         prop="totalComisiones"
                         name="Total Surcharge"
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+                        headerClass="attr-header"
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
@@ -375,10 +332,7 @@
                 <ngx-datatable-column
                         prop="numDepositos"
                         name="Núm. Depósitos"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
@@ -390,10 +344,7 @@
                 <ngx-datatable-column
                         prop="v"
                         name="Monto Depósitos"
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">
@@ -405,10 +356,7 @@
                 <ngx-datatable-column
                         prop="prcRetDepos"
                         name=""
-<<<<<<< HEAD
                         headerClass="attr-header"
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         [width]="100">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="colNum"  style="text-align: right;">

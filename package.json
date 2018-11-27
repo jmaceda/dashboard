@@ -54,10 +54,7 @@
         "ng2-pdf-viewer": "^4.1.2",
         "ng2-smart-table": "^1.2.2",
         "ng2-webstorage": "^1.8.0",
-<<<<<<< HEAD
         "ng4-loading-spinner": "^1.2.3",
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
         "ngx-easy-table": "^2.0.0",
         "ngx-super-table": "0.0.2",
         "ngx-sweetalert2": "^0.2.7",
@@ -67,10 +64,7 @@
         "rxjs": "^5.5.6",
         "sprintf-js": "^1.1.1",
         "xlsx": "^0.13.5",
-<<<<<<< HEAD
         "xlsx-style": "^0.8.13",
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
         "zone.js": "^0.8.18"
     },
     "devDependencies": {

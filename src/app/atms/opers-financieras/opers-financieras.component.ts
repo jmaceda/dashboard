@@ -52,12 +52,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
     public itemResource                 = new DataTableResource([]);
     public items                        = [];
     public itemCount                    = 0;
-
-<<<<<<< HEAD
-    public regsLimite:number            = 25;
-=======
     public regsLimite:number            = 16;
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
     public intervalId                   = null;
     public tiempoRefreshDatos:number    = (1000 * 60 * 1); // Actualiza la información cada minuto.
     //public xtIsOnline:string            = "";
@@ -160,8 +155,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		let comisConsultasPlazas 	= 0;
         let depositosTotalTiendas   = 0;
         let numDepositosTiendas     = 0;
-<<<<<<< HEAD
-
         let numRetirosEventos   	= 0;
         let montoRetirosEventos		= 0;
         let numConsultasEventos 	= 0;
@@ -179,11 +172,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
 		let regexPlaza:any      	= new RegExp( expRegText.replace(/XX/g, "GP") );
         let regexEventos:any      	= new RegExp( expRegText.replace(/XX/g, "XE") );
-=======
-		let expRegText              = "^CI[0-9]{2}XX[0-9]{4}[0-9A-Za-z]*$";
-		let regexTienda:any     	= new RegExp( expRegText.replace(/XX/g, "GT") );
-		let regexPlaza:any      	= new RegExp( expRegText.replace(/XX/g, "GP") );
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
         let msgValidaciones: any    = null;
 		let fchParam:any  			= (paramsConsulta.timeStampEnd.substring(0,10)).replace(/-/g,"");
         let ftoFchSys:any 			= {year: 'numeric', month: '2-digit', day: '2-digit'};
@@ -213,10 +201,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                     this.opersFinancieras.push(datosAtm);
 
 					if ( regexTienda.test(datosAtm.idAtm) ){
-<<<<<<< HEAD
 					    cntTiendas++;
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         numRetirosTiendas       += datosAtm.numRetiros;
                         montoRetirosTiendas     += datosAtm.montoRetiros;
 						comisRetirosTiendas 	+= datosAtm.comisionesRetiros;
@@ -226,10 +211,7 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                         depositosTotalTiendas   += datosAtm.montoDepositos;
                         numDepositosTiendas     += datosAtm.numDepositos;
 					} else if( regexPlaza.test(datosAtm.idAtm) ){
-<<<<<<< HEAD
                         cntPlazas++;
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                         numRetirosPlazas        += datosAtm.numRetiros;
                         montoRetirosPlazas      += datosAtm.montoRetiros;
 						comisRetirosPlazas 		+= datosAtm.comisionesRetiros;
@@ -238,7 +220,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 						comisTotalPlazas 		+= datosAtm.totalComisiones;
                         depositosTotalPlazas    += datosAtm.montoDepositos;
                         numDepositosPlazas      += datosAtm.numDepositos;
-<<<<<<< HEAD
                     } else if( regexEventos.test(datosAtm.idAtm) ){
                         cntEventos++;
                         numRetirosEventos       += datosAtm.numRetiros;
@@ -250,9 +231,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                         depositosTotalEventos   += datosAtm.montoDepositos;
                         numDepositosEventos     += datosAtm.numDepositos;
                     }
-=======
-					}
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
                 }
             });
 
@@ -268,8 +246,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
                 title: msgValidaciones
             });
         }
-<<<<<<< HEAD
-
 		console.log("Se va a realizar el acumulado de cifras");
 		if (comisTotalTiendas > 0 || comisTotalPlazas > 0 || comisTotalEventos > 0){
             this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
@@ -314,8 +290,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
             }
 		}
 
-=======
-
 		console.log("Se va a realizar el acumulado de cifras");
 		if (comisTotalTiendas > 0 || comisTotalPlazas > 0){
             this.opersFinancieras.sort(this.utilsService.sort_by('Description', false));
@@ -343,7 +317,6 @@ export class OpersFinancierasComponent implements OnInit, OnDestroy {
 			});
 		}
 
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
         if ($('#btnExpExel2').length == 0) {
             $('div.button-panel[_ngcontent-c6]').append('<input id="btnExpExel2" type=image src="assets/img/office_excel.png" width="40" height="35" (click)="exportaComisiones2Excel()">');
         }

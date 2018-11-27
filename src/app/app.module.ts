@@ -81,23 +81,14 @@ import { ReporteMensualComponent }          from './reportes/banxico/reporte-men
 import { ImpresionesOperComponent }         from './reportes/impresiones-oper/impresiones-oper.component';
 import { VerCoreFlujoComponent }            from './atms/ver-core-flujo/ver-core-flujo.component';
 
-
-<<<<<<< HEAD
 //import { Ng4LoadingSpinnerModule, Ng4LoadingSpinnerService  } from 'ng4-loading-spinner';
 
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 import { SweetAlertService } from 'ngx-sweetalert2';
 import {Ng2Webstorage} from 'ng2-webstorage';
 
 
-<<<<<<< HEAD
 import { OpersFinanAcumulaComponent }       from './atms/opers-finan-acumula/opers-finan-acumula.component'
 import { GruposAtmsComponent }              from './atms/grupos-atms/grupos-atms.component';
-=======
-import { OpersFinanAcumulaComponent }      from './atms/opers-finan-acumula/opers-finan-acumula.component'
-
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 
 @NgModule({
   declarations: [
@@ -135,12 +126,9 @@ import { OpersFinanAcumulaComponent }      from './atms/opers-finan-acumula/oper
     ImpresionesOperComponent,
     VerCoreFlujoComponent,
     OpersFinanAcumulaComponent,
-<<<<<<< HEAD
     EfectDispXGpoCoponent,
     GruposAtmsComponent,
-=======
 
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
   ],
 
   imports: [
@@ -165,10 +153,9 @@ import { OpersFinanAcumulaComponent }      from './atms/opers-finan-acumula/oper
     PruebasModule,
     PdfViewerModule,
     Ng2Webstorage,
-<<<<<<< HEAD
+
     //  Ng4LoadingSpinnerModule.forRoot(),
-=======
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
+
     //SweetAlert2Module.forRoot()
 
 

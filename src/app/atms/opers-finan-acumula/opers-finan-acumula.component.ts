@@ -64,11 +64,7 @@ export class OpersFinanAcumulaComponent implements OnInit, OnDestroy {
     private isDatosJournal:boolean      = false;
     private notificationsComponent: NotificationsComponent;
     private attribute: string = "atributos de esta clase";
-<<<<<<< HEAD
-    public tituloDatatable:string       = "Operaciones Financieras xx";
-=======
     public tituloDatatable:string       = "Operaciones Financieras";
->>>>>>> e88b8c5ff0e68abde08e02726d27bb563f6fb5fd
 
 
     selected = [];
