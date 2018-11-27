@@ -1,15 +1,18 @@
 // app/atms/detalle-atms.component.ts
-import { Component, OnInit, OnDestroy }                         from '@angular/core';
-import { DataTableResource }                                    from 'angular-4-data-table-fix';
+import { Component, OnInit }                                    from '@angular/core';
+import { DataTable, DataTableTranslations, DataTableResource }  from 'angular-4-data-table-fix';
 import { sprintf }                                              from "sprintf-js";
 import { SoapService }                                          from '../../services/soap.service';
+import { Router }                                               from '@angular/router';
+import { ActivatedRoute }                                       from '@angular/router';
 import { FiltrosUtilsService }                                  from '../../services/filtros-utils.service';
-import { LogHmaService }                                        from '../../services/log-hma.service';
+
+import { FiltrosConsultasComponent }                            from '../../shared/filtros-consultas/filtros-consultas.component';
 
 var arrDatosAtms:any[] = [];
 export var gDatosAtms:any[];
 export var gDatosEfectivoAtm:any[];
-export var gDevicesAtm:any[] = [];
+
 export const nomComponente:string = "AtmsEstatusComponent";
 
 export var gGetGroupsAtmIds:any;
@@ -28,15 +31,16 @@ export class GetGroupsAtmIds{
     }
 }
 
+
 @Component({
     selector: 'atms-estatus-root',
     templateUrl: './atms-estatus.component.html',
     styleUrls: ['./atms-estatus.component.css'],
-    providers: [SoapService, LogHmaService]
+    providers: [SoapService]
 })
-export class AtmsEstatusComponent implements OnInit, OnDestroy {
+export class AtmsEstatusComponent implements OnInit {
 
-    // Filtros
+    //
     public dListaAtmGpos:any            = [];
     public dTipoListaParams:string      = "G";
     public dSolicitaFechasIni           = false;
@@ -44,32 +48,52 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
     public dUltimaActualizacion:string;
 
     public regsLimite:number            = 15;
+
     public intervalId                   = null;
-    public tiempoRefreshDatos:number    = (1000 * 30 * 1);
+    public tiempoRefreshDatos:number    = (1000 * 30 * 1); // Actualiza la información cada minuto.
+    public ambiente: string             = "Producción"
+
+    public xtIsOnline:string            = "";
     public itemResource                 = new DataTableResource(arrDatosAtms);
     public items                        = [];
     public itemCount                    = 0;
+    public Titulo:string                = "";
+    public rutaActual                   = "";
+    public urlPath                      = "";
+    public fchActual:any;
+    public pDatosParam:any              = {};
+
+
 
     constructor(public _soapService: SoapService,
-                public filtrosUtilsService: FiltrosUtilsService,
-                public logHmaService: LogHmaService) {
+                public filtrosUtilsService: FiltrosUtilsService) {
     }
 
-    public ngOnInit() {
-        gDevicesAtm = this.logHmaService.GetHmaDevices();
-    }
+    public ngOnInit() {}
 
-    public ngOnDestroy() {
-        if (this.intervalId != null){
-            clearInterval(this.intervalId);
-        }
-    }
 
     public parametrosConsulta(filtrosConsulta){
 
         let parametrosConsulta:any = {};
+
+        //let fIniParam = filtrosConsulta.fchInicio;
+        //let fFinParam = filtrosConsulta.fchFin;
         let idGpo     = filtrosConsulta.gpo;
+
+        //let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
+        //    fIniParam.hour, fIniParam.min);
+
+        //console.log(nomComponente+".parametrosConsulta:: ["+fchIniParam+"]");
+
+        //let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
+         //   fFinParam.hour, fFinParam.min);
+
+        //console.log(nomComponente+".parametrosConsulta:: ["+fchFinParam+"]");
+
+        //this.pDatosParam = {fchIni: fchIniParam, fchFin: fchFinParam, groupId: idGpo};
         let filtrosCons = {idGpo: idGpo};
+
+        //this.pActualizaInfo(filtrosCons);
 
         if (this.intervalId != null){
             clearInterval(this.intervalId);
@@ -77,13 +101,18 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
         this.obtenGetAtm(filtrosCons);
         this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
+
     }
 
-    // Atualiza informciòn de la pantalla.
+
+    // Actualiza informciòn de la pantalla.
     public pActualizaInfo(filtrosCons): void {
+
+        console.log("pActualizaInfo::  Inicio");
         if (this.intervalId != null){
             clearInterval(this.intervalId);
         }
+
         this.obtenGetAtm(filtrosCons);
         this.intervalId = setInterval(() => { this.obtenGetAtm(filtrosCons); }, this.tiempoRefreshDatos);
     }
@@ -91,37 +120,36 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
 
     public obtenGetAtm(filtrosCons) {
 
+        /*
+        if (this.urlPath != "atms"){
+            console.log("obtenGetAtm:: No va a cargar los datos");
+            return(0);
+        }
+        */
+
         let paramsCons = {  nemonico: -1, groupId: Number(filtrosCons.idGpo), brandId: -1,
                             modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
-        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm, false);
+        this._soapService.post('', "GetAtm", paramsCons, this.GetAtm);
 
         let idx = 0;
         arrDatosAtms = [];
-        let arrDevicesOffline = [];
-        let arrFchasUltimaAct = [];
 
         gDatosAtms.forEach(( reg )=> {
+
+            //console.log(this.nomComponente + ".obtenGetAtm:: Id ATM["+reg.Id+"]");
             let tSafeOpen    = (reg.SafeOpen == false)    ? 'Cerrada' : 'Abierta';
             let tCabinetOpen = (reg.CabinetOpen == false) ? 'Cerrado' : 'Abierto';
             let tIsOnline    = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
+            this.xtIsOnline  = (reg.IsOnline == true)     ? 'Encendido' : 'Apagado';
             let tOffDispo    = (reg.OfflineDevices.length > 0) ? 'Error' : 'OK';
 
-            if ( reg.OfflineDevices.length > 0 ){
-                for(let cve in reg.OfflineDevices) {
-                    arrDevicesOffline.push(gDevicesAtm[reg.OfflineDevices[cve]]);
-                }
-            }
-
-            arrFchasUltimaAct.push({'desc': 'ATM',          'fcha': reg.LastIOnlineTimestamp});
-            arrFchasUltimaAct.push({'desc': 'Cassettes',    'fcha': reg.CassettesStatusTimestamp});
-            arrFchasUltimaAct.push({'desc': 'Bóveda',       'fcha': reg.SafeOpenTs});
-            arrFchasUltimaAct.push({'desc': 'Gabinete',     'fcha': reg.CabinetOpenTs});
+            // Recupera los datos efectivo del cajero
+            let parameters = { atmId: reg.Id };
 
             arrDatosAtms[idx++] = {
                 Description:                    reg.Description,
                 Ip:                             reg.Ip,
-                Name:                           reg.Name,
                 DeviceStatus:                   reg.DeviceStatus,
                 IsOnline:                       tIsOnline,
                 PaperStatus:                    reg.PaperStatus,
@@ -129,6 +157,7 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                 CabinetOpen:                    tCabinetOpen,
                 CassetteAmount:                 reg.CassetteAmount,
                 OfflineDevices:                 tOffDispo,
+
                 ServiceDate:                    reg.ServiceDate,
                 CassettesStatusTimestamp:       reg.CassettesStatusTimestamp,
                 SafeOpenTs:                     reg.SafeOpenTs,
@@ -143,35 +172,39 @@ export class AtmsEstatusComponent implements OnInit, OnDestroy {
                  numBilletes:                    gDatosEfectivoAtm.Amount,
                  montoTotal:                     (gDatosEfectivoAtm.Denomination * gDatosEfectivoAtm.Amount)
                  */
-                DevicesOffline: arrDevicesOffline,
-                FchsUltimaAct: arrFchasUltimaAct
-            };
+            }
 
-            arrDevicesOffline = [];
-            arrFchasUltimaAct = [];
 
         });
 
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
+        this.Titulo="";
+
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
+
     }
 
     public GetAtm(datosAtms:any, status){
+        console.log("GetAtm:: Inicio  ["+new Date()+"]");
         gDatosAtms = datosAtms;
     }
 
     reloadItems(params) {
+        console.log("reloadItems::");
         this.itemResource.query(params).then(items => this.items = items);
     }
 
-    rowClick(rowEvent) {}
-
-    rowDoubleClick(rowEvent) {}
-
-    rowTooltip(item, x?, y?) {
-        return item.jobTitle;
+    rowClick(rowEvent) {
+        console.log('Clicked: ' + rowEvent.row.item.name);
     }
+
+    rowDoubleClick(rowEvent) {
+        alert('Double clicked: ' + rowEvent.row.item.name);
+    }
+
+    rowTooltip(item) { return item.jobTitle; }
+
 }
 

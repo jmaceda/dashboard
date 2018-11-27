@@ -1,13 +1,5 @@
 <!-- https://github.com/ssuperczynski/ngx-easy-table -->
 
-<style>
-
-    table.ngx-table.ngx-table-striped.ngx-table-hover tbody{
-        max-height: 20em;
-        height: 20em;
-    }
-
-</style>
 
 <div class="container-fluid">
 
@@ -29,13 +21,18 @@
                 <div class="col-md-8" style="vertical-align: middle;">
                     <span style="font-size: 25px;">Aclaraciones</span>
                 </div>
-
+                <!--
+                <div class="col-md-4" style="text-align: center">
+                    <div  id="right" style="text-align: center">Aclaraciones</div>
+                    <div style="text-align: center">{{fchUltimaActualizacion}}</div>
+                </div>
+                -->
                 <div class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <!-- button type="button" class="btn btn-secondary" (click)="this.exportaJournal2Excel()">Export Excel</button -->
                     <input id="btnExpExel"
                            style="cursor: pointer;"
                            title="Exporta archivo CVS"
                            type=image   src="assets/img/office_excel.png"
-                           [attr.disabled]="isDatosJournal?'':null"
                            width="45" height="40" (click)="exportaJournal2Excel()">
                 </div>
             </div>
@@ -46,14 +43,13 @@
             <div class="columns">
                 <div class="column col-12">
                     <ngx-table  id="app-aclara"
-
-                                class='form-control'
-                                [configuration]="configuration"
-                                [data]="dataJournalRedBlu"
-                                [columns]="columnas"
-                                [pagination]="pagination"
-                                [id]="id"
-                                style="min-height:400px;">
+                        class='form-control'
+                        [configuration]="configuration"
+                        [data]="dataJournalRedBlu"
+                        [columns]="columnas"
+                        [pagination]="pagination"
+                        [id]="id"
+                        style="min-height:400px;">
 
                         <ng-template let-row>
 
@@ -61,75 +57,67 @@
                                 <span>{{row.TimeStamp | date: 'dd-MM-yyyy  HH:mm:ss'}}</span>
                             </td>
 
-                            <td style="width: 10em;">{{row.Ip}}</td>
-
-                            <td style="width: 10em;">{{row.AtmName}}</td>
+                            <!--
+                            <td style="width: 10px;">
+                                <span>{{row.TimeStamp | date: ' '}}</span>
+                            </td>
+                            -->
 
                             <td>{{row.CardNumber}}</td>
 
-                            <td>{{row.OperationType}}</td>
+                            <td>{{row.Event}}</td>
 
-                            <!-- td  style="width: 25em; max-width: 25em;">{{row.TransactionCount}}</td -->
-                            <td style="width: 25em; max-width: 25em;">
-                                <span>{{row.TransactionCount}}</span>
-                            </td>
+                            <td>{{row.OperationType}}</td>
 
                             <td style="width: 10px; text-align: right;">
                                 <span style="text-align: right;">{{row.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
                             </td>
 
-                            <td class="noWrap" style="width: 10px;">
-                                <span>{{row.HWErrorCode}}</span>
+                            <td style="width:  10px; max-width: 10px; text-align: right;">
+                                <span style="text-align: right;">{{row.Available | currency:'USD':'symbol':'1.2-2'}}</span>
                             </td>
-
-                            <td>{{row.Denomination}}</td>
-
-                            <td>{{row.Aquirer}}</td>
-
-                            <td>{{row.Event}}</td>
-
-                            <td>{{row.AccountId}}</td>
-
-                            <td>{{row.AccountType}}</td>
-
-                            <div style="width: 60em">
-                                <td>{{row.Location}}</td>
-                            </div>
-
-                            <td style="width: 10em;">{{row.Arqc}}</td>
-
-                            <td style="width: 10em;">{{row.Arpc}}</td>
-
-                            <td>{{row.FlagCode}}</td>
-
-                            <td style="width: 10em;">{{row.TerminalCaps}}</td>
-
-                            <td style="width: 10em;">{{row.PosMode}}</td>
-
-                            <td style="width: 10em;">{{row.AuthId}}</td>
-
-                            <td style="width: 10em;">{{row.SwitchAuthCode}}</td>
 
                             <td style="width:  5px; max-width: 5px; text-align: right;">
                                 <span style="text-align: right;">{{row.Surcharge | number:'1.2-2'}}</span>
                             </td>
 
-                            <td>{{row.SwitchResponseCode}}</td>
+                            <td>{{row.Aquirer}}</td>
 
                             <td class="noWrap">{{row.Data}}</td>
 
-                            <td style="width:  10px; max-width: 10px; text-align: right;">
-                                <span style="text-align: right;">{{row.Available | currency:'USD':'symbol':'1.2-2'}}</span>
+                            <td>{{row.SwitchResponseCode}}</td>
+
+                            <td class="noWrap" style="width: 10px;">
+                                <span>{{row.HWErrorCode}}</span>
                             </td>
 
+                            <td>{{row.TransactionCount}}</td>
+                            <td>{{row.Denomination}}</td>
+                            <td>{{row.AccountId}}</td>
+                            <td>{{row.AccountType}}</td>
+                            <td>{{row.AtmId}}</td>
+                            <td>{{row.FlagCode}}</td>
+
+                            <td style="width: 10em;">{{row.Arqc}}</td>
+                            <td style="width: 10em;">{{row.Arpc}}</td>
+
+                            <!-- td style="width: 10em;">{{row.TerminalCaps}}</td -->
+                            <td style="width: 10em;">{{row.PosMode}}</td>
                             <td style="width: 10em;">{{row.SwitchAtmId}}</td>
-
+                            <!--
                             <td style="width: 10em;">{{row.Reference1}}</td>
-
                             <td style="width: 10em;">{{row.Reference2}}</td>
-
                             <td style="width: 10em;">{{row.Reference3}}</td>
-
+                            <td style="width: 10em;">{{row.SerializedId}}</td>
+                            <td style="width: 10em;">{{row.Ip}}</td>
+                            <td style="width: 10em;">{{row.Id}}</td>
+                            -->
+                            <!-- td style="width: 100em;">{{row.Location}}</td -->
+                            <!--
+                            <div style="width: 60em">
+                                <td>{{row.Location}}</td>
+                            </div>
+                            -->
                         </ng-template>
                     </ngx-table>
                 </div>

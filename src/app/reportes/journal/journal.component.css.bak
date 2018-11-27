@@ -1,0 +1,22 @@
+:host /deep/ .data-table-row {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.input-group-addon {
+    background-color: #0072FF;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+}
+
+:host /deep/ .index-column,
+:host /deep/ .index-column-header {
+    text-align: right;
+}
+
+:host /deep/ .data-table .data-table-row.selected {
+    background-color: #E4EDF9;
+}

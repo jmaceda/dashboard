@@ -1,10 +1,13 @@
 // app/reportes/totales-por-tienda/totales-por-tienda.component.ts
 import { Component }                                    from '@angular/core';
 import { OnInit }                                       from '@angular/core';
+import { OnDestroy }                                    from '@angular/core';
 import { SoapService }                                  from '../../services/soap.service';
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { sprintf }                                      from "sprintf-js";
 import { DataTableResource }                            from 'angular-4-data-table-fix';
+import { EventEmitter}      from '@angular/core';
+
 
 export var gGetGroupsWithAtms:any;
 export var gGetGroupsAtmsIps:any;
@@ -80,6 +83,9 @@ export class DetallePorTienda implements OnInit  {
 
 
     parametrosConsulta(infoRecibida){
+        console.log("Se va mostrar la información enviada desde el componente Params");
+        console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
+        console.log("Se mostro la información enviada desde el componente Params");
         let parametrossConsulta:any = {};
 
         let fIniParam = infoRecibida.fchInicio;
@@ -88,29 +94,53 @@ export class DetallePorTienda implements OnInit  {
 
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
+
         let d1 = new Date(Number(fIniParam.year), Number(fIniParam.month)-1, Number(fIniParam.day));
+        console.log("fchIniParam["+fchIniParam+"]");
+        console.log("date["+d1+"]  ["+d1.getTime()+"]  ["+new Date(d1)+"]");
+
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
+
         let d2= new Date(Number(fFinParam.year), Number(fFinParam.month)-1, Number(fFinParam.day)+1);
+        console.log("fchFinParam["+fchFinParam+"]");
+        console.log("date["+d2+"]  ["+d2.getTime()+"]  ["+new Date(d2)+"]");
+
         let datosParam:any = {fchIni: d1.getTime(), fchFin: d2.getTime(), idAtm: idAtm};
 
+        //this.obtenGetGroupsWithAtms();
         this.obtenTotalesTienda(datosParam);
     }
 
     GetStoreTotals(datosTienda:any, status){
         gDatosTotalPorTienda = datosTienda;
+        console.log(JSON.stringify(datosTienda));
     }
 
     GetCmByStore(datosTienda:any, status){
         gDatosTotalPorTienda = datosTienda;
+        console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
     obtenTotalesTienda(datosParam){
 
         let parametros:any = {startDate: datosParam.fchIni, endDate: datosParam.fchFin, store: 16228090}; //datosParam.idAtm};
+        console.log("TotalesPorTiendaComponent.obtenTotalesTienda:: parametros["+JSON.stringify(parametros)+"]");
+        //parametros = {startDate: 1513576800000, endDate: 1513749600000, store: 41684324}
+        //this._soapService.post('', 'GetStoreTotals', parametros, this.GetStoreTotals);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
 
-        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore, false);
+        // <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><GetStoreTotals xmlns="http://Pentomino.mx/"><startDate>1513576800000</startDate><endDate>1513663200000</endDate><store>16228090</store></GetStoreTotals></s:Body></s:Envelope>
 
+        //  <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetStoreTotalsResponse xmlns="http://Pentomino.mx/"><GetStoreTotalsResult><CmStoreInfo><Store>Tienda 3805</Store><User /><Atm>CI01GT0003</Atm><TxType>Depósito Walmart</TxType><Date>Pendiente ATM CI01GT0003</Date><Time /><TxId>92</TxId><Amount1000>22</Amount1000><Amount500>1486</Amount500><Amount200>842</Amount200><Amount100>504</Amount100><Amount50>228</Amount50><Amount20>2</Amount20><Dispensed1000>0</Dispensed1000><Dispensed500>51</Dispensed500><Dispensed200>0</Dispensed200><Dispensed100>0</Dispensed100><Dispensed50>0</Dispensed50><Dispensed20>0</Dispensed20><Taken1000>22</Taken1000><Taken500>1435</Taken500><Taken200>842</Taken200><Taken100>504</Taken100><Taken50>228</Taken50><Taken20>2</Taken20><Total>885690</Total></CmStoreInfo></GetStoreTotalsResult></GetStoreTotalsResponse></soap:Body></soap:Envelope>
+        
+        /*
+        {"Store":"Tienda 3805","User":null,"Atm":"CI01GT0003","TxType":"Depósito Walmart","Date":"Pendiente ATM CI01GT0003","Time":null,"TxId":"92",
+        "Amount1000":22,"Amount500":1486,"Amount200":842,"Amount100":504,"Amount50":228,"Amount20":2,
+        "Dispensed1000":0,"Dispensed500":51,"Dispensed200":0,"Dispensed100":0,"Dispensed50":0,"Dispensed20":0,
+        "Taken1000":22,"Taken500":1435,"Taken200":842,"Taken100":504,"Taken50":228,"Taken20":2,
+        "Total":885690}
+        */
         let arrDatosAtms:any[] = [];
         let idx:number = 0;
         gDatosTotalPorTienda.forEach(( reg )=> {
@@ -145,6 +175,7 @@ export class DetallePorTienda implements OnInit  {
         this.itemResource = new DataTableResource(arrDatosAtms);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
+
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
@@ -153,15 +184,26 @@ export class DetallePorTienda implements OnInit  {
 
     gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
-    ngOnInit() {}
+    ngOnInit() {
+        //this.obtenGetGroupsWithAtms();
+        //this.dListaAtmGpos = gGrupos;
 
-    reloadItems(params) {
-        this.itemResource.query(params).then(items => this.items = items);
     }
 
-    rowClick(rowEvent) {}
+    reloadItems(params) {
+        console.log("reloadItems::  parms: "+JSON.stringify(params));
 
-    rowDoubleClick(rowEvent) {}
+        this.itemResource.query(params).then(items => this.items = items);
+
+    }
+
+    rowClick(rowEvent) {
+        console.log('Clicked: ' + rowEvent.row.item.name);
+    }
+
+    rowDoubleClick(rowEvent) {
+        alert('Double clicked: ' + rowEvent.row.item.name);
+    }
 
     rowTooltip(item) { return item.jobTitle; }
 

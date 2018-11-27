@@ -1,34 +1,15 @@
 <!-- data-table-demo1.html -->
 <style>
-    /*
-    .refresh-button, .column-selector-button{
-        padding-bottom: 2px;
-        padding-top: 2px;
-        padding-left: 5px;
-        padding-right: 5px;
+
+    #idDivAreaGrid #idDivCardGrid #stat-atms-grid > div > div > table > tbody > tr td.index-column,
+    #stat-atms-grid > div > div > table > thead > tr th.index-column-header {
+        width: 5px;
+        max-width: 5px;
     }
 
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
-    .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 2px 2px;
-        vertical-align: middle;
+    th.index-column-header[_ngcontent-c4] {
+        width: 10px;
     }
-
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
-    .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 2px 2px;
-        vertical-align: middle;
-    }
-    .data-table.table td {
-        padding: 2px 2px;
-        vertical-align: middle;
-    }
-
-    td.data-column.column-IsOnline{
-        text-align: center;
-        vertical-align: middle;
-    }
-    */
 
     #idDivAreaGrid {
         margin-top: 1.5%;
@@ -39,6 +20,65 @@
     #idDivCardGrid {
         padding: 3px;
     }
+
+    table tbody tr td.row-odd,
+    table tbody tr td.row-even,
+    table thead tr th.index-column-header,
+    table thead tr th.expand-column-header {
+        width: 2px;
+        max-width: 2px;
+    }
+
+
+    #contenedor{
+        overflow:hidden;
+    }
+
+    #1{
+        float: left;
+    }
+
+    #2{
+        float:left;
+    }
+
+    .letrasNegritas{
+        font-weight:bold;
+    }
+     /* Ahora, para diferenciarlo, vamos a colocarle colores a cada cajón: */
+    .div0{
+        float:left;
+        background:#FFFFFF;
+        width: 20px;
+        height: 80%;
+    }
+    #div1{
+        margin-top: 10px;
+        float:left;
+        background:#F7F7F8;
+        width: 280px;
+        height: 80%;
+        padding: 8px;
+
+    }
+    #div2{
+        margin-top: 10px;
+        float:left;
+        background:#F7F7F8;
+        width: 220px;
+        height: 80%;
+        padding: 8px;
+    }
+    #div3{
+        float:left;
+        background: #E8E8E8;
+        width: 100px;
+        height: 80%;
+    }
+
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+
 </style>
 
 <div class="container-fluid">
@@ -67,55 +107,41 @@
                         [rowColors]="rowColors"
                         [expandableRows]="true"
                         [indexColumnHeader]="'ID'"
-                        [rowTooltip]="rowTooltip">
+                        >
 
                         <ng-template #dataTableExpand  let-item="item">
-                            <div  class="noWrap">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <span>ServiceDate: {{item.ServiceDate | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cassettero: {{item.cassettero}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CassettesStatusTimestamp: {{item.CassettesStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Denominación: {{item.denominacion}}</span>
-                                        </td>
+                            <div id="contenedor" style="overflow: hidden; height: 250px">
 
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>SafeOpenTs: {{item.SafeOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Cantidad: {{item.numBilletes}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>CabinetOpenTs: {{item.CabinetOpenTs | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                        </td>
-                                        <td>
-                                            <span>Monto Total: {{item.montoTotal}}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <span>RetractStatusTimestamp: {{item.RetractStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>RejectStatusTimestamp: {{item.RejectStatusTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                    <tr>
-                                        <span>LastIOnlineTimestamp: {{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                                    </tr>
-                                </table>
+                                <div id="div1"  style="border: solid thin;">
+                                    <span class="letrasNegritas">Última Actualización</span>
+                                    <div>
+                                        <div *ngFor="let ultimaAct of item.FchsUltimaAct" class="table table-striped tabla">
+                                            <div id="1" style="float: left; width: 8rem;">
+                                                <span>{{ultimaAct.desc}}</span>
+                                            </div>
+                                            <div id="2" style="float: left; width: 17rem;">
+                                                <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="div0"></div>
+
+                                <div id="div2"   style="border: solid thin;">
+                                    <span class="letrasNegritas">Dispositivos con Error</span>
+                                    <br>
+                                    <div>
+                                        <div *ngFor="let dispositivo of item.DevicesOffline" class="table table-striped tabla">
+                                            <span>{{dispositivo}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="div0"></div>
+
                             </div>
+
                         </ng-template>
 
                 <data-table-column
@@ -123,14 +149,26 @@
                         [header]="'Descripción'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="30px">
+                        width="65px">
+                        <ng-template #dataTableCell let-item="item">
+                            <div   class="noWrap" style="width: 65px;">
+                                <span nowrap>{{item.Description}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'Name'"
+                        [header]="'Atm Id'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="3em">
                 </data-table-column>
                 <data-table-column
                         [property]="'Ip'"
                         [header]="'IP'"
                         [sortable]="true"
                         [resizable]="true"
-                        [width]="12">
+                        width="4em">
                 </data-table-column>
 
                 <data-table-column
@@ -138,10 +176,10 @@
                         [header]="'Dispositivo'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=38px>
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.OfflineDevices == 'Error'">Error</span>
-                            <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">OK</span>
+                            <span style="color: black" *ngIf="item.OfflineDevices == 'OK'">Ok</span>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
@@ -149,7 +187,7 @@
                         [header]="'OnLine'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=35px>
                         <ng-template #dataTableCell let-item="item" style="text-align: center;vertical-align: middle;">
                             <span style="color: red; text-align: center;" *ngIf="item.IsOnline == 'Apagado'">Apagado</span>
                             <span style="color: black" *ngIf="item.IsOnline == 'Encendido'">Encendido</span>
@@ -160,7 +198,7 @@
                         [header]="'Bóveda'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=35px>
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.SafeOpen == 'Abierta'">Abierta</span>
                             <span style="color: black" *ngIf="item.SafeOpen == 'Cerrada'">Cerrada</span>
@@ -171,7 +209,7 @@
                         [header]="'Gabinete'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=35px>
                         <ng-template #dataTableCell let-item="item">
                             <span style="color: red" *ngIf="item.CabinetOpen == 'Abierto'">Abierto</span>
                             <span style="color: black" *ngIf="item.CabinetOpen == 'Cerrado'">Cerrado</span>
@@ -183,11 +221,13 @@
                         [header]="'Efectivo'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=35px>
                         <ng-template #dataTableCell let-item="item">
-                            <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
-                            <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
-                            <span style="color: black" *ngIf="item.CassetteAmount == 'FULL'">FULL</span>
+                            <div style="text-align: center;">
+                                <span style="color: #ED1C24" *ngIf="item.CassetteAmount == 'LOW'">LOW</span>
+                                <span style="color: #FFC90E" *ngIf="item.CassetteAmount == 'MED'">MED</span>
+                                <span style="color: black" *ngIf="item.CassetteAmount == 'FULL'">FULL</span>
+                            </div>
                         </ng-template>
                 </data-table-column>
                 <data-table-column
@@ -195,7 +235,22 @@
                         [header]="'Papel'"
                         [sortable]="true"
                         [resizable]="false"
-                        [width]="12">
+                        width=28px>
+                        <ng-template #dataTableCell let-item="item">
+                            <div style="text-align: center;">
+                                <span nowrap>{{item.PaperStatus}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+                <data-table-column
+                        [property]="'LastIOnlineTimestamp'"
+                        [header]="'Último Estatus'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width=55px>
+                        <ng-template #dataTableCell let-item="item">
+                            <span>{{item.LastIOnlineTimestamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                        </ng-template>
                 </data-table-column>
 
             </data-table>
