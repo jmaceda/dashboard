@@ -13,16 +13,12 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { DepositosPorTiendaService }                    from '../../services/acumulado-por-deposito.service';
 
-
-
-
 export var gGetGroupsWithAtms:any;
 export var gGetGroupsAtmsIps:any;
 export var gGetAtmDetail:any;
 export var gDatosGpoActual:any;
 export var gGrupos:any;
 export var gDatosResumenDeEfectivo:any;
-
 
 export class GetAtmDetail{
     Id: string;
@@ -81,18 +77,15 @@ export class ResumenDeEfectivo implements OnInit  {
     public dSolicitaFechasFin           = true;
     public dUltimaActualizacion:string;
 
-
     public itemResource = new DataTableResource([]);
     public items = [];
     public itemCount = 0;
-
     public regsLimite:number = 15;
 
+    gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
 
     parametrosConsulta(infoRecibida){
-        //console.log("Se va mostrar la información enviada desde el componente Params");
-        //console.log("Params recibidos: ["+JSON.stringify(infoRecibida)+"]");
-        //console.log("Se mostro la información enviada desde el componente Params");
+
         let parametrossConsulta:any = {};
 
         let fIniParam = infoRecibida.fchInicio;
@@ -101,8 +94,6 @@ export class ResumenDeEfectivo implements OnInit  {
         let fchIniParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fIniParam.year, fIniParam.month, fIniParam.day,
             fIniParam.hour, fIniParam.min);
         let d1 = new Date(Number(fIniParam.year), Number(fIniParam.month)-1, Number(fIniParam.day));
-        //console.log("fchIniParam["+fchIniParam+"]");
-        //console.log("date["+d1+"]  ["+d1.getTime()+"]  ["+new Date(d1)+"]");
         let fchFinParam:string = sprintf("%04d-%02d-%02d-%02d-%02d", fFinParam.year, fFinParam.month, fFinParam.day,
             fFinParam.hour, fFinParam.min);
         let d2= new Date(Number(fFinParam.year), Number(fFinParam.month)-1, Number(fFinParam.day)+1);
@@ -113,12 +104,10 @@ export class ResumenDeEfectivo implements OnInit  {
 
     GetStoreTotals(datosTienda:any, status){
         gDatosResumenDeEfectivo = datosTienda;
-        console.log(JSON.stringify(datosTienda));
     }
 
     GetCmByStore(datosTienda:any, status){
         gDatosResumenDeEfectivo = datosTienda;
-        //console.log("GetCmByStore:: "+JSON.stringify(datosTienda));
     }
 
     public insertaDatosUltimoCorte(datosParam) {
@@ -130,9 +119,6 @@ export class ResumenDeEfectivo implements OnInit  {
         };
 
         let ultimoCorte = this.depositosPorTiendaService.obtenUltimoCorte(filtrosDepPorTienda);
-
-        console.log(nomCompoente + ".insertaDatosUltimoCorte:: ultimoCorte[" + JSON.stringify(ultimoCorte) + "]");
-        console.log(ultimoCorte.Date);
 
         let corteAnterior: any = {
             'tipoOper': 'Depósito Walmart',
@@ -151,10 +137,10 @@ export class ResumenDeEfectivo implements OnInit  {
 
         let parametros:any = {startDate: datosParam.startDate, endDate: datosParam.endDate, store: datosParam.idGpo};
 
-        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore);
+        this._soapService.post('', 'GetCmByStore', parametros, this.GetCmByStore, false);
 
         let datosEfectivo:any[] = [{}];
-        let idx:number = 0;
+        let idx:number          = 0;
         let acumDepositos:any   = {'tipoOper': 'Depósito Walmart',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumRetiros:any     = {'tipoOper': 'Retiro de Efectivo', 'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
         let acumDisponible:any  = {'tipoOper': 'Total Disponible',   'monto': 0, 'opers': 0, 'b20': 0, 'b50': 0, 'b100': 0, 'b200': 0, 'b500': 0, 'b1000': 0};
@@ -162,7 +148,6 @@ export class ResumenDeEfectivo implements OnInit  {
         this.insertaDatosUltimoCorte(datosParam);
 
         gDatosResumenDeEfectivo.forEach(( reg )=> {
-            //console.log("TxType["+reg.TxType+"]")
             if(reg.TxType == "Retiro de Efectivo"){
                 acumRetiros.b20   += Number(reg.Amount20);
                 acumRetiros.b50   += Number(reg.Amount50);
@@ -232,7 +217,6 @@ export class ResumenDeEfectivo implements OnInit  {
         this.itemResource = new DataTableResource(datosEfectivo);
         this.itemResource.count().then(count => this.itemCount = count);
         this.reloadItems( {limit: this.regsLimite, offset: 0});
-
         this.filtrosUtilsService.fchaHraUltimaActualizacion();
     }
 
@@ -242,24 +226,15 @@ export class ResumenDeEfectivo implements OnInit  {
 
     }
 
-    gGetGroupsWithAtms: GetGroupsWithAtms[] = gGetGroupsWithAtms;
-
     ngOnInit() { }
 
     reloadItems(params) {
-        //console.log("reloadItems::  parms: "+JSON.stringify(filtros-consultas));
-
         this.itemResource.query(params).then(items => this.items = items);
-
     }
 
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
-    }
+    rowClick(rowEvent) {}
 
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
+    rowDoubleClick(rowEvent) {}
 
     rowTooltip(item) { return item.jobTitle; }
 

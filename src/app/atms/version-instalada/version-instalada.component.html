@@ -1,0 +1,263 @@
+<!-- data-table-demo1.html -->
+<style>
+
+    #idDivAreaGrid {
+        margin-top: 1.5%;
+        height: 100%;
+        width: 100%;
+    }
+
+    #idDivCardGrid {
+        padding: 3px;
+    }
+
+    table tbody tr td.row-odd,
+    table tbody tr td.row-even,
+    table thead tr th.index-column-header,
+    table thead tr th.expand-column-header {
+        width: 2px;
+        max-width: 2px;
+    }
+
+
+    :host /deep/ .index-column,
+    :host /deep/ .index-column-header {FV
+        text-align: right;
+    }
+    :host /deep/ .data-table .data-table-row.selected {FVV
+        background-color: #E4EDF9;
+    }
+
+    /* Activa scroll horizontal del journal */
+    div.data-table-box{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .data-table-header {
+        display : none;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    .letraNegrita{
+        font-weight: bold;
+    }
+    .centraTexto{
+        text-align: center;
+    }
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+    }
+    #divErroresOpers,
+    #divOpersSinError{
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-left: 25%;"
+        width: 35em;
+        max-width: 35em;
+    }
+
+    #tablaErroresOpers {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid;
+    }
+
+    #tablaErroresOpers thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+    }
+
+    #tablaErroresOpers[_ngcontent-c1] thead[_ngcontent-c1] tr[_ngcontent-c1] th[_ngcontent-c1] {
+        background-color: #5C5757;
+        color: #FFFFFF;
+    }
+
+    #corte-etv .table.table-condensed.table-bordered.data-table thead tr th {
+        background-color: #1A1561;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #tablaErroresOpers thead tr th,
+    #tablaErroresOpers thead tr td {
+        border: 1px solid black;
+    }
+
+    #tablaErroresOpers thead {
+        border: 1px solid black;
+    }
+	
+	.clsColumnaRigth{
+		text-align: right;
+		vertical-align: middle;
+	}
+	
+	.clsColumnaLeft{
+		text-align: left;
+		vertical-align: middle;
+	}
+	
+	.clsColumnaCenter{
+		text-align: center;
+		vertical-align: middle;
+	}
+	
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+        (parametrosConsulta)    = "parametrosConsulta($event)"
+        [dUltimaActualizacion]  = "dUltimaActualizacion"
+        [dListaAtmGpos]         = "dListaAtmGpos"
+        [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+        [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+        [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div id="idDivAreaGrid" style="margin: 1% 0%; height: 99%; width: 100%;">
+
+        <div id="idDivCardGrid" class="card">
+
+            <data-table id="idVersionesApp"  style="overflow-x: hidden;"
+                        headerTitle="Versiones Flujo-Core"
+                        [items]="items"
+                        [itemCount]="itemCount"
+                        (reload)="reloadItems($event)"
+                        (rowClick)="rowClick($event)"
+                        (rowDoubleClick)="rowDoubleClick($event)"
+                        [limit]="regsLimite"
+                        [rowColors]="rowColors"
+                        [expandableRows]="true"
+                        [indexColumnHeader]="'#'"
+                        [rowTooltip]="rowTooltip">
+
+                <ng-template #dataTableExpand  let-item="item">
+
+                    <div class="row">
+                        <div class="col-md-4">
+
+                                <span class="letrasNegritas">Última Actualización</span>
+                                <div class="row">
+                                    <div *ngFor="let ultimaAct of item.FchasUltimaAct" class="table table-striped tabla">
+                                        <div class="col-md-6" id="1" style="float: left;">
+                                            <span>{{ultimaAct.desc}}</span>
+                                        </div>
+                                        <div  class="col-md-6" id="2" style="float: left;">
+                                            <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="item.errTotal > 0" id="divErroresOpers" class="content table-responsive">
+                        <div class="centraTexto">
+                            <span class="letraNegrita" style="font-size: 17px">Operaciones con error de comunicación</span>
+                        </div>
+
+                        <table id="tablaErroresOpers" class="table table-hover table-striped sombraObjeto" style="border: 1px solid black;">
+                            <thead>
+                                <tr class="fondoTituloDetalle">
+                                    <th class="col-md-1">Operaciones</th>
+                                    <th class="col-md-1">Número</th>
+                                    <th class="col-md-1">Monto</th>
+                                    <th class="col-md-1">Comisión</th>
+                                    <th class="col-md-1">Primera</th>
+                                    <th class="col-md-1">Última</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Retiros</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errRetiros | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errMontoRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errComisionRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errPrimerRetiro}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errUltimoRetiro}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Consultas</td>
+                                    <td class="col-md-1 campoNumerico">{{item.errConsultas | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico"></td>
+                                    <td class="col-md-1 campoNumerico">{{item.errComisionConsultas | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errPrimeraConsulta}}</td>
+                                    <td class="col-md-1 centraTexto">{{item.errUltimaConsulta}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="item.errTotal == 0" id="divOpersSinError">
+                        <span class="letraNegrita" style="font-size: 17px">Operaciones sin errores</span>
+                    </div>
+                </ng-template>
+
+                <data-table-column
+                        [property]="'Tienda'"
+                        [header]="'Ubicación'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        width="55px">
+                        <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
+                            <div class="noWrap">
+								<span [ngStyle]="getColor(item.Tienda)">
+									{{item.Tienda}}
+								</span>							
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Id'"
+                        [header]="'ID'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="1.8%">
+                </data-table-column>
+
+                <data-table-column
+                        [property]="'Ip'"
+                        [header]="'IP'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2.2%">
+                </data-table-column>
+                <data-table-column
+                    [property]="'fFlujo'"
+                    header="Fecha"
+                    [sortable]="true"
+                    [resizable]="false"
+                    width="2.8%">
+                </data-table-column>
+                <data-table-column
+                    [property]="'vFlujo'"
+                    [header]="'Flujo'"
+                    [sortable]="true"
+                    [resizable]="false"
+                    width="2%">
+                </data-table-column>
+                <data-table-column
+                        [property]="'fCore'"
+                        header="Fecha"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2.8%">
+                </data-table-column>
+                <data-table-column
+                        [property]="'vCore'"
+                        [header]="'Core'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="2%">
+                </data-table-column>
+
+            </data-table>
+        </div>
+    </div>
+</div>

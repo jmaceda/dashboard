@@ -14,26 +14,19 @@ var nomModulo = "AcumPorTiendaService";
 @Injectable()
 export class AcumPorTiendaService implements OnInit {
 
-    constructor(public _soapService: SoapService){
-        console.log(nomModulo+".constructor:: init");
-    }
+    constructor(public _soapService: SoapService){}
 
     public GetStoreCumulative(datosAtms:any, status){
-
-        console.log(nomModulo+".GetStoreCumulative:: Inicio  ["+new Date()+"]");
         gDatosAcumTienda = datosAtms;
     }
 
 
     public obtenGetStoreCumulative() {
 
-        console.log(nomModulo+".obtenGetStoreCumulative:: Se van a obtener los datos");
-
         let parameters = { 	nemonico: -1, groupId: -1, brandId: -1, modelId: -1, 
 							osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1 };
 
-        // Obtiene los datos de los ATMs
-        this._soapService.post('', "GetStoreCumulative", parameters, this.GetStoreCumulative);
+        this._soapService.post('', "GetStoreCumulative", parameters, this.GetStoreCumulative, false);
 
         let idx = 0;
         let arrNomAtms:any[] = [];
@@ -53,14 +46,14 @@ export class AcumPorTiendaService implements OnInit {
 
     public obtenGetGroups(){
 
-        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms);
+        this._soapService.post('', 'GetGroupsWithAtms', '', this.GetGroupsWithAtms, false);
 
         let arrNomGrupos:any[] = [];
 
         gGrupos.forEach((reg)=> {
             arrNomGrupos.push( (reg.Description));
         });
-        console.log("DetalleAtmsService.obtenGetGroups:: ["+arrNomGrupos+"]");
+
         return(gGrupos.sort(comparar));
     }
 

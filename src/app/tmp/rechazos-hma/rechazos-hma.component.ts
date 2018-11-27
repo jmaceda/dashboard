@@ -120,7 +120,7 @@ export class RechazosHmaComponent implements OnInit  {
 
     obtenEventos(){
 
-        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent);
+        this._soapService.post('', 'GetHmaEvent', '', this.GetHmaEvent, false);
 
         //gCatalogoEventos:any;
 
@@ -174,7 +174,7 @@ export class RechazosHmaComponent implements OnInit  {
         console.log("Params HSM :" +JSON.stringify(paramsCons));
 
         /* == Obten número de paginas del Log de Hardware == */
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         console.log("Paginas HSM :" +JSON.stringify(gPaginasHMA));
 
@@ -188,7 +188,7 @@ export class RechazosHmaComponent implements OnInit  {
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
                 //console.log("Params HSM :" +JSON.stringify(paramsCons));
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 this.datosRetirosHMA = this.datosRetirosHMA.concat(gdatosHMA);
             }
             let cveCat;
@@ -299,7 +299,7 @@ export class RechazosHmaComponent implements OnInit  {
 
         //console.log(new Date());
         console.log("Params HSM ----:" +JSON.stringify(paramsCons));
-        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength);
+        this._soapService.post('', 'GetHmaLogDataLength', paramsCons, this.GetHmaLogDataLength, false);
 
         console.log("Paginas HSM : Retiros: " +JSON.stringify(gPaginasHMA));
 
@@ -310,7 +310,7 @@ export class RechazosHmaComponent implements OnInit  {
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
                 //console.log("Params HSM :" +JSON.stringify(paramsCons));
-                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage);
+                this._soapService.post('', 'GetHmaLogPage', paramsCons, this.GetHmaLogPage, false);
                 datosRetirosHMA = datosRetirosHMA.concat(gdatosHMA);
             }
             let cveCat;
@@ -328,7 +328,7 @@ export class RechazosHmaComponent implements OnInit  {
         };
         //console.log("Params HSM :" +JSON.stringify(paramsCons));
 
-        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength);
+        this._soapService.post('', 'GetEjaLogDataLength', paramsCons, this.GetEjaLogDataLength, false);
 
         console.log("Paginas Joural : Depositos: " +JSON.stringify(gPaginasJoural));
 
@@ -339,7 +339,7 @@ export class RechazosHmaComponent implements OnInit  {
             for (let idx = 0; idx < gPaginasHMA.TotalPages; idx++) {
                 paramsCons.page = idx;
                 //console.log("Params HSM :" +JSON.stringify(paramsCons));
-                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage);
+                this._soapService.post('', 'GetEjaLogPage', paramsCons, this.GetEjaLogPage, false);
                 datosJournal = datosJournal.concat(gDatosJoural);
 
             }

@@ -1,0 +1,209 @@
+<style>
+
+    #idDivCard {
+        padding: 0px;
+        margin-top: 12px;
+        height: 34.2em;
+        max-height: 34.2em;
+        margin-bottom: 0px;
+    }
+	
+    .clsImagenExcel {
+        cursor: not-allowed;
+        width: 35px;
+        height: 35px;
+    }
+
+    .ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        margin-right: 5px;
+        margin-left: 5.5px;
+        margin-top: 0px;
+        top: 0px;
+        padding: 0px;
+    }
+
+	datatable-header-cell.datatable-header-cell.sortable.resizeable {
+		padding-top: 2px;
+	}
+
+	
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div style="margin: 0% 0%; height: 34em; width: 100%;">
+
+        <div id="idDivCard" class="card">
+
+            <div class="row clsFontsTituloDatatables">
+
+                <div class="col-md-9 clsTituloDatatables">
+                    <span style="vertical-align: middle;">{{tituloDatatable}}</span>
+                </div>
+
+                <div id="divExpExcel" class="col-md-3 clsExcelTituloDatatables">
+                    <input id="btnExpExel2" class="clsImagenExcel"
+                           title={{tituloImgExcel}}
+                           type=image
+                           src="assets/img/office_excel.png"
+                           (click)="exportaVesiones2Excel($event)"
+                           >
+                </div>
+            </div>
+
+            <ngx-datatable
+                #datatablejournal
+                [loadingIndicator]="loadingIndicator"
+                [rows]="datosVersionApps"
+                class="material striped expandable"
+                [columnMode]="force"
+                [headerHeight]="30"
+                [footerHeight]="30"
+                [rowHeight]="25"
+                [scrollbarV]="true"
+                [scrollbarH]="true"
+                (click) = "tmpFnc($event)"
+                [selected]="selected"
+                [selectionType]="'multiClick'"
+                [rowClass]="rowClass"
+                (tableContextmenu)="onTableContextMenu($event)"
+                [messages]="{totalMessage: 'Registros'}">
+
+                <!--
+                <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+                    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                        <div style="padding-left:35px;">
+                            <div><strong>Fecha</strong></div>
+                            <div>{{row.TimeStamp}}</div>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-row-detail>
+                -->
+
+
+                <ngx-datatable-column
+                    name="#"
+                    [resizeable]="false"
+                    [frozenLeft]="true"
+                    [width]="40">
+                    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div class="colNum" >
+                            <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="Tienda"
+                        name="Ubicación"
+						[frozenLeft]="true"
+                        [headerTemplate]="hdrTpl"
+                        [width]="220">
+                </ngx-datatable-column>
+				
+                <ngx-datatable-column
+                        prop="Ip"
+                        name="IP"
+						[frozenLeft]="true"
+                        [headerTemplate]="hdrTpl"
+                        [width]="90">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="Id"
+                        name="ID"
+						[frozenLeft]="true"
+                        [width]="100">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap colCent">
+                                <span>{{row.Id}}</span>
+                            </div>
+                        </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column
+                        prop="vFlujo"
+                        name="Versión Flujo"
+                        [headerTemplate]="hdrTpl"
+                        [width]="95">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        #idTimeStamp
+                        prop="fFlujo"
+                        name="Última Act."
+                        [resizeable]="false"
+                        
+                        headerClass="is-gender"
+                        [width]="140">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap">
+                                <span>{{row.fFlujo | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                </ngx-datatable-column>
+
+
+
+                <ngx-datatable-column
+                        prop="vCore"
+                        name="Versión Core"
+                        [headerTemplate]="hdrTpl"
+                        [width]="120">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        #idTimeStamp
+                        prop="fCore"
+                        name="Última Act."
+                        [resizeable]="false"
+                        
+                        headerClass="is-gender"
+                        [width]="140">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap">
+                                <span>{{row.fCore | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column
+                        prop="vSP"
+                        name="Versión SP"
+                        [resizeable]="true"
+                        [headerTemplate]="hdrTpl"
+                        [width]="140">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        #idTimeStamp
+                        prop="fSP"
+                        name="Última Act."
+                        [resizeable]="false"
+                        
+                        headerClass="is-gender"
+                        [width]="140">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap">
+                                <span>{{row.fSP | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+
+        </div>
+    </div>
+</div>

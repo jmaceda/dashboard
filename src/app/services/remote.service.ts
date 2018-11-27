@@ -46,7 +46,6 @@ export class RemoteService {
     }
 
     obtenDatosJournal(result:any[], status){
-            //arrDatosServidorInc = result;
             return({
                 items: result,
                 count: result.length
@@ -55,12 +54,10 @@ export class RemoteService {
 
     consulta(nomServicioDatosLog, paramsServicioDatosLog, numPag){
         paramsServicioDatosLog.page = numPag;
-        //this._soapService.post('', nomServicioDatosLog, paramsServicioDatosLog, this.obtenDatosJournal);
 
-        // https://www.concretepage.com/angular-2/angular-2-http-post-example#promise
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._soapService.post('', nomServicioDatosLog, paramsServicioDatosLog, '')
+        return this._soapService.post('', nomServicioDatosLog, paramsServicioDatosLog, '', false)
             .then((resp: Response) => ({
                 items: resp.json(),
                 count: Number(resp.headers.get('X-Total-Count'))
@@ -68,9 +65,8 @@ export class RemoteService {
             .catch(this.handleErrorPromise);
     }
 
-    query(params: DataTableParams) {
-        console.log("query:: "+params);
-    }
+    query(params: DataTableParams) {}
+
     queryx(params: DataTableParams) {
         return this.http.get(BASE_URL + '/people?' + paramsToQueryString(params)).toPromise()
             .then((resp: Response) => ({

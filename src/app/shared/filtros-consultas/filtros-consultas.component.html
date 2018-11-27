@@ -56,13 +56,17 @@
 
                 <div class="row">
 
-                    <!-- div class="col-md-1"></div -->
-                    <div *ngIf="dSolicitaFechasIni">
+                    <div *ngIf="muestraDosFecha() == 'A'" id="idDivFechas1">
                         <div class="col-md-4">
-                            <div>
                                 <angular2-date-picker id="idFchRangoIni" title="Fecha y hora inicial para la consulta" *ngIf="dSolicitaFechasIni" [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
                                 <angular2-date-picker id="idFchRangoFin" title="Fecha y hora final para la consulta" *ngIf="dSolicitaFechasFin" [(ngModel)]="fchFin" [settings]="settings"></angular2-date-picker>
-                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="muestraDosFecha() == 'I'" id="idDivFechas">
+                        <div class="col-md-4">
+                            <div><br></div>
+                            <angular2-date-picker id="idFchRangoIni2" title="Fecha y hora inicial para la consulta" *ngIf="dSolicitaFechasIni" [(ngModel)]="fchInicio" [settings]="settings"></angular2-date-picker>
                         </div>
                     </div>
 
@@ -109,16 +113,3 @@
     </div>
 </div>
 
-
-<bs-modal #myModal>
-    <bs-modal-header>
-        <h4 class="modal-title">I'm a modal!</h4>
-    </bs-modal-header>
-    <bs-modal-body>
-        Hello World!
-    </bs-modal-body>
-    <bs-modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
-    </bs-modal-footer>
-</bs-modal>

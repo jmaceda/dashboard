@@ -11,11 +11,11 @@ import { TemplateRef }                      from '@angular/core';
 import { sprintf }                          from "sprintf-js";
 import { SoapService }                      from '../../services/soap.service';
 
-import { DetalleAtmsService }               from '../../services/detalle-atms.service';
+import { InfoAtmsService }               from '../../services/info-atms.service';
 import {NgbModal, ModalDismissReasons}      from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalBasic }                   from '../../utils/modal-basic';
 import { NgbdModalContent }                 from '../../utils/ngbd-modal-content';
-import { BsModalComponent } from 'ng2-bs3-modal';
+//import { BsModalComponent } from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
@@ -30,7 +30,7 @@ var nomModulo = "ParamsComponent";
     selector   : 'params',
     templateUrl: './params.component.html',
     styleUrls  : ['./params.component.css'],
-    providers: [SoapService, DetalleAtmsService],
+    providers: [SoapService, InfoAtmsService],
 })
 export class ParamsComponent implements OnInit {
 
@@ -42,8 +42,8 @@ export class ParamsComponent implements OnInit {
     @Output() parametrosConsulta = new EventEmitter(); //
 
     public contenidoCombo
-    @ViewChild('myModal')
-    modal: BsModalComponent;
+    //@ViewChild('myModal')
+    //modal: BsModalComponent;
 
     fchInicio: Date;
     fchFin: Date;
@@ -71,9 +71,6 @@ export class ParamsComponent implements OnInit {
         let _anioSys    = fchSys.getFullYear();
         let _mesSys     = fchSys.getMonth();   //hoy es 0!
         let _diaSys     = fchSys.getDate();
-        let _hraSys     = fchSys.getHours();
-        let _minSys     = fchSys.getMinutes();
-        let _segSys     = fchSys.getSeconds();
 
         this.fchInicio  = new Date( _anioSys, _mesSys, _diaSys, 0, 0, 0 );
         this.fchFin     = new Date( _anioSys, _mesSys, _diaSys, 23, 59, 59 );
@@ -87,7 +84,7 @@ export class ParamsComponent implements OnInit {
 
         if (this.dTipoListaParams == "G") {
             this.contenidoCombo = "Grupos";
-            this.gListaGpos = this.detalleAtmsService.obtenGetGroups();
+            this.gListaGpos = []; //this.detalleAtmsService.obtenGetGroups();
             this.ipATMs = [];
             this.ipATMs.push("-- Todos --");
             this.gListaGpos.forEach((reg)=> {
@@ -97,7 +94,7 @@ export class ParamsComponent implements OnInit {
             this.contenidoLista = "Seleccione Grupo";
         } else if (this.ipATMs.length == 0) {
             this.contenidoCombo = "ATMs";
-            this.ipATMs = this.detalleAtmsService.obtenGetAtm();
+            this.ipATMs = []; //this.detalleAtmsService.obtenGetAtm();
             this.contenidoLista = "Seleccione ATM";
         }
 
@@ -105,8 +102,9 @@ export class ParamsComponent implements OnInit {
     }
 
     constructor(public _soapService: SoapService,
-                public detalleAtmsService: DetalleAtmsService,
-                private modalService: NgbModal){
+                public detalleAtmsService: InfoAtmsService,
+                //private modalService: NgbModal
+				){
     }
 
     public GetEjaFilters(result:any, status){
@@ -128,7 +126,7 @@ export class ParamsComponent implements OnInit {
     public obtieneIpATMs(){
         //console.log('ParamsComponent.obtenIpATMs:: Inicio');
         ipATMs  = [];
-        this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters);
+        this._soapService.post('', 'GetEjaFilters', '', this.GetEjaFilters, false);
         this.ipATMs = ipATMs;
         //this.ipATMs = ipATMs.sort(comparar);
         this.ipATMs = ipATMs.sort(function (a, b) {
@@ -192,7 +190,7 @@ export class ParamsComponent implements OnInit {
     public pActualizaParams() {
 
         console.log("ParamsComponent.pActualizaParams:: Se va a abrir la modal");
-        this.modal.open();
+        //this.modal.open();
         console.log("ParamsComponent.pActualizaParams:: Se abrio la modal");
         this.paramsActuales(3);
     }

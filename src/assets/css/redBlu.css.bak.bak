@@ -1,0 +1,239 @@
+/* Scroll para datatable @swimlane/ngx-datatable */
+div.ngx-columns{
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+th.ngx-table__header-cell{
+    background-color: #777777;
+    text-align: center;
+}
+
+div#right {
+    font-size: large;
+    font-weight: bold;
+    align-content: center;
+}
+
+/*  */
+.noWrap {
+    white-space: nowrap;
+}
+
+table.table.table-condensed.table-bordered.data-table{
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+table.table{
+    width: 1200px;
+    overflow-x: scroll;
+    margin-bottom: 2px;
+}
+
+
+
+div.data-table-box{
+    margin-bottom: 15px;
+}
+
+/* Journal */
+div.pagination-box {
+    margin-top: 5px;
+    height: 40px;
+}
+
+/* Activa scroll horizontal del journal */
+div.data-table-box{
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* Altura del renglon del journal */
+tr.data-table-row.row-odd td, tr.data-table-row.row-even td {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+table.table.table-condensed.table-bordered.data-table thead tr th {
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background-color: #1A1561;
+    color: #FFFFFF;
+    /*font-weight: bold;*/
+}
+
+
+div.data-table-box table thead tr td {
+    padding: 2px;
+}
+
+/* Clase para justificar a la derecha */
+.colNum {
+    text-align: right;
+}
+
+.colCent {
+    text-align: center;
+}
+
+/* Elimina espacios internos superior e inferior de los botones de avance de la tabla */
+button.btn.btn-default.pagination-firstpage,
+button.btn.btn-default.pagination-prevpage,
+button.btn.btn-default.pagination-nextpage,
+button.btn.btn-default.pagination-lastpage {
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+
+input.form-control.ng-untouched.ng-pristine.ng-valid {
+    height: 30px;
+}
+
+/* Color de la etiqueta de renglones y el total de paginas de la tabla */
+div.input-group span.input-group-addon,
+div.input-group div.input-group-addon {
+    background-color: #eee;
+}
+
+/* Color del renglon de encabezado */
+table.table.table-condensed.table-bordered.data-table thead tr x{
+    background-color: #000080;
+    color: white;
+}
+
+/* Altura de renglones en la tabla */
+table.table.table-condensed.table-bordered.data-table tbody tr td {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* Icono para el botón de Excel */
+.botonExpExcel {
+    display: block;
+    width: 90px;
+    padding: 2px 2px 2px 35px;
+    background: url(../img/microsoft_excel.png) no-repeat 5px 5px;
+}
+
+div.data-table-header {
+    margin-bottom: 0px;
+}
+
+/* Botón Refresh */
+.botonbusqueda {
+    background-image: url(../img/refresh.png);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+/* Botón refresh Journal */
+.botonRefresh {
+    display: block;
+    width: 70px;
+    padding: 2px 2px 2px 35px;
+    background: url(../img/refresh.png) no-repeat 5px 5px;
+}
+
+#btnRefreshJournal {
+
+}
+
+
+th.index-column-header,
+th.expand-column-header {
+    width: 5px;
+}
+
+td.index-column {
+    text-align: center;
+    width: 5px;
+    max-width: 5px;
+    min-width: 5px;
+}
+
+/* Clases para el objeto DateTimePicker */
+/* Clases para centrar los signos más y menos de la hora del time */
+div.time > div.hour span,
+div.time > div.minutes span {
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+div.time-view-btn {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+
+/*  Clases de la tabla */
+th.ngx-table__header-cell,
+th.ngx-table__header-cell-additional-actions ul.ngx-menu.ngx-table__table-menu{
+    padding: 0px;
+    background-color: #DCDCDC;
+}
+
+ul.ngx-menu.ngx-table__table-menu {
+    padding: 0px;
+}
+thead tr.ngx-table__header {
+    height: 16px;
+}
+
+div.ngx-column.ngx-col-4.ngx-col-mr-auto {
+    line-height: 1;
+}
+.ngx-table__header {
+    height: 16px;
+}
+
+
+/*  */
+button.btn.btn-default.btn-sm.refresh-button {
+    display: none;
+}
+
+/*  */
+#stat-atms-grid div div table thead tr th.expand-column-header{
+    width: 6px;
+}
+#stat-atms-grid div div table thead tr th.index-column-header{
+    width: 10px;
+}
+
+#stat-atms-grid div div table thead tr th.column-header.column-Ip.sortable{
+    width: 56px;
+}
+
+#stat-atms-grid div div table tbody tr td.data-column.column-Ip{
+    width: 26px;
+}
+
+/*   */
+#loghma div data-table-header div.data-table-header {
+    margin-bottom: 0px;
+}
+
+/*   */
+.campoNumerico {
+    text-align: right;
+}
+
+.campoCentrado {
+    text-align: center;
+}
+table.table.table-condensed.table-bordered.data-table thead tr th {
+    text-align: center;
+}

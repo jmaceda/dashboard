@@ -8,19 +8,22 @@
         padding-bottom: 5px;
     }
 
+    .sidebar .nav p, .bootstrap-navbar .nav p {
+        text-transform: none !important;
+    }
 
 </style>
 
 <div class="sidebar-wrapper">
     <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text">
+        <a href="http://www.glider.com.mx/ES/pentomino.html" target="_blank" class="simple-text">
             <!-- Icono de Angular
             <div class="logo-img">
                 <img src="/assets/img/angular2-logo-white.png" />
                 <img src="/assets/img/redblu-2.png" />
             </div>
             -->
-            REDBLU ATM's
+            RedBlu ATM's
         </a>
     </div>
     <ul class="nav responsive-nav">
@@ -50,6 +53,8 @@
             </ul>
         </li>
         -->
+
+        <!--
         <li *ngIf="isMobileMenu()">
             <a>
                 <i class="fa fa-search"></i>
@@ -81,14 +86,15 @@
         </li>
         <li *ngIf="isMobileMenu()">
             <a>
-                <p>Log out</p>
+                <p>{{ambiente}}</p>
             </a>
         </li>
+        -->
         <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}">
             <a [routerLink]="[menuItem.path]">
                 <i class="{{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
+                <p style="text-transform: none !important;">{{menuItem.title}}</p>
             </a>
         </li>
     </ul>

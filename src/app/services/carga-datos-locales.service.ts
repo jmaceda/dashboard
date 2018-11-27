@@ -7,9 +7,7 @@ export class CargaDatosLocalesService {
 
     public nomArchivo: string = "";
 
-    constructor () {
-        console.log(nomModulo+".constructor:: Inicio");
-    }
+    constructor () {}
 
     public leeArchivoLocal(nomArchivo: any){
 
@@ -35,21 +33,17 @@ export class CargaDatosLocalesService {
             }
 
             rows = dataLocal;
-            console.log("dataLocal typeof: ["+typeof(dataLocal)+"]");
         });
 
         return(rows);
     }
 
     private leeArchivo(cb) {
-        console.log(nomModulo+".leeArchivo:: Inicio");
         const req = new XMLHttpRequest();
         req.open('GET', this.nomArchivo, false);
 
         req.onload = () => {
-            //cb(JSON.parse(req.response));
-            //cb(JSON.stringify(req.response));
-            cb(req.response);
+           cb(req.response);
         };
 
         req.send();
@@ -65,15 +59,11 @@ export class CargaDatosLocalesService {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     cb(xhr.response);
-                } else {
-                    console.error(xhr.statusText);
-                }
+                } else {}
             }
         };
 
-        xhr.onerror = function (e) {
-            console.error(xhr.statusText);
-        };
+        xhr.onerror = function (e) {};
 
         xhr.send();
     }

@@ -165,12 +165,20 @@
 
 
                 <data-table-column
+                        [property]="'AtmName'"
+                        [header]="'Nombre ATM'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="5em">
+                </data-table-column>
+
+                <data-table-column
                         [property]="'TimeStamp'"
                         [header]="'Fecha'"
                         [sortable]="true"
                         [resizable]="false"
                         [visible]="true"
-                        width="6em">
+                        width="4em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.TimeStamp | date: 'dd-MM-yyyy'}}</span>
@@ -183,14 +191,15 @@
                         [header]="'Hora'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="6em">
-                    <ng-template #dataTableCell let-item="item">
-                        <div  class="noWrap">
-                            <span>{{item.TimeStamp | date: 'HH:mm:ss'}}</span>
-                        </div>
-                    </ng-template>
+                        width="4em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
                 </data-table-column>
 
+                <!--
                 <data-table-column
                         [property]="'Ip'"
                         [header]="'Ip'"
@@ -198,14 +207,7 @@
                         [resizable]="false"
                         width="6em">
                 </data-table-column>
-
-                <data-table-column
-                        [property]="'AtmName'"
-                        [header]="'Nombre ATM'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="7em">
-                </data-table-column>
+                -->
 
                 <data-table-column
                         [property]="'Amount'"
@@ -215,7 +217,7 @@
                         width="6em">
                         <ng-template #dataTableCell  let-item="item">
                             <div  class="campoNumerico">
-                                <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.2-2'}}</span>
+                                <span class="colNum" *ngIf="item.Amount != ''">{{item.Amount | currency:'USD':'symbol':'1.0-2'}}</span>
                             </div>
                         </ng-template>
                 </data-table-column>

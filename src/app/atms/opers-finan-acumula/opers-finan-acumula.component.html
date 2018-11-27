@@ -1,0 +1,435 @@
+<!-- data-table-demo1.html -->
+<style>
+
+
+
+    /*   -----------------------------------  */
+    .ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        margin-right: 5px;
+        margin-left: 5.5px;
+        margin-top: 0px;
+        top: 0px;
+        padding: 0px;
+    }
+
+    datatable-header .datatable-header {
+        background-color: #ff3158;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+        background-color: #ff3158;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: normal !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+    .ngx-datatable.material .datatable-header {
+        background-color: #ff3158;
+    }
+
+    #idDivCardGrid {
+        padding: 0px;
+        margin-top: 12px;
+        height: 34.2em;
+        max-height: 34.2em;
+        margin-bottom: 0px;
+    }
+
+    .clsImagenExcel {
+        cursor: not-allowed;
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .es-retiro {
+        background: #15D609;
+    }
+    .es-consulta {
+        background: #BF642A;
+    }
+
+    datatable-header-cell.datatable-header-cell.sortable.resizeable {
+        padding-bottom: 5px;
+        padding-top: 5px;
+        height: 19px;
+    }
+    div.datatable-row-center datatable-header-cell.datatable-header-cell.sortable.resizeable{
+        padding-bottom: 2px !important;
+        padding-top: 2px !important;
+        height: 19px !important;
+    }
+    .abc {
+        /*
+        width: 140px;
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 36px;
+        text-align: center;
+        */
+        background: #5cc8ff;
+    }
+    .is-gender {
+        background: blue;
+        color: white;
+    }
+
+    .datatable-header-cell {
+        width: 4063px;
+        padding: 0;
+        background: #C3C3C3 !important;
+        height: 30px;
+        font-size: 16px;
+        font-weight: 500;
+        vertical-align: middle !important;
+    }
+    .ngx-datatable.material {
+        font-size: 16px;
+    }
+
+    .datatable-header-cell-label draggable{
+        font-size: 16px;
+    }
+
+
+    .is-gender {
+        background: blue;
+        color: white;
+    }
+
+    /*
+    .encabezados {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background: yellowgreen;
+        font-size: 14px;
+    }
+    */
+
+    /*
+    datatable-header.datatable-header div.datatable-header-inner{
+        background: lightgray;
+        font-size: 18px;
+    }
+    */
+
+    /*
+    .prefix-css .datatable-header-cell {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background-color: lightgray;
+    }
+    */
+
+    ngx-datatable div datatable-header div.datatable-header-inner {
+        width: 1093px;
+        padding-top: 0px;
+        height: 30px;
+        padding-bottom: 0px;
+    }
+
+    table { empty-cells: show; }
+
+    /* Atributos para el encabezado de tablas ngx-datatable */
+    /deep/ .attr-header {
+        background: #36709e !important;
+        padding-top: 4.5px !important;
+        padding-bottom: 4.5px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        font-size: 12px !important;
+        font-family: "Arial" !important;
+        border-right-color: #ffffff !important;
+    }
+
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+        (parametrosConsulta)    = "parametrosConsulta($event)"
+        [dUltimaActualizacion]  = "dUltimaActualizacion"
+        [dListaAtmGpos]         = "dListaAtmGpos"
+        [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+        [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+        [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div id="idDivAreaGrid" style="margin: 1% 0%; height: 34em; width: 100%;">
+
+        <div id="idDivCardGrid" class="card">
+
+            <div class="row clsFontsTituloDatatables">
+
+                <div class="col-md-9 clsTituloDatatables">
+                    <span style="vertical-align: middle;">{{tituloDatatable}}</span>
+                </div>
+
+                <div id="divExpExcel" class="col-md-3 clsExcelTituloDatatables">
+                    <input id="btnExpExel2" class="clsImagenExcel"
+                           title={{tituloImgExcel}}
+                           type=image
+                           src="assets/img/office_excel.png"
+                           (click)="exportaOpers2Excel($event)"
+                    >
+                </div>
+            </div>
+
+
+            <ngx-datatable
+                #datatablejournal
+                    [loadingIndicator]="loadingIndicator"
+                    [rows]="opersFinancieras"
+                    class="material striped expandable"
+                    [columnMode]="force"
+                    [headerHeight]="30"
+                    [footerHeight]="30"
+                    [rowHeight]="30"
+                    [scrollbarV]="true"
+                    [scrollbarH]="true"
+                    (click) = "tmpFnc($event)"
+                    [selected]="selected"
+                    [selectionType]="'multiClick'"
+                    [rowClass]="rowClass"
+                    (tableContextmenu)="onTableContextMenu($event)"
+                    [messages]="{totalMessage: 'Registros'}">
+
+                <ngx-datatable-column
+                        name="#"
+                        [resizeable]="false"
+                        [frozenLeft]="true"
+                        headerClass="attr-header"
+                        [width]="35">
+                    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div class="colNum" >
+                            <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="Description"
+                        name="Ubicación"
+                        headerClass="attr-header"
+                        [width]="190">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="noWrap">
+                            <span>{{row.Description}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="numRetiros"
+                        name="Núm. Retiros"
+                        headerClass="attr-header"
+                        [width]="60">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.numRetiros | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="comisionesRetiros"
+                        name="Monto Surcharge"
+                        headerClass="attr-header"
+                        [width]="90">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.comisionesRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="montoRetiros"
+                        name="Monto Retiros"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.montoRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column
+                        prop="numConsultas"
+                        name="Núm. Cons."
+                        headerClass="attr-header"
+                        [width]="60">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+							<span class="colNum">{{row.numConsultas | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column
+                        prop="comisionesConsultas"
+                        name="Monto Surcharge"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="totalComisiones"
+                        name="Total Surcharge"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+							<span class="colNum">{{row.totalComisiones | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="numDepositos"
+                        name="Núm. Depósitos"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.numDepositos | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="v"
+                        name="Monto Depósitos"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.montoDepositos | currency:'USD':'symbol':'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="prcRetDepos"
+                        name=""
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="colNum"  style="text-align: right;">
+                            <span class="colNum">{{row.prcRetDepos | number:'1.2-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                
+            </ngx-datatable>
+
+            <!--
+            <data-table id="idOpersFinancieras"  style="overflow-x: hidden;"
+                        headerTitle="Operaciones Financieras"
+                        [rows]="rows"
+                        [rowCount]="rowCount"
+                        (reload)="reloadrows($event)"
+                        (rowClick)="rowClick($event)"
+                        (rowDoubleClick)="rowDoubleClick($event)"
+                        [limit]="regsLimite"
+                        [rowColors]="rowColors"
+                        [expandableRows]="true"
+                        [indexColumnHeader]="'ID'"
+                        [rowTooltip]="rowTooltip">
+
+                <ng-template #dataTableExpand  let-row="row">
+
+                    <div class="row">
+                        <div class="col-md-4">
+
+                                <span class="letrasNegritas">Última Actualización</span>
+                                <div class="row">
+                                    <div *ngFor="let ultimaAct of row.FchasUltimaAct" class="table table-striped tabla">
+                                        <div class="col-md-6" id="1" style="float: left;">
+                                            <span>{{ultimaAct.desc}}</span>
+                                        </div>
+                                        <div  class="col-md-6" id="2" style="float: left;">
+                                            <span>{{ultimaAct.fcha | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="row.errTotal > 0" id="divErroresOpers" class="content table-responsive">
+                        <div class="centraTexto">
+                            <span class="letraNegrita" style="font-size: 17px">Operaciones con error de comunicación</span>
+                        </div>
+
+                        <table id="tablaErroresOpers" class="table table-hover table-striped sombraObjeto" style="border: 1px solid black;">
+                            <thead>
+                                <tr class="fondoTituloDetalle">
+                                    <th class="col-md-1">Operaciones</th>
+                                    <th class="col-md-1">Número</th>
+                                    <th class="col-md-1">Monto</th>
+                                    <th class="col-md-1">Comisión</th>
+                                    <th class="col-md-1">Primera</th>
+                                    <th class="col-md-1">Última</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Retiros</td>
+                                    <td class="col-md-1 campoNumerico">{{row.errRetiros | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{row.errMontoRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 campoNumerico">{{row.errComisionRetiros | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{row.errPrimerRetiro}}</td>
+                                    <td class="col-md-1 centraTexto">{{row.errUltimoRetiro}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1 letraNegrita">Consultas</td>
+                                    <td class="col-md-1 campoNumerico">{{row.errConsultas | number:'1.0-0'}}</td>
+                                    <td class="col-md-1 campoNumerico"></td>
+                                    <td class="col-md-1 campoNumerico">{{row.errComisionConsultas | currency:'USD':'symbol':'1.2-2'}}</td>
+                                    <td class="col-md-1 centraTexto">{{row.errPrimeraConsulta}}</td>
+                                    <td class="col-md-1 centraTexto">{{row.errUltimaConsulta}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="row.errTotal == 0" id="divOpersSinError">
+                        <span class="letraNegrita" style="font-size: 17px">Operaciones sin errores</span>
+                    </div>
+                </ng-template>
+
+                <ngx-datatable-column
+                        prop="'Description'"
+                        name="'Ubicación'"
+                        [sortable]="true"
+                        [resizable]="true"
+                        [width]="55px">
+                        <ng-template let-row="row" class="clsColumnaCenter">
+                            <div class="noWrap">
+								<span [ngStyle]="getColor(row.Description)">						
+									{{row.Description}}
+								</span>							
+                            </div>
+                        </ng-template>
+                </ngx-datatable-column>
+
+
+
+
+
+
+            </data-table>
+            -->
+
+        </div>
+    </div>
+</div>

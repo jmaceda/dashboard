@@ -1,0 +1,137 @@
+<style>
+    #idDivListaGpos {
+        padding: 10px;
+        margin-top: 12px;
+        height: 34.2em;
+        max-height: 34.2em;
+        margin-bottom: 0px;
+    }
+
+
+    /deep/ .attr-header {
+        background: #273d77 !important;
+        padding-top: 4.5px !important;
+        padding-bottom: 4.5px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        font-size: 14px !important;
+        font-family: "Arial";
+    }
+
+</style>
+<div class="container-fluid">
+    <h3>
+        Grupos
+    </h3>
+    <!-- div style='float:left;width:75%' -->
+    <div id="idDivAreaGrid" style="margin: 1% 0%; height: 34em; width: 100%;">
+        <div id="idDivListaGpos" class="card">
+            <ngx-datatable
+                    class="material expandable"
+                    [rows]="listaAtms"
+                    [columnMode]="'standard'"
+                    [columns]="columns"
+                    [headerHeight]="30"
+                    [footerHeight]="0"
+                    [rowHeight]="25"
+                    [limit]="10"
+                    [scrollbarV]="true"
+                    [scrollbarH]="true"
+                    [selected]="selected"
+                    [selectionType]="'single'"
+                    (activate)="onActivate($event)"
+                    (select)='onSelect($event)'>
+
+
+                <ngx-datatable-column
+                        name="#"
+                        [resizeable]="false"
+                        [frozenLeft]="true"
+                        headerClass="attr-header"
+                        [width]="30">
+                    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div class="colNum" >
+                            <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            <ngx-datatable-column
+                    prop="Description"
+                    name="Tienda"
+                    headerClass="attr-header"
+                    [width]="220">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class=""  style="text-align: left;">
+                        <span class="colNum">{{row.Description}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+                    prop="Name"
+                    name="ID"
+                    headerClass="attr-header"
+                    [width]="90">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class=""  style="text-align: left;">
+                        <span class="colNum">{{row.Name}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+                    prop="Ip"
+                    name="IP"
+                    headerClass="attr-header"
+                    [width]="90">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class=""  style="text-align: left;">
+                        <span class="colNum">{{row.Ip}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+                    prop="Area"
+                    name="Area"
+                    headerClass="attr-header"
+                    [width]="170">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class=""  style="text-align: left;">
+                        <span class="colNum">{{row.Area}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+                    prop="CreationDate"
+                    name="Alta"
+                    headerClass="attr-header"
+                    [width]="90">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class=""  style="text-align: left;">
+                        <span class="colNum">{{row.CreationDate}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </div>
+    </div>
+
+    <h3>ATMs</h3>
+    <div style='width:75%' class='selected-column'>
+        <div id="idDivListaAtms" class="card">
+            <ul>
+                <li *ngFor='let sel of selected'>
+                    {{sel.name}}
+                </li>
+                <li *ngIf="!selected.length">No Selections</li>
+            </ul>
+        </div>
+    </div>
+</div>

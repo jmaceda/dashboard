@@ -43,8 +43,6 @@ export class ResumenOperacionesService {
         return(infoMovtosPorHora);
     }
 
-
-    // info.montoRetiro, info.acumMontoRetiro, info.comisCons, info.comisRet, info.comisTotal
     public acumulaMovtosPorHora(infoMovtosPorHora){
 
         let numConsAnt:number           = 0;
@@ -60,7 +58,6 @@ export class ResumenOperacionesService {
             infoMovtosPorHora[idx].acumNumCons         = infoMovtosPorHora[idx].numCons +numConsAnt;
             infoMovtosPorHora[idx].acumNumRetiro       = infoMovtosPorHora[idx].numRetiro +numRetAnt;
             infoMovtosPorHora[idx].acumMontoRetiro     = infoMovtosPorHora[idx].montoRetiro +montoRetiroAnt;
-            //infoMovtosPorHora[idx].acumMontoRetiro     = infoMovtosPorHora[idx].montoRetiro +montoRetiroAnt;
             infoMovtosPorHora[idx].comisCons           = infoMovtosPorHora[idx].numCons * comisConsultas;
             infoMovtosPorHora[idx].comisRet            = infoMovtosPorHora[idx].numRetiro * comisRetiros;
             infoMovtosPorHora[idx].comisTotal          = infoMovtosPorHora[idx].comisCons + infoMovtosPorHora[idx].comisRet;
@@ -76,14 +73,11 @@ export class ResumenOperacionesService {
 
     public verificaMovtosPorHora(infoMovtosPorHora){
 
-        //let copiaInfoMovtosPorHora:any = infoMovtosPorHora;
         let cveR6:any                  = "<7";
         let cveRx:any;
 
-
         let x:any = regConsRetPorHora; //{hora: 0, numCons: 0, acumNumCons: 0, montoCons: 0, numRetiro: 0, acumNumRetiro: 0, montoRetiro: 0, montoTotal: 0, comisCons: 0, comisRet: 0, comisTotal: 0, comisAcum: 0};
 
-        console.log("1) "+nomComponente+".verificaMovtosPorHora:: -->"+infoMovtosPorHora+"<--");
         for(let idx=0; idx < 7; idx++){
             cveRx="R"+idx;
             x.hora           = '<7';
@@ -102,7 +96,6 @@ export class ResumenOperacionesService {
         let horaMovto:number;
         respInfoMovtosPorHora['R6'] = x;
 
-
         for(let elem in infoMovtosPorHora){
             horaMovto = Number(infoMovtosPorHora[elem].hora);
             if (horaMovto > 5){
@@ -115,17 +108,6 @@ export class ResumenOperacionesService {
 
         for (let i in respInfoMovtosPorHora) {
             let info = respInfoMovtosPorHora[i];
-
-            if (horaSys > info.hora)
-                console.log(sprintf("%02s  %4d  %4d  %6d  %4d  %4d  %6d  %6d - %6d %6d %6d %6d",
-                    info.hora, info.numCons, info.acumNumCons, info.montoCons, info.numRetiro, info.acumNumRetiro, info.montoRetiro, info.acumMontoRetiro,
-                    info.comisCons, info.comisRet, info.comisTotal, info.comisAcum));
         }
-
-        //console.log("2) "+nomComponente+".verificaMovtosPorHora:: "+infoMovtosPorHora);
-        //let y:any = infoMovtosPorHora.shift();
-        //infoMovtosPorHora.splice(0,6);
-        console.log("2) "+nomComponente+".verificaMovtosPorHora:: -->"+JSON.stringify(x)+"<--");
-        console.log("3) "+nomComponente+".verificaMovtosPorHora:: "+JSON.stringify(respInfoMovtosPorHora));
     }
 }

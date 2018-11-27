@@ -3,19 +3,22 @@
  */
 
 import { Injectable } from '@angular/core';
-
 import { AcumulaBilletesModel } from '../models/acumula-billetes.model';
+import { sprintf } from "sprintf-js";
+
+var nomComponente:string = "utils.service";
 
 @Injectable()
 export class UtilsService {
 
     private denominaBilletes:string = "|20|50|100|200|500|1000|";
-    constructor() {
-    }
+    constructor() {}
 
     public convBillToJson (infoBilletes:string, denominaContador:string = "DC") { // DC = <denominación>x<cantidad billetes>
+        if(infoBilletes == "" || infoBilletes == null || infoBilletes == undefined){
+            return("");
+        }
 
-        //console.log("infoBilletes:: "+infoBilletes);
         let montoTotal      = 0;
         let respBillJson    = {b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, totbill: 0, monto: 0};
         let posInicial      = infoBilletes.indexOf('[');
@@ -49,37 +52,7 @@ export class UtilsService {
         return(respBillJson);
     }
 
-    /*
-        Lee un arreglo de que contiene información de efectivo (Ej: depósitos: [0x20|55x50|47x100|22x200|30x500|0x1000]  )
-     */
-    /*
-    public obtenMontoBilletesPorDenominacion(arrCantidadBilletes:string):string {
-
-        let respMontosPorDenominacion:any = {};
-        arrCantidadBilletes =[
-            "[0x20|0x50|0x100|0x200|15x500|0x1000]",
-            "[0x20|0x50|7x100|23x200|33x500|0x1000]",
-            "[0x20|0x50|0x100|0x200|23x500|0x1000]",
-            "[0x20|0x50|0x100|0x200|65x500|0x1000]",
-            "[0x20|0x50|5x100|19x200|25x500|1x1000]",
-            "[0x20|0x50|0x100|5x200|71x500|1x1000]",
-            "[0x20|0x50|31x100|15x200|45x500|1x1000]",
-            "[0x20|1x50|14x100|16x200|57x500|0x1000]",
-            "[0x20|0x50|0x100|0x200|2x500|0x1000]"
-        ];
-
-        for(let idx; idx < arrCantidadBilletes.length; idx++){
-
-        }
-
-    }
-*/
-    /*
-        arrCantidadBilletes: Arreglo con las denominaciones y numero de billetes (Ej: [0x20|55x50|47x100|22x200|30x500|0x1000])
-        delimitador: Caracter delimitador entre grupos de billetes y denominaciòn.
-        posDenom: Indica la posiciòn de la denominacion y billetes (DB=<denomina> x <billetes>  /  BD=<billetes> x <denomina>
-     */
-    public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom = "DB") {
+    public obtenNumBilletesPorDenominacion(arrCantidadBilletes, delimitador, posDenom) {
 
         let numBilletes = {opers: 0, b20: 0, b50: 0, b100: 0, b200: 0, b500: 0, b1000: 0, monto: 0};
         let charDelim   = (delimitador == undefined || delimitador == null || delimitador == "") ? "|" : delimitador;
@@ -91,44 +64,34 @@ export class UtilsService {
 
             reg = reg.replace(/\[(.*)\]/, "$1"); // Elimina corchetes cuadrados.
 
-            // Lee cada grupo de billetes con denominaciones.
-            //console.log("reg["+reg+"]");
-            for(let elem of reg.split(charDelim)){
+            if (reg != ("null"+charDelim)) {
+                for (let elem of reg.split(charDelim)) {
+                    if (elem == undefined || elem == null || elem == "") {
+                        continue;
+                    }
 
-                if (elem == undefined || elem == null || elem == ""){
-                    continue;
+                    elem            = elem.split("x");
+
+                    if (posDenom == "BD") {
+                        numBill     = Number(elem[0]);
+                        denomina    = elem[1];
+                    } else {
+                        denomina    = elem[0];
+                        numBill     = Number(elem[1]);
+                    }
+
+                    let cveDenomina = "b" + denomina;
+
+                    denominaBilletes[cveDenomina]   += numBill;
+                    denominaBilletes.monto          += (denomina * numBill);
                 }
-
-                elem = elem.split("x");
-
-                if(posDenom == "BD"){
-                    numBill  = Number(elem[0]);
-                    denomina = elem[1];
-                }else{
-                    denomina  = elem[0];
-                    numBill   = Number(elem[1]);
-                }
-
-                let cveDenomina = "b"+denomina;
-
-                denominaBilletes[cveDenomina] += numBill;
-
-                denominaBilletes.monto += (denomina * numBill);
-                //console.log("denomina["+denomina+"]   numBill["+numBill+"]  monto["+denominaBilletes.monto+"]");
+                denominaBilletes.opers++;
             }
-            denominaBilletes.opers++;
         }
-
         return(denominaBilletes);
     }
 
-    /*
-        sort_by
-        Ordena un objeto JSON por un simple campo
-
-        Ref: https://gist.github.com/mbeaty/1218651
-     */
-    public sort_by(field, reverse, primer){
+    public sort_by(field, reverse, primer?){
 
         reverse = (reverse) ? -1 : 1;
 
@@ -148,7 +111,6 @@ export class UtilsService {
 
         }
     }
-
 
     public order_by(path, reverse, primer, then) {
         let get = function (obj, path) {
@@ -178,6 +140,40 @@ export class UtilsService {
         };
     };
 
+    public diffFechas(fch1, fch2) {
+        let date_1 = new Date('2015-2-15');
+        let date_2 = new Date('2015-3-13');
+
+        let milisegundosPorDia = 86400000;    /* Milisegundos por dia (((24 * 60) * 60) * 1000) */
+        let diffEnMilisegundos = fch2 - fch1;
+        let diffEnDias          = diffEnMilisegundos / milisegundosPorDia;
+
+        console.log(diffEnDias);
+        return(diffEnDias);
+    }
+
+    public calculaTiempoDuracion(fch1, fch2){
+        let fch3:number = fch2.getTime() - fch1.getTime();
+        //console.log("fch2<<"+fch2+">>  fch1<<"+fch1+">>  fch3<<"+fch3+">>");
+
+        return(this.calcMiliSegs2Tiempo(fch3));
+    }
+
+    public calcMiliSegs2Tiempo(duration:number) {
+
+        let segundos:number  = parseInt(((duration/1000)%60).toString());
+        let minutos:number   = parseInt(((duration/(1000*60))%60).toString());
+        let horas:number     = parseInt(((duration/(1000*60*60))%24).toString());
+        let dias:number      = parseInt((duration/(1000*60*60*24)).toString());
+        let horasDias:number = parseInt((dias*24).toString());
+
+        horas      += horasDias;
+        horas       = parseInt(((horas < 10) ? "0" + horas : horas).toString());
+        minutos     = parseInt(((minutos < 10) ? "0" + minutos : minutos).toString());
+        segundos    = parseInt(((segundos < 10) ? "0" + segundos : segundos).toString());
+
+        return (sprintf("%02d:%02d:%02d", horas, minutos, segundos));
+    }
 }
 
 

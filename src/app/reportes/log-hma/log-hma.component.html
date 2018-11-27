@@ -1,78 +1,4 @@
 <div class="container-fluid">
-    <!--
-    <div style="margin: .5% 0%; height: 75px; width: 100%;">
-        <div class="card" style="padding: 8px;">
-
-            <div class="row">
-
-                <div class="col-md-1">
-                    <div style="vertical-align: middle;">
-                        <input id="btnParams" type=image src="assets/img/../img/volume-synsizer-settings-icon.png" width="40" height="40" (click)="pActualizaInfo()">
-                    </div>
-                </div>
-
-                <div class="col-md-10">
-
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="col-md-3">
-                                <input [(ngModel)]="dFchIniProceso">
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <input [(ngModel)]="dHraIniProceso">
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div style="text-align: center;">ATM</div>
-                        </div>
-
-                        <div class="col-md-3"></div>
-
-                        <div class="col-md-3">
-                            <div>Última Actualización</div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="col-md-2">
-                                <input [(ngModel)]="dFchFinProceso">
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <input [(ngModel)]="dHraFinProceso">
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-                        <div class="col-md-3" style="text-align: center;">
-                            <select type="number" [(ngModel)]="paramsServicioNumPaginas.ip[0]" (ngModelChange)="pActualizaInfo()">
-                                <option *ngFor="let ip of ipATMs" [ngValue]="ip">{{ip}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <div>{{dUltimaActualizacion}}</div>
-                        </div>
-
-                        <div class="col-md-1"></div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-1">
-                    <div style="vertical-align: middle;">
-                        <input id="btnRefreshJournal" type=image src="assets/img/../img/refresh--database-icon-40430.png" width="40" height="40" (click)="pActualizaInfo()">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 
     <filtros-consultas
             (parametrosConsulta)    = "parametrosConsulta($event)"
@@ -86,8 +12,26 @@
     <div style="margin: 0% 0%; height: 24em; width: 100%;">
 
         <div class="card" style="padding: 3px;">
+
+            <div class="row" style="padding: 0px; vertical-align: middle;">
+
+                <div class="col-md-8" style="vertical-align: middle;">
+                    <span style="font-size: 25px;">{{tituloLogHMA}}</span>
+                </div>
+                <div id="divExpExcel" class="col-md-4" style="text-align: right; vertical-align: middle;">
+                    <input id="btnExpExel"
+                           style="cursor: not-allowed;"
+                           title="Exporta archivo CVS"
+                           type=image   src="assets/img/office_excel.png"
+                           width="35" height="35" (click)="exportaHMA2Excel()"
+                           [disabled]="!isDatosHMA">
+                </div>
+            </div>
+
+
             <data-table id="loghma"
                         [headerTitle]="tituloLogHMA"
+                        [header] = "false"
                         [items]="items"
                         [itemCount]="itemCount"
                         (reload)="reloadItems($event)"
@@ -98,24 +42,26 @@
                         [rowTooltip]="rowTooltip">
 
                 <data-table-column
-                        [property]="'TimeStamp'"
-                        [header]="'Fecha/Hora'"
-                        [sortable]="true"
-                        [resizable]="false"
-                        width="8em">
-                        <ng-template #dataTableCell let-item="item">
-                            <div  class="noWrap">
-                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
-                            </div>
-                        </ng-template>
-                </data-table-column>
-                <data-table-column
                         [property]="'Ip'"
                         [header]="'IP'"
                         [sortable]="true"
                         [resizable]="false"
                         width="8em">
                 </data-table-column>
+
+                <data-table-column
+                        [property]="'TimeStamp'"
+                        [header]="'Fecha/Hora'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="12em">
+                        <ng-template #dataTableCell let-item="item">
+                            <div  class="noWrap">
+                                <span>{{item.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                </data-table-column>
+
                 <data-table-column
                         [property]="'Device'"
                         [header]="'Dispositivo'"
@@ -128,6 +74,15 @@
                             </div>
                         </ng-template>
                 </data-table-column>
+
+                <data-table-column
+                        [property]="'DescDevice'"
+                        [header]="'Mecanismo'"
+                        [sortable]="true"
+                        [resizable]="false"
+                        width="18em">
+                </data-table-column>
+
                 <data-table-column
                         [property]="'Events'"
                         [header]="'Evento'"
@@ -141,11 +96,11 @@
                         </ng-template>
                 </data-table-column>
                 <data-table-column
-                        [property]="'Data'"
+                        [property]="'Parámetros'"
                         [header]="'Datos'"
                         [sortable]="true"
                         [resizable]="true"
-                        width="12em">
+                        width="80em">
                         <ng-template #dataTableCell let-item="item">
                             <div  class="noWrap">
                                 <span>{{item.Data}}</span>
