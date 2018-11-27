@@ -26,6 +26,8 @@ export class FiltrosUtilsService implements OnInit {
 
         $("#idFchHraUltimaActual").val(ultimaActualizacion);
 
+        ultimaActualizacion = sprintf('%02d/%02d/%4d %d:%02d:%02d', _diaSys, _mesSys, _anioSys,  _hraSys, _minSys, _segSys);
+
         return(ultimaActualizacion);
     }
 }

@@ -1,0 +1,284 @@
+<style>
+    /* Activa scroll horizontal del journal */
+    .scollsVentana{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .colNum {
+        /*
+        width: 5%;
+        max-width: 5%;
+        */
+        text-align: right;
+    }
+
+    .col1 {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
+    }
+
+    .colAlfa {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
+    }
+
+    #EncabEfectivoDepositos th {
+        background-color: #423F3F;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #efectivoDisponible td {
+        font-weight: bold;
+    }
+
+    .encabDatosCorte {
+        text-align: center;
+    }
+
+    .col2DatosCorte {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+    }
+
+    .col2DatosCorteNum {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+        text-align: right;
+    }
+
+    .col1DatosCorte {
+        width: 150px;
+        max-width: 150px;
+        padding: 2px;
+    }
+
+    table#tblCortesETV thead tr th {
+        text-align: center;
+    }
+
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        /*
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        */
+    }
+
+    .esquinasRedondas {
+        border-radius: 10px 10px 10px 10px;
+        -moz-border-radius: 10px 10px 10px 10px;
+        -webkit-border-radius: 10px 10px 10px 10px;
+        border: 0px solid #000000;
+    }
+
+    div#idCardTablaEfectivoDisponible {
+        margin-bottom: 2px;
+    }
+
+    .table > thead > tr#idEncabEfectivoDisponible > th,
+    .table > thead > tr#idEncabDatosATM > th,    
+    .table > thead > tr#idEncabEfectivoEnCajero > th {
+        color: white;
+        text-transform: none !important;
+        font-weight: bold; 
+        color: #FFFFFF;
+        font-size: 13px;
+        border: 1px solid #FFFFFF;
+        padding: 3px;
+    }
+    
+    .table {
+        border: 1px solid #000000;
+    }
+    
+    .table > thead > tr, .table > tbody > tr {
+        border: 1px solid #000000;
+        padding: 5px;
+    }
+    
+    .table > thead > tr#idEncabDatosATM {
+        background-color: #002060;
+        /*width: 13%;*/
+    }
+    
+    .table > thead > tr#idEncabEfectivoDisponible {
+        background-color: #0070C0;
+        /*width: 13%;*/
+    }    
+    .table > thead > tr#idEncabEfectivoEnCajero {
+        background-color: #0070C0;
+        /*width: 25%;*/
+    }
+    
+    .table > tbody > tr {
+        padding: 5px;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px;
+        border: 1px solid #7F7F7F;
+        font-size: 12px;
+    }
+    .col3prc{
+        width: 3.8%;
+    }
+    .col5prc{
+        width: 7%;
+    }
+    .col10prc{
+        width: 9%;
+    }
+    .col13prc{
+        width: 22%;
+    }
+    .col23prc{
+        width: 25%;
+    }
+    
+    .titulosPantalla {
+       text-align: center; 
+       font-weight: bold; 
+       width: 33%;
+       max-width: 33%;
+    }
+    
+    #contenedor {
+        height: 50px;
+        margin:0;
+    }
+    #colDer, #colCen, #colIzq {
+        height: 100%;
+    }
+    #colIzq {
+        float: left; 
+        width: 33%;
+        /*background-color: #f0f;*/
+    }
+
+    #colDer {
+        float: left; 
+        width: 33%;
+        /*background-color: #f00;*/
+    }  
+    #colCen {
+        float: left;
+        width: 33%;
+        /*background-color: #ccc;*/
+    }
+
+    .tablaPrincipalDatos {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #000000 !important;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+    .sinBorde{
+        border-style: none !important;
+    }
+    .colorBorde1 {
+        border-color: #7F7F7F #FFFFFF #7F7F7F #7F7F7F;
+    }
+    .colorBorde2 {
+        border-color: #FFFFFF #FFFFFF #7F7F7F #7F7F7F;
+    }
+
+
+    .ngx-datatable.material .datatable-header .datatable-header-cell {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+    }
+
+    datatable-header-cell.datatable-header-cell sortable resizeable{
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+    }
+    div.datatable-header-inner {
+        height: 2em !important;
+        max-height: 2em !important;
+    }
+
+    div.ng-reflect-ng-style {
+        height: 2em !important;
+        max-height: 2em !important;
+    }
+
+    /* Atributos para el encabezado de tablas ngx-datatable */
+    /deep/ .is-gender {
+        background: #273d77 !important;
+        padding-top: 4.5px !important;
+        padding-bottom: 4.5px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        font-size: 12px !important;
+        font-family: "Arial";
+    }
+
+    .is-female {
+        background: pink;
+    }
+
+</style>
+
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+
+    <div style="margin: 1% 0%; max-height: 37em; height: 37em;">
+
+        <div class="card" style="margin: 1% 0%; padding: 20px; max-height: 100%; height: 100%;">
+
+            <div class="container-fluid">
+                <ngx-datatable
+                        class="material striped"
+                        [loadingIndicator]="loadingIndicator"
+                        [rows]="rows1"
+                        [columns]="columns1"
+                        [columnMode]="'force'"
+                        [headerHeight]="30"
+                        [footerHeight]="0"
+                        [rowClass]="getRowClass"
+                        [rowHeight]="20">
+                    <ngx-datatable-column name="Name" headerClass="is-gender" [cellClass]="getCellClass"></ngx-datatable-column>
+                    <ngx-datatable-column name="Gender" headerClass="is-gender"></ngx-datatable-column>
+                    <ngx-datatable-column name="Company" [headerClass]="is-gender" [cellClass]="getCellClass"></ngx-datatable-column>
+                </ngx-datatable>
+                <br />
+                <ngx-datatable
+                        class="material striped"
+                        [rows]="rows2"
+                        [columns]="columns2"
+                        [columnMode]="'force'"
+                        [headerHeight]="30"
+                        [footerHeight]="50"
+                        [rowHeight]="30">
+                    <ngx-datatable-column name="Gender" headerClass="is-gender"></ngx-datatable-column>
+                    <ngx-datatable-column name="Name" headerClass="is-gender"></ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

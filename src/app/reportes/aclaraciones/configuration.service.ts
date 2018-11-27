@@ -1,6 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Config } from 'ngx-easy-table/app/model/config';
+//import { Config } from 'ngx-easy-table/app/model/config';
 //import { HttpHeaders } from '@angular/common/http';
+
+
+export interface Config {
+    searchEnabled: boolean;
+    headerEnabled: boolean;
+    orderEnabled: boolean;
+    globalSearchEnabled: boolean;
+    paginationEnabled: boolean;
+    exportEnabled: boolean;
+    clickEvent: boolean;
+    selectRow: boolean;
+    selectCol: boolean;
+    selectCell: boolean;
+    rows: number;
+    additionalActions: boolean;
+    serverPagination: boolean;
+    isLoading: boolean;
+    detailsTemplate: boolean;
+}
 
 @Injectable()
 export class ConfigService {
@@ -20,7 +39,7 @@ export class ConfigService {
         serverPagination: false,
         isLoading: false,
         detailsTemplate: true,
-        groupRows: false
+        //groupRows: false
     };
 }
 

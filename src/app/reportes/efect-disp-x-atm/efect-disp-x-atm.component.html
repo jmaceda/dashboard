@@ -1,0 +1,362 @@
+<style>
+    /* Activa scroll horizontal del journal */
+    .scollsVentana{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .colNum {
+        /*
+        width: 5%;
+        max-width: 5%;
+        */
+        text-align: right;
+    }
+
+    .col1 {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
+    }
+
+    .colAlfa {
+        width: 5em;
+        max-width: 5em;
+        text-align: left;
+    }
+
+    #EncabEfectivoDepositos th {
+        background-color: #423F3F;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    #efectivoDisponible td {
+        font-weight: bold;
+    }
+
+    .encabDatosCorte {
+        text-align: center;
+    }
+
+    .col2DatosCorte {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+    }
+
+    .col2DatosCorteNum {
+        width: 94px;
+        max-width: 94px;
+        padding: 2px;
+        text-align: right;
+    }
+
+    .col1DatosCorte {
+        width: 150px;
+        max-width: 150px;
+        padding: 2px;
+    }
+
+    table#tblCortesETV thead tr th {
+        text-align: center;
+    }
+
+    .sombraObjeto {
+        -webkit-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        -moz-box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        box-shadow: 9px 13px 23px -4px rgba(82,76,82,0.69);
+        /*
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        */
+    }
+
+    .esquinasRedondas {
+        border-radius: 10px 10px 10px 10px;
+        -moz-border-radius: 10px 10px 10px 10px;
+        -webkit-border-radius: 10px 10px 10px 10px;
+        border: 0px solid #000000;
+    }
+
+    div#idCardTablaEfectivoDisponible {
+        margin-bottom: 2px;
+    }
+
+    .table > thead > tr#idEncabEfectivoDisponible > th,
+    .table > thead > tr#idEncabDatosATM > th,    
+    .table > thead > tr#idEncabEfectivoEnCajero > th {
+        color: white;
+        text-transform: none !important;
+        font-weight: bold; 
+        color: #FFFFFF;
+        font-size: 13px;
+        border: 1px solid #FFFFFF;
+        padding: 3px;
+    }
+    
+    .table {
+        border: 1px solid #000000;
+    }
+    
+    .table > thead > tr, .table > tbody > tr {
+        border: 1px solid #000000;
+        padding: 5px;
+    }
+    
+    .table > thead > tr#idEncabDatosATM {
+        background-color: #002060;
+        /*width: 13%;*/
+    }
+    
+    .table > thead > tr#idEncabEfectivoDisponible {
+        background-color: #0070C0;
+        /*width: 13%;*/
+    }    
+    .table > thead > tr#idEncabEfectivoEnCajero {
+        background-color: #0070C0;
+        /*width: 25%;*/
+    }
+    
+    .table > tbody > tr {
+        padding: 5px;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px;
+        border: 1px solid #7F7F7F;
+        font-size: 12px;
+    }
+    .col3prc{
+        width: 3.8%;
+    }
+    .col5prc{
+        width: 7%;
+    }
+    .col10prc{
+        width: 9%;
+    }
+    .col13prc{
+        width: 22%;
+    }
+    .col23prc{
+        width: 25%;
+    }
+    
+    .titulosPantalla {
+       text-align: center; 
+       font-weight: bold; 
+       width: 33%;
+       max-width: 33%;
+    }
+    
+    #contenedor {
+        height: 50px;
+        margin:0;
+    }
+    #colDer, #colCen, #colIzq {
+        height: 100%;
+    }
+    #colIzq {
+        float: left; 
+        width: 33%;
+        /*background-color: #f0f;*/
+    }
+
+    #colDer {
+        float: left; 
+        width: 33%;
+        /*background-color: #f00;*/
+    }  
+    #colCen {
+        float: left;
+        width: 33%;
+        /*background-color: #ccc;*/
+    }
+
+    .tablaPrincipalDatos {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #000000 !important;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+    .sinBorde{
+        border-style: none !important;
+    }
+    .colorBorde1 {
+        border-color: #7F7F7F #FFFFFF #7F7F7F #7F7F7F;
+    }
+    .colorBorde2 {
+        border-color: #FFFFFF #FFFFFF #7F7F7F #7F7F7F;
+    }
+</style>
+
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+
+    <div style="margin: 1% 0%; max-height: 37em; height: 37em;">
+
+        <div class="card" style="margin: 1% 0%; padding: 20px; max-height: 100%; height: 100%;">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10" style="margin-left: 7.5%">
+                        <div id="contenedor">
+                            <div id="colIzq" style="font-weight: bold; font-size: 24px;">Efectivo Disponible</div>
+                            <div id="colCen"></div>
+                            <div id="colDer" style="text-align: right;">
+                                <!-- span>Actualiza</span -->
+                                <input id="btnExpExel2" 
+                                        type=image src="assets/img/office_excel.png" 
+                                        width="40" height="35" 
+                                        (click)="exportaEfectivo2Excel()">
+                            </div>
+                        </div>
+
+                        <table id="tablaPrincipal" style="width: 100%; max-width: 100%">
+                        <div id="idCardTablaEfectivoDisponible" class="card">
+
+                            <table id="tblDatosPrueba" class="table table-hover table-striped tablaPrincipalDatos">
+
+                                <thead>
+                                    <tr id="idEncabDatosATM" style="height: 2em; max-height: 2em;">
+                                        <th  class="col13prc sinBorde">{{descAtm}}</th>
+                                        <th  class="sinBorde col5prc"></th>
+                                        <th  class="sinBorde">{{atmName}}</th>
+                                        <th  class="sinBorde"></th>
+                                        <th  class="sinBorde">{{ipAtm}}</th>
+                                        <th  class="sinBorde"></th>
+                                        <th  class="sinBorde"></th>
+                                        <th  class="sinBorde"></th>
+                                        <th  class="sinBorde"></th>
+                                    </tr>                                
+                                    <tr id="idEncabEfectivoDisponible">
+                                        <th class="col13prc colorBorde2">Tipo Operación</th>
+                                        <th class="colNum col5prc colorBorde2">Opers</th>
+                                        <th class="colNum col10prc colorBorde2">$20</th>
+                                        <th class="colNum col10prc colorBorde2">$50</th>
+                                        <th class="colNum col10prc colorBorde2">$100</th>
+                                        <th class="colNum col10prc colorBorde2">$200</th>
+                                        <th class="colNum col10prc colorBorde2">$500</th>
+                                        <th class="colNum col10prc colorBorde2">$1000</th>
+                                        <th class="colNum col10prc" style="border-right-color: #7F7F7F; border-bottom-color:  #7F7F7F;">Monto</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr id="efectivoDepositos">
+                                        <td class="col13prc">Depósitos</td>
+                                        <td class="colNum col5prc">{{billetesDepositados.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesDepositados.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="efectivoRetiros">
+                                        <td class="col13prc">Retiros</td>
+                                        <td class="colNum col5prc">{{billetesRetirados.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billetesRetirados.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="efectivoDisponible" *ngFor="let row of arrBilletesDisponibles">
+                                        <td class="col13prc">Disponible</td>
+                                        <td class="colNum col5prc">{{row.opers | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{row.monto | currency:'USD':'symbol':'1.0-0'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="height: 10px;"></div>
+                        <tr></tr>  <!-- Este renglon sirve para dejar un espacio al exportar a excel -->
+
+                        <div id="idCardTablaCasetRechazos">
+                            <table class="table table-hover table-striped" style="width: 100%; max-width: 100%;">
+                                <thead>
+                                    <tr id="idEncabEfectivoEnCajero" style="border-width: 1px; border-color: #7F7F7F;">
+                                        <th class="col23prc" style="border-color: #7F7F7F;border-right-color: #0070C0;">Casete</th>
+                                        <th class="col3prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;" ></th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$20</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$50</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$100</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$200</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$500</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F; border-right-color: #FFFFFF;">$1000</th>
+                                        <th class="colNum col10prc" style="border-color: #7F7F7F;">Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr id="ingreCasetesReciclaje">
+                                        <td class="col23prc" style="font-weight: bold; border-right-color: transparent;">Ingesados a casetes  reciclaje</td>
+                                        <td class="col3prc"></td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRecicla.totBill | number:'1.0-0'}}</td>
+                                    </tr>
+                                    <tr id="ingreCasetesRechazos">
+                                        <td class="col23prc" style="font-weight: bold; border-right-color: transparent;">Ingesados en casete  rechazo</td>
+                                        <td class="col3prc"></td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b20 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b50 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b100 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b200 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b500 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.b1000 | number:'1.0-0'}}</td>
+                                        <td class="colNum col10prc">{{billCasetesRechazos.totBill | number:'1.0-0'}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <tr>
+                            <div id="idPeriodoInfo" *ngIf="fchUltimaActualizacion">
+                                <span style="font-size: 10px; font-weight: bold;">
+                                    Información reportada a partir del último corte: {{datosUltimoCorte}} - {{fchUltimaActualizacion}}
+                                </span>
+                            </div>
+                        </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

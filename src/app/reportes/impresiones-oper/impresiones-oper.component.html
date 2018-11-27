@@ -1,0 +1,199 @@
+<style>
+
+    .ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        margin-right: 5px;
+        margin-left: 5.5px;
+        margin-top: 0px;
+        top: 0px;
+        padding: 0px;
+    }
+
+    datatable-header .datatable-header {
+        background-color: #ff3158;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+        background-color: #ff3158;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: normal !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+    .ngx-datatable.material .datatable-header {
+        background-color: #ff3158;
+    }
+
+    #idDivCard {
+        padding: 0px;
+        margin-top: 12px;
+        height: 34.2em;
+        max-height: 34.2em;
+        margin-bottom: 0px;
+    }
+
+    .clsImagenExcel {
+        cursor: not-allowed;
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .es-retiro {
+        background: #15D609;
+    }
+    .es-consulta {
+        background: #BF642A;
+    }
+
+    datatable-header-cell.datatable-header-cell.sortable.resizeable {
+        padding-bottom: 5px;
+        padding-top: 5px;
+        height: 19px;
+    }
+
+    ngx-datatable  {
+        height: 91%;
+        max-height: 91%;
+        left: 0px;
+
+        /* Esquinas redondeadas */
+        -moz-border-radius-topleft: 5px;
+        border-top-left-radius: 5px;
+
+        -moz-border-radius-bottomleft: 5px;
+        border-bottom-left-radius: 5px;
+
+        -moz-border-radius-topright: 5px;
+        border-top-right-radius: 5px;
+
+        -moz-border-radius-bottomright: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+</style>
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div style="margin: 0% 0%; height: 34em; width: 100%;">
+
+        <div id="idDivCard" class="card">
+
+            <div class="row clsFontsTituloDatatables">
+
+                <div class="col-md-9 clsTituloDatatables">
+                    <span style="vertical-align: middle;">{{tituloLogHMA}}</span>
+                </div>
+
+                <!--
+                <div class="col-md-6 clsFiltroDatatables">
+                    <span style="font-weight: bold;">Filtro:</span>
+                    <input type="text" (keyup)='updateFilter($event)'>
+                </div>
+                -->
+
+                <div id="divExpHma2Excel" class="col-md-3 clsExcelTituloDatatables">
+                    <input id="btnExpHma2Exel" class="clsImagenExcel"
+                           title={{tituloImgExcel}}
+                           type=image
+                           src="assets/img/office_excel.png"
+                           (click)="exportaHMA2Excel($event)"
+                    >
+                </div>
+            </div>
+
+            <ngx-datatable
+                    #datatableimpresiones
+                    [loadingIndicator]="loadingIndicator"
+                    [rows]="dataImpresionesRedBlu"
+                    class="material striped expandable"
+                    [columnMode]="force"
+                    [headerHeight]="30"
+                    [footerHeight]="30"
+                    [rowHeight]="25"
+                    [scrollbarV]="true"
+                    [scrollbarH]="true"
+                    (click) = "tmpFnc($event)"
+                    [selected]="selected"
+                    [selectionType]="multiClick"
+                    [rowClass]="rowClass"
+                    (tableContextmenu)="onTableContextMenu($event)"
+                    [messages]="{totalMessage: 'Registros'}">
+
+                    <ngx-datatable-column
+                            name="#"
+                            [resizeable]="false"
+                            [frozenLeft]="true"
+                            [width]="45">
+                        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <div class="colNum" >
+                                <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="Ip"
+                            name="IP"
+                            [headerTemplate]="hdrTpl"
+                            [width]="100">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="TimeStamp"
+                            name="Fecha/Hora"
+                            [resizeable]="false"
+                            [frozenLeft]="true"
+                            [width]="140">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap">
+                                <span>{{row.TimeStamp | date: 'dd-MM-yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="Device"
+                            name="Dispositivo"
+                            [width]="110">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div  class="noWrap">
+                                <span>{{row.Device}}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="DescDevice"
+                            name="Mecanismo"
+                            [width]="160">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="Events"
+                            name="Evento"
+                            [width]="180">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                            prop="Data"
+                            name="Parámetros"
+                            [width]="400">
+                    </ngx-datatable-column>
+
+            </ngx-datatable>
+
+        </div>
+    </div>
+</div>

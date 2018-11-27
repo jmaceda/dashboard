@@ -1,6 +1,7 @@
 // https://medium.com/@hasan.hameed/reading-configuration-files-in-angular-2-9d18b7a6aa4
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import { Http } from '@angular/http';
 
 @Injectable()

@@ -9,14 +9,11 @@ import { BrowserModule }                from "@angular/platform-browser";
 import { HttpModule }                   from "@angular/http";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-import { SuperTableModule }             from 'ngx-super-table';
-import { AgGridModule }                 from 'ag-grid-angular';
+//import { SuperTableModule }             from 'ngx-super-table';
 
 import { PruebasComponent }             from './pruebas.component';
-import { DemoComponent }                from './demo-app/demo-app.component';
-import { InstrumentComponent }          from './demo-app/instrument.component';
-
-import { AgGridApp }                    from './ag-grid/ag-grid-app.component';
+//import { DemoComponent }                from './demo-app/demo-app.component';
+//import { InstrumentComponent }          from './demo-app/instrument.component';
 
 @NgModule({
     imports:      [
@@ -25,20 +22,18 @@ import { AgGridApp }                    from './ag-grid/ag-grid-app.component';
         HttpModule,
         HttpClientModule,
         BrowserModule,
-        SuperTableModule,
-        AgGridModule.withComponents([/*optional Angular Components to be used in the grid*/]),
+        //SuperTableModule,
     ],
     declarations: [
         PruebasComponent,
-        DemoComponent,
-        InstrumentComponent,
-        AgGridApp
+        //DemoComponent,
+        //InstrumentComponent,
     ],
     providers: [
     ],
     exports: [],
     entryComponents: [
-        InstrumentComponent
+        //InstrumentComponent
     ],
     bootstrap: [PruebasComponent]
 })

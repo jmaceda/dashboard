@@ -68,7 +68,7 @@ export class JournalComponent implements OnInit  {
   constructor(public _soapService: SoapService,
               public filtrosUtilsService: FiltrosUtilsService,
               public datosJournalService: DatosJournalService,
-              private _changeDetectorRef: ChangeDetectorRef,){
+              private _changeDetectorRef: ChangeDetectorRef){
 
     this.isDatosJournal = !this.isDatosJournal;
     this.notificationsComponent = new NotificationsComponent();
@@ -138,6 +138,51 @@ export class JournalComponent implements OnInit  {
 
     this.filtrosUtilsService.fchaHraUltimaActualizacion();
   }
+
+
+  public pDatosDelJournalOrig(filtrosCons){
+
+    this.loadingIndicator = true;
+
+    let paramsCons: any = {
+      ip: [filtrosCons.ipAtm], timeStampStart: filtrosCons.timeStampStart, timeStampEnd: filtrosCons.timeStampEnd,
+      events: -1, minAmount: -1, maxAmount: -1, authId: -1, cardNumber: -1, accountId: -1
+    };
+
+    this.dataJournalRedBlu = [];
+
+    console.log(nomComponente+".pDatosDelJournal:: paramsCons["+JSON.stringify(paramsCons)+"]");
+
+    // *** Llama al servicio remoto para obtener el numero de paginas a consultar.
+    this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
+
+    console.log(nomComponente+".pDatosDelJournal:: paramsCons["+JSON.stringify(paramsCons)+"]   gPaginasJournal["+gPaginasJournal+"]");
+
+    if (gPaginasJournal.TotalPages > 0) {
+      let datosJournal: any = [];
+      for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
+        paramsCons.page = idx;
+        this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+        this.dataJournalRedBlu = this.dataJournalRedBlu.concat(gDatosJournal);
+
+        this.dataJournalRedBlu.forEach( (reg) => {
+          this.selected = [reg[2]];
+        })
+      }
+    }
+
+    if (this.dataJournalRedBlu.length > 0) {
+      $('#btnExpExel2').css('cursor', 'pointer');
+      this.isDatosJournal = !this.isDatosJournal;
+    }else{
+      $('#btnExpExel2').css('cursor', 'not-allowed');
+      this.isDatosJournal = this.isDatosJournal;
+    }
+    this.loadingIndicator = false;
+
+    this.filtrosUtilsService.fchaHraUltimaActualizacion();
+  }
+
 
   public GetEjaLogDataLength(paginasJournal:any, status){
     gPaginasJournal = paginasJournal;

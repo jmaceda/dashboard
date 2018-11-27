@@ -8,6 +8,9 @@
         padding-bottom: 5px;
     }
 
+    .sidebar .nav p, .bootstrap-navbar .nav p {
+        text-transform: none !important;
+    }
 
 </style>
 
@@ -91,7 +94,7 @@
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}">
             <a [routerLink]="[menuItem.path]">
                 <i class="{{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
+                <p style="text-transform: none !important;">{{menuItem.title}}</p>
             </a>
         </li>
     </ul>

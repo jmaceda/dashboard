@@ -1,0 +1,20 @@
+<!-- Atms de un Grupo -->
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:pen="http://Pentomino.mx/">
+   <soap:Header/>
+   <soap:Body>
+      <pen:GetGroupsAtmIds>
+         <!--Optional:-->
+         <pen:groups>41684324</pen:groups>
+      </pen:GetGroupsAtmIds>
+   </soap:Body>
+</soap:Envelope>
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetGroupsAtmIdsResponse xmlns="http://Pentomino.mx/">
+         <GetGroupsAtmIdsResult>3280360,16281584,49283620,49293973,70139854,46746124,87505634,87505631,103104685,</GetGroupsAtmIdsResult>
+      </GetGroupsAtmIdsResponse>
+   </soap:Body>
+</soap:Envelope>
+

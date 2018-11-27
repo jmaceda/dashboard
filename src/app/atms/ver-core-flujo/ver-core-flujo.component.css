@@ -1,0 +1,69 @@
+
+/*
+
+
+datatable-header div div datatable-header-cell.datatable-header-cell.sortable.resizeable {
+    width: 300px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    height: 34px;
+}
+
+ngx-datatable.ngx-datatable.fixed-header.datatable-header.datatable-header-inner.datatable-header-cell {
+    background-color: blue;
+}
+
+.datatable-header-cell {
+    background-color: green;
+}
+
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: gray;
+}
+
+.ngx-datatable.material .datatable-header {
+    background-color: green;
+}
+
+datatable-header-cell.datatable-header-cell.sortable.resizeable{
+    background-color: green;
+}
+
+.datatable-header-cell {
+    background-color: green;
+}
+
+.ngx-datatable.material.single-selection .datatable-body-row.active, .ngx-datatable.material.single-selection .datatable-body-row.active .datatable-row-group, .ngx-datatable.material.multi-selection .datatable-body-row.active, .ngx-datatable.material.multi-selection .datatable-body-row.active .datatable-row-group, .ngx-datatable.material.multi-click-selection .datatable-body-row.active, .ngx-datatable.material.multi-click-selection .datatable-body-row.active .datatable-row-group {
+    height: 24px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    border-right: 5px dotted red;
+}
+*/
+
+ngx-datatable {
+
+    height: 91%;
+    max-height: 91%;
+    left: 0px;
+
+    /* Esquinas redondeadas */
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius: 5px;
+
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+}
+

@@ -1,0 +1,347 @@
+<!-- data-table-demo1.html -->
+<style>
+
+
+
+    /*   -----------------------------------  */
+    /*
+    111
+    .ngx-datatable.material.ngx-datatable.fixed-header.fixed-row.scroll-vertical.scroll-horz {
+        margin-right: 5px;
+        margin-left: 5.5px;
+        margin-top: 0px;
+        top: 0px;
+        padding: 0px;
+    }
+
+    datatable-header .datatable-header {
+        background-color: #ff3158;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+        background-color: #ff3158;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: normal !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+    */
+    /*
+
+        .ngx-datatable.material .datatable-header {
+            background-color: #ff3158;
+        }
+
+        #idDivCardGrid {
+            padding: 0px;
+            margin-top: 12px;
+            height: 34.2em;
+            max-height: 34.2em;
+            margin-bottom: 0px;
+        }
+
+        .clsImagenExcel {
+            cursor: not-allowed;
+            width: 35px;
+            height: 35px;
+        }
+    */
+    /*
+
+        datatable-header-cell.datatable-header-cell.sortable.resizeable {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            height: 19px;
+        }
+        div.datatable-row-center datatable-header-cell.datatable-header-cell.sortable.resizeable{
+            padding-bottom: 2px !important;
+            padding-top: 2px !important;
+            height: 19px !important;
+        }
+        */
+
+    /*
+        .datatable-header-cell {
+            width: 4063px;
+            padding: 0;
+            background: #C3C3C3 !important;
+            height: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            vertical-align: middle !important;
+        }
+        .ngx-datatable.material {
+            font-size: 16px;
+        }
+
+        .datatable-header-cell-label draggable{
+            font-size: 16px;
+        }
+    */
+
+    /*
+        ngx-datatable div datatable-header div.datatable-header-inner {
+            width: 1093px;
+            padding-top: 0px;
+            height: 30px;
+            padding-bottom: 0px;
+        }
+
+        table { empty-cells: show; }
+     */
+
+
+    #idDivCardGrid {
+        padding: 10px;
+        margin-top: 12px;
+        height: 34.2em;
+        max-height: 34.2em;
+        margin-bottom: 0px;
+    }
+
+    .clsImagenExcel {
+        cursor: not-allowed;
+        width: 35px;
+        height: 35px;
+    }
+
+    /deep/ .attr-header {
+        background: #273d77 !important;
+        padding-top: 4.5px !important;
+        padding-bottom: 4.5px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        font-size: 12px !important;
+        font-family: "Arial";
+    }
+
+
+
+
+
+</style>
+
+<div class="container-fluid">
+
+    <filtros-consultas
+            (parametrosConsulta)    = "parametrosConsulta($event)"
+            [dUltimaActualizacion]  = "dUltimaActualizacion"
+            [dListaAtmGpos]         = "dListaAtmGpos"
+            [dSolicitaFechasIni]    = "dSolicitaFechasIni"
+            [dSolicitaFechasFin]    = "dSolicitaFechasFin"
+            [dTipoListaParams]      = "dTipoListaParams">
+    </filtros-consultas>
+
+    <div id="idDivAreaGrid" style="margin: 1% 0%; height: 34em; width: 100%;">
+
+        <div id="idDivCardGrid" class="card">
+
+            <div class="row clsFontsTituloDatatables">
+
+                <div class="col-md-9 clsTituloDatatables">
+                    <span style="vertical-align: middle;">{{tituloDatatable}}</span>
+                </div>
+
+                <div id="divExpExcel" class="col-md-3 clsExcelTituloDatatables">
+                    <input id="btnExpExel2" class="clsImagenExcel"
+                           title={{tituloImgExcel}}
+                           type=image
+                           src="assets/img/office_excel.png"
+                           (click)="exportaEfect2Excel($event)"
+						   
+                    >
+                </div>
+            </div>
+
+            <!--
+                    [selected]="selected"
+                    [selectionType]="'multiClick'"
+            -->
+
+            <ngx-datatable
+					id="xxxx"
+                    #datatablefectivo
+                    [loadingIndicator]="loadingIndicator"
+                    [rows]="listaDatosEfectivo"
+                    class="material expandable"
+                    [columnMode]="'force'"
+                    [headerHeight]="30"
+                    [footerHeight]="0"
+                    [rowHeight]="30"
+                    [scrollbarV]="true"
+                    [scrollbarH]="true"
+                    (click) = "_tmpFnc($event)"
+                    [rowClass]="getRowClass"
+                    (tableContextmenu)="onTableContextMenu($event)"
+                    [messages]="{totalMessage: 'Registros'}">
+
+
+                <ngx-datatable-column
+                        name="#"
+                        [resizeable]="false"
+                        [frozenLeft]="true"
+                        headerClass="attr-header"
+                        [width]="30">
+                    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div class="colNum" >
+                            <span class="colNum">{{rowIndex+1 | number:'1.0-0'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column
+                        prop="tienda"
+                        name="Tienda"
+                        headerClass="attr-header"
+                        [width]="220">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: left;">
+                            <span class="colNum">{{row.tienda}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="id"
+                        name="ID"
+                        headerClass="attr-header"
+                        [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: left;">
+                            <span class="colNum">{{row.id}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="ip"
+                        name="IP"
+                        headerClass="attr-header"
+                        [width]="90">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: left;">
+                            <span class="colNum">{{row.ip}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="fchUltimoCorte"
+                        name="Fecha último corte"
+                        headerClass="attr-header"
+                        [width]="150">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: left;">
+                            <span class="colNum">{{row.fchUltimoCorte}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="origen"
+                        name="Origen"
+                        headerClass="attr-header"
+                        [width]="250">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: left;">
+                            <span class="colNum">{{row.origen}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b20"
+                        name="$20"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b20 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b50"
+                        name="$50"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b50 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b100"
+                        name="$100"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b100 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b200"
+                        name="$200"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b200 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b500"
+                        name="$500"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b500 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="b1000"
+                        name="$1000"
+                        headerClass="attr-header"
+                        [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum">{{row.b1000 | number:'1.0-2'}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                        prop="monto"
+                        name="Monto"
+                        headerClass="attr-header"
+                        [width]="90">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class=""  style="text-align: right;">
+                            <span class="colNum" *ngIf='isNumber (row[monto])'>{{row.monto | number:'1.0-2'}}</span>
+                            <span class="colNum" *ngIf='!isNumber (row[monto])'>{{row.monto}}</span>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+        </div>
+
+    </div>
+
+</div>

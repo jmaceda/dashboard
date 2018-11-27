@@ -21,10 +21,10 @@
 
 
     :host /deep/ .index-column,
-    :host /deep/ .index-column-header {
+    :host /deep/ .index-column-header {FV
         text-align: right;
     }
-    :host /deep/ .data-table .data-table-row.selected {
+    :host /deep/ .data-table .data-table-row.selected {FVV
         background-color: #E4EDF9;
     }
 
@@ -124,7 +124,7 @@
 
         <div id="idDivCardGrid" class="card">
 
-            <data-table id="idOpersFinancieras"  style="overflow-x: hidden;"
+            <data-table id="idOpersFinancieras"
                         headerTitle="Operaciones Financieras"
                         [items]="items"
                         [itemCount]="itemCount"
@@ -246,10 +246,12 @@
                     header="Monto Retiros"
                     [sortable]="true"
                     [resizable]="false"
-                    width="2.3%">
+                    width="2.8%">
                     <ng-template #dataTableCell let-item="item" class="clsColumnaCenter">
                         <div style="text-align: right;">
-                            <span>{{item.montoRetiros | currency:'USD':'symbol':'1.0-2'}}</span>
+                            <span [ngStyle]="getColor(item.Description)">
+                                {{item.montoRetiros | currency:'USD':'symbol':'1.0-2'}}
+                            </span>
                         </div>
                     </ng-template>
                 </data-table-column>
@@ -301,7 +303,7 @@
 					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
 						<div style="text-align: right;">
 							<span [ngStyle]="getColor(item.Description)">
-								{{item.comisionesConsultas | currency:'USD':'symbol':'1.0-2'}}
+								{{item.comisionesConsultas | currency:'USD':'symbol':'1.2-2'}}
 							</span>
 						</div>
 					</ng-template>
@@ -340,7 +342,7 @@
 					<ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
 						<div style="text-align: right;">
 							<span [ngStyle]="getColor(item.Description)">
-								{{item.totalComisiones | currency:'USD':'symbol':'1.0-2'}}
+								{{item.totalComisiones | currency:'USD':'symbol':'1.2-2'}}
 							</span>
 						</div>
 					</ng-template>
@@ -368,7 +370,9 @@
                         width="2%">
                         <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
-                                <span>{{item.numDepositos | number:'1.0-2'}}</span>
+                                <span [ngStyle]="getColor(item.Description)">
+                                    {{item.numDepositos | number:'1.0-2'}}
+                                </span>
                             </div>
                         </ng-template>
                 </data-table-column>
@@ -378,10 +382,12 @@
                         [header]="'Monto Depósitos'"
                         [sortable]="true"
                         [resizable]="false"
-                        width="2.2%">
+                        width="2.8%">
                         <ng-template #dataTableCell let-item="item" class="clsColumnaRigth">
                             <div style="text-align: right;">
-                                <span>{{item.montoDepositos | currency:'USD':'symbol':'1.0-2'}}</span>
+                                <span [ngStyle]="getColor(item.Description)">
+                                    {{item.montoDepositos | currency:'USD':'symbol':'1.0-2'}}
+                                </span>
                             </div>
                         </ng-template>
                 </data-table-column>

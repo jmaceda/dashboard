@@ -4,6 +4,7 @@
 
 import { Injectable } from '@angular/core';
 import { AcumulaBilletesModel } from '../models/acumula-billetes.model';
+import { sprintf } from "sprintf-js";
 
 var nomComponente:string = "utils.service";
 
@@ -139,6 +140,40 @@ export class UtilsService {
         };
     };
 
+    public diffFechas(fch1, fch2) {
+        let date_1 = new Date('2015-2-15');
+        let date_2 = new Date('2015-3-13');
+
+        let milisegundosPorDia = 86400000;    /* Milisegundos por dia (((24 * 60) * 60) * 1000) */
+        let diffEnMilisegundos = fch2 - fch1;
+        let diffEnDias          = diffEnMilisegundos / milisegundosPorDia;
+
+        console.log(diffEnDias);
+        return(diffEnDias);
+    }
+
+    public calculaTiempoDuracion(fch1, fch2){
+        let fch3:number = fch2.getTime() - fch1.getTime();
+        //console.log("fch2<<"+fch2+">>  fch1<<"+fch1+">>  fch3<<"+fch3+">>");
+
+        return(this.calcMiliSegs2Tiempo(fch3));
+    }
+
+    public calcMiliSegs2Tiempo(duration:number) {
+
+        let segundos:number  = parseInt(((duration/1000)%60).toString());
+        let minutos:number   = parseInt(((duration/(1000*60))%60).toString());
+        let horas:number     = parseInt(((duration/(1000*60*60))%24).toString());
+        let dias:number      = parseInt((duration/(1000*60*60*24)).toString());
+        let horasDias:number = parseInt((dias*24).toString());
+
+        horas      += horasDias;
+        horas       = parseInt(((horas < 10) ? "0" + horas : horas).toString());
+        minutos     = parseInt(((minutos < 10) ? "0" + minutos : minutos).toString());
+        segundos    = parseInt(((segundos < 10) ? "0" + segundos : segundos).toString());
+
+        return (sprintf("%02d:%02d:%02d", horas, minutos, segundos));
+    }
 }
 
 

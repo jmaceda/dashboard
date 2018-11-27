@@ -10,7 +10,7 @@ import { SoapService }                      from '../../services/soap.service';
 
 import { InfoAtmsService }                  from '../../services/info-atms.service';
 import { InfoGroupsService }                from '../../services/info-groups.service';
-import { BsModalComponent }                 from 'ng2-bs3-modal';
+//import { BsModalComponent }                 from 'ng2-bs3-modal';
 import * as $ from 'jquery';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 
@@ -36,8 +36,8 @@ export class FiltrosConsultasComponent implements OnInit {
     @Output() parametrosConsulta = new EventEmitter(); // Función del Componente Padre que será ejecutada al oprimir el bototon "Actualiza".
 
 
-    @ViewChild('myModal')
-    modal: BsModalComponent;
+    //@ViewChild('myModal')
+    //modal: BsModalComponent;
     settings = {
         bigBanner: true,
         timePicker: true,
@@ -146,6 +146,10 @@ export class FiltrosConsultasComponent implements OnInit {
         let ipATM       = this.atmSeleccionado;
 
         let idGpo:any;
+        let descAtm:string = ipATM.substring(0,ipATM.indexOf("(")-1);
+
+        $('#btnRefreshJournal').css('cursor', 'pointer');
+
         if (this.dTipoListaParams == "G") {
             if (this.atmSeleccionado != "Todos") {
                 idGpo = this.infoGroupsService.obtenIdGroup(this.atmSeleccionado);
@@ -154,10 +158,11 @@ export class FiltrosConsultasComponent implements OnInit {
             this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, gpo: idGpo};
         }else {
             ipATM = ipATM.substring(ipATM.lastIndexOf("(") + 1).replace(")", "");
-            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM};
+            this.paramsConsulta = {fchInicio: fchInicio, fchFin: fchFin, atm: ipATM, descAtm: descAtm};
         }
 
         let paramsOk:any = this.validaParams(this.paramsConsulta);
+
         if (paramsOk == true){
             this.parametrosConsulta.emit(this.paramsConsulta);
         }

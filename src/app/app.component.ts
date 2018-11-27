@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
                  public infoGroupsService: InfoGroupsService) {}
 
     ngOnInit(){
-        this.infoGroupsService.cargaCataAtmsConGrupos();
+        //this.infoGroupsService.cargaCataAtmsConGrupos();
     }
 
     isMap(path){

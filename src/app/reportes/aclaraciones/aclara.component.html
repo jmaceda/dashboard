@@ -1,5 +1,13 @@
 <!-- https://github.com/ssuperczynski/ngx-easy-table -->
 
+<style>
+
+    table.ngx-table.ngx-table-striped.ngx-table-hover tbody{
+        max-height: 20em;
+        height: 20em;
+    }
+
+</style>
 
 <div class="container-fluid">
 
@@ -38,6 +46,7 @@
             <div class="columns">
                 <div class="column col-12">
                     <ngx-table  id="app-aclara"
+
                                 class='form-control'
                                 [configuration]="configuration"
                                 [data]="dataJournalRedBlu"

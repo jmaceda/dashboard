@@ -30,9 +30,11 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 
 import { DataTableModule }                  from 'angular-4-data-table-fix';
 
-//import { ParamsAtmsComponent }              from './atms/params-atmsTmp/params-atmsTmp.component';
 import { FiltrosConsultasComponent }        from './shared/filtros-consultas/filtros-consultas.component';
 import { OpersFinancierasComponent }        from './atms/opers-financieras/opers-financieras.component';
+import { OpersFinansXCajeroComponent }      from './atms/opers-finans-x-cajero/opers-finans-x-cajero.component';
+import { OpersFinanAcumula2Component }      from './atms/opers-finan-acumula2/opers-finan-acumula2.component';
+
 //import { DataTableModule }                  from 'angular-4-data-table-bootstrap-4';
 
 import { AtmsComponent }                    from './atms/atms.component';
@@ -51,7 +53,7 @@ import { AclaracionesComponent }            from './reportes/aclaraciones/aclara
 //import { NgbdModalContent }                 from './utils/ngbd-modal-content';
 //import { DataFilterPipe }                   from './pipes/data-filter.pipe';
 import { AngularDateTimePickerModule }      from 'angular2-datetimepicker';
-import { BsModalModule }                    from 'ng2-bs3-modal';
+//import { BsModalModule }                    from 'ng2-bs3-modal';
 
 import { DataBaseService }                  from './services/data-base.service';
 import { ExportToCSVService }               from './services/export-to-csv.service';
@@ -62,7 +64,8 @@ import { NgxDatatableModule }               from '@swimlane/ngx-datatable';
 
 import { LogHardwareComponent }             from './tmp/tmpLogHardware/log-hardware.component';
 import { RetirosHmaComponent }              from './reportes/retiros-hma/retiros-hma.component';
-import { EfectDispCoponent }                from './reportes/efectivo-disponible/efectivo-disponible.component';
+import { EfectDispXAtmCoponent }            from './reportes/efect-disp-x-atm/efect-disp-x-atm.component';
+import { EfectDispXGpoCoponent }            from './reportes/efect-disp-x-gpo/efect-disp-x-gpo.component';
 
 import { BlockUIModule }                    from 'ng-block-ui';
 import { RechazosHmaComponent }             from './tmp/rechazos-hma/rechazos-hma.component';
@@ -75,11 +78,18 @@ import { PdfViewerModule }                  from 'ng2-pdf-viewer';
 import { InfoGroupsService }                from './services/info-groups.service';
 import { SoapService }                      from './services/soap.service';
 import { ReporteMensualComponent }          from './reportes/banxico/reporte-mensual/reporte-mensual.component';
+import { ImpresionesOperComponent }         from './reportes/impresiones-oper/impresiones-oper.component';
+import { VerCoreFlujoComponent }            from './atms/ver-core-flujo/ver-core-flujo.component';
 
 
+//import { Ng4LoadingSpinnerModule, Ng4LoadingSpinnerService  } from 'ng4-loading-spinner';
 
-//import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SweetAlertService } from 'ngx-sweetalert2';
+import {Ng2Webstorage} from 'ng2-webstorage';
+
+
+import { OpersFinanAcumulaComponent }       from './atms/opers-finan-acumula/opers-finan-acumula.component'
+import { GruposAtmsComponent }              from './atms/grupos-atms/grupos-atms.component';
 
 @NgModule({
   declarations: [
@@ -97,24 +107,28 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     ResumenCifrasComponent,
     JournalComponent,
     LogHmaComponent,
-    //ParamsComponent,
     AclaracionesComponent,
     TotalesPorTiendaComponent,
-    //ParamsAtmsComponent,
     FiltrosConsultasComponent,
     ResumenDeEfectivo,
     DetallePorTienda,
     RetirosEtvComponent,
     RetirosHmaComponent,
-    EfectDispCoponent,
+    EfectDispXAtmCoponent,
     OpersFinancierasComponent,
+    OpersFinansXCajeroComponent,
+    OpersFinanAcumula2Component,
     //SmartTableComponent
     RechazosHmaComponent,
     TiempoPromOperComponent,
     ManualGrgComponent,
     ReporteMensualComponent,
     LogHardwareComponent,
-
+    ImpresionesOperComponent,
+    VerCoreFlujoComponent,
+    OpersFinanAcumulaComponent,
+    EfectDispXGpoCoponent,
+    GruposAtmsComponent,
   ],
 
   imports: [
@@ -133,12 +147,14 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     AngularDateTimePickerModule,
     TableModule,
     NgbModule.forRoot(),
-    BsModalModule,
+    //BsModalModule,
     NgxDatatableModule,
     BlockUIModule,
     PruebasModule,
     PdfViewerModule,
-    //SweetAlert2Module.forRoot(),
+    Ng2Webstorage,
+    //  Ng4LoadingSpinnerModule.forRoot(),
+    //SweetAlert2Module.forRoot()
 
 
     //Ng2SmartTableModule,
@@ -156,6 +172,7 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     InfoGroupsService,
     SoapService,
     SweetAlertService,
+
     //SmartTableService,
     //NbSidebarService
   ],

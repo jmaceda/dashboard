@@ -1,0 +1,399 @@
+<!-- Consulta estatus de todos los comandos y con un rango de fechas -->
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetDtaLogDataLength xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.50.2.10</string>
+			</ip>
+			<timeStampStart>2018-08-01-00-00</timeStampStart>
+			<timeStampEnd>2018-09-02-23-59</timeStampEnd>
+			<command>
+				<string>-1</string>
+			</command>
+		</GetDtaLogDataLength>
+	</s:Body>
+</s:Envelope>
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetDtaLogDataLengthResponse xmlns="http://Pentomino.mx/">
+			<GetDtaLogDataLengthResult>
+				<TotalItems>38</TotalItems>
+				<TotalPages>1</TotalPages>
+			</GetDtaLogDataLengthResult>
+		</GetDtaLogDataLengthResponse>
+	</soap:Body>
+</soap:Envelope>
+
+<!-- ------------------------------------------------------------------------------------ -->
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetDtaLogPage xmlns="http://Pentomino.mx/">
+			<ip>
+				<string>11.50.2.10</string>
+			</ip>
+			<timeStampStart>2018-08-01-00-00</timeStampStart>
+			<timeStampEnd>2018-09-02-23-59</timeStampEnd>
+			<command>
+				<string>-1</string>
+			</command>
+			<page>0</page>
+		</GetDtaLogPage>
+	</s:Body>
+</s:Envelope>
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<GetDtaLogPageResponse xmlns="http://Pentomino.mx/">
+			<GetDtaLogPageResult>
+				<DtaLog>
+					<Id>255448426</Id>
+					<SerializedId>255448426</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533114704830</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>255448943</Id>
+					<SerializedId>255448943</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533114741991</TimeStamp>
+					<Command>installFlow</Command>
+					<Parameters>RedBluFlow-27-07-2018_v2.3.6.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>255466078</Id>
+					<SerializedId>255466078</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533115709309</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>255466242</Id>
+					<SerializedId>255466242</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533115718869</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>AdminCajero.bat</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>266857522</Id>
+					<SerializedId>266857522</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533683741510</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>266878974</Id>
+					<SerializedId>266878974</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533684820820</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>268270326</Id>
+					<SerializedId>268270326</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533755734414</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>268295882</Id>
+					<SerializedId>268295882</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533756951536</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>PentominoUpdate20180802_v6788.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>268295890</Id>
+					<SerializedId>268295890</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533756952214</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>268451531</Id>
+					<SerializedId>268451531</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533764954109</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>268452206</Id>
+					<SerializedId>268452206</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533764990581</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>Pentomino.Updater.exe</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>269535882</Id>
+					<SerializedId>269535882</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533824478855</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>269809121</Id>
+					<SerializedId>269809121</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533831035475</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270318744</Id>
+					<SerializedId>270318744</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533854014146</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270378140</Id>
+					<SerializedId>270378140</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533856866586</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270381768</Id>
+					<SerializedId>270381768</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857040576</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270382565</Id>
+					<SerializedId>270382565</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857073827</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270383594</Id>
+					<SerializedId>270383594</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857124948</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>Marketing_Walmart_V2_Ago082018.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270383605</Id>
+					<SerializedId>270383605</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857125468</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270384434</Id>
+					<SerializedId>270384434</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857164738</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>RedBluFlow-08-08-2018_v2.3.7.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270384475</Id>
+					<SerializedId>270384475</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857166680</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270397993</Id>
+					<SerializedId>270397993</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533857804717</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270624686</Id>
+					<SerializedId>270624686</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533868754345</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270626505</Id>
+					<SerializedId>270626505</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533868842979</TimeStamp>
+					<Command>unzipFile</Command>
+					<Parameters>Marketing_Walmart_V2_Ago082018.zip!C:\Pentomino\Flows\Media\</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270981347</Id>
+					<SerializedId>270981347</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533886490206</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270982719</Id>
+					<SerializedId>270982719</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533886554081</TimeStamp>
+					<Command>installFlow</Command>
+					<Parameters>RedBluFlow-08-08-2018_v2.3.7.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270984122</Id>
+					<SerializedId>270984122</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533886614580</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>270984465</Id>
+					<SerializedId>270984465</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533886631073</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>AdminCajero.bat</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271973516</Id>
+					<SerializedId>271973516</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936495920</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271974016</Id>
+					<SerializedId>271974016</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936516891</TimeStamp>
+					<Command>deleteFile</Command>
+					<Parameters>Marketing_Walmart_V2_Ago082018.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271974230</Id>
+					<SerializedId>271974230</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936525165</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271974947</Id>
+					<SerializedId>271974947</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936559158</TimeStamp>
+					<Command>SendFile</Command>
+					<Parameters>Marketing_Walmart_V2_Ago102018.zip</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271974987</Id>
+					<SerializedId>271974987</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936560256</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>271975859</Id>
+					<SerializedId>271975859</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1533936600353</TimeStamp>
+					<Command>unzipFile</Command>
+					<Parameters>Marketing_Walmart_V2_Ago102018.zip!C:\Pentomino\Flows\Media\</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>274052097</Id>
+					<SerializedId>274052097</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1534036231182</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>274052544</Id>
+					<SerializedId>274052544</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1534036248041</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>AdminCajero.bat</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>307314711</Id>
+					<SerializedId>307314711</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1535692198696</TimeStamp>
+					<Command>listFiles</Command>
+					<Parameters />
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+				<DtaLog>
+					<Id>307315269</Id>
+					<SerializedId>307315269</SerializedId>
+					<Ip>11.50.2.10</Ip>
+					<TimeStamp>1535692230659</TimeStamp>
+					<Command>executeFile</Command>
+					<Parameters>AdminCajero.bat</Parameters>
+					<AtmId>215168737</AtmId>
+				</DtaLog>
+			</GetDtaLogPageResult>
+		</GetDtaLogPageResponse>
+	</soap:Body>
+</soap:Envelope>

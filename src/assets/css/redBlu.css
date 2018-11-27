@@ -275,3 +275,13 @@ table.table.table-condensed.table-bordered.data-table thead tr th {
     color: springgreen !important;
 }
 */
+
+.age-is-ten {
+    background: #ffc91f;
+}
+
+.bill-disponibles {
+    font-weight: bold !important;
+    color: #2f4aed !important;
+    background: #9EC2F1;
+}

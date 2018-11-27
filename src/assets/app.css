@@ -301,3 +301,8 @@ select {
 	font-weight: bold;
 	background-color: #ffeb3b;
 }
+
+.is-gender {
+  background: blue;
+  color: white;
+}

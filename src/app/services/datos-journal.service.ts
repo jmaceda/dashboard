@@ -29,10 +29,10 @@ export class DatosJournalService implements OnInit {
         gDatosJournal = datosCortesJournal;
     }
 
-    public obtenCortesJournal(filtrosCons){
+    public obtenCortesJournal(filtrosCons, tipoConsulta?:number){
 
         let paramsCons: any = {};
-        console.log(nomComponente+".obtenCortesJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
+        //console.log(nomComponente+".obtenCortesJournal:: filtrosCons["+JSON.stringify(filtrosCons)+"]");
         for (let idx=1; idx < 4; idx++) {
             filtrosCons.timeStampStart = this.restaDiasFecha(filtrosCons.timeStampStart, (idx*10));
 
@@ -47,7 +47,7 @@ export class DatosJournalService implements OnInit {
             }
         }
 
-        if (gPaginasJournal.TotalPages == 0){
+        if ( (tipoConsulta == undefined || tipoConsulta == 1) && gPaginasJournal.TotalPages == 0){
             paramsCons.timeStampStart = "2018-01-01-00-00";
         }
 
@@ -88,13 +88,11 @@ export class DatosJournalService implements OnInit {
         }
 
         ldFecha2 = new Date(ldFecha1.setDate(ldFecha1.getDate() - diasIniRango));  // Resta cinco dias a la fecha inicial del rango.
-        console.log(nomComponente+".restaDiasFecha:: ldFecha2["+ldFecha2+"]");
+        //console.log(nomComponente+".restaDiasFecha:: ldFecha2["+ldFecha2+"]");
         if (typeof(prmFecha) == "number"){
             ldFecha3 = ldFecha2.getTime();
         }else{
             ldFecha4 = (ldFecha2.toLocaleDateString(undefined, opc)).replace(/[\/ :]/g, "-").split("-");
-            console.log(nomComponente+".restaDiasFecha:: Error en la siguiente línea con sprintf 'expecting number but found string'");
-            console.log(nomComponente+".restaDiasFecha:: prmFecha["+prmFecha+"]  ldFecha2["+ldFecha2+"]  ldFecha4["+ldFecha4+"]");
             ldFecha3 = sprintf("%04d-%02d-%02d-%02d-%02d", ldFecha4[2], ldFecha4[1], ldFecha4[0], ldFecha4[3], ldFecha4[4]);
         }
         return(ldFecha3);
@@ -213,6 +211,10 @@ export class DatosJournalService implements OnInit {
         return(true);
     }
 
+
+    private datosJournal:any = new Array();
+
+
     // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
     public obtenComisionesPorAtm(paramsConsulta, infoAtm){
 
@@ -247,78 +249,86 @@ export class DatosJournalService implements OnInit {
 
         if (gPaginasJournal.TotalPages > 0) {
             let datosJournal: any = [];
+			console.log("Obteniendo datos del Journal del cajero: "+JSON.stringify(paramsCons.ip));
             for (let idx = 0; idx < gPaginasJournal.TotalPages; idx++) {
                 paramsCons.page = idx;
                 this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
 
-                gDatosJournal.forEach( (reg) => {
+                if (gDatosJournal.length > 0) {
+                    gDatosJournal.forEach((reg) => {
 
-                    if ( reg.SwitchResponseCode >= 1000) {}
-                    if (reg.SwitchResponseCode >= 1000) {
-                        if (reg.Event.substring(0,15) != "CASH MANAGEMENT") {}
-                    }
-                    comisonesAtm.Description    = infoAtm.Description;
-                    comisonesAtm.idAtm          = reg.AtmName;
-                    comision                    = (reg.Surcharge / ((iva / 100) + 1));
-                    fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
-
-
-                    switch (reg.OperationType) {
-                        case 'BalanceCheck': {
-                            if (reg.SwitchResponseCode == 0) {
-                                comisonesAtm.numConsultas++;
-                                comisonesAtm.comisionesConsultas   += comision;
-                                comisonesAtm.totalComisiones       += comision;
-                                comisonesAtm.hraPrimeraConsulta     = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
-                                comisonesAtm.hraUtimaConsulta       = fchMovto;
-                            }
-                            break;
+                        if (reg.SwitchResponseCode >= 1000) {
                         }
-                        case 'Withdrawal': {
-                            if (reg.SwitchResponseCode == 0) {
-                                comisonesAtm.numRetiros++;
-                                comisonesAtm.comisionesRetiros     += comision;
-                                comisonesAtm.totalComisiones       += comision;
-                                comisonesAtm.montoRetiros          += reg.Amount;
-                                comisonesAtm.hraPrimerRetiro        = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
-                                comisonesAtm.hraUtimoRetiro         = fchMovto;
+                        if (reg.SwitchResponseCode >= 1000) {
+                            if (reg.Event.substring(0, 15) != "CASH MANAGEMENT") {
                             }
-                            break;
                         }
-                        case 'CashManagement': {
-                            if (reg.Data.substring(0,32) == "PROCESADEPOSITO ConfirmaDeposito") {
-                                comisonesAtm.numDepositos++;
-                                comisonesAtm.montoDepositos        += reg.Amount;
-                                comisonesAtm.hraPrimerDeposito      = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
-                                comisonesAtm.hraUtimoDeposito       = fchMovto;
-                            }
-                            break;
-                        }
+                        //console.log("reg<<"+JSON.stringify(reg)+">>")
+                        comisonesAtm.Description = infoAtm.Description;
+                        comisonesAtm.idAtm = reg.AtmName;
+                        comision = (reg.Surcharge / ((iva / 100) + 1));
+                        fchMovto = new Date(reg.TimeStamp).toLocaleString('es-sp', ftoHora); //.replace(expHora, '');
+                        console.log("AtmName<<"+reg.AtmName+">>  OperationType<<" + reg.OperationType + ">>  Amount<<" + reg.Amount + ">>   Surcharge<<" + reg.Surcharge + ">>   comision<<" + comision + ">>");
 
-                        case 'Exception': {
-							let regexErrCom = /Problemas de comunicación|Error de conexión|Tiempo expirado/g
-                            if (reg.Event == "Withdrawal"){
-								if (regexErrCom.test(reg.HWErrorCode)){
-                                    comisonesAtm.errRetiros++;
-                                    comisonesAtm.errMontoRetiros       += reg.Amount;
-                                    comisonesAtm.errComisionRetiros    += comision;
-                                    comisonesAtm.errPrimerRetiro        = (comisonesAtm.errPrimerRetiro == '') ? fchMovto : comisonesAtm.errPrimerRetiro;
-                                    comisonesAtm.errUltimoRetiro        = fchMovto;
-                                    comisonesAtm.errTotal++;
+                        switch (reg.OperationType) {
+                            case 'BalanceCheck': {
+                                if (reg.SwitchResponseCode == 0) {
+                                    comisonesAtm.numConsultas++;
+                                    comisonesAtm.comisionesConsultas += comision;
+                                    comisonesAtm.totalComisiones += comision;
+                                    comisonesAtm.hraPrimeraConsulta = (comisonesAtm.hraPrimeraConsulta == '') ? fchMovto : comisonesAtm.hraPrimeraConsulta;
+                                    comisonesAtm.hraUtimaConsulta = fchMovto;
                                 }
-                            }else if (reg.Event == "BalanceCheck"){
-								if (regexErrCom.test(reg.HWErrorCode)){ 
-                                    comisonesAtm.errConsultas++;
-                                    comisonesAtm.errComisionConsultas  += comision;
-                                    comisonesAtm.errPrimeraConsulta     = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;
-                                    comisonesAtm.errUltimaConsulta      = fchMovto;
-                                    comisonesAtm.errTotal++;
+                                break;
+                            }
+                            case 'Withdrawal': {
+                                if (reg.SwitchResponseCode == 0) {
+                                    comisonesAtm.numRetiros++;
+                                    comisonesAtm.comisionesRetiros += comision;
+                                    comisonesAtm.totalComisiones += comision;
+                                    comisonesAtm.montoRetiros += reg.Amount;
+                                    comisonesAtm.hraPrimerRetiro = (comisonesAtm.hraPrimerRetiro == '') ? fchMovto : comisonesAtm.hraPrimerRetiro;
+                                    comisonesAtm.hraUtimoRetiro = fchMovto;
+                                    //console.log("comision<<"+comision+">>");
+                                }
+                                break;
+                            }
+                            case 'CashManagement': {
+                                if (reg.Data.substring(0, 32) == "PROCESADEPOSITO ConfirmaDeposito") {
+                                    comisonesAtm.numDepositos++;
+                                    comisonesAtm.montoDepositos += reg.Amount;
+                                    comisonesAtm.hraPrimerDeposito = (comisonesAtm.hraPrimerDeposito == '') ? fchMovto : comisonesAtm.hraPrimerDeposito;
+                                    comisonesAtm.hraUtimoDeposito = fchMovto;
+                                }
+                                break;
+                            }
+
+                            case 'Exception': {
+                                let regexErrCom = /Problemas de comunicación|Error de conexión|Tiempo expirado/g
+                                if (reg.Event == "Withdrawal") {
+                                    if (regexErrCom.test(reg.HWErrorCode)) {
+                                        comisonesAtm.errRetiros++;
+                                        comisonesAtm.errMontoRetiros += reg.Amount;
+                                        comisonesAtm.errComisionRetiros += comision;
+                                        comisonesAtm.errPrimerRetiro = (comisonesAtm.errPrimerRetiro == '') ? fchMovto : comisonesAtm.errPrimerRetiro;
+                                        comisonesAtm.errUltimoRetiro = fchMovto;
+                                        comisonesAtm.errTotal++;
+                                    }
+                                } else if (reg.Event == "BalanceCheck") {
+                                    if (regexErrCom.test(reg.HWErrorCode)) {
+                                        comisonesAtm.errConsultas++;
+                                        comisonesAtm.errComisionConsultas += comision;
+                                        comisonesAtm.errPrimeraConsulta = (comisonesAtm.errPrimeraConsulta == '') ? fchMovto : comisonesAtm.errPrimeraConsulta;
+                                        comisonesAtm.errUltimaConsulta = fchMovto;
+                                        comisonesAtm.errTotal++;
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
+			//console.log("Termina de obtener datos del Journal del cajero: "+JSON.stringify(paramsCons.ip));
         }
         return(comisonesAtm);
     }
@@ -397,4 +407,86 @@ export class DatosJournalService implements OnInit {
         }
     }
 
+    // Obten monto de Comisiones del día (Retiros, Consultas y Depósitos)
+    public obtenVersionesPorAtm(paramsConsulta, infoAtm){
+        let timeStampStart:string   = paramsConsulta.timeStampStart;
+        let timeStampEnd:string     = paramsConsulta.timeStampEnd;
+        let opc         = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let opc2        = {day: '2-digit', month: '2-digit', year: 'numeric'};
+        let ldFecha1:any;
+        let ldFecha2:any;
+        let versiones:any = [];
+        let paramsCons: any = {
+            ip: [infoAtm.Ip], timeStampStart: timeStampStart, timeStampEnd: timeStampEnd,
+            events: ["Administrative"], minAmount: -1, maxAmount: -1,
+            authId: -1, cardNumber: -1, accountId: -1
+        };
+
+        this._soapService.post("", "GetEjaLogDataLength", paramsCons, this.GetEjaLogDataLength, false);
+
+        if (gPaginasJournal.TotalPages > 0) {
+
+            let regExist = false;
+
+            for (let idx = gPaginasJournal.TotalPages; idx > 0; idx--) {
+                paramsCons.page = idx -1;
+                this._soapService.post("", "GetEjaLogPage", paramsCons, this.GetEjaLogPage, false);
+
+                for(let idx2 = gDatosJournal.length; idx2 > 0; idx2--) {
+                    let reg = gDatosJournal[idx2 -1];
+                    if (reg.Event == "INIT" && reg.Data.substring(0, 12) == "INICIO FLUJO") {
+                        ldFecha2 = new Date(reg.TimeStamp).toLocaleDateString('sp-SP', opc2);
+                        ldFecha1 = new Date(reg.TimeStamp).toLocaleDateString('sp-SP', opc);
+                        versiones = {
+                            Id: infoAtm.Name,
+                            Ip: infoAtm.Ip,
+                            Tienda: infoAtm.Description,
+                            fFlujo: reg.TimeStamp,
+                            Fch2: ldFecha2,
+                            vFlujo: reg.Data.substring(13),
+                            fCore: infoAtm.fCore,
+                            vCore: infoAtm.vCore,
+                            fSP: infoAtm.fSP,
+                            vSP: infoAtm.vSP,
+							vSPFull: infoAtm.vSP
+                        };
+
+                        idx = 0;
+                        idx2 = 0;
+                    }
+                }
+            }
+        }
+
+        if (versiones.length == 0){
+            versiones = {
+                Id: infoAtm.Name, Ip: infoAtm.Ip, Tienda: infoAtm.Description
+            };
+        }
+        return(versiones);
+    }
+
+    public obtenAcumCortesETV(filtrosCons){
+        let datosCortesJournal: any = [];
+        let numCortes:number = 0;
+        let montoCortes:number = 0;
+        let datosCortesETV:any        = {
+            "numCortes": 0, "montoCortes": 0,"hraPrimerCorte": "","hraUtimoCorte": ""
+        };
+
+
+        datosCortesJournal = this.obtenCortesJournal(filtrosCons, 2);
+
+        datosCortesJournal.forEach((reg)=> {
+            numCortes++;
+            montoCortes += reg.Amount;
+        });
+
+        if(datosCortesJournal > 0){
+            datosCortesETV.numCortes = numCortes;
+            datosCortesETV.montoCortes = numCortes;
+        }
+
+        return(datosCortesETV);
+    }
 }

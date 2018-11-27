@@ -1,9 +1,12 @@
 /* app/services/detalle-atms-service.ts */
 
 import { Injectable }           from '@angular/core';
+import { Inject }               from '@angular/core';
 import { OnInit }               from '@angular/core';
 import { SoapService }          from './soap.service';
 import { InfoGroupsService }    from './info-groups.service';
+
+//import { NotificationsComponent } from '../../notifications/notifications.component';
 
 export var gDatosAtm:any;
 export var gDatosAtms:any;
@@ -14,11 +17,22 @@ var nomServicio = "InfoAtmsService";
 @Injectable()
 export class InfoAtmsService implements OnInit {
 
+    //public notificationsComponent: NotificationsComponent;
+
+    // The constructor parameters.
+    //static get parameters() {
+    //    return [LocalStorage, SessionStorage];
+    //}
+
     constructor(public _soapService: SoapService,
                 public infoGroupsService: InfoGroupsService){
+
+        //this.notificationsComponent = new NotificationsComponent();
     }
 
-    public ngOnInit() {}
+    public ngOnInit() {
+
+    }
 
     public GetAtm(datosAtms:any, status){
         gDatosAtms = datosAtms;
@@ -97,6 +111,20 @@ export class InfoAtmsService implements OnInit {
         gDatosAtms = datosAtms;
     }
 
+
+    public obtenAtms(parametros?:any) {
+
+        let parameters:any = parametros;
+
+        if (parametros == null || parametros == undefined) {
+            parameters = { nemonico: -1, groupId: -1, brandId: -1, modelId: -1, osId: -1, stateId: -1, townId: -1, areaId: -1, zipCode: -1}
+        }
+
+        this._soapService.post('', "GetAtm", parameters, this.GetAtmsIps, false);
+
+        return(gDatosAtms);
+    };
+
     public obtenGetAtmsIps(parametros?:any) {
 
         let parameters:any = parametros;
@@ -155,10 +183,17 @@ export class InfoAtmsService implements OnInit {
         let arrGroupsAtm        = [];
 
 		parametros.groupId 		= (paramsConsulta.idGpo != undefined && paramsConsulta.idGpo != null) ? paramsConsulta.idGpo : -1;
+        
+        console.log("Obtiene datos de los cajeros");
+        console.log(JSON.stringify(parametros));
         infoDatosAtms           = this.obtenDetalleAtms(parametros);
+        
+        //console.log(JSON.stringify(infoDatosAtms));
 
+		console.log("Filtra datos de los cajeros");
         if(infoDatosAtms.length > 0) {
             /* Información de ATMs de la fecha indicada como parametro */
+			console.log("fchParam["+fchParam+"]   fchSys["+fchSys+"]");
 			if (fchParam == fchSys) {
 				infoDatosAtms.forEach((reg) => {
                     arrFechasUltimaAct   = [];
@@ -189,20 +224,20 @@ export class InfoAtmsService implements OnInit {
 			} else {
 				infoDatosAtms.forEach((reg) => {
 					fchOper = new Date(reg.LastIOnlineTimestamp).toLocaleString('en-us', ftoFchSys).replace(expFchSys, '$3-$1-$2');
-
-					if (fchOper == fchSys) {
+					//if (fchOper == fchSys) 
+					{
                         infoAtms.push({
 							'Description': reg.Description, 
-							'Name': reg.Name, 
+							'Name': reg.Name,
 							'Id': reg.Id, 
 							'Ip': reg.Ip
 						});
 					}
 				});
 			}
-
+            //console.log(JSON.stringify(infoAtms));
         }
-
+		console.log("Devuelve datos de los cajeros");
         return(infoAtms);
     }
 }

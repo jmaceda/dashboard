@@ -1,0 +1,35 @@
+/*
+:host /deep/ .data-table-row {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.input-group-addon {
+    background-color: #0072FF;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+}
+*/
+ngx-datatable {
+
+    height: 91%;
+    max-height: 91%;
+    left: 0px;
+
+    /* Esquinas redondeadas */
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius: 5px;
+
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+}
+

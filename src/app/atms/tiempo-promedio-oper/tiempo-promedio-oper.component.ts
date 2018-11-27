@@ -6,7 +6,7 @@ import { SoapService }                                  from '../../services/soa
 import { FiltrosUtilsService }                          from '../../services/filtros-utils.service';
 import { sprintf }                                      from "sprintf-js";
 import { DataTableResource }                            from 'angular-4-data-table-fix';
-import { Angular2Csv }                                  from 'angular2-csv/Angular2-csv';
+//import { Angular2CsvModule }                            from 'angular2-csv/Angular2-csv';
 import { LogHmaService }                                from '../../services/log-hma.service';
 
 import { EventEmitter}      from '@angular/core';
